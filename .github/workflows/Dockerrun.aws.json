@@ -1,0 +1,12 @@
+{
+    "AWSEBDockerrunVersion": "1",
+    "Image": {
+        "Name": "swamp1820/lct2023"
+    },
+    "Ports": [
+        {
+            "ContainerPort": 80,
+            "HostPort": 80
+        }
+    ]
+}
