@@ -2,10 +2,13 @@ name: Docker CI API
 
 on:
   push:
+    branches: [master]
+    paths:
+      - 'Lct2023.Api/**'
 jobs:
 
   build_and_push:
-
+    
     runs-on: ubuntu-latest
 
     steps:
