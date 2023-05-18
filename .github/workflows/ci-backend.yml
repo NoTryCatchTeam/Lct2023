@@ -17,7 +17,7 @@ jobs:
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
     - name: Build the API Docker image
-      run: docker build . --file ./LODFinals.Api/Dockerfile --tag ${{secrets.DOCKER_USER}}/lct2023:latest
+      run: docker build . --file ./Lct2023.Api/Dockerfile --tag ${{secrets.DOCKER_USER}}/lct2023:latest
       
     - name: Docker push API image
       run: docker push ${{secrets.DOCKER_USER}}/lct2023
