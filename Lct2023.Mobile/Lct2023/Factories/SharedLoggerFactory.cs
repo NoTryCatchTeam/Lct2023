@@ -11,6 +11,7 @@ public static class SharedLoggerFactory
             builder
                 .SetMinimumLevel(LogLevel.Trace)
                 .AddSerilog(new LoggerConfiguration()
+                    .MinimumLevel.Verbose()
                     .WriteTo.Console(theme: ConsoleTheme.None, applyThemeToRedirectedOutput: true)
                     .CreateLogger())
         );
