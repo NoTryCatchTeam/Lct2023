@@ -17,13 +17,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// TODO Probably could be removed after identity will be added
-app.UseCookiePolicy(new CookiePolicyOptions()
-        {
-            HttpOnly = HttpOnlyPolicy.Always,
-            Secure = CookieSecurePolicy.Always,
-            MinimumSameSitePolicy = SameSiteMode.Strict
-        });
+
 
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -55,7 +49,13 @@ builder.Services
 
 var app = builder.Build();
 
-
+// TODO Probably could be removed after identity will be added
+app.UseCookiePolicy(new CookiePolicyOptions()
+        {
+            HttpOnly = HttpOnlyPolicy.Always,
+            Secure = CookieSecurePolicy.Always,
+            MinimumSameSitePolicy = SameSiteMode.Strict
+        });
 
 app.UseSwagger();
 app.UseSwaggerUI();
