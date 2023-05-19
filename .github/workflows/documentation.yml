@@ -2,9 +2,9 @@ name: MkDocs
 
 on:
   push:
-    # branches: [master]
-    # paths:
-    #   - 'docs/**'
+    branches: [master]
+    paths:
+      - 'docs/**'
 jobs:
 
   build_and_push:
@@ -19,7 +19,7 @@ jobs:
     - name: install mkdocs
       run: pip install mkdocs
 
-    - name: Deploy to Github Pages
+    - name: build docs
       working-directory: docs
-      run: mkdocs gh-deploy
+      run: mkdocs build
     
