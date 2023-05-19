@@ -7,7 +7,6 @@ WORKDIR /opt/
 COPY ./cms/package.json ./cms/package-lock.json ./
 ENV PATH /opt/node_modules/.bin:$PATH
 RUN npm install
-WORKDIR /opt/app
 COPY ./cms .
 RUN npm run build
 EXPOSE 1337

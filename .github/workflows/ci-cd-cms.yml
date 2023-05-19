@@ -20,8 +20,8 @@ jobs:
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
 
-    - name: Build the API Docker image
+    - name: Build the CMS Docker image
       run: docker build . --file ./cms/Dockerfile --tag ${{secrets.DOCKER_USER}}/lct2023-cms:latest
       
-    - name: Docker push API image
+    - name: Docker push CMS image
       run: docker push ${{secrets.DOCKER_USER}}/lct2023-cms
