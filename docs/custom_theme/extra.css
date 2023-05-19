@@ -1,11 +1,11 @@
 html * {
-    font-family: DeeDee !important;
+    font-family: Calibri !important;
     color: #404041;
 }
 
 @font-face {
-    font-family: DeeDee;
-    src: url("fonts/DeeDee.ttf");
+    font-family: Calibri;
+    src: url("fonts/calibri\ regular.TTF");
 }
 
 .navbar {
