@@ -20,6 +20,14 @@ jobs:
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
 
+    - name: create-json
+      id: create-json
+      uses: jsdaniell/create-json@v1.2.2
+      with:
+        name: "secrets.json"
+        json: ${{ secrets.SECRETS_JSON }}
+        dir: 'Lct2023.Api/'
+
     - name: Build the API Docker image
       run: docker build . --file ./Lct2023.Api/Dockerfile --tag ${{secrets.DOCKER_USER}}/lct2023:latest
       

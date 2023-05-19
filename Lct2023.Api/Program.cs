@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddJsonFile("secrets.json", true, true);
+builder.Configuration.AddJsonFile("secrets.json", false, true);
 
 // TODO If needed
 // if (!builder.Environment.IsProduction())
