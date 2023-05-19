@@ -9,3 +9,6 @@ riderModule.iml
 Lct2023.Mobile/Lct2023.Android/Resources/Resource.designer.cs
 .vscode/launch.json
 .vscode/tasks.json
+
+**/secrets.json
+**/secrets.*.json
