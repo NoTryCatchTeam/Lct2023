@@ -1,5 +1,6 @@
 using Lct2023.Api.Definitions.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.CookiePolicy;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,14 @@ builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// TODO Probably could be removed after identity will be added
+app.UseCookiePolicy(new CookiePolicyOptions()
+        {
+            HttpOnly = HttpOnlyPolicy.Always,
+            Secure = CookieSecurePolicy.Always,
+            MinimumSameSitePolicy = SameSiteMode.Strict
+        });
 
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -46,11 +55,7 @@ builder.Services
 
 var app = builder.Build();
 
-// TODO Probably could be removed after identity will be added
-app.UseCookiePolicy(new CookiePolicyOptions
-{
-    Secure = CookieSecurePolicy.Always,
-});
+
 
 app.UseSwagger();
 app.UseSwaggerUI();
