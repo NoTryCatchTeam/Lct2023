@@ -1,0 +1,26 @@
+html * {
+    font-family: DeeDee !important;
+    color: #404041;
+}
+
+@font-face {
+    font-family: DeeDee;
+    src: url("fonts/DeeDee.ttf");
+}
+
+.navbar {
+    background-color: #A4CE57;
+}
+
+.bg-secondary {
+    background-color: #D0E4A4 !important;
+}
+
+body {
+  background-image: linear-gradient(to right, rgba(255,255,255, 0.85) 0 100%), url(img/background.png);
+  background-size: cover;
+}
+
+#logo {
+  background-image: url("img/logo.png");
+}
