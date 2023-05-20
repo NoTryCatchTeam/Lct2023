@@ -18,8 +18,6 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback
     private MapView _mapView;
 
     private GoogleMap _googleMap;
-
-    private bool AnyPlaces => ViewModel.Places?.Any() == true;
     
     protected override int GetLayoutId() => Resource.Layout.MapFragment;
     
@@ -34,8 +32,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback
         ViewModel.Places
             .ObserveCollectionChanges()
             .Do(_ => _googleMap?.Clear())
-            .Where(_ => AnyPlaces
-                        && _googleMap != null)
+            .Where(_ => _googleMap != null)
             .Subscribe(_ => UpdateMarkers())
             .DisposeWith(CompositeDisposable);
 
