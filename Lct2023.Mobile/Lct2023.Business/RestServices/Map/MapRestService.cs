@@ -14,6 +14,6 @@ namespace Lct2023.Business.RestServices.Map
         {
         }
 
-        public Task<IEnumerable<CmsItemResponse<SchoolLocationResponse>>> GetSchoolsLocationAsync() => CmsExecuteAsync<IEnumerable<CmsItemResponse<SchoolLocationResponse>>>("/locations");
+        public Task<IEnumerable<CmsItemResponse<SchoolLocationResponse>>> GetSchoolsLocationAsync() => CmsExecuteAsync<IEnumerable<CmsItemResponse<SchoolLocationResponse>>>("/api/locations");
     }
 }
