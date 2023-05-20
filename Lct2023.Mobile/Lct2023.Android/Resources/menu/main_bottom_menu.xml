@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/action_main"
+          android:enabled="true"
+          android:icon="@drawable/ic_home"
+          android:title="Главная"
+          app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/action_courses"
+          android:enabled="true"
+          android:icon="@drawable/ic_teacher"
+          android:title="Курсы"
+          app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/action_feed"
+          android:enabled="true"
+          android:icon="@drawable/ic_document_text"
+          android:title="Лента"
+          app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/action_tests"
+          android:enabled="true"
+          android:icon="@drawable/ic_note"
+          android:title="Тесты"
+          app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/action_map"
+          android:enabled="true"
+          android:icon="@drawable/ic_map"
+          android:title="Карта"
+          app:showAsAction="ifRoom"/>
+    
+</menu>
