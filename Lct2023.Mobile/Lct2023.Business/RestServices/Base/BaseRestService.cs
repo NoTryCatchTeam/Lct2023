@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using DataModel.Responses.BaseCms;
-using Lct2023.Commons.Extensions;
 using Newtonsoft.Json;
 
 namespace Lct2023.Business.RestServices.Base
@@ -21,26 +20,23 @@ namespace Lct2023.Business.RestServices.Base
             _userContext = userContext;
         }
         
-        protected async Task<TResult> CmsExecuteAsync<TResult>(string url, HttpMethod method = null, CancellationToken token = default)
-        {
-            var response = await ExecuteAsync<CmsResponsible<TResult>>(url, method, token);
+        protected async Task<TResult> CmsExecuteAsync<TResult>(string url, HttpMethod method, CancellationToken token = default) => (await ExecuteAsync<CmsResponsible<TResult>>(url, method, token)).Data;
 
-            if (response.Error != null)
-            {
-                throw new HttpRequestException(response.Error.Message);
-            }
+        protected Task<TResult> ExecuteAsync<TResult>(string url, HttpMethod method, CancellationToken token = default) 
+            => ExecuteInternalAsync<TResult>(url, method, token: token);
 
-            return response.Data;
-        }
-        
-        protected Task<TResult> ExecuteAsync<TResult>(string url, HttpMethod method = null, CancellationToken token = default) 
-            => ExecuteAsync<object, TResult>(url, content: null, method ?? HttpMethod.Get, token);
+        protected Task<TResult> ExecuteAsync<TParam, TResult>(string url, TParam parameter, HttpMethod method, CancellationToken token = default)
+            => ExecuteInternalAsync<TResult>(
+                url,
+                method,
+                content: new StringContent(JsonConvert.SerializeObject(parameter), Encoding.UTF8, MediaTypeNames.Application.Json),
+                token);
 
-        protected async Task<TResult> ExecuteAsync<TParam, TResult>(string url, TParam content = default, HttpMethod method = null, CancellationToken token = default)
+        private async Task<TResult> ExecuteInternalAsync<TResult>(string url, HttpMethod method, HttpContent content = null, CancellationToken token = default)
         {
             using var request = new HttpRequestMessage(method, url)
             {
-                Content = content?.Then(c => new StringContent(JsonConvert.SerializeObject(c), Encoding.UTF8, MediaTypeNames.Application.Json)),
+                Content = content,
             };
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _userContext.AccessToken);
             using var response = await _httpClient.SendAsync(request, token);

@@ -39,7 +39,7 @@ public class App : MvxApplication
             })
         {
             BaseAddress = new Uri(UrlConstants.BASE_URL),
-            Timeout = TimeSpan.FromSeconds(60),
+            Timeout = TimeSpan.FromSeconds(15),
         });
 
         Mvx.IoCProvider.RegisterType<MainViewModel>();

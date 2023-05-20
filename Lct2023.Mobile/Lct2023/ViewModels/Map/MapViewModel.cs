@@ -1,11 +1,13 @@
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using DataModel.Responses.BaseCms;
+using DataModel.Responses.Map;
+using DynamicData;
 using Lct2023.Business.RestServices.Map;
 using Lct2023.Services;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Navigation;
-using PropertyChanged;
 
 namespace Lct2023.ViewModels.Map;
 
@@ -13,6 +15,7 @@ public class MapViewModel : BaseViewModel
 {
     private readonly IXamarinEssentialsWrapper _xamarinEssentialsWrapper;
     private readonly IMapRestService _mapRestService;
+    private CmsItemResponse<SchoolLocationResponse>[] _schoolLocations;
 
     public MapViewModel(
         IMapRestService mapRestService,
@@ -24,23 +27,22 @@ public class MapViewModel : BaseViewModel
         _xamarinEssentialsWrapper = xamarinEssentialsWrapper;
         _mapRestService = mapRestService;
     }
-    
-    public IReadOnlyCollection<SchoolLocationItemViewModel> Schools { get; set; }
+
+    public ObservableCollection<PlaceItemViewModel> Places { get; set; } = new();
 
     public override void ViewCreated()
     {
         base.ViewCreated();
         Task.Run(() => RunSafeTaskAsync(async () =>
         {
-            var schoolLocations = (await _mapRestService.GetSchoolsLocationAsync())?.ToArray();
+            _schoolLocations = (await _mapRestService.GetSchoolsLocationAsync())?.ToArray();
 
-            if (schoolLocations?.Any() != true)
+            if (_schoolLocations?.Any() != true)
             {
                 return;
             }
             
-            _xamarinEssentialsWrapper.RunOnUi(() => 
-                Schools = schoolLocations?.Select(schoolLocation => new SchoolLocationItemViewModel(schoolLocation.Item)).ToArray());
+            _xamarinEssentialsWrapper.RunOnUi(() => Places.AddRange(_schoolLocations.Select(schoolLocation => new PlaceItemViewModel(schoolLocation.Item))));
         }));
     }
 }
