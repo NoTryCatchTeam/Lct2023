@@ -26,9 +26,10 @@ public class MapViewModel : BaseViewModel
     
     public IReadOnlyCollection<SchoolLocationItemViewModel> Schools { get; set; }
 
-    public override Task Initialize()
+    public override void ViewCreated()
     {
-        var loadTask = Task.Run(() =>RunSafeTaskAsync(async () =>
+        base.ViewCreated();
+        Task.Run(() => RunSafeTaskAsync(async () =>
         {
             var schoolLocations = (await _mapRestService.GetSchoolsLocationAsync())?.ToArray();
 
@@ -40,7 +41,5 @@ public class MapViewModel : BaseViewModel
             _xamarinEssentialsWrapper.RunOnUi(() => 
                 Schools = schoolLocations?.Select(schoolLocation => new SchoolLocationItemViewModel(schoolLocation.Item)).ToArray());
         }));
-        
-        return Task.WhenAny(base.Initialize(), loadTask);
     }
 }

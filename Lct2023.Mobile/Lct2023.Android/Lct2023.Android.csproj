@@ -93,11 +93,7 @@
         </AndroidResource>
         <AndroidResource Include="Resources\layout\MainFragment.xml" />
         <AndroidResource Include="Resources\layout\MainTabbedActivity.xml" />
-        <AndroidResource Include="Resources\layout\MapFragment.xml">
-          <SubType>Designer</SubType>
-          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\layout\map_activity.xml" />
+        <AndroidResource Include="Resources\layout\MapFragment.xml" />
         <AndroidResource Include="Resources\layout\SplashActivity.xml" />
         <AndroidResource Include="Resources\layout\TestsFragment.xml">
           <SubType>Designer</SubType>

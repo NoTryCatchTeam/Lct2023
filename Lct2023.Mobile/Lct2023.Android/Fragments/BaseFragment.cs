@@ -1,3 +1,4 @@
+using System.Reactive.Disposables;
 using Android.OS;
 using Android.Views;
 using Lct2023.ViewModels;
@@ -9,6 +10,8 @@ namespace Lct2023.Android.Fragments;
 public abstract class BaseFragment<TViewModel> : MvxFragment<TViewModel>
     where TViewModel : BaseViewModel
 {
+    protected CompositeDisposable CompositeDisposable { get; } = new ();
+    
     public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         base.OnCreateView(inflater, container, savedInstanceState);
@@ -17,4 +20,13 @@ public abstract class BaseFragment<TViewModel> : MvxFragment<TViewModel>
     }
 
     protected abstract int GetLayoutId();
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            CompositeDisposable.Clear();
+        }
+        base.Dispose(disposing);
+    }
 }
