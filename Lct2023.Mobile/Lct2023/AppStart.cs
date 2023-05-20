@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Lct2023.ViewModels;
+using Lct2023.ViewModels.Map;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 

@@ -1,12 +1,15 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
+using PropertyChanged;
 
 namespace Lct2023.ViewModels;
 
+[DoNotNotify]
 public abstract class BaseViewModel : MvxNavigationViewModel
 {
     private readonly CancellationTokenSource _cancellationTokenSource;
@@ -22,6 +25,19 @@ public abstract class BaseViewModel : MvxNavigationViewModel
     public MvxAsyncCommand NavigateBackCommand { get; }
 
     public CancellationToken CancellationToken => _cancellationTokenSource?.Token ?? CancellationToken.None;
+    
+    protected async Task RunSafeTaskAsync(Func<Task> task, Action<Exception> onException = null)
+    {
+        try
+        {
+            await task();
+        }
+        catch (Exception ex)
+        {
+            Log.LogError(ex, ex.Message);
+            onException?.Invoke(ex);
+        }
+    }
 
     protected virtual Task NavigateBackAction() =>
         NavigationService.Close(this);
@@ -34,6 +50,7 @@ public abstract class BaseViewModel : MvxNavigationViewModel
     }
 }
 
+[DoNotNotify]
 public abstract class BaseViewModel<TParameter> : BaseViewModel, IMvxViewModel<TParameter>
     where TParameter : class
 {
@@ -50,6 +67,7 @@ public abstract class BaseViewModel<TParameter> : BaseViewModel, IMvxViewModel<T
     }
 }
 
+[DoNotNotify]
 public abstract class BaseViewModelResult<TResult> : BaseViewModel, IMvxViewModelResult<TResult>
     where TResult : class
 {
@@ -73,6 +91,7 @@ public abstract class BaseViewModelResult<TResult> : BaseViewModel, IMvxViewMode
     }
 }
 
+[DoNotNotify]
 public abstract class BaseViewModel<TParameter, TResult> : BaseViewModelResult<TResult>, IMvxViewModel<TParameter, TResult>
     where TParameter : class
     where TResult : class

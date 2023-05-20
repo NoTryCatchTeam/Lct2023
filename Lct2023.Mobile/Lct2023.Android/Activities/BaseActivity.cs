@@ -1,11 +1,10 @@
+using System.Reactive.Disposables;
 using Android.App;
 using Android.Content.PM;
-using Android.OS;
 using Lct2023.Android.Views;
 using Lct2023.ViewModels;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
-using MvvmCross.ViewModels;
 
 namespace Lct2023.Android.Activities;
 
@@ -15,6 +14,8 @@ public abstract class BaseActivity<TViewModel> : MvxActivity<TViewModel>
     where TViewModel : BaseViewModel
 {
     private ExtendedToolbar _toolbar;
+
+    protected CompositeDisposable CompositeDisposable { get; } = new ();
 
     protected ExtendedToolbar Toolbar
     {
@@ -41,5 +42,14 @@ public abstract class BaseActivity<TViewModel> : MvxActivity<TViewModel>
         base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
         Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            CompositeDisposable.Clear();
+        }
+        base.Dispose(disposing);
     }
 }

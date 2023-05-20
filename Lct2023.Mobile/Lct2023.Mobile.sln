@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lct2023", "Lct2023\Lct2023.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lct2023.Business", "Lct2023.Business\Lct2023.Business.csproj", "{97774643-AB9B-4519-AF85-17FF7832B3A9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModel", "DataModel\DataModel.csproj", "{85CC0499-110C-4E6E-949B-7E61340CB5E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lct2023.Commons", "Lct2023.Commons\Lct2023.Commons.csproj", "{E4D05B33-07BC-4482-9F5B-33D28134555C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{97774643-AB9B-4519-AF85-17FF7832B3A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97774643-AB9B-4519-AF85-17FF7832B3A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97774643-AB9B-4519-AF85-17FF7832B3A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85CC0499-110C-4E6E-949B-7E61340CB5E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85CC0499-110C-4E6E-949B-7E61340CB5E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85CC0499-110C-4E6E-949B-7E61340CB5E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85CC0499-110C-4E6E-949B-7E61340CB5E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4D05B33-07BC-4482-9F5B-33D28134555C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4D05B33-07BC-4482-9F5B-33D28134555C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4D05B33-07BC-4482-9F5B-33D28134555C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4D05B33-07BC-4482-9F5B-33D28134555C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

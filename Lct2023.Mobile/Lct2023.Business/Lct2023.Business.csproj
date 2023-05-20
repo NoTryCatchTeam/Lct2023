@@ -10,4 +10,9 @@
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DataModel\DataModel.csproj" />
+    <ProjectReference Include="..\Lct2023.Commons\Lct2023.Commons.csproj" />
+  </ItemGroup>
+
 </Project>
