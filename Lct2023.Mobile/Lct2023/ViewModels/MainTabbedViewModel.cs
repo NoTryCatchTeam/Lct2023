@@ -3,12 +3,10 @@ using MvvmCross.Navigation;
 
 namespace Lct2023.ViewModels;
 
-public class HelloWorldViewModel : BaseViewModel
+public class MainTabbedViewModel : BaseViewModel
 {
-    public HelloWorldViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService)
+    public MainTabbedViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService)
         : base(logFactory, navigationService)
     {
     }
 }
-
-
