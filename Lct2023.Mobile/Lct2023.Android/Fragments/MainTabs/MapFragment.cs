@@ -84,10 +84,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback
         _googleMap.MapType = GoogleMap.MapTypeNormal;
         _googleMap.MoveCamera(CameraUpdateFactory.NewLatLngZoom(new LatLng(55.7499931, 37.624216), 10));
 
-        if (AnyPlaces)
-        {
-            UpdateMarkers();
-        }
+        UpdateMarkers();
     }
 
     private void UpdateMarkers()
