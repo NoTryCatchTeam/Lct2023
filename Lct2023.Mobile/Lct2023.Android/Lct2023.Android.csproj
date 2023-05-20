@@ -50,12 +50,15 @@
         <Reference Include="Mono.Android.Export" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Activities\BaseActivity.cs" />
         <Compile Include="Activities\HelloWorldActivity.cs" />
         <Compile Include="Activities\MapActivity.cs" />
         <Compile Include="Activities\SplashActivity.cs" />
+        <Compile Include="Listeners\DefaultClickListener.cs" />
         <Compile Include="Resources\Resource.designer.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Setup.cs" />
+        <Compile Include="Views\ExtendedToolbar.cs" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Properties\AndroidManifest.xml" />
@@ -67,6 +70,7 @@
         </AndroidResource>
         <AndroidResource Include="Resources\layout\map_activity.xml" />
         <AndroidResource Include="Resources\layout\SplashActivity.xml" />
+        <AndroidResource Include="Resources\layout\toolbar.xml" />
         <AndroidResource Include="Resources\values\colors.xml" />
         <AndroidResource Include="Resources\values\dimens.xml" />
         <AndroidResource Include="Resources\values\strings.xml" />
