@@ -1,0 +1,27 @@
+﻿<Properties StartupConfiguration="{6BC4B6E9-9E41-4CCD-A1E6-34FDC343D495}|Default">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Lct2023.Business/Class1.cs">
+    <Files>
+      <File FileName="Lct2023.Business/Class1.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Lct2023.Mobile" expanded="True">
+            <Node name="Lct2023.Business" expanded="True">
+              <Node name="Class1.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.Lct2023.Business FirstBuild="True" />
+  <Xamarin.Addins.Core.Project ActiveDebugTarget="Android.Pixel_3a_API_33_x86_64" />
+  <MonoDevelop.Ide.ItemProperties.Lct2023.Android PreferredExecutionTarget="Android.Pixel_3a_API_33_x86_64" />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+</Properties>

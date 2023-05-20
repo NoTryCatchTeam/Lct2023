@@ -51,6 +51,7 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Activities\HelloWorldActivity.cs" />
+        <Compile Include="Activities\MapActivity.cs" />
         <Compile Include="Activities\SplashActivity.cs" />
         <Compile Include="Resources\Resource.designer.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
@@ -64,6 +65,7 @@
           <SubType>Designer</SubType>
           <Generator>MSBuild:UpdateGeneratedFiles</Generator>
         </AndroidResource>
+        <AndroidResource Include="Resources\layout\map_activity.xml" />
         <AndroidResource Include="Resources\layout\SplashActivity.xml" />
         <AndroidResource Include="Resources\values\colors.xml" />
         <AndroidResource Include="Resources\values\dimens.xml" />
@@ -100,6 +102,7 @@
         <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.6.1.1" />
         <PackageReference Include="Xamarin.Google.Android.Material" Version="1.8.0.1" />
         <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
+        <PackageReference Include="Xamarin.GooglePlayServices.Maps" Version="118.1.0.1" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Lct2023\Lct2023.csproj">

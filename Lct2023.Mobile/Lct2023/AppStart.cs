@@ -14,6 +14,6 @@ public class AppStart : MvxAppStart
 
     protected override Task NavigateToFirstViewModel(object hint = null)
     {
-        return NavigationService.Navigate<HelloWorldViewModel>();
+        return NavigationService.Navigate<MapViewModel>();
     }
 }
