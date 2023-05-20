@@ -28,7 +28,7 @@ public class MapViewModel : BaseViewModel
         _mapRestService = mapRestService;
     }
 
-    public ObservableCollection<PlaceItemViewModel> Places { get; set; } = new();
+    public ObservableCollection<PlaceItemViewModel> Places { get; } = new();
 
     public override void ViewCreated()
     {
