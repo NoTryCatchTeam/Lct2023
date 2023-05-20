@@ -31,8 +31,6 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback
         
         ViewModel.Places
             .ObserveCollectionChanges()
-            .Do(_ => _googleMap?.Clear())
-            .Where(_ => _googleMap != null)
             .Subscribe(_ => UpdateMarkers())
             .DisposeWith(CompositeDisposable);
 
@@ -86,9 +84,11 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback
 
     private void UpdateMarkers()
     {
+        _googleMap?.Clear();
+        
         foreach (var place in ViewModel.Places)
         {
-            _googleMap.AddMarker(new MarkerOptions()
+            _googleMap?.AddMarker(new MarkerOptions()
                 .SetPosition(new LatLng(place.Latitude, place.Longitude))
                 .SetTitle(place.Name));
         }
