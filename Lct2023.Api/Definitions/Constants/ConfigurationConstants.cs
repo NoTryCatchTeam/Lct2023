@@ -7,5 +7,7 @@ public static class ConfigurationConstants
         public const string VK_CLIENT_ID = "Vk:ClientId";
 
         public const string VK_CLIENT_SECRET = "Vk:ClientSecret";
+
+        public const string DB_CONNECTION_STRING = "Db:ConnectionString";
     }
 }

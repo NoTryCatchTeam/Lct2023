@@ -1,6 +1,9 @@
+using Lct2023.Api.Dal;
 using Lct2023.Api.Definitions.Constants;
+using Lct2023.Api.Definitions.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.CookiePolicy;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +20,26 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddIdentity<ExtendedIdentityUser, IdentityRole<int>>(opt =>
+{
+    opt.Lockout.AllowedForNewUsers = false;
 
+    // TODO Should confirm ?
+    opt.SignIn.RequireConfirmedAccount = false;
+    opt.SignIn.RequireConfirmedEmail = false;
+    opt.SignIn.RequireConfirmedPhoneNumber = false;
+
+    opt.Password.RequireDigit = false;
+    opt.Password.RequireLowercase = false;
+    opt.Password.RequireNonAlphanumeric = false;
+    opt.Password.RequireUppercase = false;
+    opt.Password.RequiredLength = 6;
+    opt.Password.RequiredUniqueChars = 0;
+
+    opt.User.RequireUniqueEmail = true;
+});
+
+builder.Services.AddDbContext<NpgsqlDbContext>();
 
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -51,11 +73,11 @@ var app = builder.Build();
 
 // TODO Probably could be removed after identity will be added
 app.UseCookiePolicy(new CookiePolicyOptions()
-        {
-            HttpOnly = HttpOnlyPolicy.Always,
-            Secure = CookieSecurePolicy.Always,
-            MinimumSameSitePolicy = SameSiteMode.Strict
-        });
+{
+    HttpOnly = HttpOnlyPolicy.Always,
+    Secure = CookieSecurePolicy.Always,
+    MinimumSameSitePolicy = SameSiteMode.Strict
+});
 
 app.UseSwagger();
 app.UseSwaggerUI();
