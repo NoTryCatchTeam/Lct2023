@@ -11,6 +11,21 @@
         <item name="windowActionBar">false</item>
     </style>
 
+    <style name="MainTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <!--        TODO Customize-->
+        <!--        <item name="titleTextAppearance">@style/ThemeOverlay.ToolbarTitleTextAppearance</item>-->
+        <!--        <item name="android:elevation">0dp</item>-->
+        <!--        <item name="navigationIcon">@drawable/ic_chevron_left</item>-->
+        <!--        <item name="navigationIconTint">@color/gray100</item>-->
+        <!--        <item name="titleCentered">true</item>-->
+        <!--        <item name="titleTextColor">@color/text</item>-->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <!--    <style name="ThemeOverlay.ToolbarTitleTextAppearance" parent="TextAppearance.MaterialComponents.Headline6">-->
+    <!--        <item name="fontFamily">@font/inter_bold</item>-->
+    <!--        <item name="android:textSize">20sp</item>-->
+    <!--    </style>-->
 
 </resources>
 
