@@ -5,7 +5,6 @@ using PropertyChanged;
 
 namespace Lct2023.ViewModels.Map;
 
-[DoNotNotify]
 public class SchoolLocationItemViewModel : BaseItemViewModel 
 {
     private readonly SchoolLocationResponse _item;

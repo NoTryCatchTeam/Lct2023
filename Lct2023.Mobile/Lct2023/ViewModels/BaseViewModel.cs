@@ -9,7 +9,6 @@ using PropertyChanged;
 
 namespace Lct2023.ViewModels;
 
-[DoNotNotify]
 public abstract class BaseViewModel : MvxNavigationViewModel
 {
     private readonly CancellationTokenSource _cancellationTokenSource;
@@ -50,7 +49,6 @@ public abstract class BaseViewModel : MvxNavigationViewModel
     }
 }
 
-[DoNotNotify]
 public abstract class BaseViewModel<TParameter> : BaseViewModel, IMvxViewModel<TParameter>
     where TParameter : class
 {
@@ -67,7 +65,6 @@ public abstract class BaseViewModel<TParameter> : BaseViewModel, IMvxViewModel<T
     }
 }
 
-[DoNotNotify]
 public abstract class BaseViewModelResult<TResult> : BaseViewModel, IMvxViewModelResult<TResult>
     where TResult : class
 {
@@ -91,7 +88,6 @@ public abstract class BaseViewModelResult<TResult> : BaseViewModel, IMvxViewMode
     }
 }
 
-[DoNotNotify]
 public abstract class BaseViewModel<TParameter, TResult> : BaseViewModelResult<TResult>, IMvxViewModel<TParameter, TResult>
     where TParameter : class
     where TResult : class

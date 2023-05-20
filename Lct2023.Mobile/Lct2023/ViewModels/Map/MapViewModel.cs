@@ -5,6 +5,7 @@ using Lct2023.Business.RestServices.Map;
 using Lct2023.Services;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Navigation;
+using PropertyChanged;
 
 namespace Lct2023.ViewModels.Map;
 
