@@ -3,8 +3,8 @@ name: Docker CI CMS
 on:
   push:
     branches: [master]
-    # paths:
-    #   - 'Lct2023.Api/**'
+    paths:
+      - 'cms/**'
 jobs:
 
   build_and_push:
