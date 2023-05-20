@@ -5,6 +5,7 @@ using Android.Views;
 using Lct2023.ViewModels.Map;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
 using Android.Gms.Maps.Model;
@@ -13,9 +14,12 @@ using ReactiveUI;
 namespace Lct2023.Android.Fragments.MainTabs;
 
 [MvxFragmentPresentation]
-public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback
+public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, INotifyPropertyChanged
 {
     private MapView _mapView;
+    
+    public GoogleMap GoogleMap { get; private set; }
+    
     protected override int GetLayoutId() => Resource.Layout.MapFragment;
     
     public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -36,8 +40,6 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback
 
         return view;
     }
-    
-    public GoogleMap GoogleMap { get; private set; }
     
     public override void OnStart()
     {
@@ -91,4 +93,6 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback
                 .SetTitle(school.Name));
         }
     }
+
+    public event PropertyChangedEventHandler PropertyChanged;
 }

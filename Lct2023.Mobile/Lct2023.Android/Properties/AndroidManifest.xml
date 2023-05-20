@@ -1,15 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.notrycatch.lct2023">
-	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="33" />
-	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-feature android:name="android.hardware.location.gps" />
-	<application android:icon="@mipmap/ic_launcher" android:label="Lct2023" android:roundIcon="@mipmap/ic_launcher_round" android:theme="@style/AppTheme">
-		<meta-data android:name="com.google.android.geo.API_KEY" android:value="" />
-		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
-		<!-- Necessary for apps that target Android 9.0 or higher -->
-		<uses-library android:name="org.apache.http.legacy" android:required="false" />
-	</application>
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          android:versionCode="1"
+          android:versionName="1.0"
+          package="com.notrycatch.lct2023">
+
+    <uses-sdk android:minSdkVersion="21"
+              android:targetSdkVersion="33"/>
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-feature android:name="android.hardware.location.gps"/>
+    <application android:icon="@mipmap/ic_launcher"
+                 android:label="Lct2023"
+                 android:roundIcon="@mipmap/ic_launcher_round"
+                 android:theme="@style/AppTheme">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+                   android:value="AIzaSyDzBmYVDN6aFuuUHE9GRfZGd1ZplXQgZT0"/>
+        <meta-data android:name="com.google.android.gms.version"
+                   android:value="@integer/google_play_services_version"/>
+        <!-- Necessary for apps that target Android 9.0 or higher -->
+        <uses-library android:name="org.apache.http.legacy"
+                      android:required="false"/>
+    </application>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 </manifest>

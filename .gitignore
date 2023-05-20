@@ -13,3 +13,6 @@ Lct2023.Mobile/Lct2023.Android/Resources/Resource.designer.cs
 **/secrets.json
 **/secrets.*.json
 .github/workflows/.ebextensions/.config
+
+# Visual Studio 2015/2017 cache/options directory
+.vs/
