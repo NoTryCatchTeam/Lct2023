@@ -84,11 +84,16 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback
 
     private void UpdateMarkers()
     {
-        _googleMap?.Clear();
+        if (_googleMap == null)
+        {
+            return;
+        }
+        
+        _googleMap.Clear();
         
         foreach (var place in ViewModel.Places)
         {
-            _googleMap?.AddMarker(new MarkerOptions()
+            _googleMap.AddMarker(new MarkerOptions()
                 .SetPosition(new LatLng(place.Latitude, place.Longitude))
                 .SetTitle(place.Name));
         }
