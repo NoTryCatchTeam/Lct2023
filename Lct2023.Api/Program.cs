@@ -79,7 +79,7 @@ builder.Services
 
         options.Scope.Add("email");
 
-        options.ClaimActions.MapJsonKey(CustomClaimTypes.PHOTO_URL, "urn:vkontakte:photo:link");
+        options.ClaimActions.MapJsonKey(CustomClaimTypes.PHOTO_URL, "photo");
 
         options.Events.OnTicketReceived += context =>
         {
