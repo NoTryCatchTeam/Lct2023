@@ -16,5 +16,6 @@ Lct2023.Mobile/Lct2023.Android/Resources/Resource.designer.cs
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
+deployment/cms/Dockerrun.aws.zip
 
 **/FodyWeavers.xsd
