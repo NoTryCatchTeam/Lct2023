@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "story_quizzes",
+  "info": {
+    "singularName": "story-quiz",
+    "pluralName": "story-quizzes",
+    "displayName": "Story quiz"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "question": {
+      "type": "text"
+    },
+    "a": {
+      "type": "string"
+    },
+    "b": {
+      "type": "string"
+    },
+    "c": {
+      "type": "string"
+    },
+    "answer": {
+      "type": "string"
+    },
+    "createDate": {
+      "type": "datetime"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "art_categories",
+  "info": {
+    "singularName": "art-category",
+    "pluralName": "art-categories",
+    "displayName": "Art category"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    }
+  }
+}
