@@ -1,21 +1,26 @@
+using System.Security.Claims;
+using System.Text;
+using AspNet.Security.OAuth.Vkontakte;
+using AutoMapper;
 using Lct2023.Api.Dal;
+using Lct2023.Api.Definitions;
 using Lct2023.Api.Definitions.Constants;
 using Lct2023.Api.Definitions.Identity;
+using Lct2023.Api.Definitions.Types;
+using Lct2023.Api.Services;
+using Lct2023.Api.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("secrets.json", false, true);
 builder.Configuration.AddEnvironmentVariables();
-
-// TODO If needed
-// if (!builder.Environment.IsProduction())
-// {
-//     builder.Configuration.AddJsonFile($"secrets.{builder.Environment.EnvironmentName}.json", false, true);
-// }
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -44,53 +49,85 @@ builder.Services.AddIdentity<ExtendedIdentityUser, IdentityRole<int>>(opt =>
     .AddEntityFrameworkStores<NpgsqlDbContext>();
 
 builder.Services
-    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    // TODO Will be included in AddIdentity<>(), so remove here
-    .AddCookie(JwtBearerDefaults.AuthenticationScheme)
-    // TODO For further email signin
-    // .AddJwtBearer(opt =>
-    // {
-    //     opt.SaveToken = true;
-    //     opt.RequireHttpsMetadata = builder.Environment.IsProduction();
-    //
-    //     opt.TokenValidationParameters = new TokenValidationParameters
-    //     {
-    //         ValidateIssuer = true,
-    //         ValidateAudience = true,
-    //         ValidateLifetime = true,
-    //         ValidateIssuerSigningKey = true,
-    //         ValidIssuer = builder.Configuration.GetValue<string>(ConfigurationConstants.Secrets.JWT_ISSUER),
-    //         ValidAudience = builder.Configuration.GetValue<string>(ConfigurationConstants.Secrets.JWT_AUDIENCE),
-    //         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetValue<string>(ConfigurationConstants.Secrets.JWT_SECRET))),
-    //         ClockSkew = TimeSpan.Zero,
-    //     };
-    // })
+    .AddAuthentication(opt =>
+    {
+        opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+        opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(opt =>
+    {
+        opt.SaveToken = true;
+        opt.RequireHttpsMetadata = builder.Environment.IsProduction();
+
+        opt.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration.GetValue<string>(ConfigurationConstants.Secrets.JWT_ISSUER),
+            ValidAudience = builder.Configuration.GetValue<string>(ConfigurationConstants.Secrets.JWT_AUDIENCE),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetValue<string>(ConfigurationConstants.Secrets.JWT_SECRET))),
+            ClockSkew = TimeSpan.Zero,
+        };
+    })
     .AddVkontakte(options =>
     {
         options.ClientId = builder.Configuration.GetValue<string>(ConfigurationConstants.Secrets.VK_CLIENT_ID);
         options.ClientSecret = builder.Configuration.GetValue<string>(ConfigurationConstants.Secrets.VK_CLIENT_SECRET);
+
+        options.Scope.Add("email");
+
+        options.ClaimActions.MapJsonKey(CustomClaimTypes.PHOTO_URL, "urn:vkontakte:photo:link");
+
+        options.Events.OnTicketReceived += context =>
+        {
+            if (context.Principal?.Claims?.Any() != true)
+            {
+                return Task.CompletedTask;
+            }
+
+            var queryParams = new Dictionary<string, string>
+            {
+                { CustomClaimTypes.EMAIL, context.Principal.FindFirst(ClaimTypes.Email)?.Value },
+                { CustomClaimTypes.FIRST_NAME, context.Principal.FindFirst(ClaimTypes.GivenName)?.Value },
+                { CustomClaimTypes.LAST_NAME, context.Principal.FindFirst(ClaimTypes.Surname)?.Value },
+                { CustomClaimTypes.PHOTO_URL, context.Principal.FindFirst(CustomClaimTypes.PHOTO_URL)?.Value },
+                { CustomClaimTypes.EXTERNAL_LOGIN_PROVIDER, VkontakteAuthenticationDefaults.AuthenticationScheme },
+                { CustomClaimTypes.EXTERNAL_LOGIN_PROVIDER_KEY, context.Principal.FindFirst(ClaimTypes.NameIdentifier)?.Value },
+            };
+
+            context.ReturnUri = QueryHelpers.AddQueryString(context.ReturnUri, queryParams);
+
+            return Task.CompletedTask;
+        };
     });
+
+builder.Services.AddAutoMapper(x => x.AddProfile<ApiMapperProfile>());
+
+builder.Services.AddTransient<IAuthService, AuthService>();
+builder.Services.AddTransient<IAuthTokensService, AuthTokensService>();
+builder.Services.AddTransient<IUserService, UserService>();
 
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<NpgsqlDbContext>();
-    db.Database.Migrate();
+    scope.ServiceProvider.GetRequiredService<IMapper>().ConfigurationProvider.AssertConfigurationIsValid();
+
+    scope.ServiceProvider.GetRequiredService<NpgsqlDbContext>().Database.Migrate();
 }
 
-// TODO Probably could be removed after identity will be added
-// app.UseCookiePolicy(new CookiePolicyOptions()
-// {
-//     HttpOnly = HttpOnlyPolicy.Always,
-//     Secure = CookieSecurePolicy.Always,
-//     MinimumSameSitePolicy = SameSiteMode.Strict
-// });
+app.UseCookiePolicy(new CookiePolicyOptions
+{
+    HttpOnly = HttpOnlyPolicy.Always,
+    Secure = CookieSecurePolicy.SameAsRequest,
+    MinimumSameSitePolicy = SameSiteMode.Lax,
+});
 
 app.UseSwagger();
 app.UseSwaggerUI();
-
-app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();

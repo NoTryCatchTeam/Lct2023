@@ -2,13 +2,15 @@
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
-        <Nullable>enable</Nullable>
+        <Nullable>disable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="AspNet.Security.OAuth.Vkontakte" Version="7.0.2" />
+        <PackageReference Include="AutoMapper" Version="12.0.1" />
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.4" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.5" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
@@ -35,6 +37,10 @@
 
     <ItemGroup>
       <Folder Include="Definitions\StrapiEntities" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Lct2023.Mobile\DataModel\DataModel.csproj" />
     </ItemGroup>
 
 </Project>
