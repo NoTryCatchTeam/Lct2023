@@ -4,7 +4,8 @@
   "info": {
     "singularName": "location",
     "pluralName": "locations",
-    "displayName": "location"
+    "displayName": "location",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -27,6 +28,12 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::stream.stream"
+    },
+    "email": {
+      "type": "email"
+    },
+    "phone": {
+      "type": "string"
     }
   }
 }

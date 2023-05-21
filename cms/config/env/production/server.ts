@@ -7,4 +7,5 @@ export default ({ env }) => ({
   webhooks: {
     populateRelations: env.bool('WEBHOOKS_POPULATE_RELATIONS', false),
   },
+  url: env('PUBLIC_URL', 'http://lct2023-cms-env.eba-vjmb9nnm.eu-central-1.elasticbeanstalk.com/'),
 });
