@@ -114,14 +114,14 @@ public class AuthController : ControllerBase
 
             var authResponse = await _authService.SignInViaSocialAsync(user.Username, provider);
 
-            return Redirect($"lct2023://access_token={authResponse.AccessToken}&refresh_token={authResponse.RefreshToken}");
+            return Redirect($"lct2023://#access_token={authResponse.AccessToken}&refresh_token={authResponse.RefreshToken}");
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Couldn't sign up user");
         }
 
-        return Redirect("lct2023://error=auth_error");
+        return Redirect("lct2023://#error=auth_error");
     }
 
     [HttpPost]
