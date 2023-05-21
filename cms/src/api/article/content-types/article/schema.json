@@ -17,6 +17,29 @@
     },
     "text": {
       "type": "richtext"
+    },
+    "cover": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "art_categories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::art-category.art-category"
+    },
+    "createDate": {
+      "type": "datetime"
+    },
+    "location": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::location.location"
     }
   }
 }
