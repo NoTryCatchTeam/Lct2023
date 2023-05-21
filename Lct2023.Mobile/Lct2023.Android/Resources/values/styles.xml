@@ -9,6 +9,7 @@
 
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+        <item name="android:windowBackground">@color/background_color</item>
     </style>
 
     <style name="MainTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
@@ -26,6 +27,14 @@
     <!--        <item name="fontFamily">@font/inter_bold</item>-->
     <!--        <item name="android:textSize">20sp</item>-->
     <!--    </style>-->
+
+    <style name="BottomRoundedShape">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeBottomRight">16dp</item>
+        <item name="cornerSizeBottomLeft">16dp</item>
+    </style>
 
 </resources>
 

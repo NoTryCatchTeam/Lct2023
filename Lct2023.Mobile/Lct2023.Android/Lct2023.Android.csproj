@@ -74,11 +74,18 @@
     </ItemGroup>
     <ItemGroup>
         <AndroidResource Include="Resources\color\main_bottom_navigation_icon_color.xml" />
+        <AndroidResource Include="Resources\drawable\ic_crown.xml" />
         <AndroidResource Include="Resources\drawable\ic_document_text.xml" />
         <AndroidResource Include="Resources\drawable\ic_home.xml" />
         <AndroidResource Include="Resources\drawable\ic_map.xml" />
         <AndroidResource Include="Resources\drawable\ic_note.xml" />
+        <AndroidResource Include="Resources\drawable\ic_notification.xml" />
+        <AndroidResource Include="Resources\drawable\ic_ranking.xml" />
+        <AndroidResource Include="Resources\drawable\ic_sms_tracking.xml" />
         <AndroidResource Include="Resources\drawable\ic_teacher.xml" />
+        <AndroidResource Include="Resources\drawable\img_night_concert.png" />
+        <AndroidResource Include="Resources\drawable\img_open_lesson.png" />
+        <AndroidResource Include="Resources\drawable\img_story_quiz_cello.png" />
         <AndroidResource Include="Resources\layout\CoursesFragment.xml">
           <SubType>Designer</SubType>
           <Generator>MSBuild:UpdateGeneratedFiles</Generator>
@@ -95,12 +102,14 @@
         <AndroidResource Include="Resources\layout\MainTabbedActivity.xml" />
         <AndroidResource Include="Resources\layout\MapFragment.xml" />
         <AndroidResource Include="Resources\layout\SplashActivity.xml" />
+        <AndroidResource Include="Resources\layout\StoryCard.xml" />
         <AndroidResource Include="Resources\layout\TestsFragment.xml">
           <SubType>Designer</SubType>
           <Generator>MSBuild:UpdateGeneratedFiles</Generator>
         </AndroidResource>
-        <AndroidResource Include="Resources\layout\toolbar.xml" />
+        <AndroidResource Include="Resources\layout\Toolbar.xml" />
         <AndroidResource Include="Resources\menu\main_bottom_menu.xml" />
+        <AndroidResource Include="Resources\menu\toolbar_menu.xml" />
         <AndroidResource Include="Resources\values\colors.xml" />
         <AndroidResource Include="Resources\values\dimens.xml" />
         <AndroidResource Include="Resources\values\strings.xml" />
@@ -126,7 +135,6 @@
     <ItemGroup>
         <Folder Include="Assets" />
         <Folder Include="Resources\drawable\" />
-        <Folder Include="Resources\menu" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Fody" Version="6.7.0">
