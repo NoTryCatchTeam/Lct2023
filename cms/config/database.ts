@@ -93,7 +93,7 @@ export default ({ env }) => {
       acquireConnectionTimeout: env.int('DATABASE_CONNECTION_TIMEOUT', 60000),
     },
     settings: {
-      forceMigration: env('FORCE_MIGRATION', false),
+      forceMigration: env.bool('FORCE_MIGRATION', false),
     }
   };
 };
