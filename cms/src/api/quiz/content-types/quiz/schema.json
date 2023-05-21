@@ -4,7 +4,8 @@
   "info": {
     "singularName": "quiz",
     "pluralName": "quizzes",
-    "displayName": "Quiz"
+    "displayName": "Quiz",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -28,6 +29,9 @@
     },
     "answer": {
       "type": "string"
+    },
+    "explanation": {
+      "type": "text"
     }
   }
 }
