@@ -71,7 +71,7 @@ export default ({ env }) => {
       pool: { min: env.int('DATABASE_POOL_MIN', 2), max: env.int('DATABASE_POOL_MAX', 10) },
       settings: {
         forceMigration: env("FORCE_MIGRATION", false),
-    }
+      }
     },
     sqlite: {
       connection: {
@@ -83,7 +83,6 @@ export default ({ env }) => {
         ),
       },
       useNullAsDefault: true,
-      
     },
   };
 
@@ -93,5 +92,8 @@ export default ({ env }) => {
       ...connections[client],
       acquireConnectionTimeout: env.int('DATABASE_CONNECTION_TIMEOUT', 60000),
     },
+    settings: {
+      forceMigration: env("FORCE_MIGRATION", false),
+    }
   };
 };
