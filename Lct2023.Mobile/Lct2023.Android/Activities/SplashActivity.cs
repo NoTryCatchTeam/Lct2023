@@ -1,5 +1,6 @@
 using Android.App;
 using Android.Content.PM;
+using Android.OS;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views;
 
@@ -16,5 +17,12 @@ public class SplashActivity : MvxSplashScreenActivity<Setup, App>
     public SplashActivity() :
         base(Resource.Layout.SplashActivity)
     {
+    }
+
+    protected override void OnCreate(Bundle bundle)
+    {
+        base.OnCreate(bundle);
+
+        Xamarin.Essentials.Platform.Init(this, bundle);
     }
 }
