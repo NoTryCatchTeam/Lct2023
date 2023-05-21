@@ -112,16 +112,16 @@ public class AuthController : ControllerBase
                            LoginProviderKey = providerKey,
                        });
 
-            // TODO For mobile app change to redirect
-            return Ok(_mapper.Map<AuthSuccessResponse>(await _authService.SignInViaSocialAsync(user.Username, provider)));
+            var authResponse = await _authService.SignInViaSocialAsync(user.Username, provider);
+
+            return Redirect($"lct2023://access_token={authResponse.AccessToken}&refresh_token={authResponse.RefreshToken}");
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Couldn't sign up user");
         }
 
-        // TODO For mobile app change to redirect
-        return BadRequest();
+        return Redirect("lct2023://error=auth_error");
     }
 
     [HttpPost]
