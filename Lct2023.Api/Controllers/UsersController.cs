@@ -2,13 +2,15 @@ using AutoMapper;
 using DataModel.Responses.Users;
 using Lct2023.Api.Helpers;
 using Lct2023.Api.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lct2023.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class UsersController : Controller
+[Authorize]
+public class UsersController : ControllerBase
 {
     private readonly IUserService _userService;
     private readonly IMapper _mapper;
@@ -40,7 +42,7 @@ public class UsersController : Controller
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Couldn't sign in user");
+            _logger.LogError(ex, "Couldn't get user");
         }
 
         return BadRequest();
