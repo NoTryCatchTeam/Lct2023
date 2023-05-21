@@ -1,4 +1,4 @@
-namespace Lct2023.Definitions.Internal;
+namespace Lct2023.Definitions.Internals;
 
 public class User
 {

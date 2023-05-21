@@ -1,6 +1,6 @@
 using AutoMapper;
 using DataModel.Responses.Users;
-using Lct2023.Definitions.Internal;
+using Lct2023.Definitions.Internals;
 
 namespace Lct2023.Definitions;
 

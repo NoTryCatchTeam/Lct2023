@@ -18,6 +18,6 @@ public class AuthRestService : BaseRestService, IAuthRestService
     public Task<AuthSuccessResponse> SignInBasicAsync(SignInBasicRequest request, CancellationToken token) =>
         ExecuteAsync<SignInBasicRequest, AuthSuccessResponse>("auth/sign-in/basic", request, HttpMethod.Post, token);
 
-    // public Task<UserItemResponse> SignUpAsync(CreateUserRequest request, CancellationToken token) =>
-    //     ExecuteAsync<CreateUserRequest, AuthSuccessResponse>("auth/sign-up", request, HttpMethod.Post, token);
+    public Task<AuthSuccessResponse> SignUpAsync(CreateUserRequest request, CancellationToken token) =>
+        ExecuteAsync<CreateUserRequest, AuthSuccessResponse>("auth/sign-up", request, HttpMethod.Post, token);
 }

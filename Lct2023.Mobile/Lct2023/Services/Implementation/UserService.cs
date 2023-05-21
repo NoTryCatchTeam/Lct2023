@@ -6,9 +6,9 @@ using AutoMapper;
 using DataModel.Requests.Auth;
 using Lct2023.Business.RestServices.Auth;
 using Lct2023.Business.RestServices.Users;
-using Lct2023.Definitions;
 using Lct2023.Definitions.Constants;
-using Lct2023.Definitions.Internal;
+using Lct2023.Definitions.Dtos;
+using Lct2023.Definitions.Internals;
 using Microsoft.Extensions.Configuration;
 using Xamarin.Essentials;
 
@@ -69,9 +69,11 @@ public class UserService : IUserService
         await RequestAndStoreUserInfoAsync(authResponse.AccessToken, authResponse.RefreshToken, token);
     }
 
-    public Task SignUpAsync(CancellationToken token)
+    public async Task SignUpAsync(CreateUserDto dto, CancellationToken token)
     {
-        return Task.CompletedTask;
+        var authResponse = await _authRestService.SignUpAsync(_mapper.Map<CreateUserRequest>(dto), token);
+
+        await RequestAndStoreUserInfoAsync(authResponse.AccessToken, authResponse.RefreshToken, token);
     }
 
     public Task SignOutAsync(CancellationToken token)

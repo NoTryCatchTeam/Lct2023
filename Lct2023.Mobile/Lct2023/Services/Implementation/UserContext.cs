@@ -1,9 +1,8 @@
 using System.Threading.Tasks;
-using Lct2023.Definitions.Internal;
-using Lct2023.Services;
+using Lct2023.Definitions.Internals;
 using MvvmCross.ViewModels;
 
-namespace Lct2023.Definitions;
+namespace Lct2023.Services.Implementation;
 
 public class UserContext : MvxNotifyPropertyChanged, IUserContext
 {
@@ -57,17 +56,4 @@ public class UserContext : MvxNotifyPropertyChanged, IUserContext
     {
         User = await _secureStorageService.GetValueAsync<User>(USER_DATA_KEY);
     }
-}
-
-public interface IUserContext
-{
-    bool IsAuthenticated { get; }
-
-    User User { get; }
-
-    Task StoreAsync(User user);
-
-    void Reset();
-
-    Task RestoreAsync();
 }

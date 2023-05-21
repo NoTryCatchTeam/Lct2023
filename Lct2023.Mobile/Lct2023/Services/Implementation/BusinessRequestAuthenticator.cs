@@ -13,9 +13,6 @@ public class BusinessRequestAuthenticator : IRequestAuthenticator
         _userContext = userContext;
     }
 
-    public string GetAccessToken() =>
-        _userContext.User.AccessToken;
-
     public AuthenticationHeaderValue GetAuthorizationHeader(string path) =>
         path.StartsWith("auth") ?
             null :

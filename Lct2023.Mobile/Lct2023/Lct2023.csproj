@@ -30,7 +30,6 @@
 
   <ItemGroup>
     <None Remove="appSettings.json" />
-    <Resource Include="appSettings.json" />
   </ItemGroup>
 
 </Project>

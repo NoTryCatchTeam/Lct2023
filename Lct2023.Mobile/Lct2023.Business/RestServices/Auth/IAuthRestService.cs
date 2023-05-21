@@ -9,5 +9,5 @@ public interface IAuthRestService
 {
     Task<AuthSuccessResponse> SignInBasicAsync(SignInBasicRequest request, CancellationToken token);
 
-    // Task SignUpAsync(CreateUserRequest request, CancellationToken token);
+    Task<AuthSuccessResponse> SignUpAsync(CreateUserRequest request, CancellationToken token);
 }
