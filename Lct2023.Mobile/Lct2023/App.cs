@@ -9,6 +9,7 @@ using System;
 using System.Net.Http;
 using System.Reflection;
 using AutoMapper;
+using Lct2023.Business.Clients;
 using Lct2023.Business.Helpers;
 using Lct2023.Business.RestServices.Base;
 using Lct2023.Definitions;
@@ -16,6 +17,7 @@ using Lct2023.Definitions.Constants;
 using Lct2023.Services;
 using Lct2023.Services.Implementation;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using MvvmCross.ViewModels;
 
 namespace Lct2023;
@@ -64,15 +66,34 @@ public class App : MvxApplication
         Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IRequestAuthenticator, BusinessRequestAuthenticator>();
         Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IUserContext, UserContext>();
 
-        // TODO Need second client as we have 2 hosts now
-        Mvx.IoCProvider.LazyConstructAndRegisterSingleton(() => new HttpClient(
-            new HttpClientHandler
-            {
-                ServerCertificateCustomValidationCallback = (_, _, _, _) => true,
-            })
+        Mvx.IoCProvider.LazyConstructAndRegisterSingleton(() =>
         {
-            BaseAddress = new Uri($"{_configuration.GetValue<string>(ConfigurationConstants.AppSettings.HOST)}{_configuration.GetValue<string>(ConfigurationConstants.AppSettings.API_PATH)}"),
-            Timeout = TimeSpan.FromSeconds(15),
+            var baseUrl = _configuration.GetValue<string>(ConfigurationConstants.AppSettings.HOST);
+
+            return new ApiClient(
+                new LoggingHandler(baseUrl, Mvx.IoCProvider.Resolve<ILogger<LoggingHandler>>())
+                {
+                    ServerCertificateCustomValidationCallback = (_, _, _, _) => true,
+                })
+            {
+                BaseAddress = new Uri(baseUrl),
+                Timeout = TimeSpan.FromSeconds(15),
+            };
+        });
+
+        Mvx.IoCProvider.LazyConstructAndRegisterSingleton(() =>
+        {
+            var baseUrl = $"{_configuration.GetValue<string>(ConfigurationConstants.AppSettings.CMS_HOST)}{_configuration.GetValue<string>(ConfigurationConstants.AppSettings.API_PATH)}";
+
+            return new CmsClient(
+                new LoggingHandler(baseUrl, Mvx.IoCProvider.Resolve<ILogger<LoggingHandler>>())
+                {
+                    ServerCertificateCustomValidationCallback = (_, _, _, _) => true,
+                })
+            {
+                BaseAddress = new Uri(baseUrl),
+                Timeout = TimeSpan.FromSeconds(15),
+            };
         });
     }
 
