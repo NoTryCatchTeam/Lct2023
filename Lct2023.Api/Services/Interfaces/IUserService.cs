@@ -5,4 +5,6 @@ namespace Lct2023.Api.Services.Interfaces;
 public interface IUserService
 {
     Task<UserDto> GetByEmailAsync(string email);
+
+    Task<UserDto> GetByIdAsync(int id);
 }

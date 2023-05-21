@@ -28,20 +28,21 @@ public class MapViewModel : BaseViewModel
         _mapRestService = mapRestService;
     }
 
-    public ObservableCollection<PlaceItemViewModel> Places { get; } = new();
+    public ObservableCollection<PlaceItemViewModel> Places { get; } = new ();
 
     public override void ViewCreated()
     {
         base.ViewCreated();
+
         Task.Run(() => RunSafeTaskAsync(async () =>
         {
-            _schoolLocations = (await _mapRestService.GetSchoolsLocationAsync())?.ToArray();
+            _schoolLocations = (await _mapRestService.GetSchoolsLocationAsync(CancellationToken))?.ToArray();
 
             if (_schoolLocations?.Any() != true)
             {
                 return;
             }
-            
+
             _xamarinEssentialsWrapper.RunOnUi(() => Places.AddRange(_schoolLocations.Select(schoolLocation => new PlaceItemViewModel(schoolLocation.Item))));
         }));
     }
