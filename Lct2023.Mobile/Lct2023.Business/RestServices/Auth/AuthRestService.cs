@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using DataModel.Requests.Auth;
 using DataModel.Responses.Auth;
+using Lct2023.Business.Clients;
 using Lct2023.Business.Helpers;
 using Lct2023.Business.RestServices.Base;
 
@@ -10,7 +11,7 @@ namespace Lct2023.Business.RestServices.Auth;
 
 public class AuthRestService : BaseRestService, IAuthRestService
 {
-    public AuthRestService(HttpClient httpClient, IRequestAuthenticator requestAuthenticator)
+    public AuthRestService(ApiClient httpClient, IRequestAuthenticator requestAuthenticator)
         : base(httpClient, requestAuthenticator)
     {
     }
