@@ -1,6 +1,5 @@
-export default ({ env }) => {
-    // ...
-   const email = {
+export default ({ env }) => ({
+   email : {
       config: {
         provider: 'nodemailer',
         providerOptions: {
@@ -18,4 +17,4 @@ export default ({ env }) => {
         },
       },
     }
-  };
+  });
