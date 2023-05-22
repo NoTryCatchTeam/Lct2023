@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                                    xmlns:app="http://schemas.android.com/apk/res-auto"
                                                    xmlns:tools="http://schemas.android.com/tools"
+                                                   android:id="@+id/tasks_layout"
                                                    android:layout_width="match_parent"
                                                    android:layout_height="match_parent"
                                                    android:background="@color/bgGlobe">
@@ -13,40 +14,14 @@
     <!--                                                         android:layout_height="match_parent">-->
     <!--    </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
 
-    <com.google.android.material.textfield.TextInputLayout android:id="@+id/tasks_search_layout"
-                                                           style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                                           android:layout_width="match_parent"
-                                                           android:layout_height="wrap_content"
-                                                           android:background="@drawable/search_layout_background"
-                                                           android:paddingHorizontal="16dp"
-                                                           android:paddingBottom="16dp"
-                                                           app:boxBackgroundColor="@color/bgIslandInner"
-                                                           app:boxCornerRadiusBottomEnd="12dp"
-                                                           app:boxCornerRadiusBottomStart="12dp"
-                                                           app:boxCornerRadiusTopEnd="12dp"
-                                                           app:boxCornerRadiusTopStart="12dp"
-                                                           app:boxStrokeWidth="0dp"
-                                                           app:hintEnabled="false"
-                                                           app:layout_constraintTop_toBottomOf="@id/toolbar">
-
-        <com.google.android.material.textfield.TextInputEditText android:id="@+id/tasks_search_value"
-                                                                 android:layout_width="match_parent"
-                                                                 android:layout_height="match_parent"
-                                                                 android:hint="Поиск"
-                                                                 android:padding="12dp"
-                                                                 android:textColor="@color/textPrimary"
-                                                                 android:textColorHint="@color/textSecondary"
-                                                                 android:textSize="@dimen/textSmall"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <androidx.core.widget.NestedScrollView android:layout_width="match_parent"
+    <androidx.core.widget.NestedScrollView android:id="@+id/tasks_scroll"
+                                           android:layout_width="match_parent"
                                            android:layout_height="0dp"
                                            android:clipToPadding="false"
                                            android:paddingTop="8dp"
                                            android:paddingBottom="36dp"
                                            app:layout_constraintBottom_toBottomOf="parent"
-                                           app:layout_constraintTop_toBottomOf="@id/tasks_search_layout">
+                                           app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
                                                            android:layout_height="wrap_content">
@@ -209,6 +184,8 @@
                                                                android:layout_height="wrap_content"
                                                                android:layout_marginTop="8dp"
                                                                android:background="@drawable/task_ofd_background"
+                                                               android:foreground="?attr/selectableItemBackground"
+                                                               android:clipToOutline="true"
                                                                app:layout_constraintTop_toBottomOf="@id/tasks_stats">
 
                 <TextView android:id="@+id/tasks_task_otd_title"
@@ -295,6 +272,7 @@
                                                                        android:paddingVertical="4dp"
                                                                        android:text="Уровень LITE"
                                                                        android:textSize="14sp"
+                                                                       app:rippleColor="?attr/colorControlHighlight"
                                                                        app:cornerRadius="30dp"
                                                                        app:icon="@drawable/ic_chevron_right"
                                                                        app:iconGravity="textEnd"
@@ -304,16 +282,16 @@
                                                                        app:layout_constraintEnd_toEndOf="parent"
                                                                        app:layout_constraintTop_toTopOf="@id/tasks_tasks_header"/>
 
-                    <androidx.recyclerview.widget.RecyclerView android:id="@+id/tasks_tasks_list"
-                                                               android:layout_width="match_parent"
-                                                               android:layout_height="wrap_content"
-                                                               android:layout_marginTop="16dp"
-                                                               android:nestedScrollingEnabled="false"
-                                                               app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                                                               app:layout_constraintBottom_toBottomOf="parent"
-                                                               app:layout_constraintTop_toBottomOf="@id/tasks_tasks_header"
-                                                               app:spanCount="3"
-                                                               tools:listitem="@layout/tasks_list_item"/>
+                    <mvvmcross.droidx.recyclerview.MvxRecyclerView android:id="@+id/tasks_tasks_list"
+                                                                   android:layout_width="match_parent"
+                                                                   android:layout_height="wrap_content"
+                                                                   android:layout_marginTop="16dp"
+                                                                   android:nestedScrollingEnabled="false"
+                                                                   app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                                                                   app:layout_constraintBottom_toBottomOf="parent"
+                                                                   app:layout_constraintTop_toBottomOf="@id/tasks_tasks_header"
+                                                                   app:spanCount="3"
+                                                                   tools:listitem="@layout/tasks_list_item"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -322,5 +300,32 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.textfield.TextInputLayout android:id="@+id/tasks_search_layout"
+                                                           style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                                           android:layout_width="match_parent"
+                                                           android:layout_height="wrap_content"
+                                                           android:background="@drawable/search_layout_background"
+                                                           android:paddingHorizontal="16dp"
+                                                           android:paddingBottom="16dp"
+                                                           app:boxBackgroundColor="@color/bgIslandInner"
+                                                           app:boxCornerRadiusBottomEnd="12dp"
+                                                           app:boxCornerRadiusBottomStart="12dp"
+                                                           app:boxCornerRadiusTopEnd="12dp"
+                                                           app:boxCornerRadiusTopStart="12dp"
+                                                           app:boxStrokeWidth="0dp"
+                                                           app:hintEnabled="false"
+                                                           app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <com.google.android.material.textfield.TextInputEditText android:id="@+id/tasks_search_value"
+                                                                 android:layout_width="match_parent"
+                                                                 android:layout_height="match_parent"
+                                                                 android:hint="Поиск"
+                                                                 android:padding="12dp"
+                                                                 android:textColor="@color/textPrimary"
+                                                                 android:textColorHint="@color/textSecondary"
+                                                                 android:textSize="@dimen/textSmall"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

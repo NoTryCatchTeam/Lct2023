@@ -23,4 +23,8 @@
         </shape>
     </item>
 
+<!--    <item>-->
+<!--        <ripple android:color="?attr/colorControlHighlight"/>-->
+<!--    </item>-->
+
 </layer-list>
