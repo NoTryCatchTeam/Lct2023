@@ -8,6 +8,7 @@
 
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+        <item name="android:windowBackground">@color/background_color</item>
     </style>
 
     <style name="MainTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
@@ -161,4 +162,15 @@
         <item name="trackCornerRadius">2dp</item>
     </style>
 
+    <style name="BottomRoundedShape">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeBottomRight">@dimen/default_corner_radius</item>
+        <item name="cornerSizeBottomLeft">@dimen/default_corner_radius</item>
+        <item name="cardElevation">0dp</item>
+        <item name="cardBackgroundColor">@color/bgIslandInner</item>
+    </style>
+
 </resources>
+
