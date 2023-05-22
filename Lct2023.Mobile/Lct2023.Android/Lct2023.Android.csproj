@@ -50,8 +50,9 @@
         <Reference Include="Mono.Android.Export" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Activities\Auth\LoginActivity.cs" />
+        <Compile Include="Activities\Auth\WebAuthenticationCallbackActivity.cs" />
         <Compile Include="Activities\BaseActivity.cs" />
-        <Compile Include="Activities\HelloWorldActivity.cs" />
         <Compile Include="Activities\MainTabbedActivity.cs" />
         <Compile Include="Activities\SplashActivity.cs" />
         <Compile Include="Adapters\MainViewPagerAdapter.cs" />
@@ -60,12 +61,13 @@
         <Compile Include="Fragments\MainTabs\FeedFragment.cs" />
         <Compile Include="Fragments\MainTabs\MainFragment.cs" />
         <Compile Include="Fragments\MainTabs\MapFragment.cs" />
-        <Compile Include="Fragments\MainTabs\TestsFragment.cs" />
+        <Compile Include="Fragments\MainTabs\TasksFragment.cs" />
         <Compile Include="Listeners\DefaultClickListener.cs" />
         <Compile Include="Listeners\DefaultNavBarItemSelectedListener.cs" />
         <Compile Include="Resources\Resource.designer.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Services\DialogService.cs" />
+        <Compile Include="Services\FileProvider.cs" />
         <Compile Include="Setup.cs" />
         <Compile Include="Views\ExtendedToolbar.cs" />
     </ItemGroup>
@@ -74,8 +76,12 @@
     </ItemGroup>
     <ItemGroup>
         <AndroidResource Include="Resources\color\main_bottom_navigation_icon_color.xml" />
+        <AndroidResource Include="Resources\drawable\event_card_background.xml" />
+        <AndroidResource Include="Resources\drawable\ic_chevron_right.xml" />
         <AndroidResource Include="Resources\drawable\ic_crown.xml" />
         <AndroidResource Include="Resources\drawable\ic_document_text.xml" />
+        <AndroidResource Include="Resources\drawable\ic_flash_circle.xml" />
+        <AndroidResource Include="Resources\drawable\ic_folder.xml" />
         <AndroidResource Include="Resources\drawable\ic_home.xml" />
         <AndroidResource Include="Resources\drawable\ic_map.xml" />
         <AndroidResource Include="Resources\drawable\ic_note.xml" />
@@ -83,9 +89,18 @@
         <AndroidResource Include="Resources\drawable\ic_ranking.xml" />
         <AndroidResource Include="Resources\drawable\ic_sms_tracking.xml" />
         <AndroidResource Include="Resources\drawable\ic_teacher.xml" />
-        <AndroidResource Include="Resources\drawable\img_night_concert.png" />
-        <AndroidResource Include="Resources\drawable\img_open_lesson.png" />
-        <AndroidResource Include="Resources\drawable\img_story_quiz_cello.png" />
+        <AndroidResource Include="Resources\drawable\image_girl_contrabass_totd.png" />
+        <AndroidResource Include="Resources\drawable\image_open_lesson.png" />
+        <AndroidResource Include="Resources\drawable\rounded_avatar_background.xml" />
+        <AndroidResource Include="Resources\drawable\search_layout_background.xml" />
+        <AndroidResource Include="Resources\drawable\tasks_list_item_background.xml" />
+        <AndroidResource Include="Resources\drawable\tasks_list_item_background_active.xml" />
+        <AndroidResource Include="Resources\drawable\task_ofd_background.xml" />
+        <AndroidResource Include="Resources\font\roboto_bold.ttf" />
+        <AndroidResource Include="Resources\font\roboto_bold_italic.ttf" />
+        <AndroidResource Include="Resources\font\roboto_medium.ttf" />
+        <AndroidResource Include="Resources\font\roboto_regular.ttf" />
+        <AndroidResource Include="Resources\drawable\image_story_quiz_cello.png" />
         <AndroidResource Include="Resources\layout\CoursesFragment.xml">
           <SubType>Designer</SubType>
           <Generator>MSBuild:UpdateGeneratedFiles</Generator>
@@ -98,15 +113,15 @@
           <SubType>Designer</SubType>
           <Generator>MSBuild:UpdateGeneratedFiles</Generator>
         </AndroidResource>
+        <AndroidResource Include="Resources\layout\LoginActivity.xml" />
         <AndroidResource Include="Resources\layout\MainFragment.xml" />
         <AndroidResource Include="Resources\layout\MainTabbedActivity.xml" />
         <AndroidResource Include="Resources\layout\MapFragment.xml" />
         <AndroidResource Include="Resources\layout\SplashActivity.xml" />
+        <AndroidResource Include="Resources\layout\TasksFragment.xml" />
         <AndroidResource Include="Resources\layout\StoryCard.xml" />
-        <AndroidResource Include="Resources\layout\TestsFragment.xml">
-          <SubType>Designer</SubType>
-          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-        </AndroidResource>
+        <AndroidResource Include="Resources\layout\tasks_list_item.xml" />
+        <AndroidResource Include="Resources\layout\tasks_list_item_active.xml" />
         <AndroidResource Include="Resources\layout\Toolbar.xml" />
         <AndroidResource Include="Resources\menu\main_bottom_menu.xml" />
         <AndroidResource Include="Resources\menu\toolbar_menu.xml" />
@@ -114,8 +129,6 @@
         <AndroidResource Include="Resources\values\dimens.xml" />
         <AndroidResource Include="Resources\values\strings.xml" />
         <AndroidResource Include="Resources\values\styles.xml" />
-        <AndroidResource Include="Resources\mipmap-anydpi-v26\ic_launcher.xml" />
-        <AndroidResource Include="Resources\mipmap-anydpi-v26\ic_launcher_round.xml" />
         <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher.png" />
         <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher_foreground.png" />
         <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher_round.png" />
@@ -135,12 +148,17 @@
     <ItemGroup>
         <Folder Include="Assets" />
         <Folder Include="Resources\drawable\" />
+        <Folder Include="Resources\menu" />
     </ItemGroup>
     <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="12.0.1" />
         <PackageReference Include="Fody" Version="6.7.0">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
         <PackageReference Include="MvvmCross" Version="8.0.2" />
         <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
         <PackageReference Include="Serilog" Version="2.12.0" />
@@ -148,8 +166,14 @@
         <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
         <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.6.1.1" />
         <PackageReference Include="Xamarin.Google.Android.Material" Version="1.8.0.1" />
-        <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
+        <PackageReference Include="Xamarin.Essentials" Version="1.7.5" />
         <PackageReference Include="Xamarin.GooglePlayServices.Maps" Version="118.1.0.1" />
+    </ItemGroup>
+    <ItemGroup>
+        <AndroidAsset Include="..\Lct2023\appSettings.json">
+            <Link>Assets\appSettings.json</Link>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </AndroidAsset>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Lct2023\Lct2023.csproj">

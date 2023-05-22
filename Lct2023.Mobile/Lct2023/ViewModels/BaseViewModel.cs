@@ -24,7 +24,7 @@ public abstract class BaseViewModel : MvxNavigationViewModel
     public MvxAsyncCommand NavigateBackCommand { get; }
 
     public CancellationToken CancellationToken => _cancellationTokenSource?.Token ?? CancellationToken.None;
-    
+
     protected async Task RunSafeTaskAsync(Func<Task> task, Action<Exception> onException = null)
     {
         try

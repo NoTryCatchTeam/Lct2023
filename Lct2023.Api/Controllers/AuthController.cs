@@ -2,7 +2,6 @@ using AspNet.Security.OAuth.Vkontakte;
 using AutoMapper;
 using DataModel.Requests.Auth;
 using DataModel.Responses.Auth;
-using DataModel.Responses.Users;
 using Lct2023.Api.Definitions.Dto;
 using Lct2023.Api.Definitions.Identity;
 using Lct2023.Api.Definitions.Types;
@@ -11,7 +10,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Primitives;
 
 namespace Lct2023.Api.Controllers;
 
@@ -41,14 +39,16 @@ public class AuthController : ControllerBase
 
     [HttpPost]
     [Route("sign-up")]
-    [ProducesResponseType(typeof(UserItemResponse), 200)]
+    [ProducesResponseType(typeof(AuthSuccessResponse), 200)]
     [ProducesResponseType(400)]
     [AllowAnonymous]
     public async Task<IActionResult> SignUpAsync([FromBody] CreateUserRequest data)
     {
         try
         {
-            return Ok(_mapper.Map<UserItemResponse>(await _authService.SignUpAsync(_mapper.Map<CreateUserDto>(data))));
+            var user = await _authService.SignUpAsync(_mapper.Map<CreateUserDto>(data));
+
+            return Ok(await _authService.SignInAsync(user.Username, data.Password));
         }
         catch (Exception ex)
         {

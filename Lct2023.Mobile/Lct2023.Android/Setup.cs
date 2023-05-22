@@ -10,10 +10,12 @@ namespace Lct2023.Android;
 
 public class Setup : MvxAndroidSetup<App>
 {
-    protected override void InitializeLastChance(IMvxIoCProvider iocProvider)
+    protected override void InitializeFirstChance(IMvxIoCProvider iocProvider)
     {
-        base.InitializeLastChance(iocProvider);
+        base.InitializeFirstChance(iocProvider);
+
         Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IDialogService, DialogService>();
+        Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IFileProvider, FileProvider>();
     }
 
     protected override ILoggerProvider CreateLogProvider() =>

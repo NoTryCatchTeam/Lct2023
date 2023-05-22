@@ -1,13 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#2c3e50</color>
-    <color name="primaryDark">#1B3147</color>
-    <color name="accent">#8EB04D</color>
+    <color name="background">#FFFFFF</color>
+    <color name="backgroundDark">#F0F2F5</color>
+    <color name="accent">#A4CE57</color>
+    <color name="lightPurple">#8B72AB</color>
+    <color name="darkGray">#404041</color>
     <color name="gray">#76787A</color>
+    <color name="red">#EF5252</color>
+
+    <color name="bgGlobe">@color/backgroundDark</color>
+    <color name="bgIsland">@color/background</color>
+    <color name="bgIslandInner">@color/backgroundDark</color>
+    <color name="bgBrand">@color/accent</color>
+    <color name="bgBorder">@color/backgroundDark</color>
+
+    <color name="iconAccent">@color/lightPurple</color>
+    <color name="iconPrimary">@color/darkGray</color>
+    <color name="iconSecondary">@color/gray</color>
+
+    <color name="textPrimary">@color/darkGray</color>
+    <color name="textLight">@android:color/white</color>
+    <color name="textSecondary">@color/gray</color>
+    <color name="textTeritary">#A7A9AB</color>
+    <color name="textLink">@color/lightPurple</color>
+
+    <color name="alertDanger">@color/red</color>
+
     <color name="background_color">#F5F5F5</color>
-    <color name="new_story_stroke_color">#8B72AB</color>
-    <color name="ranking_background">#F0F2F5</color>
-    <color name="rating_background">#A4CE57</color>
     <color name="ic_launcher_background">#2C3E50</color>
+    <color name="lightLavanda">#D2CDDE</color>
 </resources>
 

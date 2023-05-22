@@ -5,7 +5,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:background="@android:color/white"
+        android:background="@color/bgIsland"
         android:elevation="0dp"
         app:menu="@menu/toolbar_menu"
         app:buttonGravity="center_vertical"
@@ -15,10 +15,9 @@
             android:id="@+id/header_title_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:rippleColor="@color/white"
-            app:cardElevation="0dp"
+            app:rippleColor="@color/bgIsland"
+            style="@style/AppTheme.MaterialCardView.White"
             android:layout_marginVertical="10dp"
-            app:cardBackgroundColor="@android:color/white"
             app:cardCornerRadius="21dp"
             android:gravity="center_vertical">
 
@@ -29,31 +28,22 @@
                 android:padding="6dp"
                 android:gravity="center_vertical">
 
-            <com.google.android.material.card.MaterialCardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/avatar_image_container"
-                    app:cardBackgroundColor="@android:color/white"
-                    app:rippleColor="@color/white"
-                    app:cardElevation="16dp"
-                    app:cardCornerRadius="15dp"
-                    android:layout_marginRight="12dp">
-
-                <ImageButton
-                        android:id="@+id/avatar_image"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"/>
-
-            </com.google.android.material.card.MaterialCardView>
+            <ImageButton
+                    android:background="@drawable/rounded_avatar_background"
+                    android:id="@+id/avatar_image"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="12dp"/>
 
             <TextView
                     android:id="@+id/title"
                     android:textSize="24sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/textPrimary"
                     android:gravity="center_vertical"
                     android:textStyle="bold"
+                    android:text="Евгений"
                     android:textFontWeight="700"/>
 
         </LinearLayout>

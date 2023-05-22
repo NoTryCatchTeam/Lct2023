@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "streams",
+  "info": {
+    "singularName": "stream",
+    "pluralName": "streams",
+    "displayName": "Stream"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "art_category": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::art-category.art-category"
+    }
+  }
+}

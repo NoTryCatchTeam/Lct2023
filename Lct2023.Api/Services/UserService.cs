@@ -21,4 +21,7 @@ public class UserService : IUserService
 
     public Task<UserDto> GetByEmailAsync(string email) =>
         _signInManager.UserManager.Users.ProjectTo<UserDto>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(x => x.Email == email);
+
+    public Task<UserDto> GetByIdAsync(int id) =>
+        _signInManager.UserManager.Users.ProjectTo<UserDto>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(x => x.Id == id);
 }
