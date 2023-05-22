@@ -17,4 +17,12 @@ jobs:
               script: |
                 docker stop swamp1820/lct2023 && docker swamp1820/lct2023
                 docker pull swamp1820/lct2023:latest
-                docker run swamp1820/lct2023
+                docker run swamp1820/lct2023 -p 8080:80 \
+                -e "DbConnectionString=${{ secrets.DB_CONNECTION_STRING }}" \
+                -e "Jwt__AccessTokenExpiresInDays=${{ secrets.JWT_ACCESS_TOKEN_DAYS }}" \
+                -e "Jwt__Audience=${{ secrets.JWT_AUDIENCE }}" \
+                -e "Jwt__Issuer=${{ secrets.JWT_ISSUER }}" \
+                -e "Jwt__RefreshTokenExpiresInDays=${{ secrets.JWT_REFRESH_TOKEN_DAYS }}" \
+                -e "Jwt__Secret=${{ secrets.JWT_SECRET }}" \
+                -e "Vk__ClientId=${{ secrets.CLIENT_ID }}" \
+                -e "Vk__ClientSecret=${{ secrets.CLIENT_SECRET }}"
