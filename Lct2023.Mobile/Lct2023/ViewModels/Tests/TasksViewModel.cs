@@ -3,9 +3,9 @@ using MvvmCross.Navigation;
 
 namespace Lct2023.ViewModels.Tests;
 
-public class TestsViewModel : BaseViewModel
+public class TasksViewModel : BaseViewModel
 {
-    public TestsViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService)
+    public TasksViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService)
         : base(logFactory, navigationService)
     {
     }

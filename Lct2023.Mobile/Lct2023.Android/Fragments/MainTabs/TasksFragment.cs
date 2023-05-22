@@ -4,7 +4,7 @@ using MvvmCross.Platforms.Android.Presenters.Attributes;
 namespace Lct2023.Android.Fragments.MainTabs;
 
 [MvxFragmentPresentation]
-public class TestsFragment : BaseFragment<TestsViewModel>
+public class TasksFragment : BaseFragment<TasksViewModel>
 {
-    protected override int GetLayoutId() => Resource.Layout.TestsFragment;
+    protected override int GetLayoutId() => Resource.Layout.TasksFragment;
 }

@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   android:background="@color/bgGlobe">
+
+    <include layout="@layout/toolbar"
+             app:layout_constraintTop_toTopOf="parent"/>
+
+    <!--    <androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="match_parent"-->
+    <!--                                                         android:layout_height="match_parent">-->
+    <!--    </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
+
+    <com.google.android.material.textfield.TextInputLayout android:id="@+id/tasks_search_layout"
+                                                           style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                                           android:layout_width="match_parent"
+                                                           android:layout_height="wrap_content"
+                                                           android:background="@drawable/search_layout_background"
+                                                           android:paddingHorizontal="16dp"
+                                                           android:paddingBottom="16dp"
+                                                           app:boxBackgroundColor="@color/bgIslandInner"
+                                                           app:boxCornerRadiusBottomEnd="12dp"
+                                                           app:boxCornerRadiusBottomStart="12dp"
+                                                           app:boxCornerRadiusTopEnd="12dp"
+                                                           app:boxCornerRadiusTopStart="12dp"
+                                                           app:boxStrokeWidth="0dp"
+                                                           app:hintEnabled="false"
+                                                           app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <com.google.android.material.textfield.TextInputEditText android:id="@+id/tasks_search_value"
+                                                                 android:layout_width="match_parent"
+                                                                 android:layout_height="match_parent"
+                                                                 android:hint="Поиск"
+                                                                 android:padding="12dp"
+                                                                 android:textColor="@color/textPrimary"
+                                                                 android:textColorHint="@color/textSecondary"
+                                                                 android:textSize="@dimen/textSmall"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.core.widget.NestedScrollView android:layout_width="match_parent"
+                                           android:layout_height="0dp"
+                                           android:clipToPadding="false"
+                                           android:paddingTop="8dp"
+                                           android:paddingBottom="36dp"
+                                           app:layout_constraintBottom_toBottomOf="parent"
+                                           app:layout_constraintTop_toBottomOf="@id/tasks_search_layout">
+
+        <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                           android:layout_height="wrap_content">
+
+            <!-- Stats -->
+            <com.google.android.material.card.MaterialCardView android:id="@+id/tasks_stats"
+                                                               style="@style/AppTheme.MaterialCardView.White"
+                                                               android:layout_width="match_parent"
+                                                               android:layout_height="wrap_content"
+                                                               app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                                   android:layout_height="wrap_content"
+                                                                   android:padding="16dp"
+                                                                   app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.card.MaterialCardView android:id="@+id/tasks_stats_exercises_icon_layout"
+                                                                       style="@style/AppTheme.MaterialCardView.Icon"
+                                                                       android:layout_width="wrap_content"
+                                                                       android:layout_height="wrap_content"
+                                                                       app:layout_constraintEnd_toEndOf="@id/tasks_stats_exercises_progress"
+                                                                       app:layout_constraintStart_toStartOf="@id/tasks_stats_exercises_progress"
+                                                                       app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView android:layout_width="20dp"
+                                   android:layout_height="20dp"
+                                   android:src="@drawable/ic_folder"
+                                   app:tint="@color/lightPurple"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView android:id="@+id/tasks_stats_exercises_counter"
+                              style="@style/AppTheme.Tasks.Stats.Counter"
+                              android:layout_width="0dp"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="16dp"
+                              android:text="5 / 100"
+                              app:layout_constraintEnd_toEndOf="@id/tasks_stats_exercises_progress"
+                              app:layout_constraintStart_toStartOf="@id/tasks_stats_exercises_progress"
+                              app:layout_constraintTop_toBottomOf="@id/tasks_stats_exercises_icon_layout"/>
+
+                    <com.google.android.material.progressindicator.LinearProgressIndicator android:id="@+id/tasks_stats_exercises_progress"
+                                                                                           style="@style/AppTheme.Tasks.Stats.ProgressBar"
+                                                                                           android:layout_width="0dp"
+                                                                                           android:layout_height="4dp"
+                                                                                           android:progress="20"
+                                                                                           app:layout_constraintEnd_toStartOf="@id/tasks_stats_tasks_progress"
+                                                                                           app:layout_constraintStart_toStartOf="parent"
+                                                                                           app:layout_constraintTop_toBottomOf="@id/tasks_stats_exercises_counter"/>
+
+                    <TextView android:id="@+id/tasks_stats_exercises_label"
+                              style="@style/AppTheme.Tasks.Stats.Label"
+                              android:layout_width="0dp"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="4dp"
+                              android:text="Упражнения"
+                              app:layout_constraintBottom_toBottomOf="parent"
+                              app:layout_constraintEnd_toEndOf="@id/tasks_stats_exercises_progress"
+                              app:layout_constraintStart_toStartOf="@id/tasks_stats_exercises_progress"
+                              app:layout_constraintTop_toBottomOf="@id/tasks_stats_exercises_progress"/>
+
+
+                    <com.google.android.material.card.MaterialCardView android:id="@+id/tasks_stats_tasks_icon_layout"
+                                                                       style="@style/AppTheme.MaterialCardView.Icon"
+                                                                       android:layout_width="wrap_content"
+                                                                       android:layout_height="wrap_content"
+                                                                       app:layout_constraintEnd_toEndOf="@id/tasks_stats_tasks_progress"
+                                                                       app:layout_constraintStart_toStartOf="@id/tasks_stats_tasks_progress"
+                                                                       app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView android:layout_width="20dp"
+                                   android:layout_height="20dp"
+                                   android:src="@drawable/ic_note"
+                                   app:tint="@color/lightPurple"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView android:id="@+id/tasks_stats_tasks_counter"
+                              style="@style/AppTheme.Tasks.Stats.Counter"
+                              android:layout_width="0dp"
+                              android:layout_height="wrap_content"
+                              android:text="2 / 10"
+                              app:layout_constraintEnd_toEndOf="@id/tasks_stats_tasks_progress"
+                              app:layout_constraintStart_toStartOf="@id/tasks_stats_tasks_progress"
+                              app:layout_constraintTop_toBottomOf="@id/tasks_stats_tasks_icon_layout"
+                              app:layout_constraintTop_toTopOf="@id/tasks_stats_exercises_counter"/>
+
+                    <com.google.android.material.progressindicator.LinearProgressIndicator android:id="@+id/tasks_stats_tasks_progress"
+                                                                                           style="@style/AppTheme.Tasks.Stats.ProgressBar"
+                                                                                           android:layout_width="0dp"
+                                                                                           android:layout_height="4dp"
+                                                                                           android:layout_marginHorizontal="16dp"
+                                                                                           android:progress="40"
+                                                                                           app:layout_constraintEnd_toStartOf="@id/tasks_stats_points_progress"
+                                                                                           app:layout_constraintStart_toEndOf="@id/tasks_stats_exercises_progress"
+                                                                                           app:layout_constraintTop_toTopOf="@id/tasks_stats_exercises_progress"/>
+
+                    <TextView android:id="@+id/tasks_stats_tasks_label"
+                              style="@style/AppTheme.Tasks.Stats.Label"
+                              android:layout_width="0dp"
+                              android:layout_height="wrap_content"
+                              android:text="Задания"
+                              android:textAlignment="gravity"
+                              app:layout_constraintBottom_toBottomOf="parent"
+                              app:layout_constraintEnd_toEndOf="@id/tasks_stats_tasks_progress"
+                              app:layout_constraintStart_toStartOf="@id/tasks_stats_tasks_progress"
+                              app:layout_constraintTop_toTopOf="@id/tasks_stats_exercises_label"/>
+
+                    <com.google.android.material.card.MaterialCardView android:id="@+id/tasks_stats_points_icon_layout"
+                                                                       style="@style/AppTheme.MaterialCardView.Icon"
+                                                                       android:layout_width="wrap_content"
+                                                                       android:layout_height="wrap_content"
+                                                                       app:layout_constraintEnd_toEndOf="@id/tasks_stats_points_progress"
+                                                                       app:layout_constraintStart_toStartOf="@id/tasks_stats_points_progress"
+                                                                       app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView android:layout_width="20dp"
+                                   android:layout_height="20dp"
+                                   android:src="@drawable/ic_flash_circle"
+                                   app:tint="@color/lightPurple"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView android:id="@+id/tasks_stats_points_counter"
+                              style="@style/AppTheme.Tasks.Stats.Counter"
+                              android:layout_width="0dp"
+                              android:layout_height="wrap_content"
+                              android:text="20 / 50"
+                              app:layout_constraintEnd_toEndOf="@id/tasks_stats_points_progress"
+                              app:layout_constraintStart_toStartOf="@id/tasks_stats_points_progress"
+                              app:layout_constraintTop_toBottomOf="@id/tasks_stats_points_icon_layout"
+                              app:layout_constraintTop_toTopOf="@id/tasks_stats_exercises_counter"/>
+
+                    <com.google.android.material.progressindicator.LinearProgressIndicator android:id="@+id/tasks_stats_points_progress"
+                                                                                           style="@style/AppTheme.Tasks.Stats.ProgressBar"
+                                                                                           android:layout_width="0dp"
+                                                                                           android:layout_height="4dp"
+                                                                                           android:layout_marginEnd="16dp"
+                                                                                           android:progress="60"
+                                                                                           app:layout_constraintEnd_toEndOf="parent"
+                                                                                           app:layout_constraintStart_toEndOf="@id/tasks_stats_tasks_progress"
+                                                                                           app:layout_constraintTop_toTopOf="@id/tasks_stats_tasks_progress"/>
+
+                    <TextView android:id="@+id/tasks_stats_points_label"
+                              style="@style/AppTheme.Tasks.Stats.Label"
+                              android:layout_width="0dp"
+                              android:layout_height="wrap_content"
+                              android:text="Баллы"
+                              app:layout_constraintBottom_toBottomOf="parent"
+                              app:layout_constraintEnd_toEndOf="@id/tasks_stats_points_progress"
+                              app:layout_constraintStart_toStartOf="@id/tasks_stats_points_progress"
+                              app:layout_constraintTop_toTopOf="@id/tasks_stats_exercises_label"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Task of the day -->
+            <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/tasks_task_otd"
+                                                               android:layout_width="match_parent"
+                                                               android:layout_height="wrap_content"
+                                                               android:layout_marginTop="8dp"
+                                                               android:background="@drawable/task_ofd_background"
+                                                               app:layout_constraintTop_toBottomOf="@id/tasks_stats">
+
+                <TextView android:id="@+id/tasks_task_otd_title"
+                          style="@style/AppTheme.BodyMedium"
+                          android:layout_width="0dp"
+                          android:layout_height="wrap_content"
+                          android:layout_marginStart="16dp"
+                          android:layout_marginTop="16dp"
+                          android:maxLines="2"
+                          android:text="Каждый день новое задание!"
+                          android:textColor="@color/textLight"
+                          app:layout_constraintStart_toStartOf="parent"
+                          app:layout_constraintTop_toTopOf="parent"
+                          app:layout_constraintWidth_default="percent"
+                          app:layout_constraintWidth_percent=".5"/>
+
+                <com.google.android.material.card.MaterialCardView android:id="@+id/tasks_task_otd_cta"
+                                                                   android:layout_width="wrap_content"
+                                                                   android:layout_height="wrap_content"
+                                                                   android:layout_marginTop="16dp"
+                                                                   android:layout_marginBottom="16dp"
+                                                                   android:elevation="0dp"
+                                                                   app:cardBackgroundColor="#26000000"
+                                                                   app:cardCornerRadius="4dp"
+                                                                   app:cardElevation="0dp"
+                                                                   app:contentPaddingBottom="4dp"
+                                                                   app:contentPaddingLeft="8dp"
+                                                                   app:contentPaddingRight="8dp"
+                                                                   app:contentPaddingTop="4dp"
+                                                                   app:layout_constraintBottom_toBottomOf="parent"
+                                                                   app:layout_constraintStart_toStartOf="@id/tasks_task_otd_title"
+                                                                   app:layout_constraintTop_toBottomOf="@id/tasks_task_otd_title">
+
+                    <TextView style="@style/AppTheme.BodyMedium.Small"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:text="Пройти задание"
+                              android:textColor="@color/textLight"/>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <ImageView android:layout_width="0dp"
+                           android:layout_height="0dp"
+                           android:scaleType="centerCrop"
+                           android:src="@drawable/image_girl_contrabass_totd"
+                           app:layout_constraintBottom_toBottomOf="parent"
+                           app:layout_constraintDimensionRatio="1:1"
+                           app:layout_constraintEnd_toEndOf="parent"
+                           app:layout_constraintTop_toTopOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Tasks list -->
+            <com.google.android.material.card.MaterialCardView android:id="@+id/tasks_tasks"
+                                                               android:layout_width="match_parent"
+                                                               android:layout_height="wrap_content"
+                                                               android:layout_marginTop="8dp"
+                                                               app:cardCornerRadius="@dimen/default_corner_radius"
+                                                               app:cardElevation="0dp"
+                                                               app:layout_constraintBottom_toBottomOf="parent"
+                                                               app:layout_constraintTop_toBottomOf="@id/tasks_task_otd">
+
+                <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                                   android:layout_height="wrap_content"
+                                                                   android:paddingHorizontal="16dp"
+                                                                   android:paddingVertical="24dp">
+
+                    <TextView android:id="@+id/tasks_tasks_header"
+                              style="@style/AppTheme.BodyBold"
+                              android:layout_width="0dp"
+                              android:layout_height="wrap_content"
+                              android:text="Задания"
+                              android:textSize="20sp"
+                              app:layout_constraintEnd_toStartOf="@id/tasks_tasks_filter"
+                              app:layout_constraintStart_toStartOf="parent"
+                              app:layout_constraintTop_toTopOf="parent"/>
+
+                    <com.google.android.material.button.MaterialButton android:id="@+id/tasks_tasks_filter"
+                                                                       style="@style/AppTheme.Button.Base"
+                                                                       android:layout_width="wrap_content"
+                                                                       android:layout_height="wrap_content"
+                                                                       android:backgroundTint="@color/bgIslandInner"
+                                                                       android:paddingHorizontal="12dp"
+                                                                       android:paddingVertical="4dp"
+                                                                       android:text="Уровень LITE"
+                                                                       android:textSize="14sp"
+                                                                       app:cornerRadius="30dp"
+                                                                       app:icon="@drawable/ic_chevron_right"
+                                                                       app:iconGravity="textEnd"
+                                                                       app:iconPadding="4dp"
+                                                                       app:iconSize="16dp"
+                                                                       app:iconTint="@color/iconPrimary"
+                                                                       app:layout_constraintEnd_toEndOf="parent"
+                                                                       app:layout_constraintTop_toTopOf="@id/tasks_tasks_header"/>
+
+                    <androidx.recyclerview.widget.RecyclerView android:id="@+id/tasks_tasks_list"
+                                                               android:layout_width="match_parent"
+                                                               android:layout_height="wrap_content"
+                                                               android:layout_marginTop="16dp"
+                                                               android:nestedScrollingEnabled="false"
+                                                               app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                                                               app:layout_constraintBottom_toBottomOf="parent"
+                                                               app:layout_constraintTop_toBottomOf="@id/tasks_tasks_header"
+                                                               app:spanCount="3"
+                                                               tools:listitem="@layout/tasks_list_item"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
