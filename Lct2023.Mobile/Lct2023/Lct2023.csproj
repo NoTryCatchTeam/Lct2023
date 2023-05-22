@@ -28,8 +28,4 @@
     <ProjectReference Include="..\Lct2023.Business\Lct2023.Business.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="appSettings.json" />
-  </ItemGroup>
-
 </Project>

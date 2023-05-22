@@ -54,12 +54,15 @@ public class TasksFragment : BaseFragment<TasksViewModel>
         {
             const int SCROLL_DIFF_THRESHOLD = 3;
 
-            if (scrollY - oldScrollY > SCROLL_DIFF_THRESHOLD && !_scrollAnimators.Hide.IsRunning && searchLayout.TranslationY == 0)
+            var isScrollDown = scrollY - oldScrollY > 0;
+            var isScrollUp = scrollY - oldScrollY < 0;
+
+            if (isScrollDown && scrollY - oldScrollY > SCROLL_DIFF_THRESHOLD && !_scrollAnimators.Hide.IsRunning && searchLayout.TranslationY == 0)
             {
                 _scrollAnimators.Show.Cancel();
                 _scrollAnimators.Hide.Start();
             }
-            else if (scrollY - oldScrollY < -SCROLL_DIFF_THRESHOLD && !_scrollAnimators.Show.IsRunning && searchLayout.TranslationY < 0)
+            else if (isScrollUp && (scrollY - oldScrollY < -SCROLL_DIFF_THRESHOLD || scrollY < scroll.PaddingTop / 2) && !_scrollAnimators.Show.IsRunning && searchLayout.TranslationY < 0)
             {
                 _scrollAnimators.Hide.Cancel();
                 _scrollAnimators.Show.Start();
