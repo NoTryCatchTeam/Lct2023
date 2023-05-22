@@ -1,0 +1,20 @@
+name: Deploy API
+
+on:
+    workflow_dispatch
+jobs:
+
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Run Docker SSH
+            uses: appleboy/ssh-action@master
+            with:
+              host: ${{ secrets.HOST }}
+              username: ${{ secrets.USERNAME }}
+              password: ${{ secrets.PASSWORD }}
+              port: 22
+              script: |
+                docker stop swamp1820/lct2023 && docker swamp1820/lct2023
+                docker pull swamp1820/lct2023:latest
+                docker run swamp1820/lct2023
