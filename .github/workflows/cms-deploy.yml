@@ -18,7 +18,7 @@ jobs:
                 docker stop cms && docker rm cms
                 docker rmi swamp1820/lct2023-cms
                 docker pull swamp1820/lct2023-cms:latest
-                docker run --name cms -d --restart always -p 80:80 \
+                docker run --name cms -d --restart always -p 80:1337 \
                 -e "ADMIN_JWT_SECRET=${{ secrets.ADMIN_JWT_SECRET }}" \
                 -e "API_TOKEN_SALT=${{ secrets.API_TOKEN_SALT }}" \
                 -e "APP_KEYS=${{ secrets.APP_KEYS }}" \
