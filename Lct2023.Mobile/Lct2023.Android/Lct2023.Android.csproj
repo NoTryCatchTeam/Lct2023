@@ -83,16 +83,21 @@
     </ItemGroup>
     <ItemGroup>
         <AndroidResource Include="Resources\color\main_bottom_navigation_icon_color.xml" />
+        <AndroidResource Include="Resources\drawable\button_toggle_group_background_tint.xml" />
         <AndroidResource Include="Resources\drawable\event_card_background.xml" />
         <AndroidResource Include="Resources\drawable\ic_chevron_right.xml" />
         <AndroidResource Include="Resources\drawable\ic_crown.xml" />
         <AndroidResource Include="Resources\drawable\ic_document_text.xml" />
+        <AndroidResource Include="Resources\drawable\ic_filters.xml" />
         <AndroidResource Include="Resources\drawable\ic_flash_circle.xml" />
         <AndroidResource Include="Resources\drawable\ic_folder.xml" />
+        <AndroidResource Include="Resources\drawable\ic_gps.xml" />
         <AndroidResource Include="Resources\drawable\ic_home.xml" />
         <AndroidResource Include="Resources\drawable\ic_map.xml" />
+        <AndroidResource Include="Resources\drawable\ic_minus_cirlce.xml" />
         <AndroidResource Include="Resources\drawable\ic_note.xml" />
         <AndroidResource Include="Resources\drawable\ic_notification.xml" />
+        <AndroidResource Include="Resources\drawable\ic_plus_circle.xml" />
         <AndroidResource Include="Resources\drawable\ic_ranking.xml" />
         <AndroidResource Include="Resources\drawable\ic_sms_tracking.xml" />
         <AndroidResource Include="Resources\drawable\ic_teacher.xml" />
