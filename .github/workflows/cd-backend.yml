@@ -17,7 +17,7 @@ jobs:
               script: |
                 docker stop swamp1820/lct2023 && docker swamp1820/lct2023
                 docker pull swamp1820/lct2023:latest
-                docker run swamp1820/lct2023 -p 8080:80 \
+                docker run swamp1820/lct2023 --name api -p 8080:80 \
                 -e "DbConnectionString=${{ secrets.DB_CONNECTION_STRING }}" \
                 -e "Jwt__AccessTokenExpiresInDays=${{ secrets.JWT_ACCESS_TOKEN_DAYS }}" \
                 -e "Jwt__Audience=${{ secrets.JWT_AUDIENCE }}" \
