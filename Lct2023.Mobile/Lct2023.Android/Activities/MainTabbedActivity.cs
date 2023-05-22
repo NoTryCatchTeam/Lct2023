@@ -23,7 +23,7 @@ public class MainTabbedActivity : BaseActivity<MainTabbedViewModel>
             { Resource.Id.action_main, 0 },
             { Resource.Id.action_courses, 1 },
             { Resource.Id.action_feed, 2 },
-            { Resource.Id.action_tests, 3 },
+            { Resource.Id.action_tasks, 3 },
             { Resource.Id.action_map, 4 },
         };
     }
