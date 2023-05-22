@@ -1,7 +1,10 @@
 name: Deploy API
 
-on:
-    workflow_dispatch
+on: 
+  workflow_dispatch:
+  workflow_run:
+    workflows: [Docker CI API]
+    types: [completed]
 jobs:
 
     deploy:
