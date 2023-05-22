@@ -25,6 +25,9 @@ public class MainViewModel : BaseViewModel
     }
     
     public IEnumerable<IStoryCardItemViewModel> StoryCards { get; private set; }
+
+    public string Image { get; private set; } =
+        "https://media.newyorker.com/photos/59095bb86552fa0be682d9d0/master/w_2560%2Cc_limit/Monkey-Selfie.jpg";
     
     public override void ViewCreated()
     {

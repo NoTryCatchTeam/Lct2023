@@ -4,4 +4,5 @@
             android:endColor="@color/lightLavanda"
             android:angle="270"
             />
+    <corners android:radius="16dp" />
 </shape>
