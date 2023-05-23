@@ -39,6 +39,7 @@ public class MainTabbedActivity : BaseActivity<MainTabbedViewModel>
 
         viewPager.UserInputEnabled = false;
         viewPager.Adapter = new MainViewPagerAdapter(this, 5);
+        viewPager.OffscreenPageLimit = viewPager.Adapter.ItemCount;
 
         bottomNavigationView.SetOnItemSelectedListener(new DefaultNavBarItemSelectedListener(
             item =>

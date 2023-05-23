@@ -28,8 +28,10 @@
 
         <com.google.android.material.button.MaterialButton android:id="@+id/task_details_close"
                                                            style="@style/AppTheme.Button.Image"
+                                                           app:cornerRadius="30dp"
                                                            app:icon="@drawable/ic_close"
                                                            app:iconTint="@color/iconPrimary"
+                                                           app:rippleColor="?attr/colorControlHighlight"
                                                            app:layout_constraintBottom_toBottomOf="parent"
                                                            app:layout_constraintEnd_toEndOf="parent"
                                                            app:layout_constraintTop_toTopOf="parent"/>
