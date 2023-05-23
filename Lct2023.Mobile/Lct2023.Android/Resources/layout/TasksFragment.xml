@@ -7,13 +7,6 @@
                                                    android:layout_height="match_parent"
                                                    android:background="@color/bgGlobe">
 
-    <include layout="@layout/Toolbar"
-             app:layout_constraintTop_toTopOf="parent"/>
-
-    <!--    <androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="match_parent"-->
-    <!--                                                         android:layout_height="match_parent">-->
-    <!--    </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
-
     <androidx.core.widget.NestedScrollView android:id="@+id/tasks_scroll"
                                            android:layout_width="match_parent"
                                            android:layout_height="0dp"
@@ -328,5 +321,8 @@
                                                                  android:textSize="@dimen/textSmall"/>
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <include layout="@layout/Toolbar"
+             app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

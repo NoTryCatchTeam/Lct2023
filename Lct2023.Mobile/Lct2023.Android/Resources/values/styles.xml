@@ -211,31 +211,11 @@
         <item name="cardBackgroundColor">@color/background</item>
     </style>
 
-    <style name="AppTheme.Button.Image" parent="Widget.MaterialComponents.Button.UnelevatedButton">
-        <item name="android:padding">0dp</item>
-        <item name="android:backgroundTint">@color/background</item>
-        <item name="android:minWidth">0dp</item>
-        <item name="android:minHeight">0dp</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:insetTop">0dp</item>
-        <item name="android:insetBottom">0dp</item>
-        <item name="android:insetRight">0dp</item>
-        <item name="android:insetLeft">0dp</item>
-        <item name="android:letterSpacing">0</item>
-        <item name="android:layout_width">48dp</item>
-        <item name="android:layout_height">48dp</item>
-        <item name="iconGravity">textStart</item>
-        <item name="iconPadding">0dp</item>
-        <item name="iconSize">24dp</item>
-        <item name="iconTint">@color/iconPrimary</item>
-    </style>
-
     <style name="AppTheme.Button.Image.Social" parent="AppTheme.Button.Image">
         <item name="android:layout_width">40dp</item>
         <item name="android:layout_height">40dp</item>
-        <item name="app:iconPadding">8dp</item>
-        <item name="app:cornerRadius">8dp</item>
+        <item name="iconPadding">8dp</item>
+        <item name="cornerRadius">8dp</item>
     </style>
 
 </resources>
