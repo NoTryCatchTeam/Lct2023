@@ -57,20 +57,10 @@
         <Compile Include="Activities\SplashActivity.cs" />
         <Compile Include="Activities\Tasks\TaskDetailsActivity.cs" />
         <Compile Include="Adapters\AudioToPictureExerciseAnswersAdapter.cs" />
-        <Compile Include="Activities\Tasks\TaskDetailsActivity.cs" />
-        <Compile Include="Adapters\AudioToPictureExerciseAnswersAdapter.cs" />
-        <Compile Include="Adapters\TaskDetailsCounterAdapter.cs" />
-        <Compile Include="Adapters\TaskDetailsViewPagerAdapter.cs" />
         <Compile Include="Adapters\BaseRecyclerViewAdapter.cs" />
-        <Compile Include="Adapters\TextExerciseAnswersAdapter.cs" />
-        <Compile Include="Adapters\VideoToAudioExerciseAnswersAdapter.cs" />
-        <Compile Include="Bindings\ImageByUrlTargetBinding.cs" />
         <Compile Include="Adapters\MainViewPagerAdapter.cs" />
         <Compile Include="Adapters\TaskDetailsCounterAdapter.cs" />
         <Compile Include="Adapters\TaskDetailsViewPagerAdapter.cs" />
-        <Compile Include="Fragments\Exercises\AudioToPictureExerciseFragment.cs" />
-        <Compile Include="Fragments\Exercises\TextExerciseFragment.cs" />
-        <Compile Include="Fragments\Exercises\VideoToAudioExerciseFragment.cs" />
         <Compile Include="Adapters\TasksAdapter.cs" />
         <Compile Include="Adapters\TextExerciseAnswersAdapter.cs" />
         <Compile Include="Adapters\VideoToAudioExerciseAnswersAdapter.cs" />
@@ -106,7 +96,6 @@
         <AndroidResource Include="Resources\color\main_bottom_navigation_icon_color.xml" />
         <AndroidResource Include="Resources\drawable\image_open_lesson.png" />
         <AndroidResource Include="Resources\drawable\rounded_avatar_background.xml" />
-        <AndroidResource Include="Resources\drawable\search_layout_background.xml" />
         <AndroidResource Include="Resources\drawable\bottom_view_island_background.xml" />
         <AndroidResource Include="Resources\drawable\ic_chevron_right.xml" />
         <AndroidResource Include="Resources\drawable\top_view_island_background.xml" />
@@ -133,6 +122,8 @@
         <AndroidResource Include="Resources\drawable\image_girl_contrabass_totd.png" />
         <AndroidResource Include="Resources\layout\TaskDetailsActivity.xml" />
         <AndroidResource Include="Resources\layout\TasksFragment.xml" />
+        <AndroidResource Include="Resources\layout\tasks_list_item.xml" />
+        <AndroidResource Include="Resources\layout\tasks_list_item_active.xml" />
         <AndroidResource Include="Resources\layout\Toolbar.xml" />
         <AndroidResource Include="Resources\layout\StoryCard.xml" />
         <AndroidResource Include="Resources\drawable\tasks_list_item_background.xml" />
