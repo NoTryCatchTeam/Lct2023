@@ -1,0 +1,33 @@
+name: Deploy API
+
+on: 
+  workflow_dispatch:
+  workflow_run:
+    workflows: [Docker CI API]
+    types: [completed]
+jobs:
+
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Run Docker SSH
+            uses: appleboy/ssh-action@master
+            with:
+              host: ${{ secrets.HOST }}
+              username: ${{ secrets.USERNAME }}
+              password: ${{ secrets.PASSWORD }}
+              port: 22
+              script: |
+                docker stop api && docker rm api
+                docker rmi swamp1820/lct2023
+                docker pull swamp1820/lct2023:latest
+                docker run --name api -d --restart always -p 8080:80 \
+                -e "DbConnectionString=${{ secrets.DB_CONNECTION_STRING }}" \
+                -e "Jwt__AccessTokenExpiresInDays=${{ secrets.JWT_ACCESS_TOKEN_DAYS }}" \
+                -e "Jwt__Audience=${{ secrets.JWT_AUDIENCE }}" \
+                -e "Jwt__Issuer=${{ secrets.JWT_ISSUER }}" \
+                -e "Jwt__RefreshTokenExpiresInDays=${{ secrets.JWT_REFRESH_TOKEN_DAYS }}" \
+                -e "Jwt__Secret=${{ secrets.JWT_SECRET }}" \
+                -e "Vk__ClientId=${{ secrets.CLIENT_ID }}" \
+                -e "Vk__ClientSecret=${{ secrets.CLIENT_SECRET }}" \
+                swamp1820/lct2023 
