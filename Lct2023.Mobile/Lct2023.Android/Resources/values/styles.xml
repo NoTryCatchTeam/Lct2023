@@ -11,21 +11,14 @@
         <item name="android:windowBackground">@color/background_color</item>
     </style>
 
-    <style name="MainTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
-        <!--        TODO Customize-->
-        <!--        <item name="titleTextAppearance">@style/ThemeOverlay.ToolbarTitleTextAppearance</item>-->
-        <!--        <item name="android:elevation">0dp</item>-->
-        <!--        <item name="navigationIcon">@drawable/ic_chevron_left</item>-->
-        <!--        <item name="navigationIconTint">@color/gray100</item>-->
-        <!--        <item name="titleCentered">true</item>-->
-        <!--        <item name="titleTextColor">@color/text</item>-->
-        <item name="android:statusBarColor">@android:color/transparent</item>
+    <style name="AppTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="android:elevation">0dp</item>
+        <item name="background">@color/bgIsland</item>
+        <item name="elevation">0dp</item>
+        <item name="contentInsetStart">16dp</item>
+        <item name="menu">@menu/toolbar_menu</item>
+        <item name="buttonGravity">center_vertical</item>
     </style>
-
-    <!--    <style name="ThemeOverlay.ToolbarTitleTextAppearance" parent="TextAppearance.MaterialComponents.Headline6">-->
-    <!--        <item name="fontFamily">@font/inter_bold</item>-->
-    <!--        <item name="android:textSize">20sp</item>-->
-    <!--    </style>-->
 
     <!-- Text styles: body -->
     <style name="AppTheme.Body.Small" parent="AppTheme">
@@ -101,6 +94,12 @@
         <item name="android:textSize">@dimen/text</item>
     </style>
 
+    <style name="AppTheme.H3" parent="AppTheme">
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:textColor">@color/textPrimary</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+    
     <style name="AppTheme.H4" parent="AppTheme">
         <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textColor">@color/textPrimary</item>

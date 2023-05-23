@@ -89,7 +89,6 @@
         <Compile Include="Views\ExtendedToolbar.cs" />
     </ItemGroup>
     <ItemGroup>
-        <AndroidResource Include="Resources\drawable\ic_music.xml" />
         <None Include="Properties\AndroidManifest.xml" />
     </ItemGroup>
     <ItemGroup>
@@ -98,10 +97,8 @@
         <AndroidResource Include="Resources\drawable\rounded_avatar_background.xml" />
         <AndroidResource Include="Resources\drawable\bottom_view_island_background.xml" />
         <AndroidResource Include="Resources\drawable\ic_chevron_right.xml" />
-        <AndroidResource Include="Resources\drawable\top_view_island_background.xml" />
         <AndroidResource Include="Resources\drawable\ic_close.xml" />
         <AndroidResource Include="Resources\drawable\event_card_background.xml" />
-        <AndroidResource Include="Resources\drawable\ic_chevron_right.xml" />
         <AndroidResource Include="Resources\drawable\image_story_quiz_cello.png" />
         <AndroidResource Include="Resources\layout\audio_to_picture_exercise_answer_item.xml" />
         <AndroidResource Include="Resources\layout\AudioToPictureExerciseFragment.xml" />
@@ -131,7 +128,6 @@
         <AndroidResource Include="Resources\layout\task_details_progress_item.xml" />
         <AndroidResource Include="Resources\layout\text_exercise_answer_item.xml" />
         <AndroidResource Include="Resources\layout\TextExerciseFragment.xml" />
-        <AndroidResource Include="Resources\layout\toolbar.xml" />
         <AndroidResource Include="Resources\layout\video_to_audio_exercise_answer_item.xml" />
         <AndroidResource Include="Resources\layout\VideoToAudioExerciseFragment.xml" />
         <AndroidResource Include="Resources\drawable\task_ofd_background.xml" />

@@ -43,7 +43,7 @@ public class MainTabbedActivity : BaseActivity<MainTabbedViewModel>
         bottomNavigationView.SetOnItemSelectedListener(new DefaultNavBarItemSelectedListener(
             item =>
             {
-                viewPager.SetCurrentItem(_tabMenuActionsToFragmentPositionsMap[item.ItemId], true);
+                viewPager.SetCurrentItem(_tabMenuActionsToFragmentPositionsMap[item.ItemId], false);
 
                 return true;
             }));
