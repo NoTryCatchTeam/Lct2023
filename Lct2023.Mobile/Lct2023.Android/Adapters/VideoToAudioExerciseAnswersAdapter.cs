@@ -106,18 +106,7 @@ public class VideoToAudioExerciseAnswersAdapter : BaseRecyclerViewAdapter<VideoT
                             _loader.Visibility = ViewStates.Gone;
                             _icon.Visibility = ViewStates.Visible;
 
-                            _player?.Start();
-
-                            Task.Run(
-                                async () =>
-                                {
-                                    while (_player.IsPlaying)
-                                    {
-                                        _progress.SetProgress((int)((float)_player.CurrentPosition / _player.Duration * 100), true);
-
-                                        await Task.Delay(200);
-                                    }
-                                });
+                            StartPlayer();
                         }));
 
                         _player.SetOnCompletionListener(new MediaPlayerCompletionListener(UpdateUi));
@@ -157,7 +146,12 @@ public class VideoToAudioExerciseAnswersAdapter : BaseRecyclerViewAdapter<VideoT
                 return;
             }
 
-            _player?.Start();
+            StartPlayer();
+        }
+
+        private void StartPlayer()
+        {
+            _player.Start();
 
             Task.Run(
                 async () =>
