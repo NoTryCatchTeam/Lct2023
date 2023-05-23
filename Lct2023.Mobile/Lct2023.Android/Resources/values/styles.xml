@@ -155,6 +155,10 @@
         <item name="android:letterSpacing">0</item>
     </style>
 
+    <style name="AppTheme.Button.Action.Primary" parent="AppTheme.Button.Base">
+        <item name="android:textColor">@color/textLight</item>
+    </style>
+
     <!-- Other styles -->
     <style name="AppTheme.Tasks.Stats.ProgressBar" parent="AppTheme">
         <item name="indicatorColor">@color/accent</item>
@@ -200,6 +204,13 @@
         <item name="iconPadding">0dp</item>
         <item name="iconSize">24dp</item>
         <item name="iconTint">@color/iconPrimary</item>
+    </style>
+
+    <style name="AppTheme.Button.Image.Social" parent="AppTheme.Button.Image">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="app:iconPadding">8dp</item>
+        <item name="app:cornerRadius">8dp</item>
     </style>
 
 </resources>

@@ -85,9 +85,11 @@
         <AndroidResource Include="Resources\color\main_bottom_navigation_icon_color.xml" />
         <AndroidResource Include="Resources\drawable\button_toggle_group_background_tint.xml" />
         <AndroidResource Include="Resources\drawable\event_card_background.xml" />
+        <AndroidResource Include="Resources\drawable\ic_chevron_bottom.xml" />
         <AndroidResource Include="Resources\drawable\ic_chevron_right.xml" />
         <AndroidResource Include="Resources\drawable\ic_crown.xml" />
         <AndroidResource Include="Resources\drawable\ic_document_text.xml" />
+        <AndroidResource Include="Resources\drawable\ic_export.xml" />
         <AndroidResource Include="Resources\drawable\ic_filters.xml" />
         <AndroidResource Include="Resources\drawable\ic_flash_circle.xml" />
         <AndroidResource Include="Resources\drawable\ic_folder.xml" />
@@ -97,11 +99,16 @@
         <AndroidResource Include="Resources\drawable\ic_minus_cirlce.xml" />
         <AndroidResource Include="Resources\drawable\ic_note.xml" />
         <AndroidResource Include="Resources\drawable\ic_notification.xml" />
+        <AndroidResource Include="Resources\drawable\ic_open_vk.xml" />
+        <AndroidResource Include="Resources\drawable\ic_open_youtube.xml" />
         <AndroidResource Include="Resources\drawable\ic_plus_circle.xml" />
         <AndroidResource Include="Resources\drawable\ic_ranking.xml" />
         <AndroidResource Include="Resources\drawable\ic_sms_tracking.xml" />
         <AndroidResource Include="Resources\drawable\ic_teacher.xml" />
         <AndroidResource Include="Resources\drawable\image_cylinder.png" />
+        <AndroidResource Include="Resources\drawable\image_direction_cello.png" />
+        <AndroidResource Include="Resources\drawable\image_direction_drums.png" />
+        <AndroidResource Include="Resources\drawable\image_direction_horn.png" />
         <AndroidResource Include="Resources\drawable\image_violin.png" />
         <AndroidResource Include="Resources\drawable\image_girl_contrabass_totd.png" />
         <AndroidResource Include="Resources\drawable\image_open_lesson.png" />
@@ -115,6 +122,9 @@
         <AndroidResource Include="Resources\font\roboto_medium.ttf" />
         <AndroidResource Include="Resources\font\roboto_regular.ttf" />
         <AndroidResource Include="Resources\drawable\image_story_quiz_cello.png" />
+        <AndroidResource Include="Resources\layout\AfishItem.xml" />
+        <AndroidResource Include="Resources\layout\ArtDirectionItem.xml" />
+        <AndroidResource Include="Resources\layout\ContactItem.xml" />
         <AndroidResource Include="Resources\layout\CoursesFragment.xml">
           <SubType>Designer</SubType>
           <Generator>MSBuild:UpdateGeneratedFiles</Generator>
@@ -131,6 +141,7 @@
         <AndroidResource Include="Resources\layout\MainFragment.xml" />
         <AndroidResource Include="Resources\layout\MainTabbedActivity.xml" />
         <AndroidResource Include="Resources\layout\MapFragment.xml" />
+        <AndroidResource Include="Resources\layout\OpenSocialNetItem.xml" />
         <AndroidResource Include="Resources\layout\SplashActivity.xml" />
         <AndroidResource Include="Resources\layout\TasksFragment.xml" />
         <AndroidResource Include="Resources\layout\StoryCard.xml" />
