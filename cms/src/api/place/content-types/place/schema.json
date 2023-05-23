@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "locations",
+  "collectionName": "places",
   "info": {
-    "singularName": "location",
-    "pluralName": "locations",
-    "displayName": "location",
+    "singularName": "place",
+    "pluralName": "places",
+    "displayName": "place",
     "description": ""
   },
   "options": {
@@ -15,24 +15,22 @@
     "name": {
       "type": "string"
     },
+    "address": {
+      "type": "string"
+    },
     "lat": {
       "type": "float"
     },
     "lon": {
       "type": "float"
     },
-    "address": {
+    "phone": {
       "type": "string"
-    },
-    "streams": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::stream.stream"
     },
     "email": {
       "type": "email"
     },
-    "phone": {
+    "link": {
       "type": "string"
     },
     "district": {
