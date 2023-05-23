@@ -13,7 +13,7 @@ public class TasksViewModel : BaseViewModel
     public TasksViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService)
         : base(logFactory, navigationService)
     {
-        TaskOfTheDayCommand = new MvxAsyncCommand(() => Task.CompletedTask);
+        TaskOfTheDayCommand = new MvxAsyncCommand(() => navigationService.Navigate<TaskDetailsViewModel>());
 
         TasksFilterCommand = new MvxAsyncCommand(() => Task.CompletedTask);
 

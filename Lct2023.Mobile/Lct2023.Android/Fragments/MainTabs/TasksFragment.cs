@@ -6,7 +6,6 @@ using Android.Widget;
 using AndroidX.ConstraintLayout.Widget;
 using AndroidX.Core.Widget;
 using AndroidX.RecyclerView.Widget;
-using AndroidX.Transitions;
 using Google.Android.Material.Button;
 using Google.Android.Material.ProgressIndicator;
 using Google.Android.Material.TextField;

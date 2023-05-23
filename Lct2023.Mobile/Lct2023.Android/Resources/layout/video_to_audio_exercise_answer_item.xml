@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   android:id="@+id/video_to_audio_exercise_answer_item_layout"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="wrap_content"
+                                                   app:cardBackgroundColor="@color/backgroundDark"
+                                                   app:cardCornerRadius="8dp"
+                                                   app:cardElevation="0dp"
+                                                   app:strokeColor="@color/lightPurple">
+
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                       android:layout_height="wrap_content">
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator android:id="@+id/video_to_audio_exercise_answer_item_progress"
+                                                                               android:layout_width="match_parent"
+                                                                               android:layout_height="match_parent"
+                                                                               android:progress="40"
+                                                                               app:indicatorColor="@color/backgroundDark"
+                                                                               app:layout_constraintBottom_toBottomOf="parent"
+                                                                               app:layout_constraintTop_toTopOf="parent"
+                                                                               app:trackColor="@color/background"
+                                                                               app:trackThickness="48dp"/>
+
+        <com.google.android.material.card.MaterialCardView android:id="@+id/video_to_audio_exercise_answer_item_number_layout"
+                                                           android:layout_width="28dp"
+                                                           android:layout_height="28dp"
+                                                           android:layout_marginStart="8dp"
+                                                           app:cardBackgroundColor="@color/background"
+                                                           app:cardCornerRadius="8dp"
+                                                           app:cardElevation="0dp"
+                                                           app:layout_constraintBottom_toBottomOf="parent"
+                                                           app:layout_constraintStart_toStartOf="parent"
+                                                           app:layout_constraintTop_toTopOf="parent">
+
+            <TextView android:id="@+id/video_to_audio_exercise_answer_item_number"
+                      style="@style/AppTheme.BodyMedium.Small"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:gravity="center"
+                      android:text="1"
+                      android:textAlignment="gravity"/>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <ImageView android:id="@+id/video_to_audio_exercise_answer_item_icon"
+                   android:layout_width="24dp"
+                   android:layout_height="24dp"
+                   android:src="@drawable/ic_music"
+                   app:layout_constraintBottom_toBottomOf="parent"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintTop_toTopOf="parent"
+                   app:tint="@color/lightPurple"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

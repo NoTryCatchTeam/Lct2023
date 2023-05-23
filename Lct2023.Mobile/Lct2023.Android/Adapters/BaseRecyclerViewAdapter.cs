@@ -1,4 +1,5 @@
 using System;
+using System.Reactive.Disposables;
 using Android.Views;
 using AndroidX.RecyclerView.Widget;
 using MvvmCross.Binding.BindingContext;
@@ -38,9 +39,12 @@ public abstract class BaseRecyclerViewAdapter<TItem, TViewHolder> : MvxRecyclerA
         protected BaseViewHolder(View itemView, IMvxAndroidBindingContext context)
             : base(itemView, context)
         {
+            CompositeDisposable = new CompositeDisposable();
         }
 
         protected TItem ViewModel => (TItem)DataContext;
+
+        protected CompositeDisposable CompositeDisposable { get; }
 
         public virtual void Bind()
         {
@@ -48,5 +52,12 @@ public abstract class BaseRecyclerViewAdapter<TItem, TViewHolder> : MvxRecyclerA
 
         protected MvxFluentBindingDescriptionSet<BaseViewHolder, TItem> CreateBindingSet() =>
             this.CreateBindingSet<BaseViewHolder, TItem>();
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            CompositeDisposable?.Clear();
+        }
     }
 }
