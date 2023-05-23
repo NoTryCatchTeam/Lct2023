@@ -5,7 +5,7 @@
         android:layout_width="98dp"
         android:layout_height="98dp"
         app:rippleColor="@color/bgIsland"
-        app:cardCornerRadius="17dp"
+        app:cardCornerRadius="@dimen/default_corner_radius"
         android:layout_marginHorizontal="6dp"
         android:gravity="center_vertical"
         app:cardBackgroundColor="@color/bgIsland"
