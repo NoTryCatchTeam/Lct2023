@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
-using MvvmCross.ViewModels;
 
 namespace Lct2023.ViewModels.Tasks;
 
@@ -47,6 +46,7 @@ public class TaskDetailsViewModel : BaseViewModel
                     Question = "Кто исполняет?",
                     DescriptionOfCorrectness = "Ха-ха-ха",
                     Answers = answers,
+                    AudioUrl = "https://cdn.pixabay.com/download/audio/2023/05/18/audio_473dc360c2.mp3",
                 };
             }
             // Video to audio exercise
@@ -70,6 +70,7 @@ public class TaskDetailsViewModel : BaseViewModel
                     Question = "На видео будет Бах, а ты пока тыкай наугад",
                     DescriptionOfCorrectness = "Ха-ха-ха",
                     Answers = answers,
+                    VideoUrl = "https://www.pexels.com/download/video/3209828/",
                 };
             }
             // Text exercise
@@ -119,7 +120,7 @@ public class TaskDetailsViewModel : BaseViewModel
 
         switch (item)
         {
-            case TextExerciseAnswer answer:
+            case TextExerciseAnswer { IsSelected: false } answer:
                 answer.IsSelected = true;
                 _currentExercise.IsCorrect = answer.IsCorrect;
 
@@ -129,7 +130,7 @@ public class TaskDetailsViewModel : BaseViewModel
                 }
 
                 break;
-            case AudioToPictureExerciseAnswer answer:
+            case AudioToPictureExerciseAnswer { IsSelected: false } answer:
                 answer.IsSelected = true;
                 _currentExercise.IsCorrect = answer.IsCorrect;
 
@@ -139,7 +140,7 @@ public class TaskDetailsViewModel : BaseViewModel
                 }
 
                 break;
-            case VideoToAudioExerciseAnswer answer:
+            case VideoToAudioExerciseAnswer { IsPreSelected: false } answer:
                 var exercise = (VideoToAudioExerciseItem)_currentExercise;
 
                 if (exercise.Answers.FirstOrDefault(x => x.IsPreSelected) is { } preSelectedAnswer)
@@ -223,84 +224,4 @@ public class TaskDetailsViewModel : BaseViewModel
         // TODO Set after loading completed
         CurrentExercise = ExercisesCollection.First();
     }
-}
-
-public abstract class BaseExerciseItem : MvxNotifyPropertyChanged
-{
-    private bool? _isCorrect;
-
-    public IMvxAsyncCommand<BaseExerciseAnswer> AnswerTapCommand { get; set; }
-
-    public int Number { get; set; }
-
-    public bool? IsCorrect
-    {
-        get => _isCorrect;
-        set => SetProperty(ref _isCorrect, value);
-    }
-
-    public bool IsCurrent { get; set; }
-
-    public string Question { get; set; }
-
-    public string DescriptionOfCorrectness { get; set; }
-}
-
-public abstract class ExerciseItem<TExerciseAnswer> : BaseExerciseItem
-{
-    public IEnumerable<TExerciseAnswer> Answers { get; set; }
-}
-
-public class TextExerciseItem : ExerciseItem<TextExerciseAnswer>
-{
-}
-
-public class VideoToAudioExerciseItem : ExerciseItem<VideoToAudioExerciseAnswer>
-{
-    public string VideoUrl { get; set; }
-}
-
-public class AudioToPictureExerciseItem : ExerciseItem<AudioToPictureExerciseAnswer>
-{
-    public string AudioUrl { get; set; }
-}
-
-public abstract class BaseExerciseAnswer : MvxNotifyPropertyChanged
-{
-    private bool _isSelected;
-
-    public int Number { get; set; }
-
-    public bool IsCorrect { get; set; }
-
-    public bool IsSelected
-    {
-        get => _isSelected;
-        set => SetProperty(ref _isSelected, value);
-    }
-}
-
-public class TextExerciseAnswer : BaseExerciseAnswer
-{
-    public string Value { get; set; }
-}
-
-public class VideoToAudioExerciseAnswer : BaseExerciseAnswer
-{
-    private bool _isPreSelected;
-
-    public string AudioUrl { get; set; }
-
-    public bool IsPreSelected
-    {
-        get => _isPreSelected;
-        set => SetProperty(ref _isPreSelected, value);
-    }
-}
-
-public class AudioToPictureExerciseAnswer : BaseExerciseAnswer
-{
-    public string PictureUrl { get; set; }
-
-    public string PictureDescription { get; set; }
 }

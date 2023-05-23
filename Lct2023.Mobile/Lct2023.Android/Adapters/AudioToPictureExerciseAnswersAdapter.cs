@@ -48,7 +48,7 @@ public class AudioToPictureExerciseAnswersAdapter : BaseRecyclerViewAdapter<Audi
                     .To(vm => vm.PictureDescription);
 
                 set.Bind(image)
-                    .For(nameof(ImageByUrlTargetBinding))
+                    .For(nameof(ImageViewByUrlBinding))
                     .To(vm => vm.PictureUrl);
 
                 set.Apply();

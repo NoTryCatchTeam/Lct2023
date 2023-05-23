@@ -11,6 +11,7 @@ using DynamicData.Binding;
 using Google.Android.Material.Button;
 using Lct2023.Android.Adapters;
 using Lct2023.Android.Decorations;
+using Lct2023.Android.Fragments;
 using Lct2023.Android.Helpers;
 using Lct2023.Converters;
 using Lct2023.ViewModels.Tasks;
@@ -46,6 +47,7 @@ public class TaskDetailsActivity : BaseActivity<TaskDetailsViewModel>
         counter.SetLayoutManager(new MvxGuardedLinearLayoutManager(this) { Orientation = LinearLayoutManager.Horizontal });
         counter.SetAdapter(counterAdapter);
         counter.AddItemDecoration(new ItemSeparateDecoration(DimensUtils.DpToPx(this, 6), LinearLayoutManager.Horizontal));
+        counter.AddOnItemTouchListener(new ExtendedSimpleOnItemTouchListener());
 
         viewPager.Adapter = new TaskDetailsViewPagerAdapter(this, ViewModel.ExercisesCollection);
         viewPager.UserInputEnabled = false;
@@ -73,7 +75,15 @@ public class TaskDetailsActivity : BaseActivity<TaskDetailsViewModel>
         set.Apply();
 
         ViewModel.WhenValueChanged(x => x.CurrentExercise, false)
-            .Subscribe(x => viewPager.SetCurrentItem(x.Number - 1, true))
+            .Subscribe(x =>
+            {
+                if (SupportFragmentManager.FindFragmentByTag($"f{viewPager.CurrentItem}") is IPlayersFragment playerFragment)
+                {
+                    playerFragment.ReleasePlayers();
+                }
+
+                viewPager.SetCurrentItem(x.Number - 1, true);
+            })
             .DisposeWith(CompositeDisposable);
 
         ViewModel.WhenAnyValue(
@@ -89,5 +99,10 @@ public class TaskDetailsActivity : BaseActivity<TaskDetailsViewModel>
                 ctaButton.BackgroundTintList = GetColorStateList(x.IsPreSelected ? Resource.Color.background : Resource.Color.lightPurple);
             })
             .DisposeWith(CompositeDisposable);
+    }
+
+    private class ExtendedSimpleOnItemTouchListener : RecyclerView.SimpleOnItemTouchListener
+    {
+        public override bool OnInterceptTouchEvent(RecyclerView rv, MotionEvent e) => true;
     }
 }
