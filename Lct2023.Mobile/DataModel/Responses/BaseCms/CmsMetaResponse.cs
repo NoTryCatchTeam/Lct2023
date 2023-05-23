@@ -1,7 +1,6 @@
-namespace DataModel.Responses.BaseCms
+namespace DataModel.Responses.BaseCms;
+
+public class CmsMetaResponse
 {
-    public class CmsMetaResponse
-    {
-        public CmsPaginationResponse Pagination { get; set; }
-    }
+    public CmsPaginationResponse Pagination { get; set; }
 }

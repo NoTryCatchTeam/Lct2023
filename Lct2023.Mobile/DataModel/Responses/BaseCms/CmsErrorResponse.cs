@@ -1,11 +1,10 @@
-namespace DataModel.Responses.BaseCms
+namespace DataModel.Responses.BaseCms;
+
+public class CmsErrorResponse
 {
-    public class CmsErrorResponse
-    {
-        public int Status { get; set; }
-        
-        public string Name { get; set; }
-        
-        public string Message { get; set; }
-    }
+    public int Status { get; set; }
+
+    public string Name { get; set; }
+
+    public string Message { get; set; }
 }

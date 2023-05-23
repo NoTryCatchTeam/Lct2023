@@ -1,6 +1,4 @@
-using System.Threading.Tasks;
 using Android.Media;
-using Android.Net;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
@@ -13,11 +11,9 @@ using Com.Google.Android.Exoplayer2.Util;
 using Lct2023.Android.Adapters;
 using Lct2023.Android.Decorations;
 using Lct2023.Android.Helpers;
-using Lct2023.Android.Listeners;
 using Lct2023.Converters;
 using Lct2023.ViewModels.Tasks;
 using MvvmCross.Binding.BindingContext;
-using MvvmCross.Commands;
 using MvvmCross.DroidX.RecyclerView;
 using MvvmCross.DroidX.RecyclerView.ItemTemplates;
 using MvvmCross.Platforms.Android.Binding;

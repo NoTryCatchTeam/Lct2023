@@ -142,6 +142,10 @@
             <Link>Assets\appSettings.json</Link>
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </AndroidAsset>
+        <AndroidAsset Include="..\Lct2023\secrets.json">
+            <Link>Assets\secrets.json</Link>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </AndroidAsset>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Lct2023.Commons\Lct2023.Commons.csproj">

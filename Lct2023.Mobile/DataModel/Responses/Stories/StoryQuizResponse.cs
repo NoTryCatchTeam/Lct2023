@@ -5,7 +5,7 @@ namespace DataModel.Responses.Stories;
 public class StoryQuizResponse
 {
     public string Title { get; set; }
-    
+
     public string A { get; set; }
 
     public string B { get; set; }
