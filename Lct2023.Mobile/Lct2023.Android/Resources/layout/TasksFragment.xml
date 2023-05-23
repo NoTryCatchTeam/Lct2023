@@ -305,7 +305,7 @@
                                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                                            android:layout_width="match_parent"
                                                            android:layout_height="wrap_content"
-                                                           android:background="@drawable/search_layout_background"
+                                                           android:background="@drawable/top_view_island_background"
                                                            android:paddingHorizontal="16dp"
                                                            android:paddingBottom="16dp"
                                                            app:boxBackgroundColor="@color/bgIslandInner"

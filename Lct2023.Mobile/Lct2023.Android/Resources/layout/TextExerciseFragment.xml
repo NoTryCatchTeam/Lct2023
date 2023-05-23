@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView android:id="@+id/text_exercise_scroll"
+                                           android:layout_width="match_parent"
+                                           android:layout_height="match_parent"
+                                           android:layout_marginTop="24dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                           android:layout_height="wrap_content"
+                                                           android:paddingHorizontal="16dp"
+                                                           android:paddingBottom="100dp">
+
+            <TextView android:id="@+id/text_exercise_question"
+                      style="@style/AppTheme.BodyBold"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="Кто сочиняет музыку?"
+                      android:textSize="20sp"
+                      app:layout_constraintTop_toTopOf="parent"/>
+
+            <mvvmcross.droidx.recyclerview.MvxRecyclerView android:id="@+id/text_exercise_answers_list"
+                                                           android:layout_width="match_parent"
+                                                           android:layout_height="wrap_content"
+                                                           android:layout_marginTop="16dp"
+                                                           android:nestedScrollingEnabled="false"
+                                                           app:layout_constraintTop_toBottomOf="@id/text_exercise_question"/>
+
+            <TextView android:id="@+id/text_exercise_answers_comment_header"
+                      style="@style/AppTheme.H4"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="32dp"
+                      android:text="Комментарий"
+                      app:layout_constraintTop_toBottomOf="@id/text_exercise_answers_list"/>
+
+            <TextView android:id="@+id/text_exercise_answers_comment_description"
+                      style="@style/AppTheme.Body"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="24dp"
+                      android:text="Правильный ответ: 2. Композито\nКомпозитор – автор, создатель музыкальных произведений. Правильный ответ: 2. Композито\nКомпозитор – автор, создатель музыкальных произведений. Правильный ответ: 2. Композито\nКомпозитор – автор, создатель музыкальных произведений. Правильный ответ: 2. Композито\nКомпозитор – автор, создатель музыкальных произведений.Правильный ответ: 2. Композито\nКомпозитор – автор, создатель музыкальных произведений. Правильный ответ: 2. Композито\nКомпозитор – автор, создатель музыкальных произведений. Правильный ответ: 2. Композито\nКомпозитор – автор, создатель музыкальных произведений. Правильный ответ: 2. Композито\nКомпозитор – автор, создатель музыкальных произведений.Правильный ответ: 2. Композито\nКомпозитор – автор, создатель музыкальных произведений. Правильный ответ: 2. Композито\nКомпозитор – автор, создатель музыкальных произведений. Правильный ответ: 2. Композито\nКомпозитор – автор, создатель музыкальных произведений. Правильный ответ: 2. Композито\nКомпозитор – автор, создатель музыкальных произведений.Правильный ответ: 2. Композито\nКомпозитор – автор, создатель музыкальных произведений. Правильный ответ: 2. Композито\nКомпозитор – автор, создатель музыкальных произведений. Правильный ответ: 2. Композито\nКомпозитор – автор, создатель музыкальных произведений. Правильный ответ: 2. Композито\nКомпозитор – автор, создатель музыкальных произведений."
+                      app:layout_constraintBottom_toBottomOf="parent"
+                      app:layout_constraintTop_toBottomOf="@id/text_exercise_answers_comment_header"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

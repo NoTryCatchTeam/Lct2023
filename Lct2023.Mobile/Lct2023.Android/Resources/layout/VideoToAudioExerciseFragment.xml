@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView android:id="@+id/video_to_audio_exercise_scroll"
+                                           android:layout_width="match_parent"
+                                           android:layout_height="match_parent"
+                                           android:layout_marginTop="24dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                           android:layout_height="wrap_content"
+                                                           android:paddingHorizontal="16dp"
+                                                           android:paddingBottom="100dp">
+
+            <TextView android:id="@+id/video_to_audio_exercise_question"
+                      style="@style/AppTheme.Body"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="Из ниже представленных вариантов необходимо выбрать музыкальный отрывок, подходящий к данному фрагменту видео."
+                      app:layout_constraintTop_toTopOf="parent"/>
+
+            <VideoView android:id="@+id/video_to_audio_exercise_video"
+                       android:layout_width="match_parent"
+                       android:layout_height="185dp"
+                       android:layout_marginTop="16dp"
+                       app:layout_constraintTop_toBottomOf="@id/video_to_audio_exercise_question"/>
+
+            <mvvmcross.droidx.recyclerview.MvxRecyclerView android:id="@+id/video_to_audio_exercise_answers_list"
+                                                           android:layout_width="match_parent"
+                                                           android:layout_height="wrap_content"
+                                                           android:layout_marginTop="16dp"
+                                                           android:nestedScrollingEnabled="false"
+                                                           app:layout_constraintTop_toBottomOf="@id/video_to_audio_exercise_video"
+                                                           tools:itemCount="4"
+                                                           tools:listitem="@layout/video_to_audio_exercise_answer_item"/>
+
+            <TextView android:id="@+id/video_to_audio_exercise_answers_comment_description"
+                      style="@style/AppTheme.Body"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="24dp"
+                      android:text="Правильный ответ: 2. Композито\nКомпозитор – автор, создатель музыкальных произведений."
+                      app:layout_constraintBottom_toBottomOf="parent"
+                      app:layout_constraintTop_toBottomOf="@id/video_to_audio_exercise_answers_list"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
