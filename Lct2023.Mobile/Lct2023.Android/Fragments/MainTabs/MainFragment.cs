@@ -16,26 +16,26 @@ public class MainFragment : BaseFragment<MainViewModel>
     public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         var view = base.OnCreateView(inflater, container, savedInstanceState);
-        
+
         var storiesLayout = view.FindViewById<MvxLinearLayout>(Resource.Id.stories_layout);
         var pointsTextView = view.FindViewById<TextView>(Resource.Id.points_text);
         var rankingTextView = view.FindViewById<TextView>(Resource.Id.ranking_text);
-        var avatarImageButton = view.FindViewById<ImageButton>(Resource.Id.avatar_image_button);
-        
+        var avatarImageButton = view.FindViewById<ImageView>(Resource.Id.toolbar_image);
+
         storiesLayout.ItemTemplateId = Resource.Layout.StoryCard;
-        
+
         var points = 724;
         var position = 3;
-        
+
         pointsTextView.Text = $"{points} {points.FormatEnding("балл", "балла", "баллов")}";
         rankingTextView.Text = $"{position} место";
 
-        Picasso.With(Context)
+        Picasso.Get()
             .Load(ViewModel.Image)
             .Into(avatarImageButton);
-            
-        var set = this.CreateBindingSet<MainFragment, MainViewModel>();
-        
+
+        var set = CreateBindingSet();
+
         set
             .Bind(storiesLayout)
             .For(v => v.ItemsSource)
@@ -46,6 +46,5 @@ public class MainFragment : BaseFragment<MainViewModel>
         return view;
     }
 
-    
     protected override int GetLayoutId() => Resource.Layout.MainFragment;
 }

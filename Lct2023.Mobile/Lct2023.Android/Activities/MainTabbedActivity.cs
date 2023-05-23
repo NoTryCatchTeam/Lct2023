@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Android.App;
+using Android.Content.PM;
 using Android.OS;
 using AndroidX.ViewPager2.Widget;
 using Google.Android.Material.BottomNavigation;
@@ -11,7 +12,7 @@ using MvvmCross.Platforms.Android.Presenters.Attributes;
 namespace Lct2023.Android.Activities;
 
 [MvxActivityPresentation]
-[Activity]
+[Activity(ScreenOrientation = ScreenOrientation.Portrait)]
 public class MainTabbedActivity : BaseActivity<MainTabbedViewModel>
 {
     private readonly Dictionary<int, int> _tabMenuActionsToFragmentPositionsMap;
@@ -42,7 +43,7 @@ public class MainTabbedActivity : BaseActivity<MainTabbedViewModel>
         bottomNavigationView.SetOnItemSelectedListener(new DefaultNavBarItemSelectedListener(
             item =>
             {
-                viewPager.SetCurrentItem(_tabMenuActionsToFragmentPositionsMap[item.ItemId], true);
+                viewPager.SetCurrentItem(_tabMenuActionsToFragmentPositionsMap[item.ItemId], false);
 
                 return true;
             }));

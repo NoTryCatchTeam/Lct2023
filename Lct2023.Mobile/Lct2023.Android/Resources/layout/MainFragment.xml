@@ -10,7 +10,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-         <com.google.android.material.card.MaterialCardView
+        <com.google.android.material.card.MaterialCardView
                 android:id="@+id/header_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -200,6 +200,7 @@
                                                                    app:iconGravity="textEnd"
                                                                    app:iconPadding="4dp"
                                                                    android:text="Все"
+                                                                   android:textColor="@color/textPrimary"
                                                                    app:cornerRadius="30dp"
                                                                    app:layout_constraintRight_toRightOf="parent"
                                                                    app:layout_constraintTop_toTopOf="parent"

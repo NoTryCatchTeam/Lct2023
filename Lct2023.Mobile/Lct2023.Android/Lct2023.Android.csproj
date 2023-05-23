@@ -55,12 +55,22 @@
         <Compile Include="Activities\BaseActivity.cs" />
         <Compile Include="Activities\MainTabbedActivity.cs" />
         <Compile Include="Activities\SplashActivity.cs" />
+        <Compile Include="Activities\Tasks\TaskDetailsActivity.cs" />
+        <Compile Include="Adapters\AudioToPictureExerciseAnswersAdapter.cs" />
         <Compile Include="Adapters\BaseRecyclerViewAdapter.cs" />
         <Compile Include="Adapters\MainViewPagerAdapter.cs" />
+        <Compile Include="Adapters\TaskDetailsCounterAdapter.cs" />
+        <Compile Include="Adapters\TaskDetailsViewPagerAdapter.cs" />
         <Compile Include="Adapters\TasksAdapter.cs" />
+        <Compile Include="Adapters\TextExerciseAnswersAdapter.cs" />
+        <Compile Include="Adapters\VideoToAudioExerciseAnswersAdapter.cs" />
+        <Compile Include="Bindings\ImageByUrlTargetBinding.cs" />
         <Compile Include="Decorations\GridItemDecoration.cs" />
         <Compile Include="Decorations\ItemSeparateDecoration.cs" />
         <Compile Include="Fragments\BaseFragment.cs" />
+        <Compile Include="Fragments\Exercises\AudioToPictureExerciseFragment.cs" />
+        <Compile Include="Fragments\Exercises\TextExerciseFragment.cs" />
+        <Compile Include="Fragments\Exercises\VideoToAudioExerciseFragment.cs" />
         <Compile Include="Fragments\MainTabs\CoursesFragment.cs" />
         <Compile Include="Fragments\MainTabs\FeedFragment.cs" />
         <Compile Include="Fragments\MainTabs\MainFragment.cs" />
@@ -82,93 +92,18 @@
         <None Include="Properties\AndroidManifest.xml" />
     </ItemGroup>
     <ItemGroup>
-        <AndroidResource Include="Resources\color\main_bottom_navigation_icon_color.xml" />
-        <AndroidResource Include="Resources\drawable\button_toggle_group_background_tint.xml" />
-        <AndroidResource Include="Resources\drawable\event_card_background.xml" />
-        <AndroidResource Include="Resources\drawable\ic_chevron_bottom.xml" />
-        <AndroidResource Include="Resources\drawable\ic_chevron_right.xml" />
-        <AndroidResource Include="Resources\drawable\ic_crown.xml" />
-        <AndroidResource Include="Resources\drawable\ic_document_text.xml" />
-        <AndroidResource Include="Resources\drawable\ic_export.xml" />
-        <AndroidResource Include="Resources\drawable\ic_filters.xml" />
-        <AndroidResource Include="Resources\drawable\ic_flash_circle.xml" />
-        <AndroidResource Include="Resources\drawable\ic_folder.xml" />
-        <AndroidResource Include="Resources\drawable\ic_gps.xml" />
-        <AndroidResource Include="Resources\drawable\ic_home.xml" />
-        <AndroidResource Include="Resources\drawable\ic_map.xml" />
-        <AndroidResource Include="Resources\drawable\ic_minus_cirlce.xml" />
-        <AndroidResource Include="Resources\drawable\ic_note.xml" />
-        <AndroidResource Include="Resources\drawable\ic_notification.xml" />
-        <AndroidResource Include="Resources\drawable\ic_open_vk.xml" />
-        <AndroidResource Include="Resources\drawable\ic_open_youtube.xml" />
-        <AndroidResource Include="Resources\drawable\ic_plus_circle.xml" />
-        <AndroidResource Include="Resources\drawable\ic_ranking.xml" />
-        <AndroidResource Include="Resources\drawable\ic_sms_tracking.xml" />
-        <AndroidResource Include="Resources\drawable\ic_teacher.xml" />
-        <AndroidResource Include="Resources\drawable\image_cylinder.png" />
-        <AndroidResource Include="Resources\drawable\image_direction_cello.png" />
-        <AndroidResource Include="Resources\drawable\image_direction_drums.png" />
-        <AndroidResource Include="Resources\drawable\image_direction_horn.png" />
-        <AndroidResource Include="Resources\drawable\image_violin.png" />
-        <AndroidResource Include="Resources\drawable\image_girl_contrabass_totd.png" />
-        <AndroidResource Include="Resources\drawable\image_open_lesson.png" />
-        <AndroidResource Include="Resources\drawable\rounded_avatar_background.xml" />
-        <AndroidResource Include="Resources\drawable\search_layout_background.xml" />
-        <AndroidResource Include="Resources\drawable\tasks_list_item_background.xml" />
-        <AndroidResource Include="Resources\drawable\tasks_list_item_background_active.xml" />
-        <AndroidResource Include="Resources\drawable\task_ofd_background.xml" />
-        <AndroidResource Include="Resources\font\roboto_bold.ttf" />
-        <AndroidResource Include="Resources\font\roboto_bold_italic.ttf" />
-        <AndroidResource Include="Resources\font\roboto_medium.ttf" />
-        <AndroidResource Include="Resources\font\roboto_regular.ttf" />
-        <AndroidResource Include="Resources\drawable\image_story_quiz_cello.png" />
-        <AndroidResource Include="Resources\layout\AfishItem.xml" />
-        <AndroidResource Include="Resources\layout\ArtDirectionItem.xml" />
-        <AndroidResource Include="Resources\layout\ContactItem.xml" />
-        <AndroidResource Include="Resources\layout\CoursesFragment.xml">
-          <SubType>Designer</SubType>
-          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\layout\FeedFragment.xml">
-          <SubType>Designer</SubType>
-          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\layout\HelloWorldActivity.xml">
-          <SubType>Designer</SubType>
-          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\layout\LoginActivity.xml" />
-        <AndroidResource Include="Resources\layout\MainFragment.xml" />
-        <AndroidResource Include="Resources\layout\MainTabbedActivity.xml" />
-        <AndroidResource Include="Resources\layout\MapFragment.xml" />
-        <AndroidResource Include="Resources\layout\OpenSocialNetItem.xml" />
-        <AndroidResource Include="Resources\layout\SplashActivity.xml" />
-        <AndroidResource Include="Resources\layout\TasksFragment.xml" />
-        <AndroidResource Include="Resources\layout\StoryCard.xml" />
-        <AndroidResource Include="Resources\layout\tasks_list_item.xml" />
-        <AndroidResource Include="Resources\layout\tasks_list_item_active.xml" />
-        <AndroidResource Include="Resources\layout\Toolbar.xml" />
-        <AndroidResource Include="Resources\menu\main_bottom_menu.xml" />
-        <AndroidResource Include="Resources\menu\toolbar_menu.xml" />
-        <AndroidResource Include="Resources\values\colors.xml" />
-        <AndroidResource Include="Resources\values\dimens.xml" />
-        <AndroidResource Include="Resources\values\strings.xml" />
-        <AndroidResource Include="Resources\values\styles.xml" />
-        <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher.png" />
-        <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher_foreground.png" />
-        <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher_round.png" />
-        <AndroidResource Include="Resources\mipmap-mdpi\ic_launcher.png" />
-        <AndroidResource Include="Resources\mipmap-mdpi\ic_launcher_foreground.png" />
-        <AndroidResource Include="Resources\mipmap-mdpi\ic_launcher_round.png" />
-        <AndroidResource Include="Resources\mipmap-xhdpi\ic_launcher.png" />
-        <AndroidResource Include="Resources\mipmap-xhdpi\ic_launcher_foreground.png" />
-        <AndroidResource Include="Resources\mipmap-xhdpi\ic_launcher_round.png" />
-        <AndroidResource Include="Resources\mipmap-xxhdpi\ic_launcher.png" />
-        <AndroidResource Include="Resources\mipmap-xxhdpi\ic_launcher_foreground.png" />
-        <AndroidResource Include="Resources\mipmap-xxhdpi\ic_launcher_round.png" />
-        <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher.png" />
-        <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher_foreground.png" />
-        <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher_round.png" />
+        <AndroidResource Include="Resources\color\*.xml" />
+        <AndroidResource Include="Resources\drawable\*.png" />
+        <AndroidResource Include="Resources\drawable\*.xml" />
+        <AndroidResource Include="Resources\layout\*.xml" />
+        <AndroidResource Include="Resources\font\*.ttf" />
+        <AndroidResource Include="Resources\menu\*.xml" />
+        <AndroidResource Include="Resources\values\*.xml" />
+        <AndroidResource Include="Resources\mipmap-hdpi\*.png" />
+        <AndroidResource Include="Resources\mipmap-mdpi\*.png" />
+        <AndroidResource Include="Resources\mipmap-xhdpi\*.png" />
+        <AndroidResource Include="Resources\mipmap-xxhdpi\*.png" />
+        <AndroidResource Include="Resources\mipmap-xxxhdpi\*.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Assets" />
@@ -192,7 +127,7 @@
         <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
         <PackageReference Include="Square.Picasso" Version="2.71828.0" />
         <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.6.1.1" />
-        <PackageReference Include="Xamarin.AndroidX.ExifInterface" Version="1.3.3.5" />
+        <PackageReference Include="Xamarin.AndroidX.ExifInterface" Version="1.3.6.1" />
         <PackageReference Include="Xamarin.Google.Android.Material" Version="1.8.0.1" />
         <PackageReference Include="Xamarin.Essentials" Version="1.7.5" />
         <PackageReference Include="Xamarin.GooglePlayServices.Maps" Version="118.1.0.1" />

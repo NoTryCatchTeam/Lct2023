@@ -1,7 +1,10 @@
 name: Deploy CMS
 
 on:
-    workflow_dispatch
+  workflow_dispatch:
+  workflow_run:
+    workflows: [Docker CI CMS]
+    types: [completed]
 jobs:
 
     deploy:

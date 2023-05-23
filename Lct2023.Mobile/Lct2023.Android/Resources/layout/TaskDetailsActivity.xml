@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   android:background="@color/backgroundDark">
+
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/task_details_toolbar"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="64dp"
+                                                       android:background="@color/background"
+                                                       app:layout_constraintTop_toTopOf="parent">
+
+        <TextView android:id="@+id/task_details_title"
+                  style="@style/AppTheme.BodyBold"
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_marginStart="16dp"
+                  android:layout_marginEnd="16dp"
+                  android:ellipsize="middle"
+                  android:lines="1"
+                  android:text="Задание #4"
+                  android:textSize="24sp"
+                  app:layout_constraintBottom_toBottomOf="parent"
+                  app:layout_constraintEnd_toStartOf="@id/task_details_close"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toTopOf="parent"/>
+
+        <com.google.android.material.button.MaterialButton android:id="@+id/task_details_close"
+                                                           style="@style/AppTheme.Button.Image"
+                                                           app:icon="@drawable/ic_close"
+                                                           app:iconTint="@color/iconPrimary"
+                                                           app:layout_constraintBottom_toBottomOf="parent"
+                                                           app:layout_constraintEnd_toEndOf="parent"
+                                                           app:layout_constraintTop_toTopOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <mvvmcross.droidx.recyclerview.MvxRecyclerView android:id="@+id/task_details_counter"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="wrap_content"
+                                                   android:background="@drawable/top_view_island_background"
+                                                   android:clipToPadding="false"
+                                                   android:orientation="horizontal"
+                                                   android:padding="16dp"
+                                                   app:layout_constraintTop_toBottomOf="@id/task_details_toolbar"/>
+
+    <androidx.viewpager2.widget.ViewPager2 android:id="@+id/task_details_view_pager"
+                                           android:layout_width="match_parent"
+                                           android:layout_height="0dp"
+                                           android:layout_marginTop="8dp"
+                                           android:background="@drawable/bottom_view_island_background"
+                                           app:layout_constraintBottom_toBottomOf="parent"
+                                           app:layout_constraintTop_toBottomOf="@id/task_details_counter"/>
+
+    <com.google.android.material.button.MaterialButton android:id="@+id/task_details_button"
+                                                       style="@style/AppTheme.Button.Base"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="wrap_content"
+                                                       android:layout_marginHorizontal="16dp"
+                                                       android:layout_marginBottom="24dp"
+                                                       android:text="Следующий вопрос"
+                                                       app:layout_constraintBottom_toBottomOf="parent"
+                                                       app:strokeColor="@color/lightPurple"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

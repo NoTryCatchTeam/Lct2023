@@ -2,15 +2,13 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="ru.mts.myapplication.MainActivity">
-    <item
-            android:id="@+id/notifications"
-            android:title="Уведомления"
-            android:icon="@drawable/ic_notification"
-            app:showAsAction="always" />
+    <item android:id="@+id/notifications"
+          android:title="Уведомления"
+          android:icon="@drawable/ic_notification"
+          app:showAsAction="always"/>
 
-    <item
-            android:id="@+id/rating"
-            android:title="Оценка"
-            android:icon="@drawable/ic_sms_tracking"
-            app:showAsAction="always" />
+    <item android:id="@+id/rating"
+          android:title="Оценка"
+          android:icon="@drawable/ic_sms_tracking"
+          app:showAsAction="always"/>
 </menu>

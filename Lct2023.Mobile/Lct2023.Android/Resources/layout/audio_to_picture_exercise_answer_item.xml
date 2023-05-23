@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   android:id="@+id/audio_to_picture_exercise_answer_item_layout"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="wrap_content"
+                                                   app:cardBackgroundColor="@color/backgroundDark"
+                                                   app:cardCornerRadius="@dimen/default_corner_radius"
+                                                   app:cardElevation="0dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                       android:layout_height="wrap_content">
+
+        <View android:layout_width="0dp"
+              android:layout_height="0dp"
+              app:layout_constraintBottom_toBottomOf="parent"
+              app:layout_constraintDimensionRatio="1:1"
+              app:layout_constraintEnd_toEndOf="parent"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView android:id="@+id/audio_to_picture_exercise_answer_item_text"
+                  style="@style/AppTheme.BodyMedium"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginHorizontal="16dp"
+                  android:layout_marginTop="16dp"
+                  android:text="Виолончель"
+                  app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView android:id="@+id/audio_to_picture_exercise_answer_item_image"
+                   android:layout_width="0dp"
+                   android:layout_height="0dp"
+                   android:src="@drawable/image_girl_contrabass_totd"
+                   app:layout_constraintBottom_toBottomOf="parent"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintTop_toBottomOf="@id/audio_to_picture_exercise_answer_item_text"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
