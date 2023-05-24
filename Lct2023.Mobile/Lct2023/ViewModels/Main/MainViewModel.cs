@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Lct2023.Business.RestServices.Stories;
 using Lct2023.Services;
 using Microsoft.Extensions.Logging;
@@ -10,7 +9,6 @@ namespace Lct2023.ViewModels.Main;
 
 public class MainViewModel : BaseViewModel
 {
-    private readonly IXamarinEssentialsWrapper _xamarinEssentialsWrapper;
     private readonly IStoriesRestService _storiesRestService;
 
     public MainViewModel(
@@ -20,20 +18,19 @@ public class MainViewModel : BaseViewModel
         IXamarinEssentialsWrapper xamarinEssentialsWrapper)
         : base(logFactory, navigationService)
     {
-        _xamarinEssentialsWrapper = xamarinEssentialsWrapper;
         _storiesRestService = storiesRestService;
     }
-    
+
     public IEnumerable<IStoryCardItemViewModel> StoryCards { get; private set; }
 
     public string Image { get; private set; } =
         "https://media.newyorker.com/photos/59095bb86552fa0be682d9d0/master/w_2560%2Cc_limit/Monkey-Selfie.jpg";
-    
+
     public override void ViewCreated()
     {
         base.ViewCreated();
 
-        Task.Run(() => RunSafeTaskAsync(async () =>
+        RunSafeTaskAsync(async () =>
         {
             var storyQuizzes = (await _storiesRestService.GetStoryQuizzesAsync(CancellationToken))?.ToArray();
 
@@ -42,7 +39,9 @@ public class MainViewModel : BaseViewModel
                 return;
             }
 
-            _xamarinEssentialsWrapper.RunOnUi(() => StoryCards = storyQuizzes.Select(storyQuiz => new StoryQuizItemViewModel(storyQuiz.Item)).OrderBy(storyQuiz => storyQuiz.Item.CreatedAt).ToArray());
-        }));
+            StoryCards = storyQuizzes.Select(storyQuiz => new StoryQuizItemViewModel(storyQuiz.Item)).OrderBy(storyQuiz => storyQuiz.Item.CreatedAt).ToArray();
+
+            await RaisePropertyChanged(nameof(StoryCards));
+        });
     }
 }
