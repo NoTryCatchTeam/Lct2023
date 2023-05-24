@@ -231,6 +231,15 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <com.google.android.material.progressindicator.CircularProgressIndicator android:id="@+id/tasks_task_otd_loader"
+                                                                                     style="@style/AppTheme.Loader.Default"
+                                                                                     android:layout_width="wrap_content"
+                                                                                     android:layout_height="wrap_content"
+                                                                                     app:layout_constraintBottom_toBottomOf="@id/tasks_task_otd"
+                                                                                     app:layout_constraintEnd_toEndOf="@id/tasks_task_otd"
+                                                                                     app:layout_constraintStart_toStartOf="@id/tasks_task_otd"
+                                                                                     app:layout_constraintTop_toTopOf="@id/tasks_task_otd"/>
+
             <!-- Tasks list -->
             <com.google.android.material.card.MaterialCardView android:id="@+id/tasks_tasks"
                                                                android:layout_width="match_parent"

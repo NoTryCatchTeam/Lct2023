@@ -2,20 +2,20 @@ using Lct2023.ViewModels.Courses;
 using Lct2023.ViewModels.Feed;
 using Lct2023.ViewModels.Main;
 using Lct2023.ViewModels.Map;
-using Lct2023.ViewModels.Tests;
 using MvvmCross;
 using MvvmCross.IoC;
 using System;
 using System.Net.Http;
 using System.Reflection;
 using AutoMapper;
-using Lct2023.Business.Clients;
+using Lct2023.Business;
 using Lct2023.Business.Helpers;
 using Lct2023.Business.RestServices.Base;
 using Lct2023.Definitions;
 using Lct2023.Definitions.Constants;
 using Lct2023.Services;
 using Lct2023.Services.Implementation;
+using Lct2023.ViewModels.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using MvvmCross.ViewModels;
@@ -49,6 +49,7 @@ public class App : MvxApplication
     {
         var configuration = new ConfigurationBuilder()
             .AddJsonStream(Mvx.IoCProvider.Resolve<IFileProvider>().GetStream("appSettings.json"))
+            .AddJsonStream(Mvx.IoCProvider.Resolve<IFileProvider>().GetStream("secrets.json"))
             .Build();
 
         Mvx.IoCProvider.RegisterSingleton(typeof(IConfiguration), configuration);
@@ -58,6 +59,8 @@ public class App : MvxApplication
 
     private void RegisterBusiness()
     {
+        BusinessInit.Init(_configuration.GetValue<string>(ConfigurationConstants.AppSettings.API_PATH), _configuration.GetValue<string>(ConfigurationConstants.AppSettings.CMS_PATH));
+
         CreatableTypes(Assembly.GetAssembly(typeof(BaseRestService)))
             .EndingWith("RestService")
             .AsInterfaces()
@@ -70,22 +73,7 @@ public class App : MvxApplication
         {
             var baseUrl = _configuration.GetValue<string>(ConfigurationConstants.AppSettings.HOST);
 
-            return new ApiClient(
-                new LoggingHandler(baseUrl, Mvx.IoCProvider.Resolve<ILogger<LoggingHandler>>())
-                {
-                    ServerCertificateCustomValidationCallback = (_, _, _, _) => true,
-                })
-            {
-                BaseAddress = new Uri(baseUrl),
-                Timeout = TimeSpan.FromSeconds(15),
-            };
-        });
-
-        Mvx.IoCProvider.LazyConstructAndRegisterSingleton(() =>
-        {
-            var baseUrl = $"{_configuration.GetValue<string>(ConfigurationConstants.AppSettings.CMS_HOST)}{_configuration.GetValue<string>(ConfigurationConstants.AppSettings.API_PATH)}";
-
-            return new CmsClient(
+            return new HttpClient(
                 new LoggingHandler(baseUrl, Mvx.IoCProvider.Resolve<ILogger<LoggingHandler>>())
                 {
                     ServerCertificateCustomValidationCallback = (_, _, _, _) => true,

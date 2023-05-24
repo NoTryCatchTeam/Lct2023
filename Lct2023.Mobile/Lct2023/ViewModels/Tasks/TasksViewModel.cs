@@ -1,19 +1,28 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Lct2023.ViewModels.Tasks;
+using Lct2023.Business.RestServices.Tasks;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 
-namespace Lct2023.ViewModels.Tests;
+namespace Lct2023.ViewModels.Tasks;
 
 public class TasksViewModel : BaseViewModel
 {
-    public TasksViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService)
+    private readonly ITasksRestService _tasksRestService;
+
+    private TasksViewState _state;
+
+    public TasksViewModel(
+        ITasksRestService tasksRestService,
+        ILoggerFactory logFactory,
+        IMvxNavigationService navigationService)
         : base(logFactory, navigationService)
     {
-        TaskOfTheDayCommand = new MvxAsyncCommand(() => navigationService.Navigate<TaskDetailsViewModel>());
+        _tasksRestService = tasksRestService;
+        TaskOfTheDayCommand = new MvxAsyncCommand(TaskOfTheDayAsync);
 
         TasksFilterCommand = new MvxAsyncCommand(() => Task.CompletedTask);
 
@@ -43,4 +52,32 @@ public class TasksViewModel : BaseViewModel
     public IMvxAsyncCommand<TaskItem> TaskTapCommand { get; }
 
     public MvxObservableCollection<TaskItem> TasksCollection { get; }
+
+    public TasksViewState State
+    {
+        get => _state;
+        set => SetProperty(ref _state, value);
+    }
+
+    private async Task TaskOfTheDayAsync()
+    {
+        State |= TasksViewState.TaskOfTheDayLoading;
+
+        await RunSafeTaskAsync(
+            async () =>
+            {
+                var tasksResponse = await _tasksRestService.GetTasksAsync(CancellationToken);
+
+                await NavigationService.Navigate<TaskDetailsViewModel, TaskDetailsViewModel.NavParameter>(
+                    new TaskDetailsViewModel.NavParameter(tasksResponse.First()));
+            });
+
+        State &= ~TasksViewState.TaskOfTheDayLoading;
+    }
+}
+
+[Flags]
+public enum TasksViewState
+{
+    TaskOfTheDayLoading = 1 << 0,
 }

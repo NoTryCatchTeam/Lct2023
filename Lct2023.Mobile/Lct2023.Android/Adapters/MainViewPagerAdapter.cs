@@ -6,7 +6,7 @@ using Lct2023.ViewModels.Courses;
 using Lct2023.ViewModels.Feed;
 using Lct2023.ViewModels.Main;
 using Lct2023.ViewModels.Map;
-using Lct2023.ViewModels.Tests;
+using Lct2023.ViewModels.Tasks;
 using MvvmCross;
 
 namespace Lct2023.Android.Adapters;

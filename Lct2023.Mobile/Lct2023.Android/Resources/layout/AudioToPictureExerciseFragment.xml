@@ -71,12 +71,9 @@
                               app:layout_constraintTop_toTopOf="parent"/>
 
                     <com.google.android.material.progressindicator.CircularProgressIndicator android:id="@+id/audio_to_picture_exercise_question_play_loader"
-                                                                                             style="@style/Widget.MaterialComponents.CircularProgressIndicator"
+                                                                                             style="@style/AppTheme.Loader.Default"
                                                                                              android:layout_width="wrap_content"
                                                                                              android:layout_height="wrap_content"
-                                                                                             android:indeterminate="true"
-                                                                                             app:indicatorColor="@color/accent"
-                                                                                             app:indicatorSize="32dp"
                                                                                              app:layout_constraintBottom_toBottomOf="parent"
                                                                                              app:layout_constraintEnd_toEndOf="parent"
                                                                                              app:layout_constraintStart_toStartOf="parent"

@@ -6,8 +6,13 @@ public static class ConfigurationConstants
     {
         public const string HOST = "Host";
 
-        public const string CMS_HOST = "CmsHost";
+        public const string CMS_PATH = "CmsPath";
 
         public const string API_PATH = "ApiPath";
+    }
+
+    public static class Secrets
+    {
+        public const string CMS_TOKEN = "CmsToken";
     }
 }
