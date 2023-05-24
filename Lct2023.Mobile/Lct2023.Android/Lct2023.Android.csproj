@@ -58,6 +58,7 @@
         <Compile Include="Activities\Tasks\TaskDetailsActivity.cs" />
         <Compile Include="Adapters\AudioToPictureExerciseAnswersAdapter.cs" />
         <Compile Include="Adapters\BaseRecyclerViewAdapter.cs" />
+        <Compile Include="Adapters\CoursesBannersAdapter.cs" />
         <Compile Include="Adapters\MainViewPagerAdapter.cs" />
         <Compile Include="Adapters\TaskDetailsCounterAdapter.cs" />
         <Compile Include="Adapters\TaskDetailsViewPagerAdapter.cs" />
@@ -66,6 +67,7 @@
         <Compile Include="Adapters\VideoToAudioExerciseAnswersAdapter.cs" />
         <Compile Include="Bindings\ButtonIconResourceBinding.cs" />
         <Compile Include="Bindings\ImageViewByUrlBinding.cs" />
+        <Compile Include="Decorations\ColoredDividerItemDecoration.cs" />
         <Compile Include="Decorations\GridItemDecoration.cs" />
         <Compile Include="Decorations\ItemSeparateDecoration.cs" />
         <Compile Include="Fragments\BaseFragment.cs" />
@@ -78,7 +80,9 @@
         <Compile Include="Fragments\MainTabs\MainFragment.cs" />
         <Compile Include="Fragments\MainTabs\MapFragment.cs" />
         <Compile Include="Fragments\MainTabs\TasksFragment.cs" />
+        <Compile Include="Helpers\DefaultTabConfigurationStrategy.cs" />
         <Compile Include="Helpers\DimensUtils.cs" />
+        <Compile Include="Helpers\ScrollWithSearchLayoutMediator.cs" />
         <Compile Include="Listeners\DefaultClickListener.cs" />
         <Compile Include="Listeners\DefaultNavBarItemSelectedListener.cs" />
         <Compile Include="Listeners\DefaultScrollListener.cs" />

@@ -178,6 +178,7 @@
         <item name="iconPadding">0dp</item>
         <item name="iconSize">24dp</item>
         <item name="iconTint">@color/iconPrimary</item>
+        <item name="cornerRadius">30dp</item>
     </style>
 
     <style name="AppTheme.Button.Action.Primary" parent="AppTheme.Button.Base">
