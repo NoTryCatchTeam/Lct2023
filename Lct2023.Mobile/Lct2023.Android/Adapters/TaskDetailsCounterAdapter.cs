@@ -3,6 +3,7 @@ using System.Reactive.Disposables;
 using Android.App;
 using Android.Views;
 using Android.Widget;
+using AndroidX.RecyclerView.Widget;
 using DynamicData.Binding;
 using Google.Android.Material.Card;
 using Lct2023.Android.Helpers;
@@ -21,6 +22,22 @@ public class TaskDetailsCounterAdapter : BaseRecyclerViewAdapter<BaseExerciseIte
 
     protected override Func<View, IMvxAndroidBindingContext, ExerciseViewHolder> BindableViewHolderCreator =>
         (v, c) => new ExerciseViewHolder(v, c);
+
+    public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
+    {
+        var holder = base.OnCreateViewHolder(parent, viewType);
+
+        if (holder.ItemView is { } view && ItemCount >= 10)
+        {
+            var itemLayoutParams = (ViewGroup.MarginLayoutParams)view.LayoutParameters;
+            itemLayoutParams.Width = (parent.MeasuredWidth -
+                                      parent.PaddingLeft -
+                                      parent.PaddingRight -
+                                      DimensUtils.DpToPx(parent.Context, 6) * 9) / 10;
+        }
+
+        return holder;
+    }
 
     public class ExerciseViewHolder : BaseViewHolder
     {

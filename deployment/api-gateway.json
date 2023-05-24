@@ -1,0 +1,389 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"title": "APIGroup_xhel",
+		"version": "2023-05-24-05:13:46"
+	},
+	"host": "ltc2023.notrycatch.team",
+	"paths": {
+		"/api/Auth/sign-in/vk": {
+			"get": {
+				"schemes": [
+					"http",
+					"https"
+				],
+				"tags": [
+					"APIG-SN-APIGroup_xhel"
+				],
+				"operationId": "sign_in_vk",
+				"responses": {
+					"default": {
+						"$ref": "#/responses/default"
+					}
+				},
+				"x-apigateway-backend": {
+					"httpEndpoints": {
+						"address": "45.9.27.2:8080",
+						"description": "",
+						"method": "GET",
+						"path": "/Auth/sign-in/vk",
+						"scheme": "http",
+						"timeout": 5000
+					},
+					"type": "HTTP"
+				},
+				"x-apigateway-cors": false,
+				"x-apigateway-match-mode": "NORMAL",
+				"x-apigateway-request-type": "public"
+			}
+		},
+		"/api/auth/refresh": {
+			"post": {
+				"schemes": [
+					"http",
+					"https"
+				],
+				"tags": [
+					"APIG-SN-APIGroup_xhel"
+				],
+				"operationId": "auth_refresh",
+				"responses": {
+					"default": {
+						"$ref": "#/responses/default"
+					}
+				},
+				"x-apigateway-backend": {
+					"httpEndpoints": {
+						"address": "45.9.27.2:8080",
+						"description": "",
+						"method": "POST",
+						"path": "/auth/refresh",
+						"scheme": "http",
+						"timeout": 5000
+					},
+					"type": "HTTP"
+				},
+				"x-apigateway-cors": false,
+				"x-apigateway-match-mode": "NORMAL",
+				"x-apigateway-request-type": "public"
+			}
+		},
+		"/api/auth/sign-in/basic": {
+			"post": {
+				"schemes": [
+					"http",
+					"https"
+				],
+				"tags": [
+					"APIG-SN-APIGroup_xhel"
+				],
+				"operationId": "sign_in_basic",
+				"responses": {
+					"default": {
+						"$ref": "#/responses/default"
+					}
+				},
+				"x-apigateway-backend": {
+					"httpEndpoints": {
+						"address": "45.9.27.2:8080",
+						"description": "",
+						"method": "POST",
+						"path": "/auth/sign-in/basic",
+						"scheme": "http",
+						"timeout": 5000
+					},
+					"type": "HTTP"
+				},
+				"x-apigateway-cors": false,
+				"x-apigateway-match-mode": "NORMAL",
+				"x-apigateway-request-type": "public"
+			}
+		},
+		"/api/auth/sign-up": {
+			"post": {
+				"schemes": [
+					"http",
+					"https"
+				],
+				"tags": [
+					"APIG-SN-APIGroup_xhel"
+				],
+				"operationId": "sign_up",
+				"responses": {
+					"default": {
+						"$ref": "#/responses/default"
+					}
+				},
+				"x-apigateway-backend": {
+					"httpEndpoints": {
+						"address": "45.9.27.2:8080",
+						"description": "",
+						"method": "POST",
+						"path": "/auth/sign-up",
+						"scheme": "http",
+						"timeout": 5000
+					},
+					"type": "HTTP"
+				},
+				"x-apigateway-cors": false,
+				"x-apigateway-match-mode": "NORMAL",
+				"x-apigateway-request-type": "public"
+			}
+		},
+		"/api/users/self": {
+			"get": {
+				"schemes": [
+					"http",
+					"https"
+				],
+				"tags": [
+					"APIG-SN-APIGroup_xhel"
+				],
+				"operationId": "users_self",
+				"responses": {
+					"default": {
+						"$ref": "#/responses/default"
+					}
+				},
+				"x-apigateway-backend": {
+					"httpEndpoints": {
+						"address": "45.9.27.2:8080",
+						"description": "",
+						"method": "GET",
+						"path": "/users/self",
+						"scheme": "http",
+						"timeout": 5000
+					},
+					"type": "HTTP"
+				},
+				"x-apigateway-cors": false,
+				"x-apigateway-match-mode": "NORMAL",
+				"x-apigateway-request-type": "public"
+			}
+		},
+		"/cms/articles": {
+			"get": {
+				"schemes": [
+					"http",
+					"https"
+				],
+				"operationId": "articles",
+				"responses": {
+					"default": {
+						"$ref": "#/responses/default"
+					}
+				},
+				"x-apigateway-backend": {
+					"httpEndpoints": {
+						"address": "45.9.27.2",
+						"description": "",
+						"method": "GET",
+						"path": "/api/articles",
+						"scheme": "http",
+						"timeout": 5000
+					},
+					"type": "HTTP"
+				},
+				"x-apigateway-cors": false,
+				"x-apigateway-match-mode": "SWA",
+				"x-apigateway-request-type": "public"
+			}
+		},
+		"/cms/districts": {
+			"get": {
+				"schemes": [
+					"http",
+					"https"
+				],
+				"operationId": "districts",
+				"responses": {
+					"default": {
+						"$ref": "#/responses/default"
+					}
+				},
+				"x-apigateway-backend": {
+					"httpEndpoints": {
+						"address": "45.9.27.2",
+						"description": "",
+						"method": "GET",
+						"path": "/api/districts",
+						"scheme": "http",
+						"timeout": 5000
+					},
+					"type": "HTTP"
+				},
+				"x-apigateway-cors": false,
+				"x-apigateway-match-mode": "NORMAL",
+				"x-apigateway-request-type": "public"
+			}
+		},
+		"/cms/events": {
+			"get": {
+				"schemes": [
+					"http",
+					"https"
+				],
+				"operationId": "events",
+				"responses": {
+					"default": {
+						"$ref": "#/responses/default"
+					}
+				},
+				"x-apigateway-backend": {
+					"httpEndpoints": {
+						"address": "45.9.27.2",
+						"description": "",
+						"method": "GET",
+						"path": "/api/events",
+						"scheme": "http",
+						"timeout": 5000
+					},
+					"type": "HTTP"
+				},
+				"x-apigateway-cors": false,
+				"x-apigateway-match-mode": "NORMAL",
+				"x-apigateway-request-type": "public"
+			}
+		},
+		"/cms/locations": {
+			"get": {
+				"schemes": [
+					"http",
+					"https"
+				],
+				"operationId": "locations",
+				"responses": {
+					"default": {
+						"$ref": "#/responses/default"
+					}
+				},
+				"x-apigateway-backend": {
+					"httpEndpoints": {
+						"address": "45.9.27.2",
+						"description": "",
+						"method": "GET",
+						"path": "/api/locations",
+						"scheme": "http",
+						"timeout": 5000
+					},
+					"type": "HTTP"
+				},
+				"x-apigateway-cors": false,
+				"x-apigateway-match-mode": "SWA",
+				"x-apigateway-request-type": "public"
+			}
+		},
+		"/cms/places": {
+			"get": {
+				"schemes": [
+					"http",
+					"https"
+				],
+				"operationId": "places",
+				"responses": {
+					"default": {
+						"$ref": "#/responses/default"
+					}
+				},
+				"x-apigateway-backend": {
+					"httpEndpoints": {
+						"address": "45.9.27.2",
+						"description": "",
+						"method": "GET",
+						"path": "/api/places",
+						"scheme": "http",
+						"timeout": 5000
+					},
+					"type": "HTTP"
+				},
+				"x-apigateway-cors": false,
+				"x-apigateway-match-mode": "NORMAL",
+				"x-apigateway-request-type": "public"
+			}
+		},
+		"/cms/quizzes": {
+			"get": {
+				"schemes": [
+					"http",
+					"https"
+				],
+				"operationId": "quizzes",
+				"responses": {
+					"default": {
+						"$ref": "#/responses/default"
+					}
+				},
+				"x-apigateway-backend": {
+					"httpEndpoints": {
+						"address": "45.9.27.2",
+						"description": "",
+						"method": "GET",
+						"path": "/api/quizzes",
+						"scheme": "http",
+						"timeout": 5000
+					},
+					"type": "HTTP"
+				},
+				"x-apigateway-cors": false,
+				"x-apigateway-match-mode": "SWA",
+				"x-apigateway-request-type": "public"
+			}
+		},
+		"/cms/story-quizzes": {
+			"get": {
+				"schemes": [
+					"http",
+					"https"
+				],
+				"operationId": "story-quizzes",
+				"responses": {
+					"default": {
+						"$ref": "#/responses/default"
+					}
+				},
+				"x-apigateway-backend": {
+					"httpEndpoints": {
+						"address": "45.9.27.2",
+						"description": "",
+						"method": "GET",
+						"path": "/api/story-quizzes",
+						"scheme": "http",
+						"timeout": 5000
+					},
+					"type": "HTTP"
+				},
+				"x-apigateway-cors": false,
+				"x-apigateway-match-mode": "SWA",
+				"x-apigateway-request-type": "public"
+			}
+		}
+	},
+	"responses": {
+		"default": {
+			"description": "response example"
+		}
+	},
+	"securityDefinitions": {
+		"apig-auth-app": {
+			"type": "apiKey",
+			"name": "Authorization",
+			"in": "header",
+			"x-apigateway-auth-type": "AppSigv1"
+		},
+		"apig-auth-app-header": {
+			"type": "apiKey",
+			"name": "Authorization",
+			"in": "header",
+			"x-apigateway-auth-opt": {
+				"appcode-auth-type": "header"
+			},
+			"x-apigateway-auth-type": "AppSigv1"
+		},
+		"apig-auth-iam": {
+			"type": "apiKey",
+			"name": "unused",
+			"in": "header",
+			"x-apigateway-auth-type": "IAM"
+		}
+	}
+}

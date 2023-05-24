@@ -34,6 +34,11 @@
     },
     "phone": {
       "type": "string"
+    },
+    "district": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::district.district"
     }
   }
 }

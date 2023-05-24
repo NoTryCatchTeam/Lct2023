@@ -1,8 +1,11 @@
+using Google.Android.Material.Button;
+using Lct2023.Android.Bindings;
 using Lct2023.Android.Services;
 using Lct2023.Factories;
 using Lct2023.Services;
 using Microsoft.Extensions.Logging;
 using MvvmCross;
+using MvvmCross.Binding.Bindings.Target.Construction;
 using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Core;
 
@@ -16,6 +19,15 @@ public class Setup : MvxAndroidSetup<App>
 
         Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IDialogService, DialogService>();
         Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IFileProvider, FileProvider>();
+    }
+
+    protected override void FillTargetFactories(IMvxTargetBindingFactoryRegistry registry)
+    {
+        base.FillTargetFactories(registry);
+
+        registry.RegisterCustomBindingFactory<MaterialButton>(
+            nameof(ButtonIconResourceBinding),
+            v => new ButtonIconResourceBinding(v));
     }
 
     protected override ILoggerProvider CreateLogProvider() =>

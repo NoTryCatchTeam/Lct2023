@@ -1,27 +1,83 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataModel.Responses.BaseCms;
+using DataModel.Responses.Tasks;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
-using MvvmCross.ViewModels;
 
 namespace Lct2023.ViewModels.Tasks;
 
-public class TaskDetailsViewModel : BaseViewModel
+public class TaskDetailsViewModel : BaseViewModel<TaskDetailsViewModel.NavParameter>
 {
     private BaseExerciseItem _currentExercise;
 
     public TaskDetailsViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService)
         : base(logFactory, navigationService)
     {
+        CallToActionCommand = new MvxAsyncCommand(CallToActionAsync);
+    }
+
+    public IMvxAsyncCommand CallToActionCommand { get; }
+
+    public IEnumerable<BaseExerciseItem> ExercisesCollection { get; private set; }
+
+    public BaseExerciseItem CurrentExercise
+    {
+        get => _currentExercise;
+        private set
+        {
+            if (value != null)
+            {
+                value.IsCurrent = false;
+            }
+
+            SetProperty(ref _currentExercise, value);
+
+            if (_currentExercise != null)
+            {
+                _currentExercise.IsCurrent = true;
+            }
+        }
+    }
+
+    public bool IsPreSelectedAnswer => (CurrentExercise as VideoToAudioExerciseItem)?.Answers.Any(x => x.IsPreSelected) == true;
+
+    public override void Prepare(NavParameter parameter)
+    {
+        base.Prepare(parameter);
+
         var answerTapCommand = new MvxAsyncCommand<BaseExerciseAnswer>(AnswerTapAsync);
 
-        CallToActionCommand = new MvxAsyncCommand(CallToActionAsync);
+        var exercises = new List<BaseExerciseItem>();
 
-        var exercises = new List<BaseExerciseItem>(10);
+        exercises.AddRange(
+            parameter.Task.Item.Quizzes.Data
+                .Select((quiz, i) => new TextExerciseItem
+                {
+                    Number = i + 1,
+                    Question = quiz.Item.Question,
+                    DescriptionOfCorrectness = quiz.Item.Explanation,
+                    Answers = new[] { quiz.Item.AnswerA, quiz.Item.AnswerB, quiz.Item.AnswerC, quiz.Item.AnswerD }
+                        .Select((answer, j) => new TextExerciseAnswer
+                        {
+                            Number = j + 1,
+                            IsCorrect = quiz.Item.CorrectAnswerValue == answer,
+                            Value = answer,
+                        })
+                        .ToList(),
+                    AnswerTapCommand = answerTapCommand,
+                }));
 
-        for (var i = 0; i < exercises.Capacity; i++)
+        // MockExerciseList(exercises, answerTapCommand);
+
+        ExercisesCollection = exercises;
+    }
+
+    private static void MockExerciseList(List<BaseExerciseItem> exercises, MvxAsyncCommand<BaseExerciseAnswer> answerTapCommand)
+    {
+        for (var i = 0; i < 10; i++)
         {
             BaseExerciseItem exercise;
 
@@ -47,6 +103,7 @@ public class TaskDetailsViewModel : BaseViewModel
                     Question = "Кто исполняет?",
                     DescriptionOfCorrectness = "Ха-ха-ха",
                     Answers = answers,
+                    AudioUrl = "https://cdn.pixabay.com/download/audio/2023/05/18/audio_473dc360c2.mp3",
                 };
             }
             // Video to audio exercise
@@ -70,6 +127,7 @@ public class TaskDetailsViewModel : BaseViewModel
                     Question = "На видео будет Бах, а ты пока тыкай наугад",
                     DescriptionOfCorrectness = "Ха-ха-ха",
                     Answers = answers,
+                    VideoUrl = "https://www.pexels.com/download/video/3209828/",
                 };
             }
             // Text exercise
@@ -106,8 +164,14 @@ public class TaskDetailsViewModel : BaseViewModel
 
             exercises.Add(exercise);
         }
+    }
 
-        ExercisesCollection = exercises;
+    public override void ViewCreated()
+    {
+        base.ViewCreated();
+
+        // TODO Set after loading completed
+        CurrentExercise = ExercisesCollection.First();
     }
 
     private Task AnswerTapAsync(BaseExerciseAnswer item)
@@ -119,7 +183,7 @@ public class TaskDetailsViewModel : BaseViewModel
 
         switch (item)
         {
-            case TextExerciseAnswer answer:
+            case TextExerciseAnswer { IsSelected: false } answer:
                 answer.IsSelected = true;
                 _currentExercise.IsCorrect = answer.IsCorrect;
 
@@ -129,7 +193,7 @@ public class TaskDetailsViewModel : BaseViewModel
                 }
 
                 break;
-            case AudioToPictureExerciseAnswer answer:
+            case AudioToPictureExerciseAnswer { IsSelected: false } answer:
                 answer.IsSelected = true;
                 _currentExercise.IsCorrect = answer.IsCorrect;
 
@@ -139,7 +203,7 @@ public class TaskDetailsViewModel : BaseViewModel
                 }
 
                 break;
-            case VideoToAudioExerciseAnswer answer:
+            case VideoToAudioExerciseAnswer { IsPreSelected: false } answer:
                 var exercise = (VideoToAudioExerciseItem)_currentExercise;
 
                 if (exercise.Answers.FirstOrDefault(x => x.IsPreSelected) is { } preSelectedAnswer)
@@ -191,116 +255,13 @@ public class TaskDetailsViewModel : BaseViewModel
         }
     }
 
-    public IMvxAsyncCommand CallToActionCommand { get; }
-
-    public IEnumerable<BaseExerciseItem> ExercisesCollection { get; }
-
-    public BaseExerciseItem CurrentExercise
+    public class NavParameter
     {
-        get => _currentExercise;
-        private set
+        public NavParameter(CmsItemResponse<TaskItemResponse> task)
         {
-            if (value != null)
-            {
-                value.IsCurrent = false;
-            }
-
-            SetProperty(ref _currentExercise, value);
-
-            if (_currentExercise != null)
-            {
-                _currentExercise.IsCurrent = true;
-            }
+            Task = task;
         }
+
+        public CmsItemResponse<TaskItemResponse> Task { get; }
     }
-
-    public bool IsPreSelectedAnswer => (CurrentExercise as VideoToAudioExerciseItem)?.Answers.Any(x => x.IsPreSelected) == true;
-
-    public override void ViewCreated()
-    {
-        base.ViewCreated();
-
-        // TODO Set after loading completed
-        CurrentExercise = ExercisesCollection.First();
-    }
-}
-
-public abstract class BaseExerciseItem : MvxNotifyPropertyChanged
-{
-    private bool? _isCorrect;
-
-    public IMvxAsyncCommand<BaseExerciseAnswer> AnswerTapCommand { get; set; }
-
-    public int Number { get; set; }
-
-    public bool? IsCorrect
-    {
-        get => _isCorrect;
-        set => SetProperty(ref _isCorrect, value);
-    }
-
-    public bool IsCurrent { get; set; }
-
-    public string Question { get; set; }
-
-    public string DescriptionOfCorrectness { get; set; }
-}
-
-public abstract class ExerciseItem<TExerciseAnswer> : BaseExerciseItem
-{
-    public IEnumerable<TExerciseAnswer> Answers { get; set; }
-}
-
-public class TextExerciseItem : ExerciseItem<TextExerciseAnswer>
-{
-}
-
-public class VideoToAudioExerciseItem : ExerciseItem<VideoToAudioExerciseAnswer>
-{
-    public string VideoUrl { get; set; }
-}
-
-public class AudioToPictureExerciseItem : ExerciseItem<AudioToPictureExerciseAnswer>
-{
-    public string AudioUrl { get; set; }
-}
-
-public abstract class BaseExerciseAnswer : MvxNotifyPropertyChanged
-{
-    private bool _isSelected;
-
-    public int Number { get; set; }
-
-    public bool IsCorrect { get; set; }
-
-    public bool IsSelected
-    {
-        get => _isSelected;
-        set => SetProperty(ref _isSelected, value);
-    }
-}
-
-public class TextExerciseAnswer : BaseExerciseAnswer
-{
-    public string Value { get; set; }
-}
-
-public class VideoToAudioExerciseAnswer : BaseExerciseAnswer
-{
-    private bool _isPreSelected;
-
-    public string AudioUrl { get; set; }
-
-    public bool IsPreSelected
-    {
-        get => _isPreSelected;
-        set => SetProperty(ref _isPreSelected, value);
-    }
-}
-
-public class AudioToPictureExerciseAnswer : BaseExerciseAnswer
-{
-    public string PictureUrl { get; set; }
-
-    public string PictureDescription { get; set; }
 }

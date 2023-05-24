@@ -14,8 +14,8 @@ using Lct2023.Android.Decorations;
 using Lct2023.Android.Helpers;
 using Lct2023.Android.Listeners;
 using Lct2023.Android.TemplateSelectors;
+using Lct2023.Converters;
 using Lct2023.ViewModels.Tasks;
-using Lct2023.ViewModels.Tests;
 using MvvmCross.DroidX.RecyclerView;
 using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
@@ -46,6 +46,7 @@ public class TasksFragment : BaseFragment<TasksViewModel>
         );
 
         var taskOfTheDay = view.FindViewById(Resource.Id.tasks_task_otd);
+        var taskOfTheDayLoader = view.FindViewById(Resource.Id.tasks_task_otd_loader);
         var tasksFilter = view.FindViewById<MaterialButton>(Resource.Id.tasks_tasks_filter);
         var tasksList = view.FindViewById<MvxRecyclerView>(Resource.Id.tasks_tasks_list);
 
@@ -99,6 +100,11 @@ public class TasksFragment : BaseFragment<TasksViewModel>
         set.Bind(taskOfTheDay)
             .For(x => x.BindClick())
             .To(vm => vm.TaskOfTheDayCommand);
+
+        set.Bind(taskOfTheDayLoader)
+            .For(x => x.BindVisible())
+            .To(vm => vm.State)
+            .WithConversion(new AnyExpressionConverter<TasksViewState, bool>(x => x.HasFlag(TasksViewState.TaskOfTheDayLoading)));
 
         set.Bind(tasksFilter)
             .For(x => x.BindClick())

@@ -5,9 +5,9 @@ using Square.Picasso;
 
 namespace Lct2023.Android.Bindings;
 
-public class ImageByUrlTargetBinding : MvxAndroidTargetBinding<ImageView, string>
+public class ImageViewByUrlBinding : MvxAndroidTargetBinding<ImageView, string>
 {
-    public ImageByUrlTargetBinding(ImageView target)
+    public ImageViewByUrlBinding(ImageView target)
         : base(target)
     {
     }

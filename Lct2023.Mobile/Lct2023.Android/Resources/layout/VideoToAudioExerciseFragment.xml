@@ -22,11 +22,11 @@
                       android:text="Из ниже представленных вариантов необходимо выбрать музыкальный отрывок, подходящий к данному фрагменту видео."
                       app:layout_constraintTop_toTopOf="parent"/>
 
-            <VideoView android:id="@+id/video_to_audio_exercise_video"
-                       android:layout_width="match_parent"
-                       android:layout_height="185dp"
-                       android:layout_marginTop="16dp"
-                       app:layout_constraintTop_toBottomOf="@id/video_to_audio_exercise_question"/>
+            <com.google.android.exoplayer2.ui.PlayerView android:id="@+id/video_to_audio_exercise_video"
+                                                         android:layout_width="match_parent"
+                                                         android:layout_height="185dp"
+                                                         android:layout_marginTop="16dp"
+                                                         app:layout_constraintTop_toBottomOf="@id/video_to_audio_exercise_question"/>
 
             <mvvmcross.droidx.recyclerview.MvxRecyclerView android:id="@+id/video_to_audio_exercise_answers_list"
                                                            android:layout_width="match_parent"

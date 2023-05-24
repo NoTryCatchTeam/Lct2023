@@ -64,13 +64,15 @@
         <Compile Include="Adapters\TasksAdapter.cs" />
         <Compile Include="Adapters\TextExerciseAnswersAdapter.cs" />
         <Compile Include="Adapters\VideoToAudioExerciseAnswersAdapter.cs" />
-        <Compile Include="Bindings\ImageByUrlTargetBinding.cs" />
+        <Compile Include="Bindings\ButtonIconResourceBinding.cs" />
+        <Compile Include="Bindings\ImageViewByUrlBinding.cs" />
         <Compile Include="Decorations\GridItemDecoration.cs" />
         <Compile Include="Decorations\ItemSeparateDecoration.cs" />
         <Compile Include="Fragments\BaseFragment.cs" />
         <Compile Include="Fragments\Exercises\AudioToPictureExerciseFragment.cs" />
         <Compile Include="Fragments\Exercises\TextExerciseFragment.cs" />
         <Compile Include="Fragments\Exercises\VideoToAudioExerciseFragment.cs" />
+        <Compile Include="Fragments\IPlayersFragment.cs" />
         <Compile Include="Fragments\MainTabs\CoursesFragment.cs" />
         <Compile Include="Fragments\MainTabs\FeedFragment.cs" />
         <Compile Include="Fragments\MainTabs\MainFragment.cs" />
@@ -80,6 +82,8 @@
         <Compile Include="Listeners\DefaultClickListener.cs" />
         <Compile Include="Listeners\DefaultNavBarItemSelectedListener.cs" />
         <Compile Include="Listeners\DefaultScrollListener.cs" />
+        <Compile Include="Listeners\MediaPlayerCompletionListener.cs" />
+        <Compile Include="Listeners\MediaPlayerPreparedListener.cs" />
         <Compile Include="Resources\Resource.designer.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Services\DialogService.cs" />
@@ -126,6 +130,7 @@
         <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
         <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
         <PackageReference Include="Square.Picasso" Version="2.71828.0" />
+        <PackageReference Include="Xam.Plugins.Android.ExoPlayer" Version="2.16.1" />
         <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.6.1.1" />
         <PackageReference Include="Xamarin.AndroidX.ExifInterface" Version="1.3.6.1" />
         <PackageReference Include="Xamarin.Google.Android.Material" Version="1.8.0.1" />
@@ -135,6 +140,10 @@
     <ItemGroup>
         <AndroidAsset Include="..\Lct2023\appSettings.json">
             <Link>Assets\appSettings.json</Link>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </AndroidAsset>
+        <AndroidAsset Include="..\Lct2023\secrets.json">
+            <Link>Assets\secrets.json</Link>
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </AndroidAsset>
     </ItemGroup>
