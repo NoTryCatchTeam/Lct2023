@@ -27,20 +27,14 @@
                         android:layout_height="wrap_content"
                         layout="@layout/Toolbar"/>
 
-                <HorizontalScrollView android:layout_width="match_parent"
+                <mvvmcross.droidx.recyclerview.MvxRecyclerView android:layout_width="match_parent"
                                       android:layout_height="wrap_content"
                                       android:layout_marginTop="10dp"
                                       android:layout_marginBottom="20dp"
-                                      android:scrollbars="none">
-
-                    <mvvmcross.platforms.android.binding.views.MvxLinearLayout
-                            android:id="@+id/stories_layout"
-                            android:paddingHorizontal="10dp"
-                            android:orientation="horizontal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-
-                </HorizontalScrollView>
+                                       android:id="@+id/stories_layout"
+                                       android:paddingHorizontal="10dp"
+                                       android:orientation="horizontal"
+                                      android:scrollbars="none"/>
 
             </LinearLayout>
 
