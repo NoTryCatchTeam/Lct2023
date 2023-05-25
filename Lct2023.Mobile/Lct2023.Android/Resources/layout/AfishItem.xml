@@ -3,17 +3,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/afisha_item_layout">
 
     <com.google.android.material.card.MaterialCardView
             android:layout_width="160dp"
             android:layout_height="92dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="0dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             android:id="@+id/afisha_item_image_layout"
             app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+                android:id="@+id/afisha_item_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
         
@@ -28,11 +32,11 @@
             android:lines="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:layout_marginTop="8dp"
-            android:textColor="@color/textPrimary"/>
+            style="@style/AppTheme.BodyMedium.Small"
+            android:layout_marginTop="8dp"/>
 
     <TextView
+            android:id="@+id/afisha_item_description"
             app:layout_constraintTop_toBottomOf="@id/afisha_item_title"
             app:layout_constraintLeft_toLeftOf="@id/afisha_item_image_layout"
             app:layout_constraintRight_toRightOf="@id/afisha_item_image_layout"
@@ -40,7 +44,7 @@
             android:lines="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
+            style="@style/AppTheme.Body.Small"
             android:layout_marginTop="4dp"
             android:textColor="@color/gray"/>
 
