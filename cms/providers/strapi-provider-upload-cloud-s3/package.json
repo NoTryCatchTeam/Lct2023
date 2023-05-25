@@ -1,0 +1,21 @@
+{
+  "name": "strapi-provider-upload-cloud-s3",
+  "version": "1.0.0",
+  "description": "strapi provider for cloud s3",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "node-fetch":"2.6.1",
+    "crypto-js": "4.1.1",
+    "@types/crypto-js":"4.1.1"
+  }
+}

@@ -15,7 +15,8 @@
     "@strapi/provider-email-nodemailer": "^4.10.5",
     "@strapi/strapi": "4.10.5",
     "better-sqlite3": "8.0.1",
-    "pg": "8.11.0"
+    "pg": "8.11.0",
+    "strapi-provider-upload-cloud-s3": "file:providers/strapi-provider-upload-cloud-s3"
   },
   "author": {
     "name": "A Strapi developer"
