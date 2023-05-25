@@ -98,13 +98,6 @@ public class App : MvxApplication
             new MapperConfiguration(x => x.AddProfile<AppMapperProfile>())
                 .CreateMapper());
 
-        try
-        {
-            Mvx.IoCProvider.Resolve<IMapper>().ConfigurationProvider.AssertConfigurationIsValid();
-        }
-        catch (Exception ex)
-        {
-            
-        }
+        Mvx.IoCProvider.Resolve<IMapper>().ConfigurationProvider.AssertConfigurationIsValid();
     }
 }
