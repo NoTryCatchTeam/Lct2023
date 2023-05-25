@@ -374,7 +374,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         _googleMap.SetOnMapClickListener(this);
         
         _googleMap.MapType = GoogleMap.MapTypeNormal;
-        _googleMap.MoveCamera(CameraUpdateFactory.NewLatLngZoom(new LatLng(55.7499931, 37.624216), 8));
+        _googleMap.MoveCamera(CameraUpdateFactory.NewLatLngZoom(new LatLng(55.7499931, 37.624216), 9));
 
         _googleMap.UiSettings.CompassEnabled = false;
         _googleMap.UiSettings.ZoomControlsEnabled = false;
@@ -412,17 +412,6 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
             case Resource.Id.zoom_in_button:
                 try
                 {
-                    ViewModel.SelectedLocation = ViewModel.Places?.FirstOrDefault(place => place.Title.StartsWith("Г"));
-                    _parent.Post(() =>
-                    {
-                        var addressRect = new Rect();
-                        _addressLayout.GetDrawingRect(addressRect);
-                        _bottomSheet.OffsetDescendantRectToMyCoords(_addressLayout, addressRect);
-                        _bottomSheetBehavior.SetPeekHeight(addressRect.Top + addressRect.Height() + Context.ToPixels(56), false);
-                        _bottomSheetBehavior.Hideable = false;
-                        _bottomSheetBehavior.State = BottomSheetBehavior.StateCollapsed;
-                    });
-                    
                     _googleMap.AnimateCamera(CameraUpdateFactory.ZoomIn());
                 }
                 catch (Exception ex)
