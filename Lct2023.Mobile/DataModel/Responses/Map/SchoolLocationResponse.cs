@@ -1,3 +1,4 @@
+using DataModel.Responses.BaseCms;
 using Newtonsoft.Json;
 
 namespace DataModel.Responses.Map;
@@ -17,4 +18,8 @@ public class SchoolLocationResponse
     public string Phone { get; set; }
     
     public string Address { get; set; }
+
+    public bool IsSpecial { get; set; }
+    
+    public CmsResponse<CmsItemResponse<DistrictResponse>> District { get; set; }
 }

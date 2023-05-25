@@ -42,7 +42,6 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
 
     private GoogleMap _googleMap;
     private BottomSheetBehavior _bottomSheetBehavior;
-    private View _parent;
     private MaterialCardView _bottomSheet;
     private View _addressLayout;
 
@@ -55,8 +54,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         view.FindViewById<TextView>(Resource.Id.title).Text = "Карта";
         _mapView = view.FindViewById<MapView>(Resource.Id.map_view);
         
-        _parent = view.FindViewById(Resource.Id.map_container);
-        
+        var locationTypesGroup = view.FindViewById<MaterialButtonToggleGroup>(Resource.Id.location_types_group);
         var avatarImageButton = view.FindViewById<ImageView>(Resource.Id.toolbar_image);
         var filtersButton = view.FindViewById<MaterialButton>(Resource.Id.location_filters_button);
         var zoomInButton = view.FindViewById<MaterialButton>(Resource.Id.zoom_in_button);
@@ -213,6 +211,20 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
             .To(vm => vm.SelectedLocation.Site)
             .WithConversion(visibilityConverter);
         
+        var itemsVisibilityConverter = new AnyExpressionConverter<IEnumerable<object>, bool>(items => items?.Any() == true);
+        
+        set
+            .Bind(view.FindViewById(Resource.Id.contacts_layout))
+            .For(v => v.BindVisible())
+            .To(vm => vm.SelectedLocation.Contacts)
+            .WithConversion(itemsVisibilityConverter);
+        
+        set
+            .Bind(view.FindViewById(Resource.Id.contacts_bottom_line))
+            .For(v => v.BindVisible())
+            .To(vm => vm.SelectedLocation.Contacts)
+            .WithConversion(itemsVisibilityConverter);
+        
         set
             .Bind(view.FindViewById(Resource.Id.mail_layout))
             .For(v => v.BindVisible())
@@ -244,26 +256,24 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
             .Bind(artDirectionsLayout)
             .For(v => v.BindVisible())
             .To(vm => vm.SelectedLocation.ArtDirections)
-            .WithConversion(new AnyExpressionConverter<IEnumerable<ArtDirectionType>, bool>(items => items?.Any() == true));
+            .WithConversion(itemsVisibilityConverter);
 
         set
             .Bind(view.FindViewById<MaterialButton>(Resource.Id.open_address_button))
             .For(v => v.BindClick())
             .To(vm => vm.OpenMapCommand);
         
-        var anyEventsVisibilityConverter = new AnyExpressionConverter<IEnumerable<EventItemViewModel>, bool>(items => items?.Any() == true);
-        
         set
             .Bind(view.FindViewById(Resource.Id.events_header_text_view))
             .For(v => v.BindVisible())
             .To(vm => vm.Events)
-            .WithConversion(anyEventsVisibilityConverter);
+            .WithConversion(itemsVisibilityConverter);
         
         set
             .Bind(afishaLayout)
             .For(v => v.BindVisible())
             .To(vm => vm.Events)
-            .WithConversion(anyEventsVisibilityConverter);
+            .WithConversion(itemsVisibilityConverter);
         
         set
             .Bind(afishaLayout)
@@ -275,6 +285,29 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
             .For(v => v.BindVisible())
             .To(vm => vm.SelectedLocation.Contacts)
             .WithConversion(new AnyExpressionConverter<IEnumerable<string>, bool>(items => items?.Count() > 1));
+
+        set
+            .Bind(locationTypesGroup)
+            .For(v => v.CheckedButtonId)
+            .To(vm => vm.LocationType)
+            .WithConversion(new AnyExpressionConverter<LocationType, int>(
+                locationType => locationType switch
+                {
+                    LocationType.School => Resource.Id.msa_option,
+                    LocationType.Event => Resource.Id.afisha_option,
+                }));
+        
+        Observable.FromEventPattern<EventHandler<MaterialButtonToggleGroup.ButtonCheckedEventArgs>, MaterialButtonToggleGroup.ButtonCheckedEventArgs>(
+                h => locationTypesGroup.ButtonChecked += h,
+                h => locationTypesGroup.ButtonChecked -= h)
+            .Where(_ => locationTypesGroup.CheckedButtonId != -1)
+            .Select(_ => locationTypesGroup.CheckedButtonId)
+            .Subscribe(buttonId => ViewModel.LocationType = buttonId switch
+            {
+                Resource.Id.msa_option => LocationType.School,
+                Resource.Id.afisha_option => LocationType.Event,
+            })
+            .DisposeWith(CompositeDisposable);
 
         set
             .Bind(moreContactsButton)
@@ -374,7 +407,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         _googleMap.SetOnMapClickListener(this);
         
         _googleMap.MapType = GoogleMap.MapTypeNormal;
-        _googleMap.MoveCamera(CameraUpdateFactory.NewLatLngZoom(new LatLng(55.7499931, 37.624216), 9));
+        _googleMap.MoveCamera(CameraUpdateFactory.NewLatLngZoom(new LatLng(55.7499931, 37.624216), 9.5f));
 
         _googleMap.UiSettings.CompassEnabled = false;
         _googleMap.UiSettings.ZoomControlsEnabled = false;
@@ -395,7 +428,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         foreach (var place in ViewModel.Places)
         {
             _googleMap.AddMarker(new MarkerOptions()
-                .SetIcon(BitmapDescriptorFactory.FromBitmap(Resource.Drawable.ic_pin.GetDrawable(Context).AddCircleWithStroke(DimensUtils.DpToPx(Context, 2), Color.White, Resource.Color.pin_green_color, Context)))
+                .SetIcon(BitmapDescriptorFactory.FromBitmap(Resource.Drawable.ic_pin.GetDrawable(Context).AddCircleWithStroke(DimensUtils.DpToPx(Context, 2), Color.White, Color.ParseColor(place.HexColor))))
                 .SetSnippet(place.Id)
                 .SetPosition(new LatLng(place.Latitude, place.Longitude))
                 .SetTitle(place.Title));
@@ -448,15 +481,12 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
     public bool OnMarkerClick(Marker marker)
     {
         ViewModel.SelectedLocation = ViewModel.Places?.FirstOrDefault(place => place.Id == marker.Snippet);
-        _parent.Post(() =>
-        {
-            var addressRect = new Rect();
-            _addressLayout.GetDrawingRect(addressRect);
-            _bottomSheet.OffsetDescendantRectToMyCoords(_addressLayout, addressRect);
-            _bottomSheetBehavior.SetPeekHeight(addressRect.Top + addressRect.Height() + DimensUtils.DpToPx(Context, 56), false);
-            _bottomSheetBehavior.Hideable = false;
-            _bottomSheetBehavior.State = BottomSheetBehavior.StateCollapsed;
-        });
+        var addressRect = new Rect();
+        _addressLayout.GetDrawingRect(addressRect);
+        _bottomSheet.OffsetDescendantRectToMyCoords(_addressLayout, addressRect);
+        _bottomSheetBehavior.SetPeekHeight(addressRect.Top + addressRect.Height() + DimensUtils.DpToPx(Context, 56), false);
+        _bottomSheetBehavior.Hideable = false;
+        _bottomSheetBehavior.State = BottomSheetBehavior.StateCollapsed;
 
         return true;
     }
