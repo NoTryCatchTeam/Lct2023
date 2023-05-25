@@ -19,14 +19,15 @@
       "type": "richtext"
     },
     "cover": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "art_categories": {
       "type": "relation",
@@ -40,6 +41,14 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::location.location"
+    },
+    "link": {
+      "type": "string"
+    },
+    "rubric": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::rubric.rubric"
     }
   }
 }
