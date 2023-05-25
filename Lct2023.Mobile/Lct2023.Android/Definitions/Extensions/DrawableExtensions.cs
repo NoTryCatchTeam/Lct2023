@@ -10,13 +10,13 @@ public static class DrawableExtensions
 {
     public static Drawable GetDrawable(this int resId, Context context) => ContextCompat.GetDrawable(context, resId);
 
-    public static Bitmap AddCircleWithStroke(this Drawable drawable, int strokeWidth, Color strokeColor, int colorId, Context context)
+    public static Bitmap AddCircleWithStroke(this Drawable drawable, int strokeWidth, Color strokeColor, Color solidColor)
     {
         var diameter = Math.Min(drawable.IntrinsicWidth, drawable.IntrinsicHeight);
         var circularDrawable = new GradientDrawable();
         circularDrawable.SetShape(ShapeType.Oval);
         circularDrawable.SetSize(diameter, diameter);
-        circularDrawable.SetColor(ContextCompat.GetColor(context, colorId));
+        circularDrawable.SetColor(solidColor);
         circularDrawable.SetStroke(strokeWidth, strokeColor);
         var bitmap = Bitmap.CreateBitmap(diameter, diameter, Bitmap.Config.Argb8888);
         var canvas = new Canvas(bitmap);

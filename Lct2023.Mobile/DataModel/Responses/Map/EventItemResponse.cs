@@ -1,12 +1,25 @@
+using System;
+using DataModel.Responses.BaseCms;
+using Newtonsoft.Json;
+
 namespace DataModel.Responses.Map;
 
 public class EventItemResponse
 {
-    public string Title { get; set; }
+    public string Name { get; set; }
     
     public string Description { get; set; }
     
-    public string Url { get; set; }
+    [JsonProperty("link")]
+    public string Site { get; set; }
     
-    public string ImageUrl { get; set; }
+    public DateTime EventDate { get; set; }
+
+    public string TicketLink { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+    
+    public string Phone { get; set; }
+    
+    public CmsResponse<CmsItemResponse<LocationResponse>> Place { get; set; }
 }

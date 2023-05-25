@@ -2,8 +2,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System;
+using System.Reactive.Disposables;
 using System.Threading.Tasks;
 using AutoMapper;
+using DataModel.Definitions.Enums;
 using DataModel.Responses.BaseCms;
 using DataModel.Responses.Map;
 using DynamicData;
@@ -16,6 +18,7 @@ using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using ReactiveUI;
 using Xamarin.Essentials;
+using Location = Xamarin.Essentials.Location;
 
 namespace Lct2023.ViewModels.Map;
 
@@ -23,6 +26,7 @@ public class MapViewModel : BaseViewModel
 {
     private readonly IMapRestService _mapRestService;
     private CmsItemResponse<SchoolLocationResponse>[] _schoolLocations;
+    private CmsItemResponse<EventItemResponse>[] _events;
     private readonly IMapper _mapper;
     private IEnumerable<ContactItemViewModel> _contacts;
     private readonly IDialogService _dialogService;
@@ -47,9 +51,11 @@ public class MapViewModel : BaseViewModel
                     IsMyLocationEnabled = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Granted ||
                                           await Permissions.RequestAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Granted);
 
-                if (IsMyLocationEnabled)
+                if (!IsMyLocationEnabled)
                 {
-                    
+                    dialogService.ShowToast("Для работы с картой необходимо предоставить доступ к геолокации");
+                    AppInfo.ShowSettingsUI();
+                    return;
                 }
                 
                 dialogService.ShowToast("Определяем локацию");
@@ -148,11 +154,20 @@ public class MapViewModel : BaseViewModel
         
         ActionCommand = new MvxAsyncCommand(async () =>
         {
+            switch (SelectedLocation?.LocationType)
+            {
+                case LocationType.Event:
+                    OpenSiteCommand.Execute(SelectedLocation.TicketLink);
+                    break;
+            }
         });
 
         this.WhenValueChanged(vm => vm.SelectedLocation)
             .WhereNotNull()
             .Subscribe(_ => UpdateContacts(1));
+
+        this.WhenValueChanged(vm => vm.LocationType)
+            .Subscribe(_ => UpdatePlaces());
     }
 
     public ObservableCollection<PlaceItemViewModel> Places { get; } = new ();
@@ -185,20 +200,23 @@ public class MapViewModel : BaseViewModel
             }
         })));
 
-    public IEnumerable<EventItemViewModel> Events => SelectedLocation?.Events?.Then(e
+    public IEnumerable<EventItemViewModel> Events => null;
+        /*SelectedLocation?.Events?.Then(e
         => _mapper.Map<IEnumerable<EventItemViewModel>>(e, ops => ops.AfterMap((_, events) =>
         {
             foreach (var @event in events)
             {
                 @event.OpenSiteCommand = OpenSiteCommand;
             }
-        })));
+        })));*/
     
     public PlaceItemViewModel SelectedLocation { get; set; }
     
     public Location MyPosition { get; private set; }
     
     public bool IsMyLocationEnabled { get; private set; }
+    
+    public LocationType LocationType { get; set; }
     
     public IEnumerable<ContactItemViewModel> Contacts
     {
@@ -210,17 +228,47 @@ public class MapViewModel : BaseViewModel
     {
         base.ViewCreated();
 
-        Task.Run(() => RunSafeTaskAsync(async () =>
+        var schoolLocationTask = Task.Run(() => RunSafeTaskAsync(async () =>
         {
             _schoolLocations = (await _mapRestService.GetSchoolsLocationAsync(CancellationToken))?.ToArray();
 
-            if (_schoolLocations?.Any() != true)
+            if (_schoolLocations?.Any() != true
+                || LocationType == LocationType.Event)
             {
                 return;
             }
 
-            Places.AddRange(_mapper.Map<IEnumerable<PlaceItemViewModel>>(_schoolLocations));
+            UpdatePlaces();
         }));
+        
+        var eventsTask = Task.Run(() => RunSafeTaskAsync(async () =>
+        {
+            _events = (await _mapRestService.GetEventsAsync(CancellationToken))?.ToArray();
+
+            if (_events?.Any() != true
+                || LocationType == LocationType.School)
+            {
+                return;
+            }
+
+            UpdatePlaces();
+        }));
+
+        Task.WhenAny(schoolLocationTask, eventsTask);
+    }
+
+    private void UpdatePlaces()
+    {
+        Places.Clear();
+        switch (LocationType)
+        {
+            case LocationType.School:
+                _schoolLocations?.Then(sLs => Places.AddRange(_mapper.Map<IEnumerable<PlaceItemViewModel>>(sLs)));
+                break;
+            case LocationType.Event:
+                _events?.Then(es => Places.AddRange(_mapper.Map<IEnumerable<PlaceItemViewModel>>(es)));
+                break;
+        }
     }
 
     private void UpdateContacts(int count)
