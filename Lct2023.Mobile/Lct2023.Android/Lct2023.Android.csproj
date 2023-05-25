@@ -72,7 +72,6 @@
         <Compile Include="Bindings\ImageViewByUrlBinding.cs" />
         <Compile Include="Decorations\GridItemDecoration.cs" />
         <Compile Include="Decorations\ItemSeparateDecoration.cs" />
-        <Compile Include="Definitions\Extensions\ContextExtensions.cs" />
         <Compile Include="Definitions\Extensions\DrawableExtensions.cs" />
         <Compile Include="Fragments\BaseFragment.cs" />
         <Compile Include="Fragments\Exercises\AudioToPictureExerciseFragment.cs" />

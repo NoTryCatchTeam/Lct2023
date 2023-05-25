@@ -395,7 +395,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         foreach (var place in ViewModel.Places)
         {
             _googleMap.AddMarker(new MarkerOptions()
-                .SetIcon(BitmapDescriptorFactory.FromBitmap(Resource.Drawable.ic_pin.GetDrawable(Context).AddCircleWithStroke(Context.ToPixels(2), Color.White, Resource.Color.pin_green_color, Context)))
+                .SetIcon(BitmapDescriptorFactory.FromBitmap(Resource.Drawable.ic_pin.GetDrawable(Context).AddCircleWithStroke(DimensUtils.DpToPx(Context, 2), Color.White, Resource.Color.pin_green_color, Context)))
                 .SetSnippet(place.Id)
                 .SetPosition(new LatLng(place.Latitude, place.Longitude))
                 .SetTitle(place.Title));
@@ -453,7 +453,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
             var addressRect = new Rect();
             _addressLayout.GetDrawingRect(addressRect);
             _bottomSheet.OffsetDescendantRectToMyCoords(_addressLayout, addressRect);
-            _bottomSheetBehavior.SetPeekHeight(addressRect.Top + addressRect.Height() + Context.ToPixels(56), false);
+            _bottomSheetBehavior.SetPeekHeight(addressRect.Top + addressRect.Height() + DimensUtils.DpToPx(Context, 56), false);
             _bottomSheetBehavior.Hideable = false;
             _bottomSheetBehavior.State = BottomSheetBehavior.StateCollapsed;
         });
