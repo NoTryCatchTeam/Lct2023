@@ -7,6 +7,8 @@ namespace Lct2023.ViewModels.Map;
 
 public class PlaceItemViewModel : MvxNotifyPropertyChanged 
 {
+    public string HexColor { get; set;  }
+    
     public double Latitude { get; set; }
     public double Longitude { get; set; }
     public string Title { get; set;  }
@@ -23,11 +25,11 @@ public class PlaceItemViewModel : MvxNotifyPropertyChanged
     
     public IEnumerable<SocialLinkResponse> SocialLinks { get; set; }
     
-    public IEnumerable<EventItemResponse> Events { get; set; }
-    
     public IEnumerable<ArtDirectionType> ArtDirections { get; set; }
     
     public LocationType LocationType { get; set; }
     
     public string Id { get; set; }
+
+    public string TicketLink { get; set; }
 }
