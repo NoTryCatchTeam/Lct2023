@@ -13,17 +13,19 @@
             android:layout_height="match_parent">
 
         <ImageView
+                android:id="@+id/art_direction_item_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
         <TextView
+                android:id="@+id/art_direction_item_title"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 android:layout_margin="8dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                style="@style/AppTheme.BodyMedium.Small"
                 android:textColor="@color/textPrimary"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

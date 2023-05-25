@@ -1,4 +1,4 @@
-namespace Lct2023.Definitions.Enums;
+namespace DataModel.Definitions.Enums;
 
 public enum ArtDirectionType
 {

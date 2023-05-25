@@ -1,3 +1,4 @@
+using Android.Widget;
 using Google.Android.Material.Button;
 using Lct2023.Android.Bindings;
 using Lct2023.Android.Services;
@@ -28,6 +29,10 @@ public class Setup : MvxAndroidSetup<App>
         registry.RegisterCustomBindingFactory<MaterialButton>(
             nameof(ButtonIconResourceBinding),
             v => new ButtonIconResourceBinding(v));
+        
+        registry.RegisterCustomBindingFactory<ImageView>(
+            nameof(ImageViewByIdBinding),
+            v => new ImageViewByIdBinding(v));
     }
 
     protected override ILoggerProvider CreateLogProvider() =>

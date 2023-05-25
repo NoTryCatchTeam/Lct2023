@@ -2,4 +2,4 @@
 <com.google.android.material.button.MaterialButton
         xmlns:android="http://schemas.android.com/apk/res/android"
         style="@style/AppTheme.Button.Image.Social"
-        android:layout_marginHorizontal="8dp"/>
+        android:id="@+id/social_link_button"/>

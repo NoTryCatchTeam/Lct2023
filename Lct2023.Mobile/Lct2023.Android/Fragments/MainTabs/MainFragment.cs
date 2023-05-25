@@ -1,6 +1,7 @@
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+using AndroidX.RecyclerView.Widget;
 using Lct2023.ViewModels.Main;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Binding.Views;
@@ -24,6 +25,7 @@ public class MainFragment : BaseFragment<MainViewModel>
         var avatarImageButton = view.FindViewById<ImageView>(Resource.Id.toolbar_image);
 
         storiesLayout.ItemTemplateId = Resource.Layout.StoryCard;
+        storiesLayout.SetLayoutManager(new MvxGuardedLinearLayoutManager(Activity) { Orientation = LinearLayoutManager.Horizontal });
 
         var points = 724;
         var position = 3;
