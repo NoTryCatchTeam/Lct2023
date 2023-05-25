@@ -1,13 +1,18 @@
+using System;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
 using AndroidX.RecyclerView.Widget;
+using Lct2023.Android.Adapters;
+using Lct2023.Android.Decorations;
+using Lct2023.Android.Helpers;
 using Lct2023.ViewModels.Main;
 using MvvmCross.Binding.BindingContext;
-using MvvmCross.Platforms.Android.Binding.Views;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using Lct2023.Commons.Extensions;
 using MvvmCross.DroidX.RecyclerView;
+using MvvmCross.DroidX.RecyclerView.ItemTemplates;
+using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Square.Picasso;
 
 namespace Lct2023.Android.Fragments.MainTabs;
@@ -19,13 +24,21 @@ public class MainFragment : BaseFragment<MainViewModel>
     {
         var view = base.OnCreateView(inflater, container, savedInstanceState);
 
-        var storiesLayout = view.FindViewById<MvxRecyclerView>(Resource.Id.stories_layout);
-        var pointsTextView = view.FindViewById<TextView>(Resource.Id.points_text);
-        var rankingTextView = view.FindViewById<TextView>(Resource.Id.ranking_text);
+        var stories = view.FindViewById<MvxRecyclerView>(Resource.Id.main_stories);
+        var pointsTextView = view.FindViewById<TextView>(Resource.Id.main_points_text);
+        var rankingTextView = view.FindViewById<TextView>(Resource.Id.main_ranking_text);
         var avatarImageButton = view.FindViewById<ImageView>(Resource.Id.toolbar_image);
 
-        storiesLayout.ItemTemplateId = Resource.Layout.StoryCard;
-        storiesLayout.SetLayoutManager(new MvxGuardedLinearLayoutManager(Activity) { Orientation = LinearLayoutManager.Horizontal });
+        stories.ItemTemplateId = Resource.Layout.StoryCard;
+
+        var storiesAdapter = new MainStoriesAdapter((IMvxAndroidBindingContext)BindingContext)
+        {
+            ItemTemplateSelector = new MvxDefaultTemplateSelector(Resource.Layout.StoryCard),
+        };
+
+        stories.SetLayoutManager(new MvxGuardedLinearLayoutManager(Activity) { Orientation = LinearLayoutManager.Horizontal });
+        stories.SetAdapter(storiesAdapter);
+        stories.AddItemDecoration(new ItemSeparateDecoration(DimensUtils.DpToPx(Activity, 4), LinearLayoutManager.Horizontal));
 
         var points = 724;
         var position = 3;
@@ -39,8 +52,7 @@ public class MainFragment : BaseFragment<MainViewModel>
 
         var set = CreateBindingSet();
 
-        set
-            .Bind(storiesLayout)
+        set.Bind(stories)
             .For(v => v.ItemsSource)
             .To(vm => vm.StoryCards);
 
@@ -50,4 +62,35 @@ public class MainFragment : BaseFragment<MainViewModel>
     }
 
     protected override int GetLayoutId() => Resource.Layout.MainFragment;
+}
+
+public class MainStoriesAdapter : BaseRecyclerViewAdapter<StoryQuizItemViewModel, MainStoriesAdapter.StoryViewHolder>
+{
+    public MainStoriesAdapter(IMvxAndroidBindingContext bindingContext)
+        : base(bindingContext)
+    {
+    }
+
+    protected override Func<View, IMvxAndroidBindingContext, StoryViewHolder> BindableViewHolderCreator =>
+        (v, c) => new StoryViewHolder(v, c);
+
+    public class StoryViewHolder : BaseViewHolder
+    {
+        public StoryViewHolder(View itemView, IMvxAndroidBindingContext context)
+            : base(itemView, context)
+        {
+            var text = itemView.FindViewById<TextView>(Resource.Id.main_story_item_text);
+
+            this.DelayBind(() =>
+            {
+                var set = CreateBindingSet();
+
+                set.Bind(text)
+                    .For(x => x.Text)
+                    .To(vm => vm.Title);
+
+                set.Apply();
+            });
+        }
+    }
 }

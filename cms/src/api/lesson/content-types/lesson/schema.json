@@ -1,0 +1,48 @@
+{
+  "kind": "collectionType",
+  "collectionName": "lessons",
+  "info": {
+    "singularName": "lesson",
+    "pluralName": "lessons",
+    "displayName": "lesson"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "lessonNumber": {
+      "type": "integer"
+    },
+    "description": {
+      "type": "text"
+    },
+    "additionalMaterial": {
+      "type": "richtext"
+    },
+    "content": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "homework": {
+      "type": "richtext"
+    },
+    "isLocked": {
+      "type": "boolean",
+      "default": false
+    },
+    "lessonChapter": {
+      "type": "integer",
+      "default": 1
+    }
+  }
+}
