@@ -4,7 +4,8 @@
   "info": {
     "singularName": "task",
     "pluralName": "tasks",
-    "displayName": "task"
+    "displayName": "task",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -15,6 +16,16 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::quiz.quiz"
+    },
+    "audio_quizzes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::audio-quiz.audio-quiz"
+    },
+    "video_quizzes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::video-quiz.video-quiz"
     }
   }
 }

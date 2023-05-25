@@ -4,15 +4,22 @@ using MvvmCross.Converters;
 
 namespace Lct2023.Converters;
 
-public class AnyExpressionConverter<TBindingType, TResult> : MvxValueConverter<TBindingType>
+public class AnyExpressionConverter<TBindingType, TResult> : MvxValueConverter<TBindingType, TResult>
 {
-    private readonly Func<TBindingType, TResult> _expr;
+    private readonly Func<TBindingType, TResult> _convert;
+    private readonly Func<TResult, TBindingType> _convertBack;
 
-    public AnyExpressionConverter(Func<TBindingType, TResult> expr)
+    public AnyExpressionConverter(Func<TBindingType, TResult> convert, Func<TResult, TBindingType> convertBack = null)
     {
-        _expr = expr;
+        _convert = convert;
+        _convertBack = convertBack;
     }
 
-    protected override object Convert(TBindingType value, Type targetType, object parameter, CultureInfo culture) =>
-        _expr.Invoke(value);
+    protected override TResult Convert(TBindingType value, Type targetType, object parameter, CultureInfo culture) =>
+        _convert.Invoke(value);
+
+    protected override TBindingType ConvertBack(TResult value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return _convertBack != null ? _convertBack(value) : base.ConvertBack(value, targetType, parameter, culture);
+    }
 }
