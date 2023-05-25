@@ -55,8 +55,6 @@
         <Compile Include="Activities\BaseActivity.cs" />
         <Compile Include="Activities\Courses\CourseDetailsActivity.cs" />
         <Compile Include="Activities\Courses\CourseDetailsActivity.Helpers.cs" />
-        <Compile Include="Activities\Courses\CourseDetailsActivity.cs" />
-        <Compile Include="Activities\Courses\CourseDetailsActivity.Helpers.cs" />
         <Compile Include="Activities\MainTabbedActivity.cs" />
         <Compile Include="Activities\SplashActivity.cs" />
         <Compile Include="Activities\Tasks\TaskDetailsActivity.cs" />
