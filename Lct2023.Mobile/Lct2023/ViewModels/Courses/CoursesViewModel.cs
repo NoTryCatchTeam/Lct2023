@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using Lct2023.Helpers;
 using Microsoft.Extensions.Logging;
+using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 
@@ -12,6 +14,8 @@ public class CoursesViewModel : BaseViewModel
     public CoursesViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService)
         : base(logFactory, navigationService)
     {
+        CourseTapCommand = new MvxAsyncCommand<CourseItem>(CourseTapAsync);
+
         BannersCollection = new MvxObservableCollection<BannerItem>
         {
             new (),
@@ -114,9 +118,16 @@ public class CoursesViewModel : BaseViewModel
         };
     }
 
+    public IMvxAsyncCommand<CourseItem> CourseTapCommand { get; }
+
     public MvxObservableCollection<BannerItem> BannersCollection { get; }
 
     public MvxObservableCollection<CourseGroupItem> CoursesGroupsCollection { get; }
+
+    private Task CourseTapAsync(CourseItem item)
+    {
+        return NavigationService.Navigate<CourseDetailsViewModel>();
+    }
 }
 
 public class CourseGroupItem : MvxNotifyPropertyChanged

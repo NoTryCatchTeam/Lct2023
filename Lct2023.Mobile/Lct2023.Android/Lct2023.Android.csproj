@@ -53,12 +53,19 @@
         <Compile Include="Activities\Auth\LoginActivity.cs" />
         <Compile Include="Activities\Auth\WebAuthenticationCallbackActivity.cs" />
         <Compile Include="Activities\BaseActivity.cs" />
+        <Compile Include="Activities\Courses\CourseDetailsActivity.cs" />
+        <Compile Include="Activities\Courses\CourseDetailsActivity.Helpers.cs" />
         <Compile Include="Activities\MainTabbedActivity.cs" />
         <Compile Include="Activities\SplashActivity.cs" />
         <Compile Include="Activities\Tasks\TaskDetailsActivity.cs" />
         <Compile Include="Adapters\AudioToPictureExerciseAnswersAdapter.cs" />
         <Compile Include="Adapters\BaseRecyclerViewAdapter.cs" />
+        <Compile Include="Adapters\CourseDetailsSectionAdapter.cs" />
         <Compile Include="Adapters\CoursesBannersAdapter.cs" />
+        <Compile Include="Adapters\CourseSectionLessonsAdapter.cs" />
+        <Compile Include="Adapters\CoursesGroupsListAdapter.cs" />
+        <Compile Include="Adapters\CoursesListAdapter.cs" />
+        <Compile Include="Adapters\CourseTagsListAdapter.cs" />
         <Compile Include="Adapters\MainViewPagerAdapter.cs" />
         <Compile Include="Adapters\TaskDetailsCounterAdapter.cs" />
         <Compile Include="Adapters\TaskDetailsViewPagerAdapter.cs" />
@@ -84,6 +91,7 @@
         <Compile Include="Helpers\DimensUtils.cs" />
         <Compile Include="Helpers\ScrollWithSearchLayoutMediator.cs" />
         <Compile Include="Listeners\DefaultClickListener.cs" />
+        <Compile Include="Listeners\DefaultMenuItemClickListener.cs" />
         <Compile Include="Listeners\DefaultNavBarItemSelectedListener.cs" />
         <Compile Include="Listeners\DefaultScrollListener.cs" />
         <Compile Include="Listeners\MediaPlayerCompletionListener.cs" />
@@ -116,7 +124,6 @@
     <ItemGroup>
         <Folder Include="Assets" />
         <Folder Include="Resources\drawable\" />
-        <Folder Include="Resources\menu" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="12.0.1" />

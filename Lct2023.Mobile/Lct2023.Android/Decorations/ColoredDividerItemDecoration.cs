@@ -13,6 +13,8 @@ public class ColoredDividerItemDecoration : DividerItemDecoration
         : base(context, orientation)
     {
         _orientation = orientation;
+
+        Padding = new Rect();
     }
 
     public Rect Padding { get; set; }
