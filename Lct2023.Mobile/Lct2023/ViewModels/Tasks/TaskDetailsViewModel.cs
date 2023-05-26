@@ -2,7 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DataModel.Responses.BaseCms;
+using DataModel.Responses.Quizzes;
 using DataModel.Responses.Tasks;
+using Lct2023.Definitions.Constants;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
@@ -11,11 +14,17 @@ namespace Lct2023.ViewModels.Tasks;
 
 public class TaskDetailsViewModel : BaseViewModel<TaskDetailsViewModel.NavParameter>
 {
+    private readonly IConfiguration _configuration;
+
     private BaseExerciseItem _currentExercise;
 
-    public TaskDetailsViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService)
+    public TaskDetailsViewModel(
+        IConfiguration configuration,
+        ILoggerFactory logFactory,
+        IMvxNavigationService navigationService)
         : base(logFactory, navigationService)
     {
+        _configuration = configuration;
         CallToActionCommand = new MvxAsyncCommand(CallToActionAsync);
     }
 
@@ -52,25 +61,69 @@ public class TaskDetailsViewModel : BaseViewModel<TaskDetailsViewModel.NavParame
 
         var exercises = new List<BaseExerciseItem>();
 
-        exercises.AddRange(
-            parameter.Task.Item.Quizzes.Data
-                .Select((quiz, i) => new TextExerciseItem
-                {
-                    Number = i + 1,
-                    Question = quiz.Item.Question,
-                    DescriptionOfCorrectness = quiz.Item.Explanation,
-                    Answers = new[] { quiz.Item.AnswerA, quiz.Item.AnswerB, quiz.Item.AnswerC, quiz.Item.AnswerD }
-                        .Select((answer, j) => new TextExerciseAnswer
-                        {
-                            Number = j + 1,
-                            IsCorrect = quiz.Item.CorrectAnswerValue == answer,
-                            Value = answer,
-                        })
-                        .ToList(),
-                    AnswerTapCommand = answerTapCommand,
-                }));
+        var resourcesBaseUrl = $"{_configuration.GetValue<string>(ConfigurationConstants.AppSettings.HOST)}{_configuration.GetValue<string>(ConfigurationConstants.AppSettings.CMS_PATH)}".TrimEnd('/');
+        var tasksCounter = 0;
 
-        // MockExerciseList(exercises, answerTapCommand);
+        // Text quizzes
+        if (parameter.Task.Item.Quizzes?.Data?.Any() == true)
+        {
+            exercises.AddRange(
+                parameter.Task.Item.Quizzes.Data
+                    .Select((quiz, i) => new TextExerciseItem
+                    {
+                        Number = i + 1,
+                        Question = quiz.Item.Question,
+                        DescriptionOfCorrectness = quiz.Item.Explanation,
+                        Answers = new[] { quiz.Item.AnswerA, quiz.Item.AnswerB, quiz.Item.AnswerC, quiz.Item.AnswerD }
+                            .Select((answer, j) => new TextExerciseAnswer
+                            {
+                                Number = j + 1,
+                                IsCorrect = quiz.Item.CorrectAnswerValue == answer,
+                                Value = answer,
+                            })
+                            .ToList(),
+                        AnswerTapCommand = answerTapCommand,
+                    }));
+
+            tasksCounter += exercises.Count;
+        }
+
+        // Video to audio quizzes
+        if (parameter.Task.Item.Quizzes?.Data?.Any() == true)
+        {
+            exercises.AddRange(
+                parameter.Task.Item.VideoQuizzes.Data
+                    .Select((quiz, i) =>
+                    {
+                        var correctAnswerTag = quiz.Item.CorrectAnswerTag;
+
+                        var correctAnswer = correctAnswerTag switch
+                        {
+                            "a" => quiz.Item.AnswerA,
+                            "b" => quiz.Item.AnswerB,
+                            _ => quiz.Item.AnswerC,
+                        };
+
+                        return new VideoToAudioExerciseItem
+                        {
+                            Number = tasksCounter + i + 1,
+                            Question = quiz.Item.Question,
+                            VideoUrl = $"{resourcesBaseUrl}{quiz.Item.Video.Data.Item.Url}",
+                            Answers = new[] { quiz.Item.AnswerA, quiz.Item.AnswerB, quiz.Item.AnswerC }
+                                .Select((answer, j) => new VideoToAudioExerciseAnswer
+                                {
+                                    Number = j + 1,
+                                    IsCorrect = correctAnswer == answer,
+                                    AudioUrl = $"{resourcesBaseUrl}{answer.Data.Item.Url}",
+                                })
+                                .ToList(),
+                            AnswerTapCommand = answerTapCommand,
+                        };
+                    }));
+                    
+                                tasksCounter += exercises.Count;
+
+        }
 
         ExercisesCollection = exercises;
     }

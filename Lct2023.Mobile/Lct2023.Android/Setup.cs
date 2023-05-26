@@ -1,5 +1,6 @@
 using Android.Widget;
 using Google.Android.Material.Button;
+using Google.Android.Material.Card;
 using Lct2023.Android.Bindings;
 using Lct2023.Android.Services;
 using Lct2023.Factories;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using MvvmCross;
 using MvvmCross.Binding.Bindings.Target.Construction;
 using MvvmCross.IoC;
+using MvvmCross.Platforms.Android.Binding.Target;
 using MvvmCross.Platforms.Android.Core;
 
 namespace Lct2023.Android;
@@ -29,10 +31,14 @@ public class Setup : MvxAndroidSetup<App>
         registry.RegisterCustomBindingFactory<MaterialButton>(
             nameof(ButtonIconResourceBinding),
             v => new ButtonIconResourceBinding(v));
-        
+
         registry.RegisterCustomBindingFactory<ImageView>(
-            nameof(ImageViewByIdBinding),
-            v => new ImageViewByIdBinding(v));
+            nameof(MvxImageViewResourceNameTargetBinding),
+            v => new MvxImageViewResourceNameTargetBinding(v));
+
+        registry.RegisterCustomBindingFactory<MaterialCardView>(
+            nameof(CardViewStrokeColorBinding),
+            v => new CardViewStrokeColorBinding(v));
     }
 
     protected override ILoggerProvider CreateLogProvider() =>
