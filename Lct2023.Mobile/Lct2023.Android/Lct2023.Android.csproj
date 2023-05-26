@@ -67,8 +67,10 @@
         <Compile Include="Adapters\CoursesGroupsListAdapter.cs" />
         <Compile Include="Adapters\CoursesListAdapter.cs" />
         <Compile Include="Adapters\CourseTagsListAdapter.cs" />
+        <Compile Include="Adapters\BaseTemplatedRecyclerViewAdapter.cs" />
         <Compile Include="Adapters\EventsAdapter.cs" />
         <Compile Include="Adapters\MainViewPagerAdapter.cs" />
+        <Compile Include="Adapters\MapSearchResultsAdapter.cs" />
         <Compile Include="Adapters\SocialLinksAdapter.cs" />
         <Compile Include="Adapters\TaskDetailsCounterAdapter.cs" />
         <Compile Include="Adapters\TaskDetailsViewPagerAdapter.cs" />
@@ -77,6 +79,7 @@
         <Compile Include="Adapters\VideoToAudioExerciseAnswersAdapter.cs" />
         <Compile Include="Bindings\ButtonIconResourceBinding.cs" />
         <Compile Include="Bindings\CardViewStrokeColorBinding.cs" />
+        <Compile Include="Bindings\CardViewBackgroundColorByHexBinding.cs" />
         <Compile Include="Bindings\ImageViewByUrlBinding.cs" />
         <Compile Include="Decorations\ColoredDividerItemDecoration.cs" />
         <Compile Include="Decorations\CourseSectionLessonsItemDecoration.cs" />
@@ -96,6 +99,7 @@
         <Compile Include="Helpers\DefaultTabConfigurationStrategy.cs" />
         <Compile Include="Helpers\DimensUtils.cs" />
         <Compile Include="Helpers\ScrollWithSearchLayoutMediator.cs" />
+        <Compile Include="Helpers\KeyboardUtils.cs" />
         <Compile Include="Listeners\DefaultClickListener.cs" />
         <Compile Include="Listeners\DefaultMenuItemClickListener.cs" />
         <Compile Include="Listeners\DefaultNavBarItemSelectedListener.cs" />
@@ -130,6 +134,7 @@
     <ItemGroup>
         <Folder Include="Assets" />
         <Folder Include="Resources\drawable\" />
+        <Folder Include="Resources\menu" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="12.0.1" />

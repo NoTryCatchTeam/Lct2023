@@ -32,6 +32,11 @@ public class Setup : MvxAndroidSetup<App>
             nameof(ButtonIconResourceBinding),
             v => new ButtonIconResourceBinding(v));
 
+
+        registry.RegisterCustomBindingFactory<MaterialCardView>(
+            nameof(CardViewBackgroundColorByHexBinding),
+            v => new CardViewBackgroundColorByHexBinding(v));
+        
         registry.RegisterCustomBindingFactory<ImageView>(
             nameof(MvxImageViewResourceNameTargetBinding),
             v => new MvxImageViewResourceNameTargetBinding(v));

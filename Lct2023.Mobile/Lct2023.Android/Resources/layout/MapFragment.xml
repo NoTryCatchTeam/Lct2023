@@ -23,94 +23,14 @@
         <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
                                                            android:layout_height="match_parent">
 
-            <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/header_island_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:shapeAppearanceOverlay="@style/BottomRoundedShape"
-                    app:contentPaddingBottom="16dp"
-                    app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                    <com.google.android.material.textfield.TextInputLayout android:id="@+id/locations_search_layout"
-                                                                           android:layout_width="match_parent"
-                                                                           android:layout_height="match_parent"
-                                                                           app:layout_constraintTop_toTopOf="parent"
-                                                                           style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                                                           android:paddingHorizontal="16dp"
-                                                                           android:paddingBottom="16dp"
-                                                                           app:boxBackgroundColor="@color/bgIslandInner"
-                                                                           app:boxCornerRadiusBottomEnd="12dp"
-                                                                           app:boxCornerRadiusBottomStart="12dp"
-                                                                           app:boxCornerRadiusTopEnd="12dp"
-                                                                           app:boxCornerRadiusTopStart="12dp"
-                                                                           app:boxStrokeWidth="0dp"
-                                                                           app:hintEnabled="false">
-
-                        <com.google.android.material.textfield.TextInputEditText android:id="@+id/locations_search_value"
-                                                                                 android:layout_width="match_parent"
-                                                                                 android:layout_height="match_parent"
-                                                                                 android:hint="Поиск"
-                                                                                 android:padding="12dp"
-                                                                                 android:textColor="@color/textPrimary"
-                                                                                 android:textColorHint="@color/textSecondary"
-                                                                                 android:textSize="@dimen/textSmall"/>
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.card.MaterialCardView style="@style/AppTheme.MaterialCardView.White"
-                                                                       android:layout_width="match_parent"
-                                                                       android:layout_height="wrap_content"
-                                                                       app:contentPadding="2dp"
-                                                                       app:cardCornerRadius="8dp"
-                                                                       android:backgroundTint="@color/bgIslandInner"
-                                                                       android:layout_marginHorizontal="16dp"
-                                                                       app:layout_constraintTop_toBottomOf="@id/locations_search_layout">
-                        
-                        <com.google.android.material.button.MaterialButtonToggleGroup android:id="@+id/location_types_group"
-                                                                                      android:layout_width="match_parent"
-                                                                                      android:layout_height="wrap_content"
-                                                                                      android:background="@android:color/transparent"
-                                                                                      app:checkedButton="@id/msa_option"
-                                                                                      app:selectionRequired="true"
-                                                                                      app:singleSelection="true">
-
-                            <com.google.android.material.button.MaterialButton android:id="@+id/msa_option"
-                                                                               style="@style/AppTheme.Button.Image"
-                                                                               android:layout_width="0dp"
-                                                                               android:layout_height="28dp"
-                                                                               android:text="МШИ"
-                                                                               app:elevation="1dp"
-                                                                               android:textColor="@color/textPrimary"
-                                                                               android:layout_weight="1"
-                                                                               app:cornerRadius="7dp"
-                                                                               android:backgroundTint="@drawable/button_toggle_group_background_tint"/>
-
-                            <com.google.android.material.button.MaterialButton android:id="@+id/afisha_option"
-                                                                               style="@style/AppTheme.Button.Image"
-                                                                               android:layout_width="0dp"
-                                                                               android:layout_height="28dp"
-                                                                               android:layout_weight="1"
-                                                                               app:cornerRadius="7dp"
-                                                                               app:elevation="1dp"
-                                                                               android:textColor="@color/textPrimary"
-                                                                               android:text="Мероприятия"
-                                                                               android:backgroundTint="@drawable/button_toggle_group_background_tint"/>
-
-                        </com.google.android.material.button.MaterialButtonToggleGroup>
-                    </com.google.android.material.card.MaterialCardView>
-                    
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.gms.maps.MapView android:id="@+id/map_view"
                                                  android:layout_width="match_parent"
-                                                 android:layout_height="match_parent"/>
+                                                 android:layout_height="0dp"
+                                                 app:layout_constraintBottom_toBottomOf="parent"
+                                                 app:layout_constraintTop_toTopOf="@id/header_island_layout"/>
+
 
             <com.google.android.material.button.MaterialButton android:id="@+id/location_filters_button"
                                                                app:cornerRadius="8dp"
@@ -152,6 +72,96 @@
                                                                    app:icon="@drawable/ic_minus"/>
 
             </com.google.android.material.button.MaterialButtonToggleGroup>
+
+            <com.google.android.material.textfield.TextInputLayout android:id="@+id/locations_search_layout"
+                                                                   android:layout_width="match_parent"
+                                                                   android:layout_height="wrap_content"
+                                                                   android:layout_marginHorizontal="16dp"
+                                                                   app:layout_constraintTop_toTopOf="parent"
+                                                                   android:backgroundTint="@android:color/darker_gray"
+                                                                   style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                                                   app:boxBackgroundColor="@color/bgIslandInner"
+                                                                   app:boxCornerRadiusBottomEnd="12dp"
+                                                                   app:boxCornerRadiusBottomStart="12dp"
+                                                                   app:boxCornerRadiusTopEnd="12dp"
+                                                                   app:boxCornerRadiusTopStart="12dp"
+                                                                   app:boxStrokeWidth="0dp"
+                                                                   app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/locations_search_value"
+                                                                         android:layout_width="match_parent"
+                                                                         android:layout_height="match_parent"
+                                                                         android:hint="Поиск"
+                                                                         android:padding="12dp"
+                                                                         android:textColor="@color/textPrimary"
+                                                                         android:textColorHint="@color/textSecondary"
+                                                                         android:textSize="@dimen/textSmall"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.card.MaterialCardView style="@style/AppTheme.MaterialCardView.White"
+                                                               android:id="@+id/location_types_group_card"
+                                                               android:layout_width="match_parent"
+                                                               android:layout_height="wrap_content"
+                                                               app:contentPadding="2dp"
+                                                               app:cardCornerRadius="8dp"
+                                                               android:backgroundTint="@color/bgIslandInner"
+                                                               android:layout_marginHorizontal="16dp"
+                                                               android:layout_marginTop="16dp"
+                                                               app:layout_constraintTop_toBottomOf="@id/locations_search_layout">
+
+                <com.google.android.material.button.MaterialButtonToggleGroup android:id="@+id/location_types_group"
+                                                                              android:layout_width="match_parent"
+                                                                              android:layout_height="wrap_content"
+                                                                              android:background="@android:color/transparent"
+                                                                              app:checkedButton="@id/msa_option"
+                                                                              app:selectionRequired="true"
+                                                                              app:singleSelection="true">
+
+                    <com.google.android.material.button.MaterialButton android:id="@+id/msa_option"
+                                                                       style="@style/AppTheme.Button.Image"
+                                                                       android:layout_width="0dp"
+                                                                       android:layout_height="28dp"
+                                                                       android:text="МШИ"
+                                                                       app:elevation="1dp"
+                                                                       android:textColor="@color/textPrimary"
+                                                                       android:layout_weight="1"
+                                                                       app:cornerRadius="7dp"
+                                                                       android:backgroundTint="@drawable/button_toggle_group_background_tint"/>
+
+                    <com.google.android.material.button.MaterialButton android:id="@+id/afisha_option"
+                                                                       style="@style/AppTheme.Button.Image"
+                                                                       android:layout_width="0dp"
+                                                                       android:layout_height="28dp"
+                                                                       android:layout_weight="1"
+                                                                       app:cornerRadius="7dp"
+                                                                       app:elevation="1dp"
+                                                                       android:textColor="@color/textPrimary"
+                                                                       android:text="Мероприятия"
+                                                                       android:backgroundTint="@drawable/button_toggle_group_background_tint"/>
+
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+            </com.google.android.material.card.MaterialCardView>
+
+            <mvvmcross.droidx.recyclerview.MvxRecyclerView android:id="@+id/map_search_results"
+                                                           android:layout_width="0dp"
+                                                           android:layout_height="0dp"
+                                                           android:elevation="10dp"
+                                                           android:background="@drawable/rounded_background_white"
+                                                           android:visibility="gone"
+                                                           android:clipChildren="true"
+                                                           app:layout_constraintLeft_toLeftOf="@id/locations_search_layout"
+                                                           app:layout_constraintRight_toRightOf="@id/locations_search_layout"
+                                                           app:layout_constraintHeight_percent=".5"
+                                                           app:layout_constraintTop_toBottomOf="@id/locations_search_layout"/>
+
+            <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/header_island_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp"
+                    app:cardElevation="0dp"
+                    app:shapeAppearanceOverlay="@style/BottomRoundedShape"
+                    app:layout_constraintTop_toBottomOf="@id/location_types_group_card"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

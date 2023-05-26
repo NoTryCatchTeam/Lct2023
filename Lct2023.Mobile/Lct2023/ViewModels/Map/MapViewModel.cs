@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System;
 using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DataModel.Definitions.Enums;
@@ -168,6 +169,10 @@ public class MapViewModel : BaseViewModel
 
         this.WhenValueChanged(vm => vm.LocationType)
             .Subscribe(_ => UpdatePlaces());
+
+        this.WhenValueChanged(vm => vm.SearchText)
+            .Throttle(TimeSpan.FromMilliseconds(350), RxApp.MainThreadScheduler)
+            .Subscribe(_ => UpdateSearchResults());
     }
 
     public ObservableCollection<PlaceItemViewModel> Places { get; } = new ();
@@ -188,6 +193,10 @@ public class MapViewModel : BaseViewModel
 
     public IMvxCommand ActionCommand { get; set; }
     
+    public string SearchText { get; set; }
+
+    public ObservableCollection<MapSearchResultItemViewModel> SearchResults { get; } = new();
+
     public string Image { get; private set; } =
         "https://media.newyorker.com/photos/59095bb86552fa0be682d9d0/master/w_2560%2Cc_limit/Monkey-Selfie.jpg";
     
@@ -267,6 +276,29 @@ public class MapViewModel : BaseViewModel
                 break;
             case LocationType.Event:
                 _events?.Then(es => Places.AddRange(_mapper.Map<IEnumerable<PlaceItemViewModel>>(es)));
+                break;
+        }
+    }
+    
+    private void UpdateSearchResults()
+    {
+        SearchResults.Clear();
+
+        if (string.IsNullOrWhiteSpace(SearchText))
+        {
+            return;
+        }
+
+        switch (LocationType)
+        {
+            case LocationType.School:
+                _schoolLocations?.Where(school => school?.Item?.Name?.Contains(SearchText, StringComparison.OrdinalIgnoreCase) == true)
+                    .Then(sLs => SearchResults.AddRange(_mapper.Map<IEnumerable<MapSearchResultItemViewModel>>(sLs)));
+                break;
+            case LocationType.Event:
+                _events?.Where(e => e?.Item?.Name?.Contains(SearchText, StringComparison.OrdinalIgnoreCase) == true
+                    || e?.Item?.Description?.Contains(SearchText, StringComparison.OrdinalIgnoreCase) == true)
+                    .Then(es => SearchResults.AddRange(_mapper.Map<IEnumerable<MapSearchResultItemViewModel>>(es)));
                 break;
         }
     }
