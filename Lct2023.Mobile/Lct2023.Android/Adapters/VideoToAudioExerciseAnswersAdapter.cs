@@ -33,13 +33,17 @@ public class VideoToAudioExerciseAnswersAdapter : BaseRecyclerViewAdapter<VideoT
     protected override Func<View, IMvxAndroidBindingContext, AnswerViewHolder> BindableViewHolderCreator =>
         (v, c) => new AnswerViewHolder(v, c);
 
+    public void PlayerReseted()
+    {
+    }
+
     public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
     {
         base.OnBindViewHolder(holder, position);
 
         ((AnswerViewHolder)holder).ResetPlayer ??= _resetPlayer;
     }
-
+    
     public class AnswerViewHolder : BaseViewHolder
     {
         private readonly MaterialCardView _layout;
@@ -105,6 +109,7 @@ public class VideoToAudioExerciseAnswersAdapter : BaseRecyclerViewAdapter<VideoT
                         {
                             _loader.Visibility = ViewStates.Gone;
                             _icon.Visibility = ViewStates.Visible;
+                            _icon.SetImageResource(Resource.Drawable.ic_pause);
 
                             StartPlayer();
                         }));
@@ -120,6 +125,7 @@ public class VideoToAudioExerciseAnswersAdapter : BaseRecyclerViewAdapter<VideoT
                     // Player will be reset and recreated by another viewholder so not needed to reset or pause it here
                     _layout.StrokeWidth = 0;
                     _progress.Visibility = ViewStates.Invisible;
+                    _icon.SetImageResource(Resource.Drawable.ic_music);
 
                     if (x.IsSelected)
                     {
@@ -131,7 +137,7 @@ public class VideoToAudioExerciseAnswersAdapter : BaseRecyclerViewAdapter<VideoT
 
         protected override void OnItemViewClick(object sender, EventArgs e)
         {
-            if (_player == null)
+            if (_player == null || !ViewModel.IsPreSelected)
             {
                 // Invoke command instead
                 base.OnItemViewClick(sender, e);
@@ -142,6 +148,7 @@ public class VideoToAudioExerciseAnswersAdapter : BaseRecyclerViewAdapter<VideoT
             if (_player.IsPlaying)
             {
                 _player.Pause();
+                _icon.SetImageResource(Resource.Drawable.ic_play);
 
                 return;
             }
@@ -152,6 +159,7 @@ public class VideoToAudioExerciseAnswersAdapter : BaseRecyclerViewAdapter<VideoT
         private void StartPlayer()
         {
             _player.Start();
+            _icon.SetImageResource(Resource.Drawable.ic_pause);
 
             Task.Run(
                 async () =>

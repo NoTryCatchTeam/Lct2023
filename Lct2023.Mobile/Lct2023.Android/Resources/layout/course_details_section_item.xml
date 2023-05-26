@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="wrap_content">
+
+    <TextView android:id="@+id/course_details_section_item_title"
+              style="@style/AppTheme.BodyBold"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_marginHorizontal="16dp"
+              android:ellipsize="end"
+              android:lines="1"
+              android:text="Глава 1"
+              android:textSize="18sp"
+              app:layout_constraintBottom_toTopOf="@id/course_details_section_item_progress"
+              app:layout_constraintEnd_toStartOf="@id/course_details_section_item_sync"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintTop_toTopOf="parent"
+              app:layout_constraintVertical_chainStyle="packed"/>
+
+    <TextView android:id="@+id/course_details_section_item_progress"
+              style="@style/AppTheme.Secondary.Small"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="4dp"
+              android:ellipsize="end"
+              android:lines="1"
+              android:text="0/10 уроков пройдено"
+              app:layout_constraintEnd_toEndOf="@id/course_details_section_item_title"
+              app:layout_constraintStart_toStartOf="@id/course_details_section_item_title"
+              app:layout_constraintTop_toBottomOf="@id/course_details_section_item_title"/>
+
+    <com.google.android.material.button.MaterialButton android:id="@+id/course_details_section_item_sync"
+                                                       style="@style/AppTheme.Button.Image"
+                                                       android:layout_marginEnd="16dp"
+                                                       android:visibility="gone"
+                                                       app:icon="@drawable/ic_cloud_arrow_down"
+                                                       app:iconTint="@color/iconAccent"
+                                                       app:layout_constraintBottom_toBottomOf="@id/course_details_section_item_progress"
+                                                       app:layout_constraintEnd_toEndOf="parent"
+                                                       app:layout_constraintTop_toTopOf="@id/course_details_section_item_title"/>
+
+    <mvvmcross.droidx.recyclerview.MvxRecyclerView android:id="@+id/course_details_section_item_lessons"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="wrap_content"
+                                                   android:layout_marginTop="20dp"
+                                                   android:nestedScrollingEnabled="false"
+                                                   android:paddingStart="12dp"
+                                                   android:paddingEnd="16dp"
+                                                   app:layout_constraintBottom_toBottomOf="parent"
+                                                   app:layout_constraintTop_toBottomOf="@id/course_details_section_item_progress"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

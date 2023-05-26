@@ -17,5 +17,6 @@ public class TasksRestService : BaseRestService, ITasksRestService
     }
 
     public Task<IEnumerable<CmsItemResponse<TaskItemResponse>>> GetTasksAsync(CancellationToken token) =>
-        CmsExecuteAsync<IEnumerable<CmsItemResponse<TaskItemResponse>>>("tasks?populate[0]=quizzes", HttpMethod.Get, token);
+        CmsExecuteAsync<IEnumerable<CmsItemResponse<TaskItemResponse>>>("tasks?populate[quizzes][populate]=*&populate[video_quizzes][populate]=*&populate[audio_quizzes][populate]=*", HttpMethod.Get,
+            token);
 }

@@ -69,7 +69,7 @@ public class TasksViewModel : BaseViewModel
                 var tasksResponse = await _tasksRestService.GetTasksAsync(CancellationToken);
 
                 await NavigationService.Navigate<TaskDetailsViewModel, TaskDetailsViewModel.NavParameter>(
-                    new TaskDetailsViewModel.NavParameter(tasksResponse.First()));
+                    new TaskDetailsViewModel.NavParameter(tasksResponse.First(x => x.Item.VideoQuizzes.Data.Any())));
             });
 
         State &= ~TasksViewState.TaskOfTheDayLoading;

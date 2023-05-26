@@ -26,8 +26,6 @@ namespace Lct2023.Android.Fragments.MainTabs;
 [MvxFragmentPresentation]
 public class TasksFragment : BaseFragment<TasksViewModel>
 {
-    private (Animator Show, Animator Hide) _scrollAnimators;
-
     protected override int GetLayoutId() => Resource.Layout.TasksFragment;
 
     public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -50,24 +48,7 @@ public class TasksFragment : BaseFragment<TasksViewModel>
         var tasksFilter = view.FindViewById<MaterialButton>(Resource.Id.tasks_tasks_filter);
         var tasksList = view.FindViewById<MvxRecyclerView>(Resource.Id.tasks_tasks_list);
 
-        scroll.SetOnScrollChangeListener(new DefaultScrollListener((_, _, scrollY, _, oldScrollY) =>
-        {
-            const int SCROLL_DIFF_THRESHOLD = 3;
-
-            var isScrollDown = scrollY - oldScrollY > 0;
-            var isScrollUp = scrollY - oldScrollY < 0;
-
-            if (isScrollDown && scrollY - oldScrollY > SCROLL_DIFF_THRESHOLD && !_scrollAnimators.Hide.IsRunning && searchLayout.TranslationY == 0)
-            {
-                _scrollAnimators.Show.Cancel();
-                _scrollAnimators.Hide.Start();
-            }
-            else if (isScrollUp && (scrollY - oldScrollY < -SCROLL_DIFF_THRESHOLD || scrollY < scroll.PaddingTop / 2) && !_scrollAnimators.Show.IsRunning && searchLayout.TranslationY < 0)
-            {
-                _scrollAnimators.Hide.Cancel();
-                _scrollAnimators.Show.Start();
-            }
-        }));
+        _ = new ScrollWithSearchLayoutMediator(parent, scroll, searchLayout);
 
         var tasksAdapter = new TasksAdapter((IMvxAndroidBindingContext)BindingContext)
         {
@@ -79,21 +60,6 @@ public class TasksFragment : BaseFragment<TasksViewModel>
         tasksList.SetLayoutManager(new MvxGuardedGridLayoutManager(Activity, 3) { Orientation = LinearLayoutManager.Vertical });
         tasksList.SetAdapter(tasksAdapter);
         tasksList.AddItemDecoration(new GridItemDecoration(3, DimensUtils.DpToPx(Activity, 16)));
-
-        parent.Post(() =>
-        {
-            var searchRect = new Rect();
-            searchLayout.GetDrawingRect(searchRect);
-            parent.OffsetDescendantRectToMyCoords(searchLayout, searchRect);
-
-            scroll.SetPadding(scroll.PaddingLeft, scroll.PaddingTop + searchRect.Height(), scroll.PaddingRight, scroll.PaddingBottom);
-
-            _scrollAnimators = (
-                ObjectAnimator.OfFloat(searchLayout, nameof(View.TranslationY), -searchRect.Height(), 0)
-                    .SetDuration(200),
-                ObjectAnimator.OfFloat(searchLayout, nameof(View.TranslationY), 0, -searchRect.Height())
-                    .SetDuration(200));
-        });
 
         var set = CreateBindingSet();
 
