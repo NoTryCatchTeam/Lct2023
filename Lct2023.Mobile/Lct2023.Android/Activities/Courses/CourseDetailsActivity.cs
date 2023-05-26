@@ -1,3 +1,5 @@
+using System;
+using System.Reactive.Disposables;
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
@@ -5,6 +7,7 @@ using Android.Views;
 using Android.Widget;
 using AndroidX.ConstraintLayout.Widget;
 using AndroidX.RecyclerView.Widget;
+using DynamicData.Binding;
 using Google.Android.Material.AppBar;
 using Google.Android.Material.Button;
 using Google.Android.Material.Card;
@@ -63,14 +66,6 @@ public partial class CourseDetailsActivity : BaseActivity<CourseDetailsViewModel
             FindViewById<MaterialButton>(Resource.Id.course_details_purchase)
         );
 
-        views.Info.Layout.SetOnClickListener(new DefaultClickListener(_ =>
-        {
-            var shouldShow = views.Info.Details.Layout.Visibility == ViewStates.Gone;
-
-            views.Info.Details.Layout.Visibility = shouldShow ? ViewStates.Visible : ViewStates.Gone;
-            views.Info.Extender.Chevron.Rotation = shouldShow ? 90 : 0;
-        }));
-
         var tagsAdapter = new CourseTagsListAdapter((IMvxAndroidBindingContext)BindingContext)
         {
             ItemTemplateSelector = new MvxDefaultTemplateSelector(Resource.Layout.courses_tags_list_item),
@@ -117,5 +112,24 @@ public partial class CourseDetailsActivity : BaseActivity<CourseDetailsViewModel
             .WithConversion(new AnyExpressionConverter<bool, bool>(x => !x));
 
         set.Apply();
+
+        ViewModel.NavigationParameter.CourseItem.WhenValueChanged(x => x.IsPurchased)
+            .Subscribe(x =>
+            {
+                // Do not need to remove listener as course couldn't be refunded now
+                if (!x)
+                {
+                    return;
+                }
+
+                views.Info.Layout.SetOnClickListener(new DefaultClickListener(_ =>
+                {
+                    var shouldShow = views.Info.Details.Layout.Visibility == ViewStates.Gone;
+
+                    views.Info.Details.Layout.Visibility = shouldShow ? ViewStates.Visible : ViewStates.Gone;
+                    views.Info.Extender.Chevron.Rotation = shouldShow ? 90 : 0;
+                }));
+            })
+            .DisposeWith(CompositeDisposable);
     }
 }
