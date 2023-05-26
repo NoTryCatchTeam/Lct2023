@@ -2,7 +2,7 @@
 	"swagger": "2.0",
 	"info": {
 		"title": "APIGroup_xhel",
-		"version": "2023-05-24-05:13:46"
+		"version": "2023-05-27-02:45:26"
 	},
 	"host": "ltc2023.notrycatch.team",
 	"paths": {
@@ -189,6 +189,62 @@
 				"x-apigateway-request-type": "public"
 			}
 		},
+		"/cms/audio-quizzes": {
+			"get": {
+				"schemes": [
+					"http",
+					"https"
+				],
+				"operationId": "audio_quizzes",
+				"responses": {
+					"default": {
+						"$ref": "#/responses/default"
+					}
+				},
+				"x-apigateway-backend": {
+					"httpEndpoints": {
+						"address": "45.9.27.2",
+						"description": "",
+						"method": "GET",
+						"path": "/api/audio-quizzes",
+						"scheme": "http",
+						"timeout": 5000
+					},
+					"type": "HTTP"
+				},
+				"x-apigateway-cors": false,
+				"x-apigateway-match-mode": "NORMAL",
+				"x-apigateway-request-type": "public"
+			}
+		},
+		"/cms/courses": {
+			"get": {
+				"schemes": [
+					"http",
+					"https"
+				],
+				"operationId": "courses",
+				"responses": {
+					"default": {
+						"$ref": "#/responses/default"
+					}
+				},
+				"x-apigateway-backend": {
+					"httpEndpoints": {
+						"address": "45.9.27.2",
+						"description": "",
+						"method": "GET",
+						"path": "/api/courses",
+						"scheme": "http",
+						"timeout": 5000
+					},
+					"type": "HTTP"
+				},
+				"x-apigateway-cors": false,
+				"x-apigateway-match-mode": "SWA",
+				"x-apigateway-request-type": "public"
+			}
+		},
 		"/cms/districts": {
 			"get": {
 				"schemes": [
@@ -241,7 +297,35 @@
 					"type": "HTTP"
 				},
 				"x-apigateway-cors": false,
-				"x-apigateway-match-mode": "NORMAL",
+				"x-apigateway-match-mode": "SWA",
+				"x-apigateway-request-type": "public"
+			}
+		},
+		"/cms/lessons": {
+			"get": {
+				"schemes": [
+					"http",
+					"https"
+				],
+				"operationId": "lessons",
+				"responses": {
+					"default": {
+						"$ref": "#/responses/default"
+					}
+				},
+				"x-apigateway-backend": {
+					"httpEndpoints": {
+						"address": "45.9.27.2",
+						"description": "",
+						"method": "GET",
+						"path": "/api/lessons",
+						"scheme": "http",
+						"timeout": 5000
+					},
+					"type": "HTTP"
+				},
+				"x-apigateway-cors": false,
+				"x-apigateway-match-mode": "SWA",
 				"x-apigateway-request-type": "public"
 			}
 		},
@@ -297,7 +381,7 @@
 					"type": "HTTP"
 				},
 				"x-apigateway-cors": false,
-				"x-apigateway-match-mode": "NORMAL",
+				"x-apigateway-match-mode": "SWA",
 				"x-apigateway-request-type": "public"
 			}
 		},
@@ -329,6 +413,34 @@
 				"x-apigateway-request-type": "public"
 			}
 		},
+		"/cms/rubrics": {
+			"get": {
+				"schemes": [
+					"http",
+					"https"
+				],
+				"operationId": "rubrics",
+				"responses": {
+					"default": {
+						"$ref": "#/responses/default"
+					}
+				},
+				"x-apigateway-backend": {
+					"httpEndpoints": {
+						"address": "45.9.27.2",
+						"description": "",
+						"method": "GET",
+						"path": "/api/rubrics",
+						"scheme": "http",
+						"timeout": 5000
+					},
+					"type": "HTTP"
+				},
+				"x-apigateway-cors": false,
+				"x-apigateway-match-mode": "NORMAL",
+				"x-apigateway-request-type": "public"
+			}
+		},
 		"/cms/story-quizzes": {
 			"get": {
 				"schemes": [
@@ -347,6 +459,118 @@
 						"description": "",
 						"method": "GET",
 						"path": "/api/story-quizzes",
+						"scheme": "http",
+						"timeout": 5000
+					},
+					"type": "HTTP"
+				},
+				"x-apigateway-cors": false,
+				"x-apigateway-match-mode": "SWA",
+				"x-apigateway-request-type": "public"
+			}
+		},
+		"/cms/tasks": {
+			"get": {
+				"schemes": [
+					"http",
+					"https"
+				],
+				"operationId": "tasks",
+				"responses": {
+					"default": {
+						"$ref": "#/responses/default"
+					}
+				},
+				"x-apigateway-backend": {
+					"httpEndpoints": {
+						"address": "45.9.27.2",
+						"description": "",
+						"method": "GET",
+						"path": "/api/tasks",
+						"scheme": "http",
+						"timeout": 5000
+					},
+					"type": "HTTP"
+				},
+				"x-apigateway-cors": false,
+				"x-apigateway-match-mode": "SWA",
+				"x-apigateway-request-type": "public"
+			}
+		},
+		"/cms/upload": {
+			"post": {
+				"schemes": [
+					"http",
+					"https"
+				],
+				"operationId": "upload_post",
+				"responses": {
+					"default": {
+						"$ref": "#/responses/default"
+					}
+				},
+				"x-apigateway-backend": {
+					"httpEndpoints": {
+						"address": "45.9.27.2",
+						"description": "",
+						"method": "POST",
+						"path": "/api/upload",
+						"scheme": "http",
+						"timeout": 5000
+					},
+					"type": "HTTP"
+				},
+				"x-apigateway-cors": false,
+				"x-apigateway-match-mode": "NORMAL",
+				"x-apigateway-request-type": "public"
+			}
+		},
+		"/cms/uploads": {
+			"get": {
+				"schemes": [
+					"http",
+					"https"
+				],
+				"operationId": "uploads",
+				"responses": {
+					"default": {
+						"$ref": "#/responses/default"
+					}
+				},
+				"x-apigateway-backend": {
+					"httpEndpoints": {
+						"address": "45.9.27.2",
+						"description": "",
+						"method": "GET",
+						"path": "/uploads",
+						"scheme": "http",
+						"timeout": 5000
+					},
+					"type": "HTTP"
+				},
+				"x-apigateway-cors": false,
+				"x-apigateway-match-mode": "SWA",
+				"x-apigateway-request-type": "public"
+			}
+		},
+		"/cms/video-quizzes": {
+			"get": {
+				"schemes": [
+					"http",
+					"https"
+				],
+				"operationId": "video_quizzes",
+				"responses": {
+					"default": {
+						"$ref": "#/responses/default"
+					}
+				},
+				"x-apigateway-backend": {
+					"httpEndpoints": {
+						"address": "45.9.27.2",
+						"description": "",
+						"method": "GET",
+						"path": "/api/video-quizzes",
 						"scheme": "http",
 						"timeout": 5000
 					},
