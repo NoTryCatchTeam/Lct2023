@@ -141,11 +141,4 @@ public class VideoToAudioExerciseFragment : MvxFragment, IPlayersFragment
 
         return videoPlayer;
     }
-
-    private MediaPlayer GetAudioPlayer()
-    {
-        var player = new MediaPlayer();
-
-        return player;
-    }
 }

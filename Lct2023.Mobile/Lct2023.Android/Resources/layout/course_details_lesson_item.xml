@@ -3,7 +3,10 @@
                                                    xmlns:app="http://schemas.android.com/apk/res-auto"
                                                    android:layout_width="match_parent"
                                                    android:layout_height="wrap_content"
-                                                   android:paddingVertical="8dp">
+                                                   android:paddingVertical="8dp"
+                                                   android:paddingStart="12dp"
+                                                   android:paddingEnd="16dp"
+                                                   android:background="?attr/selectableItemBackground">
 
     <com.google.android.material.card.MaterialCardView android:id="@+id/course_details_lesson_item_image_container"
                                                        android:layout_width="72dp"

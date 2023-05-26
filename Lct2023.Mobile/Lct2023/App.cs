@@ -48,8 +48,8 @@ public class App : MvxApplication
     private IConfiguration RegisterConfiguration()
     {
         var configuration = new ConfigurationBuilder()
-            .AddJsonStream(Mvx.IoCProvider.Resolve<IFileProvider>().GetStream("appSettings.json"))
-            .AddJsonStream(Mvx.IoCProvider.Resolve<IFileProvider>().GetStream("secrets.json"))
+            .AddJsonStream(Mvx.IoCProvider.Resolve<IPlatformFileProvider>().GetStream("appSettings.json"))
+            .AddJsonStream(Mvx.IoCProvider.Resolve<IPlatformFileProvider>().GetStream("secrets.json"))
             .Build();
 
         Mvx.IoCProvider.RegisterSingleton(typeof(IConfiguration), configuration);
@@ -90,6 +90,8 @@ public class App : MvxApplication
         Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IXamarinEssentialsWrapper, XamarinEssentialsWrapper>();
         Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IUserService, UserService>();
         Mvx.IoCProvider.LazyConstructAndRegisterSingleton<ISecureStorageService, SecureStorageService>();
+        Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IPermissionsService, PermissionsService>();
+        Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IMediaService, MediaService>();
     }
 
     private void RegisterAndValidateMapper()

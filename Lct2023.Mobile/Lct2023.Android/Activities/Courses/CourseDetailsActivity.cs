@@ -75,7 +75,7 @@ public partial class CourseDetailsActivity : BaseActivity<CourseDetailsViewModel
         views.Info.Details.Tags.SetAdapter(tagsAdapter);
         views.Info.Details.Tags.AddItemDecoration(new ItemSeparateDecoration(DimensUtils.DpToPx(this, 8), LinearLayoutManager.Horizontal));
 
-        var sectionsAdapter = new CourseDetailsSectionAdapter((IMvxAndroidBindingContext)BindingContext)
+        var sectionsAdapter = new CourseDetailsSectionAdapter((IMvxAndroidBindingContext)BindingContext, ViewModel.LessonTapCommand)
         {
             ItemTemplateSelector = new MvxDefaultTemplateSelector(Resource.Layout.course_details_section_item),
         };

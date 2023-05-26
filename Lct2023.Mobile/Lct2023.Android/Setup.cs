@@ -21,7 +21,8 @@ public class Setup : MvxAndroidSetup<App>
         base.InitializeFirstChance(iocProvider);
 
         Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IDialogService, DialogService>();
-        Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IFileProvider, FileProvider>();
+        Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IPlatformFileProvider, PlatformFileProvider>();
+        Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IPlatformFileViewer, PlatformFileViewer>();
     }
 
     protected override void FillTargetFactories(IMvxTargetBindingFactoryRegistry registry)
@@ -39,6 +40,10 @@ public class Setup : MvxAndroidSetup<App>
         registry.RegisterCustomBindingFactory<MaterialCardView>(
             nameof(CardViewStrokeColorBinding),
             v => new CardViewStrokeColorBinding(v));
+
+        registry.RegisterCustomBindingFactory<TextView>(
+            nameof(TextViewTextColorBinding),
+            v => new TextViewTextColorBinding(v));
     }
 
     protected override ILoggerProvider CreateLogProvider() =>

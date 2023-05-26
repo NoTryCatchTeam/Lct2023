@@ -3,6 +3,7 @@
     <color name="background">#FFFFFF</color>
     <color name="backgroundDark">#F0F2F5</color>
     <color name="accent">#A4CE57</color>
+    <color name="accent20">#33A4CE57</color>
     <color name="lightPurple">#8B72AB</color>
     <color name="darkGray">#404041</color>
     <color name="gray">#76787A</color>

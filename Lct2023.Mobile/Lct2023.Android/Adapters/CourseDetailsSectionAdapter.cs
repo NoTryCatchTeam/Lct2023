@@ -9,6 +9,7 @@ using Lct2023.Android.Decorations;
 using Lct2023.Converters;
 using Lct2023.ViewModels.Courses;
 using MvvmCross.Binding.BindingContext;
+using MvvmCross.Commands;
 using MvvmCross.DroidX.RecyclerView;
 using MvvmCross.DroidX.RecyclerView.ItemTemplates;
 using MvvmCross.Platforms.Android.Binding;
@@ -16,15 +17,25 @@ using MvvmCross.Platforms.Android.Binding.BindingContext;
 
 namespace Lct2023.Android.Adapters;
 
-public class CourseDetailsSectionAdapter : BaseRecyclerViewAdapter<CourseSectionItem, CourseDetailsSectionAdapter.SectionViewHolder>
+public class CourseDetailsSectionAdapter : BaseRecyclerViewAdapter<CourseLessonSectionItem, CourseDetailsSectionAdapter.SectionViewHolder>
 {
-    public CourseDetailsSectionAdapter(IMvxAndroidBindingContext bindingContext)
+    private readonly IMvxAsyncCommand<CourseLessonItem> _lessonTapCommand;
+
+    public CourseDetailsSectionAdapter(IMvxAndroidBindingContext bindingContext, IMvxAsyncCommand<CourseLessonItem> lessonTapCommand)
         : base(bindingContext)
     {
+        _lessonTapCommand = lessonTapCommand;
     }
 
     protected override Func<View, IMvxAndroidBindingContext, SectionViewHolder> BindableViewHolderCreator =>
         (v, c) => new SectionViewHolder(v, c);
+
+    public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
+    {
+        base.OnBindViewHolder(holder, position);
+
+        ((SectionViewHolder)holder).SetLessonTapCommand(_lessonTapCommand);
+    }
 
     public class SectionViewHolder : BaseViewHolder
     {
@@ -60,6 +71,16 @@ public class CourseDetailsSectionAdapter : BaseRecyclerViewAdapter<CourseSection
 
                 set.Apply();
             });
+        }
+
+        public void SetLessonTapCommand(IMvxCommand<CourseLessonItem> command)
+        {
+            if (_lessonsAdapter.ItemClick != null)
+            {
+                return;
+            }
+
+            _lessonsAdapter.ItemClick = command;
         }
 
         public override void Bind()
