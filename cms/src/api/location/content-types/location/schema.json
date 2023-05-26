@@ -39,6 +39,9 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::district.district"
+    },
+    "shortName": {
+      "type": "string"
     }
   }
 }

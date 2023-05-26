@@ -46,9 +46,9 @@
     "description": {
       "type": "text"
     },
-    "stream": {
+    "streams": {
       "type": "relation",
-      "relation": "oneToOne",
+      "relation": "oneToMany",
       "target": "api::stream.stream"
     },
     "author": {
