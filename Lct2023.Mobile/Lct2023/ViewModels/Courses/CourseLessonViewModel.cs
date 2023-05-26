@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Lct2023.Definitions.Models;
 using Lct2023.Services;
 using Lct2023.Services.Implementation;
+using Lct2023.ViewModels.Common;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
@@ -35,6 +36,8 @@ public class CourseLessonViewModel : BaseViewModel<CourseLessonViewModel.NavPara
         UploadResolutionCommand = new MvxAsyncCommand(UploadResolutionAsync);
         OpenResolutionCommand = new MvxAsyncCommand(OpenResolutionAsync);
         SendAnswerCommand = new MvxAsyncCommand(SendAnswerAsync);
+        OpenAttachmentCommand = new MvxAsyncCommand(() =>
+            NavigationService.Navigate<WebViewModel, WebViewModel.NavParameter>(new WebViewModel.NavParameter(NavigationParameter.LessonItem.Attachment.Url)));
     }
 
     public IMvxAsyncCommand UploadResolutionCommand { get; }
@@ -42,6 +45,8 @@ public class CourseLessonViewModel : BaseViewModel<CourseLessonViewModel.NavPara
     public IMvxAsyncCommand OpenResolutionCommand { get; }
 
     public IMvxAsyncCommand SendAnswerCommand { get; }
+
+    public IMvxAsyncCommand OpenAttachmentCommand { get; }
 
     public FileResult PickedMedia
     {

@@ -19,7 +19,7 @@ public class CourseLessonViewPagerAdapter : FragmentStateAdapter
         {
             new LessonLessonPartFragment
             {
-                DataContext = lesson,
+                DataContext = courseLessonViewModel,
             },
             new LessonTaskPartFragment
             {
