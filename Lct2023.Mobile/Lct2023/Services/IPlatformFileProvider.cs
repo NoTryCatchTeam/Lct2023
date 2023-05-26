@@ -2,7 +2,7 @@ using System.IO;
 
 namespace Lct2023.Services;
 
-public interface IFileProvider
+public interface IPlatformFileProvider
 {
     Stream GetStream(string filePath);
 }

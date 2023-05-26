@@ -311,6 +311,7 @@
                                                            android:background="@drawable/top_view_island_background"
                                                            android:paddingHorizontal="16dp"
                                                            android:paddingBottom="16dp"
+                                                           android:theme="@style/ThemeOverlay.TextInputLayout"
                                                            app:boxBackgroundColor="@color/bgIslandInner"
                                                            app:boxCornerRadiusBottomEnd="12dp"
                                                            app:boxCornerRadiusBottomStart="12dp"
@@ -321,13 +322,12 @@
                                                            app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <com.google.android.material.textfield.TextInputEditText android:id="@+id/tasks_search_value"
+                                                                 style="@style/AppTheme.Body.Small"
                                                                  android:layout_width="match_parent"
                                                                  android:layout_height="match_parent"
                                                                  android:hint="Поиск"
                                                                  android:padding="12dp"
-                                                                 android:textColor="@color/textPrimary"
-                                                                 android:textColorHint="@color/textSecondary"
-                                                                 android:textSize="@dimen/textSmall"/>
+                                                                 android:textColorHint="@color/textSecondary"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 

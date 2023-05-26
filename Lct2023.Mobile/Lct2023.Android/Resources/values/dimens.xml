@@ -4,4 +4,7 @@
 
     <dimen name="textSmall">14sp</dimen>
     <dimen name="text">16sp</dimen>
+
+    <dimen name="toolbar_height">64dp</dimen>
+    <dimen name="scroll_under_toolbar_padding">72dp</dimen>
 </resources>

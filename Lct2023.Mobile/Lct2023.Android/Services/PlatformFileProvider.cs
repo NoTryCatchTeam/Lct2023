@@ -4,7 +4,7 @@ using Lct2023.Services;
 
 namespace Lct2023.Android.Services;
 
-public class FileProvider : IFileProvider
+public class PlatformFileProvider : IPlatformFileProvider
 {
     public Stream GetStream(string filePath) =>
         Application.Context.Assets!.Open(filePath);
