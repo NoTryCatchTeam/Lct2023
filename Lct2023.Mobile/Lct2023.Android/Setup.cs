@@ -1,5 +1,6 @@
 using Android.Widget;
 using Google.Android.Material.Button;
+using Google.Android.Material.Card;
 using Lct2023.Android.Bindings;
 using Lct2023.Android.Services;
 using Lct2023.Factories;
@@ -29,6 +30,10 @@ public class Setup : MvxAndroidSetup<App>
         registry.RegisterCustomBindingFactory<MaterialButton>(
             nameof(ButtonIconResourceBinding),
             v => new ButtonIconResourceBinding(v));
+
+        registry.RegisterCustomBindingFactory<MaterialCardView>(
+            nameof(CardViewBackgroundColorByHexBinding),
+            v => new CardViewBackgroundColorByHexBinding(v));
         
         registry.RegisterCustomBindingFactory<ImageView>(
             nameof(ImageViewByIdBinding),

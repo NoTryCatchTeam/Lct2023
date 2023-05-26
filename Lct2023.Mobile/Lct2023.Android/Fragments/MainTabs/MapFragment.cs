@@ -17,12 +17,15 @@ using DynamicData.Binding;
 using Google.Android.Material.BottomSheet;
 using Google.Android.Material.Button;
 using Google.Android.Material.Card;
+using Google.Android.Material.TextField;
 using Lct2023.Android.Adapters;
 using Lct2023.Android.Decorations;
 using Lct2023.Android.Definitions.Extensions;
 using Lct2023.Android.Helpers;
+using Lct2023.Android.TemplateSelectors;
 using Lct2023.Converters;
 using MvvmCross.Binding.ValueConverters;
+using MvvmCross.Commands;
 using MvvmCross.DroidX.RecyclerView;
 using MvvmCross.DroidX.RecyclerView.ItemTemplates;
 using MvvmCross.Platforms.Android.Binding;
@@ -36,8 +39,6 @@ namespace Lct2023.Android.Fragments.MainTabs;
 [MvxFragmentPresentation]
 public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View.IOnClickListener, GoogleMap.IOnMarkerClickListener, GoogleMap.IOnMapClickListener
 {
-    private const int DEFAULT_ZOOM = 8;
-    
     private MapView _mapView;
 
     private GoogleMap _googleMap;
@@ -54,6 +55,8 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         view.FindViewById<TextView>(Resource.Id.title).Text = "Карта";
         _mapView = view.FindViewById<MapView>(Resource.Id.map_view);
         
+        var locationsSearchEditText = view.FindViewById<TextInputEditText>(Resource.Id.locations_search_value);
+        var searchResultsList = view.FindViewById<MvxRecyclerView>(Resource.Id.map_search_results);
         var locationTypesGroup = view.FindViewById<MaterialButtonToggleGroup>(Resource.Id.location_types_group);
         var avatarImageButton = view.FindViewById<ImageView>(Resource.Id.toolbar_image);
         var filtersButton = view.FindViewById<MaterialButton>(Resource.Id.location_filters_button);
@@ -109,6 +112,41 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         socialLinksLayout.AddItemDecoration(horizontal16dpItemSpacingDecoration);
         socialLinksLayout.SetAdapter(socialLinksAdapter);
         
+        var searchAdapter = new MapSearchResultsAdapter((IMvxAndroidBindingContext)BindingContext)
+        {
+            ItemTemplateSelector = new MultipleTemplateSelector<MapSearchResultItemViewModel>(
+                item => item.LocationType switch
+                {
+                    LocationType.Event => Resource.Layout.EventSearchResultItemView,
+                    LocationType.School => Resource.Layout.SchoolSearchResultItemView,
+                },
+                id => id),
+        };
+
+        searchResultsList.SetAdapter(searchAdapter);
+        
+        searchAdapter.ItemClick = new MvxCommand<MapSearchResultItemViewModel>(
+            item =>
+            {
+                locationsSearchEditText.Text = null;
+                KeyboardUtils.HideKeyboard(Activity);
+                SelectLocation(item.Id);
+
+                if (ViewModel.SelectedLocation == null)
+                {
+                    return;
+                }
+
+                try
+                {
+                    _googleMap?.AnimateCamera(CameraUpdateFactory.NewLatLngZoom(new LatLng(ViewModel.SelectedLocation.Latitude, ViewModel.SelectedLocation.Longitude), 16));
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+            });
+        
         _bottomSheetBehavior.Hideable = true;
         _bottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
 
@@ -131,6 +169,11 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
             .DisposeWith(CompositeDisposable);
         
         var set = CreateBindingSet();
+
+        set
+            .Bind(locationsSearchEditText)
+            .For(v => v.Text)
+            .To(vm => vm.SearchText);
 
         set
             .Bind(view.FindViewById<TextView>(Resource.Id.location_title))
@@ -253,6 +296,17 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
             .To(vm => vm.Contacts);
         
         set
+            .Bind(searchResultsList)
+            .For(v => v.ItemsSource)
+            .To(vm => vm.SearchResults);
+
+        set
+            .Bind(searchResultsList)
+            .For(v => v.BindVisible())
+            .To(vm => vm.SearchText)
+            .WithConversion(visibilityConverter);
+        
+        set
             .Bind(artDirectionsLayout)
             .For(v => v.BindVisible())
             .To(vm => vm.SelectedLocation.ArtDirections)
@@ -343,7 +397,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
             {
                 try
                 {
-                    _googleMap.AnimateCamera(CameraUpdateFactory.NewLatLngZoom(new LatLng(ViewModel.MyPosition.Latitude, ViewModel.MyPosition.Longitude), DEFAULT_ZOOM));
+                    _googleMap.AnimateCamera(CameraUpdateFactory.NewLatLngZoom(new LatLng(ViewModel.MyPosition.Latitude, ViewModel.MyPosition.Longitude), 14));
                 }
                 catch (Exception ex)
                 {
@@ -407,7 +461,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         _googleMap.SetOnMapClickListener(this);
         
         _googleMap.MapType = GoogleMap.MapTypeNormal;
-        _googleMap.MoveCamera(CameraUpdateFactory.NewLatLngZoom(new LatLng(55.7499931, 37.624216), 9.5f));
+        _googleMap.MoveCamera(CameraUpdateFactory.NewLatLngZoom(new LatLng(55.7499931, 37.624216), 10));
 
         _googleMap.UiSettings.CompassEnabled = false;
         _googleMap.UiSettings.ZoomControlsEnabled = false;
@@ -480,15 +534,25 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
 
     public bool OnMarkerClick(Marker marker)
     {
-        ViewModel.SelectedLocation = ViewModel.Places?.FirstOrDefault(place => place.Id == marker.Snippet);
+        SelectLocation(marker.Snippet);
+        return true;
+    }
+
+    private void SelectLocation(string id)
+    {
+        ViewModel.SelectedLocation = ViewModel.Places?.FirstOrDefault(place => place.Id == id);
+
+        if (ViewModel.SelectedLocation == null)
+        {
+            return;
+        }
+        
         var addressRect = new Rect();
         _addressLayout.GetDrawingRect(addressRect);
         _bottomSheet.OffsetDescendantRectToMyCoords(_addressLayout, addressRect);
         _bottomSheetBehavior.SetPeekHeight(addressRect.Top + addressRect.Height() + DimensUtils.DpToPx(Context, 56), false);
         _bottomSheetBehavior.Hideable = false;
         _bottomSheetBehavior.State = BottomSheetBehavior.StateCollapsed;
-
-        return true;
     }
 
     public void OnMapClick(LatLng point) => DeselectLocation();
