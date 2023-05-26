@@ -80,7 +80,6 @@
         <Compile Include="Bindings\ButtonIconResourceBinding.cs" />
         <Compile Include="Bindings\CardViewStrokeColorBinding.cs" />
         <Compile Include="Bindings\CardViewBackgroundColorByHexBinding.cs" />
-        <Compile Include="Bindings\ImageViewByIdBinding.cs" />
         <Compile Include="Bindings\ImageViewByUrlBinding.cs" />
         <Compile Include="Decorations\ColoredDividerItemDecoration.cs" />
         <Compile Include="Decorations\CourseSectionLessonsItemDecoration.cs" />
