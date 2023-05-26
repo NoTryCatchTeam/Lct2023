@@ -5,7 +5,7 @@
                                                    android:id="@+id/tasks_layout"
                                                    android:layout_width="match_parent"
                                                    android:layout_height="match_parent"
-                                                   android:background="@color/bgGlobe">
+                                                   android:background="@color/bgGlobe"> 
 
     <androidx.core.widget.NestedScrollView android:id="@+id/tasks_scroll"
                                            android:layout_width="match_parent"

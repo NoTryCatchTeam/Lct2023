@@ -6,6 +6,7 @@ using Lct2023.Android.Bindings;
 using Lct2023.Converters;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
+using MvvmCross.Platforms.Android.Binding.Target;
 
 namespace Lct2023.Android.Adapters;
 
@@ -32,7 +33,7 @@ public class ArtDirectionAdapter : BaseRecyclerViewAdapter<ArtDirectionType, Art
                 var set = this.CreateBindingSet<ArtDirectionViewHolder, ArtDirectionType>();
 
                 set.Bind(image)
-                    .For(nameof(ImageViewByIdBinding))
+                    .For(nameof(MvxImageViewResourceNameTargetBinding))
                     .To(vm => vm)
                     .WithConversion(new AnyExpressionConverter<ArtDirectionType, int>(value =>
                         value switch

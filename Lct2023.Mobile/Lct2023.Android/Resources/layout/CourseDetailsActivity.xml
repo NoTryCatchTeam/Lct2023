@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   android:background="@color/bgGlobe">
+
+    <androidx.core.widget.NestedScrollView android:layout_width="match_parent"
+                                           android:layout_height="match_parent"
+                                           android:clipToPadding="false"
+                                           android:paddingTop="72dp"
+                                           android:paddingBottom="70dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                           android:layout_height="wrap_content">
+
+            <!-- Teacher -->
+            <com.google.android.material.card.MaterialCardView android:id="@+id/course_details_teacher"
+                                                               style="@style/AppTheme.MaterialCardView.White"
+                                                               android:layout_width="match_parent"
+                                                               android:layout_height="wrap_content"
+                                                               app:contentPadding="16dp"
+                                                               app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                                   android:layout_height="wrap_content">
+
+                    <com.google.android.material.card.MaterialCardView android:id="@+id/course_details_teacher_image_container"
+                                                                       android:layout_width="64dp"
+                                                                       android:layout_height="64dp"
+                                                                       app:cardBackgroundColor="@color/bgIslandInner"
+                                                                       app:cardCornerRadius="@dimen/default_corner_radius"
+                                                                       app:cardElevation="0dp"
+                                                                       app:layout_constraintBottom_toBottomOf="parent"
+                                                                       app:layout_constraintStart_toStartOf="parent"
+                                                                       app:layout_constraintTop_toTopOf="parent"
+                                                                       app:layout_constraintVertical_bias="0">
+
+                        <ImageView android:id="@+id/course_details_teacher_image"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="match_parent"
+                                   android:scaleType="fitCenter"
+                                   android:src="@drawable/image_course_drums"/>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView android:id="@+id/course_details_teacher_name"
+                              style="@style/AppTheme.BodyMedium"
+                              android:layout_width="0dp"
+                              android:layout_height="wrap_content"
+                              android:layout_marginStart="8dp"
+                              android:ellipsize="end"
+                              android:maxLines="2"
+                              android:text="Константинопольский Константин Константинович"
+                              android:textSize="18sp"
+                              app:layout_constraintEnd_toEndOf="parent"
+                              app:layout_constraintStart_toEndOf="@id/course_details_teacher_image_container"
+                              app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TextView android:id="@+id/course_details_teacher_description"
+                              style="@style/AppTheme.Body.Small"
+                              android:layout_width="0dp"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="4dp"
+                              android:ellipsize="end"
+                              android:maxLines="4"
+                              android:text="Преподаватель курса «Гитара», заслуженный педагог России."
+                              app:layout_constraintBottom_toBottomOf="parent"
+                              app:layout_constraintEnd_toEndOf="@id/course_details_teacher_name"
+                              app:layout_constraintStart_toStartOf="@id/course_details_teacher_name"
+                              app:layout_constraintTop_toBottomOf="@id/course_details_teacher_name"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Course info -->
+            <com.google.android.material.card.MaterialCardView android:id="@+id/course_details_info"
+                                                               style="@style/AppTheme.MaterialCardView.White"
+                                                               android:layout_width="match_parent"
+                                                               android:layout_height="wrap_content"
+                                                               android:layout_marginTop="8dp"
+                                                               app:contentPaddingBottom="16dp"
+                                                               app:contentPaddingTop="16dp"
+                                                               app:layout_constraintTop_toBottomOf="@id/course_details_teacher">
+
+                <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                                   android:layout_height="wrap_content">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/course_details_info_extender"
+                                                                       android:layout_width="match_parent"
+                                                                       android:layout_height="wrap_content"
+                                                                       android:paddingHorizontal="16dp"
+                                                                       app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView android:id="@+id/course_details_info_extender_text"
+                                  style="@style/AppTheme.BodyMedium"
+                                  android:layout_width="0dp"
+                                  android:layout_height="match_parent"
+                                  android:layout_marginEnd="12dp"
+                                  android:text="Информация о курсе"
+                                  android:textSize="18sp"
+                                  app:layout_constraintEnd_toStartOf="@id/course_details_info_extender_chevron"
+                                  app:layout_constraintStart_toStartOf="parent"/>
+
+                        <ImageView android:id="@+id/course_details_info_extender_chevron"
+                                   android:layout_width="20dp"
+                                   android:layout_height="20dp"
+                                   android:src="@drawable/ic_chevron_right"
+                                   app:layout_constraintBottom_toBottomOf="parent"
+                                   app:layout_constraintEnd_toEndOf="parent"
+                                   app:layout_constraintTop_toTopOf="parent"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/course_details_info_extended_container"
+                                                                       android:layout_width="match_parent"
+                                                                       android:layout_height="wrap_content"
+                                                                       android:layout_marginTop="16dp"
+                                                                       app:layout_constraintTop_toBottomOf="@id/course_details_info_extender"
+                                                                       app:layout_goneMarginTop="0dp">
+
+                        <mvvmcross.droidx.recyclerview.MvxRecyclerView android:id="@+id/course_details_info_tags"
+                                                                       android:layout_width="match_parent"
+                                                                       android:layout_height="wrap_content"
+                                                                       android:paddingHorizontal="16dp"
+                                                                       android:clipToPadding="false"
+                                                                       app:layout_constraintTop_toTopOf="parent"/>
+
+                        <com.google.android.material.button.MaterialButton android:id="@+id/course_details_info_map"
+                                                                           style="@style/AppTheme.Button.Chevron"
+                                                                           android:layout_width="match_parent"
+                                                                           android:layout_height="wrap_content"
+                                                                           android:layout_marginHorizontal="16dp"
+                                                                           android:layout_marginTop="16dp"
+                                                                           android:backgroundTint="#4DC7BBDC"
+                                                                           android:gravity="start"
+                                                                           android:text="Школы МШИ по направлению на карте"
+                                                                           app:layout_constraintEnd_toEndOf="parent"
+                                                                           app:layout_constraintTop_toBottomOf="@id/course_details_info_tags"/>
+
+                        <View android:id="@+id/course_details_info_divider"
+                              android:layout_width="match_parent"
+                              android:layout_height="1dp"
+                              android:layout_marginHorizontal="16dp"
+                              android:layout_marginTop="16dp"
+                              android:background="@color/bgBorder"
+                              app:layout_constraintTop_toBottomOf="@id/course_details_info_map"/>
+
+                        <TextView android:id="@+id/course_details_info_full_price_label"
+                                  style="@style/AppTheme.Secondary.Small"
+                                  android:layout_width="0dp"
+                                  android:layout_height="wrap_content"
+                                  android:layout_marginStart="16dp"
+                                  android:layout_marginTop="16dp"
+                                  android:ellipsize="end"
+                                  android:lines="1"
+                                  android:text="Полная стоимость курса"
+                                  android:textSize="12sp"
+                                  app:layout_constraintEnd_toStartOf="@id/course_details_info_credit_price_label"
+                                  app:layout_constraintStart_toStartOf="parent"
+                                  app:layout_constraintTop_toBottomOf="@id/course_details_info_divider"/>
+
+                        <TextView android:id="@+id/course_details_info_credit_price_label"
+                                  style="@style/AppTheme.Secondary.Small"
+                                  android:layout_width="0dp"
+                                  android:layout_height="wrap_content"
+                                  android:layout_marginStart="8dp"
+                                  android:layout_marginEnd="16dp"
+                                  android:ellipsize="end"
+                                  android:lines="1"
+                                  android:text="Курс в рассрочку"
+                                  android:textSize="12sp"
+                                  app:layout_constraintEnd_toEndOf="parent"
+                                  app:layout_constraintStart_toEndOf="@id/course_details_info_full_price_label"
+                                  app:layout_constraintTop_toTopOf="@id/course_details_info_full_price_label"/>
+
+                        <TextView android:id="@+id/course_details_info_full_price_value"
+                                  style="@style/AppTheme.BodyMedium"
+                                  android:layout_width="0dp"
+                                  android:layout_height="wrap_content"
+                                  android:ellipsize="end"
+                                  android:lines="1"
+                                  android:text="20 000 ₽"
+                                  android:textSize="18sp"
+                                  app:layout_constraintBottom_toBottomOf="parent"
+                                  app:layout_constraintEnd_toEndOf="@id/course_details_info_full_price_label"
+                                  app:layout_constraintStart_toStartOf="@id/course_details_info_full_price_label"
+                                  app:layout_constraintTop_toBottomOf="@id/course_details_info_full_price_label"/>
+
+                        <TextView android:id="@+id/course_details_info_credit_price_value"
+                                  style="@style/AppTheme.BodyBold"
+                                  android:layout_width="0dp"
+                                  android:layout_height="wrap_content"
+                                  android:ellipsize="end"
+                                  android:lines="1"
+                                  android:text="20 000 ₽"
+                                  android:textColor="@color/accent"
+                                  android:textSize="18sp"
+                                  app:layout_constraintBottom_toBottomOf="@id/course_details_info_full_price_value"
+                                  app:layout_constraintEnd_toEndOf="@id/course_details_info_credit_price_label"
+                                  app:layout_constraintStart_toStartOf="@id/course_details_info_credit_price_label"
+                                  app:layout_constraintTop_toTopOf="@id/course_details_info_full_price_value"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Course sections -->
+            <com.google.android.material.card.MaterialCardView android:id="@+id/course_details_sections"
+                                                               style="@style/AppTheme.MaterialCardView.White"
+                                                               android:layout_width="match_parent"
+                                                               android:layout_height="wrap_content"
+                                                               android:layout_marginTop="8dp"
+                                                               app:layout_constraintTop_toBottomOf="@id/course_details_info">
+
+                <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                                   android:layout_height="wrap_content"
+                                                                   android:paddingBottom="16dp">
+
+                    <com.google.android.material.card.MaterialCardView android:id="@+id/course_details_track"
+                                                                       android:layout_width="match_parent"
+                                                                       android:layout_height="8dp"
+                                                                       android:layout_marginHorizontal="16dp"
+                                                                       android:layout_marginTop="28dp"
+                                                                       app:cardBackgroundColor="@color/bgIslandInner"
+                                                                       app:cardCornerRadius="4dp"
+                                                                       app:cardElevation="0dp"
+                                                                       app:layout_constraintTop_toTopOf="parent"/>
+
+                    <com.google.android.material.card.MaterialCardView android:id="@+id/course_details_progress"
+                                                                       android:layout_width="wrap_content"
+                                                                       android:layout_height="wrap_content"
+                                                                       app:cardBackgroundColor="@color/accent"
+                                                                       app:cardCornerRadius="16dp"
+                                                                       app:cardElevation="0dp"
+                                                                       app:contentPaddingBottom="2dp"
+                                                                       app:contentPaddingLeft="8dp"
+                                                                       app:contentPaddingRight="8dp"
+                                                                       app:contentPaddingTop="2dp"
+                                                                       app:layout_constraintBottom_toBottomOf="@id/course_details_track"
+                                                                       app:layout_constraintEnd_toEndOf="@id/course_details_track"
+                                                                       app:layout_constraintHorizontal_bias="0"
+                                                                       app:layout_constraintStart_toStartOf="@id/course_details_track"
+                                                                       app:layout_constraintTop_toTopOf="@id/course_details_track"
+                                                                       app:layout_constraintWidth_percent="0.2">
+
+                        <TextView android:id="@+id/course_details_progress_value"
+                                  style="@style/AppTheme.BodyMedium"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_gravity="end"
+                                  android:text="0%"
+                                  android:textColor="@color/textLight"
+                                  android:textSize="12sp"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <mvvmcross.droidx.recyclerview.MvxRecyclerView android:id="@+id/course_details_sections_list"
+                                                                   android:layout_width="match_parent"
+                                                                   android:layout_height="wrap_content"
+                                                                   android:layout_marginTop="8dp"
+                                                                   android:nestedScrollingEnabled="false"
+                                                                   app:layout_constraintBottom_toBottomOf="parent"
+                                                                   app:layout_constraintTop_toBottomOf="@id/course_details_progress"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <include layout="@layout/toolbar_inner"
+             app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.google.android.material.button.MaterialButton android:id="@+id/course_details_purchase"
+                                                       style="@style/AppTheme.Button.Base"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="wrap_content"
+                                                       android:layout_marginHorizontal="16dp"
+                                                       android:layout_marginBottom="16dp"
+                                                       android:text="Купить курс"
+                                                       app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

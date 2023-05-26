@@ -152,7 +152,7 @@
                                                            android:clipChildren="true"
                                                            app:layout_constraintLeft_toLeftOf="@id/locations_search_layout"
                                                            app:layout_constraintRight_toRightOf="@id/locations_search_layout"
-                                                           app:layout_constraintHeight_percent=".4"
+                                                           app:layout_constraintHeight_percent=".5"
                                                            app:layout_constraintTop_toBottomOf="@id/locations_search_layout"/>
 
             <com.google.android.material.card.MaterialCardView
