@@ -1,24 +1,31 @@
 using System.Collections.Generic;
+using DynamicData;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 
 namespace Lct2023.ViewModels.Courses;
 
-public class CourseDetailsViewModel : BaseViewModel
+public class CourseDetailsViewModel : BaseViewModel<CourseDetailsViewModel.NavParameter>
 {
     public CourseDetailsViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService)
         : base(logFactory, navigationService)
     {
-        CourseTagsCollection = new[]
-        {
-            new CourseTagItem("Платно", CourseTagItemType.Paid),
-            new CourseTagItem("Презентация", CourseTagItemType.Other),
-            new CourseTagItem("Оффлайн", CourseTagItemType.Other),
-            new CourseTagItem("Hard", CourseTagItemType.Hard),
-        };
+        CourseTagsCollection = new List<CourseTagItem>();
+        CourseSectionsCollection = new MvxObservableCollection<CourseSectionItem>();
+    }
 
-        CourseSectionsCollection = new MvxObservableCollection<CourseSectionItem>
+    public IList<CourseTagItem> CourseTagsCollection { get; }
+
+    public IList<CourseSectionItem> CourseSectionsCollection { get; }
+
+    public override void Prepare(NavParameter parameter)
+    {
+        base.Prepare(parameter);
+
+        CourseTagsCollection.AddRange(parameter.CourseItem.Tags);
+
+        CourseSectionsCollection.AddRange(new CourseSectionItem[]
         {
             new ("Глава 1")
             {
@@ -26,18 +33,18 @@ public class CourseDetailsViewModel : BaseViewModel
                 {
                     new CourseLessonItem("Знакомство с курсом")
                     {
-                        Status = CourseLessonStatus.WaitingForReview,
+                        Status = parameter.CourseItem.IsPurchased ? CourseLessonStatus.Finished : CourseLessonStatus.Locked,
                     },
                     new CourseLessonItem("Знакомство с устройством гитары: дека и гриф")
                     {
-                        Status = CourseLessonStatus.Finished,
+                        Status = parameter.CourseItem.IsPurchased ? CourseLessonStatus.Finished : CourseLessonStatus.Locked,
                     },
                     new CourseLessonItem("Техника постановки пальцев в баррэ")
                     {
-                        Status = CourseLessonStatus.Available,
+                        Status = parameter.CourseItem.IsPurchased ? CourseLessonStatus.WaitingForReview : CourseLessonStatus.Locked,
                     },
                 },
-                IsPossibleToSync = true,
+                IsPossibleToSync = parameter.CourseItem.IsPurchased,
             },
             new ("Глава 2")
             {
@@ -75,12 +82,18 @@ public class CourseDetailsViewModel : BaseViewModel
                     },
                 },
             },
-        };
+        });
     }
 
-    public IEnumerable<CourseTagItem> CourseTagsCollection { get; }
+    public class NavParameter
+    {
+        public NavParameter(CourseItem courseItem)
+        {
+            CourseItem = courseItem;
+        }
 
-    public MvxObservableCollection<CourseSectionItem> CourseSectionsCollection { get; }
+        public CourseItem CourseItem { get; }
+    }
 }
 
 public class CourseSectionItem : MvxNotifyPropertyChanged

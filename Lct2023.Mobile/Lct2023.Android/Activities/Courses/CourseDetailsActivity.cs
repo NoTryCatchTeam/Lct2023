@@ -12,12 +12,13 @@ using Lct2023.Android.Adapters;
 using Lct2023.Android.Decorations;
 using Lct2023.Android.Helpers;
 using Lct2023.Android.Listeners;
+using Lct2023.Converters;
 using Lct2023.ViewModels.Courses;
 using MvvmCross.DroidX.RecyclerView;
 using MvvmCross.DroidX.RecyclerView.ItemTemplates;
+using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
-using MvvmCross.ViewModels;
 
 namespace Lct2023.Android.Activities.Courses;
 
@@ -58,10 +59,9 @@ public partial class CourseDetailsActivity : BaseActivity<CourseDetailsViewModel
             new Views.ProgressViews(
                 FindViewById<MaterialCardView>(Resource.Id.course_details_progress),
                 FindViewById<TextView>(Resource.Id.course_details_progress_value)),
-            FindViewById<MvxRecyclerView>(Resource.Id.course_details_sections_list)
+            FindViewById<MvxRecyclerView>(Resource.Id.course_details_sections_list),
+            FindViewById<MaterialButton>(Resource.Id.course_details_purchase)
         );
-
-        views.Info.Details.Layout.Visibility = ViewStates.Gone;
 
         views.Info.Layout.SetOnClickListener(new DefaultClickListener(_ =>
         {
@@ -92,6 +92,17 @@ public partial class CourseDetailsActivity : BaseActivity<CourseDetailsViewModel
 
         var set = CreateBindingSet();
 
+        set.Bind(views.Info.Extender.Layout)
+            .For(x => x.BindVisible())
+            .To(vm => vm.NavigationParameter.CourseItem.IsPurchased)
+            .OneTime();
+
+        set.Bind(views.Info.Details.Layout)
+            .For(x => x.BindVisible())
+            .To(vm => vm.NavigationParameter.CourseItem.IsPurchased)
+            .WithConversion(new AnyExpressionConverter<bool, bool>(x => !x))
+            .OneTime();
+
         set.Bind(tagsAdapter)
             .For(x => x.ItemsSource)
             .To(vm => vm.CourseTagsCollection);
@@ -99,6 +110,11 @@ public partial class CourseDetailsActivity : BaseActivity<CourseDetailsViewModel
         set.Bind(sectionsAdapter)
             .For(x => x.ItemsSource)
             .To(vm => vm.CourseSectionsCollection);
+
+        set.Bind(views.Purchase)
+            .For(x => x.BindVisible())
+            .To(vm => vm.NavigationParameter.CourseItem.IsPurchased)
+            .WithConversion(new AnyExpressionConverter<bool, bool>(x => !x));
 
         set.Apply();
     }

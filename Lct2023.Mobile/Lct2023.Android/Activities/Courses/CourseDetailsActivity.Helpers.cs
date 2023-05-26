@@ -10,12 +10,13 @@ public partial class CourseDetailsActivity
 {
     private class Views
     {
-        public Views(TeacherViews teacher, InfoViews info, ProgressViews progress, MvxRecyclerView sections)
+        public Views(TeacherViews teacher, InfoViews info, ProgressViews progress, MvxRecyclerView sections, MaterialButton purchase)
         {
             Teacher = teacher;
             Info = info;
             Progress = progress;
             Sections = sections;
+            Purchase = purchase;
         }
 
         public TeacherViews Teacher { get; }
@@ -25,6 +26,8 @@ public partial class CourseDetailsActivity
         public ProgressViews Progress { get; }
 
         public MvxRecyclerView Sections { get; }
+
+        public MaterialButton Purchase { get; }
 
         public class TeacherViews
         {

@@ -2,6 +2,7 @@ using System;
 using Android.Views;
 using Android.Widget;
 using Google.Android.Material.Card;
+using Lct2023.Android.Bindings;
 using Lct2023.Converters;
 using Lct2023.ViewModels.Courses;
 using MvvmCross.Binding.BindingContext;
@@ -37,7 +38,7 @@ public class CourseSectionLessonsAdapter : BaseRecyclerViewAdapter<CourseLessonI
                 var set = CreateBindingSet();
 
                 set.Bind(imageContainer)
-                    .For(x => x.StrokeColor)
+                    .For(nameof(CardViewStrokeColorBinding))
                     .To(vm => vm.Status)
                     .WithConversion(new AnyExpressionConverter<CourseLessonStatus, int>(x => x switch
                     {

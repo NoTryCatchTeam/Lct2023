@@ -1,7 +1,5 @@
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Threading.Tasks;
-using Lct2023.Helpers;
+using Lct2023.Definitions.Types;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
@@ -49,7 +47,10 @@ public class CoursesViewModel : BaseViewModel
                             new CourseTagItem("Презентация", CourseTagItemType.Other),
                             new CourseTagItem("Оффлайн", CourseTagItemType.Other),
                             new CourseTagItem("Hard", CourseTagItemType.Hard),
-                        }),
+                        })
+                    {
+                        IsPurchased = true,
+                    },
                     new CourseItem(
                         "Концерт на гитаре",
                         new[]
@@ -77,7 +78,7 @@ public class CoursesViewModel : BaseViewModel
                         "Что такое валторна?",
                         new[]
                         {
-                            new CourseTagItem("Бесплатно", CourseTagItemType.Paid),
+                            new CourseTagItem("Бесплатно", CourseTagItemType.Free),
                             new CourseTagItem("Видеокурс", CourseTagItemType.Other),
                             new CourseTagItem("Онлайн", CourseTagItemType.Other),
                             new CourseTagItem("Lite", CourseTagItemType.Lite),
@@ -100,7 +101,7 @@ public class CoursesViewModel : BaseViewModel
                         "История ударных",
                         new[]
                         {
-                            new CourseTagItem("Бесплатно", CourseTagItemType.Paid),
+                            new CourseTagItem("Бесплатно", CourseTagItemType.Free),
                             new CourseTagItem("Видеокурс", CourseTagItemType.Other),
                             new CourseTagItem("Онлайн", CourseTagItemType.Other),
                             new CourseTagItem("Lite", CourseTagItemType.Lite),
@@ -126,78 +127,7 @@ public class CoursesViewModel : BaseViewModel
 
     private Task CourseTapAsync(CourseItem item)
     {
-        return NavigationService.Navigate<CourseDetailsViewModel>();
+        return NavigationService.Navigate<CourseDetailsViewModel, CourseDetailsViewModel.NavParameter>(
+            new CourseDetailsViewModel.NavParameter(item));
     }
-}
-
-public class CourseGroupItem : MvxNotifyPropertyChanged
-{
-    public CourseGroupItem(CourseMajorType majorType, IEnumerable<CourseItem> courses)
-    {
-        MajorType = majorType;
-        Courses = courses;
-
-        Major = majorType.GetDescription();
-    }
-
-    public CourseMajorType MajorType { get; }
-
-    public string Major { get; }
-
-    public IEnumerable<CourseItem> Courses { get; }
-}
-
-public class CourseItem : MvxNotifyPropertyChanged
-{
-    public CourseItem(string title, IEnumerable<CourseTagItem> tags)
-    {
-        Title = title;
-        Tags = tags;
-    }
-
-    public string Title { get; }
-
-    public IEnumerable<CourseTagItem> Tags { get; }
-}
-
-public class CourseTagItem
-{
-    public CourseTagItem(string title, CourseTagItemType type)
-    {
-        Type = type;
-        Title = title;
-    }
-
-    public string Title { get; }
-
-    public CourseTagItemType Type { get; }
-}
-
-public enum CourseMajorType
-{
-    [Description("Гитара")]
-    Guitar,
-
-    [Description("Валторна")]
-    FrenchHorn,
-
-    [Description("Ударные")]
-    Drums,
-}
-
-public enum CourseTagItemType
-{
-    Free,
-
-    Paid,
-
-    Lite,
-
-    Hard,
-
-    Other,
-}
-
-public class BannerItem
-{
 }

@@ -78,8 +78,7 @@ public class CourseDetailsSectionAdapter : BaseRecyclerViewAdapter<CourseSection
 
             _lessons.SetLayoutManager(new MvxGuardedLinearLayoutManager(_lessons.Context) { Orientation = LinearLayoutManager.Vertical });
             _lessons.SetAdapter(_lessonsAdapter);
-            _lessons.AddItemDecoration(new ColoredDividerItemDecoration(_lessons.Context, LinearLayoutManager.Vertical)
-                { Drawable = _lessons.Context.GetDrawable(Resource.Drawable.simple_list_item_decorator) });
+            _lessons.AddItemDecoration(new CourseSectionLessonsItemDecoration(_lessons.Context));
 
             var set = CreateBindingSet();
 

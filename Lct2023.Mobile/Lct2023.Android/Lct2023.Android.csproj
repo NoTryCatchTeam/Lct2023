@@ -76,9 +76,10 @@
         <Compile Include="Adapters\TextExerciseAnswersAdapter.cs" />
         <Compile Include="Adapters\VideoToAudioExerciseAnswersAdapter.cs" />
         <Compile Include="Bindings\ButtonIconResourceBinding.cs" />
-        <Compile Include="Bindings\ImageViewByIdBinding.cs" />
+        <Compile Include="Bindings\CardViewStrokeColorBinding.cs" />
         <Compile Include="Bindings\ImageViewByUrlBinding.cs" />
         <Compile Include="Decorations\ColoredDividerItemDecoration.cs" />
+        <Compile Include="Decorations\CourseSectionLessonsItemDecoration.cs" />
         <Compile Include="Decorations\GridItemDecoration.cs" />
         <Compile Include="Decorations\ItemSeparateDecoration.cs" />
         <Compile Include="Definitions\Extensions\DrawableExtensions.cs" />
