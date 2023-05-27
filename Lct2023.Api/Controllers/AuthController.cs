@@ -1,4 +1,3 @@
-using System.Text.Json;
 using AspNet.Security.OAuth.Vkontakte;
 using AutoMapper;
 using DataModel.Requests.Auth;
