@@ -117,7 +117,14 @@ builder.Services.AddAutoMapper(x => x.AddProfile<ApiMapperProfile>());
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IAuthTokensService, AuthTokensService>();
 builder.Services.AddTransient<IUserService, UserService>();
-
+builder.Services.AddHttpClient(
+    "CMS",
+    client =>
+    {
+        client.BaseAddress = new Uri("http://45.9.27.2/api");
+        client.DefaultRequestHeaders.Add("Authorization","Bearer " + 
+        builder.Configuration.GetValue<string>(ConfigurationConstants.Secrets.CMS_API_KEY));
+    });
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())

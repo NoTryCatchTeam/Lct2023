@@ -23,15 +23,16 @@ public class ApiMapperProfile : Profile
 
     private void MapUsers()
     {
-        CreateMap<CreateUserRequest, CreateUserDto>();
+        CreateMap<CreateUserRequest, CreateUserDto>()
+            .ForMember(id => id.UserName, expr => expr.Ignore());
         CreateMap<UserDto, UserItemResponse>();
         CreateMap<ExtendedIdentityUser, UserItemResponse>();
         CreateMap<ExtendedIdentityUser, UserDto>();
 
         CreateMap<CreateUserDto, ExtendedIdentityUser>()
-            .ForMember(id => id.UserName, expr => expr.MapFrom(dto => dto.Email.Split("@", StringSplitOptions.RemoveEmptyEntries).FirstOrDefault()))
+            .ForMember(id => id.UserName, expr => expr.MapFrom(dto => dto.UserName))
             .ForMember(id => id.Id, expr => expr.Ignore())
-            .ForMember(id => id.BirthDate, expr => expr.Ignore())
+            .ForMember(id => id.BirthDate, expr => expr.MapFrom(dto => dto.BirthDate))
             .ForMember(id => id.NormalizedUserName, expr => expr.Ignore())
             .ForMember(id => id.NormalizedEmail, expr => expr.Ignore())
             .ForMember(id => id.EmailConfirmed, expr => expr.Ignore())
@@ -47,11 +48,11 @@ public class ApiMapperProfile : Profile
             .ForMember(id => id.CreatedAt, expr => expr.Ignore())
             .ForMember(id => id.UpdatedAt, expr => expr.Ignore())
             .ForMember(id => id.RefreshTokens, expr => expr.Ignore())
-            .ForMember(id => id.PhotoUrl, expr => expr.Ignore())
+            .ForMember(id => id.PhotoUrl, expr => expr.MapFrom(dto => dto.Photo))
             ;
 
         CreateMap<CreateUserViaSocialDto, ExtendedIdentityUser>()
-            .ForMember(id => id.UserName, expr => expr.MapFrom(dto => dto.Email.Split("@", StringSplitOptions.RemoveEmptyEntries).FirstOrDefault()))
+            .ForMember(id => id.UserName, expr => expr.MapFrom(dto => dto.UserName))
             .ForMember(id => id.PhotoUrl, expr => expr.MapFrom(dto => dto.PhotoUrl))
             .ForMember(id => id.BirthDate, expr => expr.MapFrom(dto => dto.BirthDate))
             .ForMember(id => id.Id, expr => expr.Ignore())

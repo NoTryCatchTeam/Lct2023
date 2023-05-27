@@ -19,5 +19,7 @@ public static class ConfigurationConstants
         public const string JWT_ACCESS_TOKEN_EXPIRES_IN_DAYS = "Jwt:AccessTokenExpiresInDays";
 
         public const string JWT_REFRESH_TOKEN_EXPIRES_IN_DAYS = "Jwt:RefreshTokenExpiresInDays";
+
+        public const string CMS_API_KEY = "Cms:ApiKey";
     }
 }
