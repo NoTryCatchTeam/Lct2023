@@ -1,3 +1,4 @@
+using System;
 using System.Net.Http;
 using System.Net.Mime;
 using System.Text;
@@ -22,6 +23,7 @@ namespace Lct2023.Business.RestServices.Base
             _basePath = basePath;
         }
 
+        [Obsolete("Better inherite from CmsBaseRestService")]
         protected async Task<TResult> CmsExecuteAsync<TResult>(string url, HttpMethod method, CancellationToken token = default) =>
             (await ExecuteAsync<CmsResponse<TResult>>(url, method, token)).Data;
 

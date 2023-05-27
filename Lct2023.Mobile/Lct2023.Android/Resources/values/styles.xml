@@ -240,6 +240,11 @@
         <item name="cornerRadius">8dp</item>
     </style>
 
+    <style name="AppTheme.Button.Action.Secondary" parent="AppTheme.Button.Action.Primary">
+        <item name="android:textColor">@color/textPrimary</item>
+        <item name="backgroundTint">@color/bgIslandInner</item>
+    </style>
+
     <!-- Other styles -->
     <style name="AppTheme.Tasks.Stats.ProgressBar" parent="AppTheme">
         <item name="indicatorColor">@color/accent</item>

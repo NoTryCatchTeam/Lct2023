@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using DataModel.Definitions.Enums;
 using DataModel.Responses.Map;
+using Lct2023.ViewModels.Art;
 using MvvmCross.ViewModels;
 
 namespace Lct2023.ViewModels.Map;
@@ -25,7 +26,7 @@ public class PlaceItemViewModel : MvxNotifyPropertyChanged
     
     public IEnumerable<SocialLinkResponse> SocialLinks { get; set; }
     
-    public IEnumerable<ArtDirectionType> ArtDirections { get; set; }
+    public IEnumerable<StreamItemViewModel> Streams { get; set; }
     
     public LocationType LocationType { get; set; }
     

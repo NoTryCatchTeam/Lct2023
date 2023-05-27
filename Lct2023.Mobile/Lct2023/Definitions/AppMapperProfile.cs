@@ -1,12 +1,18 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using DataModel.Definitions.Enums;
+using DataModel.Responses.Art;
 using DataModel.Responses.BaseCms;
 using DataModel.Responses.Map;
 using DataModel.Responses.Users;
+using Lct2023.Commons.Extensions;
+using Lct2023.Definitions.Enums;
 using Lct2023.Definitions.Internals;
+using Lct2023.ViewModels.Art;
 using Lct2023.ViewModels.Map;
+using Lct2023.ViewModels.Map.Filters;
 
 namespace Lct2023.Definitions;
 
@@ -37,6 +43,10 @@ public class AppMapperProfile : Profile
         CreateMap<CmsItemResponse<EventItemResponse>, PlaceItemViewModel>()
             .ValidateMemberList(MemberList.None)
             .AfterMap((s, d, c) => c.Mapper.Map(s.Item, d));
+
+        CreateMap<CmsItemResponse<StreamResponse>, StreamItemViewModel>()
+            .ForMember(x => x.Name, expr => expr.MapFrom(s => s.Item.Name))
+            ;
 
         CreateMap<SchoolLocationResponse, MapSearchResultItemViewModel>()
             .ForMember(x => x.Id, expr => expr.Ignore())
@@ -74,8 +84,8 @@ public class AppMapperProfile : Profile
                     Url = "https://www.youtube.com/"
                 },
             }))
-            .ForMember(x => x.ArtDirections, expr => expr.MapFrom(_ => new [] { ArtDirectionType.Cello, ArtDirectionType.Drums, ArtDirectionType.Horn }))
-            .ForMember(x => x.LocationType, expr => expr.MapFrom(_ => LocationType.School))
+            .ForMember(x => x.LocationType, expr => expr.MapFrom((s) => LocationType.School))
+            .ForMember(x => x.Streams, expr => expr.MapFrom((s, d, _) => s.Streams?.Data))
             ;
         
         CreateMap<EventItemResponse, PlaceItemViewModel>()
@@ -100,30 +110,40 @@ public class AppMapperProfile : Profile
                     Url = "https://www.youtube.com/"
                 },
             }))
-            .ForMember(x => x.ArtDirections, expr => expr.Ignore())
+            .ForMember(x => x.Streams, expr => expr.Ignore())
             .ForMember(x => x.LocationType, expr => expr.MapFrom(_ => LocationType.Event))
             ;
 
         CreateMap<SocialLinkResponse, SocialLinkItemViewModel>()
             .ValidateMemberList(MemberList.Source);
+
+        CreateMap<DistrictResponse, MapFilterItemViewModel>()
+            .ForMember(x => x.Title, expr => expr.MapFrom(s => s.District))
+            .ForMember(x => x.IsSelected, expr => expr.Ignore())
+            ;
+
+        CreateMap<StreamResponse, MapFilterItemViewModel>()
+            .ForMember(x => x.Title, expr => expr.MapFrom(s => s.Name))
+            .ForMember(x => x.IsSelected, expr => expr.Ignore())
+            ;
     }
 
     private string GetHexColorForSchool(SchoolLocationResponse school)
     {
-        return school?.District?.Data?.Item?.DistrictType switch
+        return school?.District?.Data?.Item?.AreaType switch
         {
             _ when school?.IsSpecial == true => DEFAULT_PIN_HEX_COLOR,
-            DistrictType.Cao => DEFAULT_PIN_HEX_COLOR,
-            DistrictType.Sao => "#108baf",
-            DistrictType.Svao => "#8b72ad",
-            DistrictType.Vao => "#b378b5",
-            DistrictType.Uvao => "#c18b9d",
-            DistrictType.Uao => "#f9a98f",
-            DistrictType.Uzao => "#6eb17e",
-            DistrictType.Zao => "#4e3660",
-            DistrictType.Szao => "#932689",
-            DistrictType.Zelao => "#6ba751",
-            DistrictType.Tinao => "#dfa5bb",
+            AreaType.Cao => DEFAULT_PIN_HEX_COLOR,
+            AreaType.Sao => "#108baf",
+            AreaType.Svao => "#8b72ad",
+            AreaType.Vao => "#b378b5",
+            AreaType.Uvao => "#c18b9d",
+            AreaType.Uao => "#f9a98f",
+            AreaType.Uzao => "#6eb17e",
+            AreaType.Zao => "#4e3660",
+            AreaType.Szao => "#932689",
+            AreaType.Zelao => "#6ba751",
+            AreaType.Tinao => "#dfa5bb",
             null => DEFAULT_PIN_HEX_COLOR,
             _ => DEFAULT_PIN_HEX_COLOR
         };
