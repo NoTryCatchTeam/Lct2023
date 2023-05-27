@@ -59,6 +59,7 @@
         <Compile Include="Activities\MainTabbedActivity.cs" />
         <Compile Include="Activities\SplashActivity.cs" />
         <Compile Include="Activities\Tasks\TaskDetailsActivity.cs" />
+        <Compile Include="Adapters\FeedFiltersGroupsListAdapter.cs" />
         <Compile Include="Adapters\StreamsAdapter.cs" />
         <Compile Include="Adapters\AudioToPictureExerciseAnswersAdapter.cs" />
         <Compile Include="Adapters\BaseRecyclerViewAdapter.cs" />
@@ -74,7 +75,7 @@
         <Compile Include="Adapters\LessonAnswerConversationAdapter.cs" />
         <Compile Include="Adapters\MainViewPagerAdapter.cs" />
         <Compile Include="Adapters\MapFiltersGroupsListAdapter.cs" />
-        <Compile Include="Adapters\MapFiltersItemListAdapter.cs" />
+        <Compile Include="Adapters\FiltersItemListAdapter.cs" />
         <Compile Include="Adapters\MapFiltersSubGroupsListAdapter.cs" />
         <Compile Include="Adapters\MapSearchResultsAdapter.cs" />
         <Compile Include="Adapters\SocialLinksAdapter.cs" />

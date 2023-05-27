@@ -17,6 +17,7 @@ using Lct2023.Business.RestServices.Map;
 using Lct2023.Business.Definitions;
 using Lct2023.Definitions.Enums;
 using Lct2023.Services;
+using Lct2023.ViewModels.Common;
 using Lct2023.ViewModels.Map.Filters;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
@@ -314,7 +315,7 @@ public class MapViewModel : BaseViewModel
                     SubGroups = d.Select(g => new MapFilterSubGroupItemViewModel
                     {
                         Title = g.Key.GetEnumMemberValue(),
-                        Items = _mapper.Map<ObservableCollection<MapFilterItemViewModel>>(g)
+                        Items = _mapper.Map<ObservableCollection<FilterItemViewModel>>(g)
                     }).ToObservableCollection(),
                 }));
                 
@@ -326,7 +327,7 @@ public class MapViewModel : BaseViewModel
                     SubGroups = d.Select(g => new MapFilterSubGroupItemViewModel
                     {
                         Title = g.Key,
-                        Items = _mapper.Map<ObservableCollection<MapFilterItemViewModel>>(g)
+                        Items = _mapper.Map<ObservableCollection<FilterItemViewModel>>(g)
                     }).ToObservableCollection(),
                 }));
             

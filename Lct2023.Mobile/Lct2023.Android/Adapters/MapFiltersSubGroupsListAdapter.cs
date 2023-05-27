@@ -71,9 +71,9 @@ public class MapFiltersSubGroupsListAdapter : BaseRecyclerViewAdapter<MapFilterS
                 return;
             }
 
-            _filtersItemAdapter = new MapFiltersItemListAdapter((IMvxAndroidBindingContext)BindingContext)
+            _filtersItemAdapter = new FiltersItemListAdapter((IMvxAndroidBindingContext)BindingContext)
             {
-                ItemTemplateSelector = new MvxDefaultTemplateSelector(Resource.Layout.MapFiltersItemView),
+                ItemTemplateSelector = new MvxDefaultTemplateSelector(Resource.Layout.FiltersItemView),
             };
 
             _recyclerView.SetLayoutManager(new MvxGuardedLinearLayoutManager(_recyclerView.Context) { Orientation = LinearLayoutManager.Vertical });

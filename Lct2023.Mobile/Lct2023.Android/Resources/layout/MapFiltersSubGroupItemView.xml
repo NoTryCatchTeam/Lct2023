@@ -9,7 +9,8 @@
             android:id="@+id/map_filters_sub_group_item_header"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingVertical="12dp">
 
         <ImageView android:id="@+id/map_filters_sub_group_item_expand_image"
                    android:layout_width="16dp"

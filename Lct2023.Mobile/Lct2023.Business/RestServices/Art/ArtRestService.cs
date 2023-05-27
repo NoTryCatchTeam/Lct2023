@@ -18,4 +18,7 @@ public class ArtRestService : BaseRestService, IArtRestService
 
     public Task<IEnumerable<CmsItemResponse<StreamResponse>>> GetStreamsAsync(CancellationToken token) =>
         CmsExecuteAsync<IEnumerable<CmsItemResponse<StreamResponse>>>("streams?populate[art_category][fields][0]=name&populate[art_category][fields][0]=displayName", HttpMethod.Get, token);
+
+    public Task<IEnumerable<CmsItemResponse<ArtCategoryResponse>>> GetArtCategoriesAsync(CancellationToken token) =>
+        CmsExecuteAsync<IEnumerable<CmsItemResponse<ArtCategoryResponse>>>("art-categories", HttpMethod.Get, token);
 }

@@ -1,16 +1,15 @@
 using System.Collections.ObjectModel;
+using Lct2023.Definitions.Enums;
 using Lct2023.ViewModels.Common;
 using MvvmCross.ViewModels;
 
-namespace Lct2023.ViewModels.Map.Filters;
+namespace Lct2023.ViewModels.Feed;
 
-public class MapFilterSubGroupItemViewModel : MvxNotifyPropertyChanged
+public class FeedFilterGroupItemViewModel : MvxNotifyPropertyChanged
 {
     public string Title { get; set; }
     
-    public bool IsSelected { get; set; }
-    
-    public bool IsOpened { get; set; }
+    public FeedFilterGroupType FilterGroupType { get; set; }
     
     public ObservableCollection<FilterItemViewModel> Items { get; set; }
 }
