@@ -18,8 +18,6 @@ public class WebViewActivity : BaseActivity<WebViewModel>
 
         var webView = FindViewById<WebView>(Resource.Id.web_view);
         webView.SetWebViewClient(new WebViewClient());
-        webView.SetWebChromeClient(new WebChromeClient());
-        webView.Settings.SetSupportZoom(true);
         webView.Settings.JavaScriptEnabled = true;
         webView.LoadUrl(ViewModel.NavigationParameter.Url);
     }
