@@ -50,6 +50,7 @@
         <Reference Include="Mono.Android.Export" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Activities\Auth\AuthActivity.cs" />
         <Compile Include="Activities\Auth\LoginActivity.cs" />
         <Compile Include="Activities\Auth\WebAuthenticationCallbackActivity.cs" />
         <Compile Include="Activities\BaseActivity.cs" />
@@ -61,6 +62,7 @@
         <Compile Include="Activities\Tasks\TaskDetailsActivity.cs" />
         <Compile Include="Adapters\ArtDirectionAdapter.cs" />
         <Compile Include="Adapters\AudioToPictureExerciseAnswersAdapter.cs" />
+        <Compile Include="Adapters\AuthViewPagerAdapter.cs" />
         <Compile Include="Adapters\BaseRecyclerViewAdapter.cs" />
         <Compile Include="Adapters\CourseDetailsSectionAdapter.cs" />
         <Compile Include="Adapters\CourseLessonViewPagerAdapter.cs" />
@@ -85,12 +87,16 @@
         <Compile Include="Bindings\CardViewBackgroundColorByHexBinding.cs" />
         <Compile Include="Bindings\ImageViewByUrlBinding.cs" />
         <Compile Include="Bindings\TextViewTextColorBinding.cs" />
+        <Compile Include="Callbacks\AuthViewPagerPageCallback.cs" />
+        <Compile Include="Callbacks\DefaultBackPressedCallback.cs" />
         <Compile Include="Callbacks\DefaultPicassoCallback.cs" />
         <Compile Include="Decorations\ColoredDividerItemDecoration.cs" />
         <Compile Include="Decorations\CourseSectionLessonsItemDecoration.cs" />
         <Compile Include="Decorations\GridItemDecoration.cs" />
         <Compile Include="Decorations\ItemSeparateDecoration.cs" />
         <Compile Include="Definitions\Extensions\DrawableExtensions.cs" />
+        <Compile Include="Fragments\Auth\AuthSignInFragment.cs" />
+        <Compile Include="Fragments\Auth\AuthSignUpFragment.cs" />
         <Compile Include="Fragments\BaseFragment.cs" />
         <Compile Include="Fragments\Courses\LessonAnswerPartFragment.cs" />
         <Compile Include="Fragments\Courses\LessonLessonPartFragment.cs" />
@@ -104,6 +110,7 @@
         <Compile Include="Fragments\MainTabs\MainFragment.cs" />
         <Compile Include="Fragments\MainTabs\MapFragment.cs" />
         <Compile Include="Fragments\MainTabs\TasksFragment.cs" />
+        <Compile Include="Helpers\ActivityExtensions.cs" />
         <Compile Include="Helpers\DefaultTabConfigurationStrategy.cs" />
         <Compile Include="Helpers\DimensUtils.cs" />
         <Compile Include="Helpers\ScrollWithSearchLayoutMediator.cs" />
@@ -143,7 +150,12 @@
           <SubType>Designer</SubType>
           <Generator>MSBuild:UpdateGeneratedFiles</Generator>
         </AndroidResource>
+        <AndroidResource Include="Resources\xml\auth_activity_scene.xml" />
         <AndroidResource Include="Resources\xml\file_paths.xml" />
+        <AndroidResource Update="Resources\layout\AuthSignUpFragment.xml">
+          <SubType>Designer</SubType>
+          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+        </AndroidResource>
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Assets" />
@@ -152,6 +164,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="12.0.1" />
+        <PackageReference Include="FluentValidation" Version="11.5.2" />
         <PackageReference Include="Fody" Version="6.7.0">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

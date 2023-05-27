@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
@@ -24,5 +25,12 @@ public class SplashActivity : MvxSplashScreenActivity<Setup, App>
         base.OnCreate(bundle);
 
         Xamarin.Essentials.Platform.Init(this, bundle);
+    }
+
+    protected override async Task RunAppStartAsync(Bundle bundle)
+    {
+        await Task.Delay(500);
+
+        await base.RunAppStartAsync(bundle);
     }
 }

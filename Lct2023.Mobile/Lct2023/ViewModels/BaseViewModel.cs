@@ -25,7 +25,7 @@ public abstract class BaseViewModel : MvxNavigationViewModel
 
     public CancellationToken CancellationToken => _cancellationTokenSource?.Token ?? CancellationToken.None;
 
-    protected async Task RunSafeTaskAsync(Func<Task> task, Action<Exception> onException = null)
+    protected async Task RunSafeTaskAsync(Func<Task> task, Func<Exception, Task> onException = null)
     {
         try
         {
@@ -34,7 +34,11 @@ public abstract class BaseViewModel : MvxNavigationViewModel
         catch (Exception ex)
         {
             Log.LogError(ex, ex.Message);
-            onException?.Invoke(ex);
+
+            if (onException != null)
+            {
+                await onException.Invoke(ex);
+            }
         }
     }
 

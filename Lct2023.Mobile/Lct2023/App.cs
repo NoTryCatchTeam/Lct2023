@@ -8,13 +8,16 @@ using System;
 using System.Net.Http;
 using System.Reflection;
 using AutoMapper;
+using FluentValidation;
 using Lct2023.Business;
 using Lct2023.Business.Helpers;
 using Lct2023.Business.RestServices.Base;
 using Lct2023.Definitions;
 using Lct2023.Definitions.Constants;
+using Lct2023.Definitions.Validators;
 using Lct2023.Services;
 using Lct2023.Services.Implementation;
+using Lct2023.ViewModels.Auth;
 using Lct2023.ViewModels.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -32,6 +35,7 @@ public class App : MvxApplication
 
         _configuration = RegisterConfiguration();
 
+        RegisterValidators();
         RegisterBusiness();
         RegisterInternalServices();
         RegisterAndValidateMapper();
@@ -55,6 +59,12 @@ public class App : MvxApplication
         Mvx.IoCProvider.RegisterSingleton(typeof(IConfiguration), configuration);
 
         return configuration;
+    }
+
+    private static void RegisterValidators()
+    {
+        Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IValidator<SignInFields>, SignInFieldsValidator>();
+        Mvx.IoCProvider.LazyConstructAndRegisterSingleton<IValidator<SignUpFields>, SignUpFieldsValidator>();
     }
 
     private void RegisterBusiness()

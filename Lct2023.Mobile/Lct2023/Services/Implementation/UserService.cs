@@ -56,12 +56,12 @@ public class UserService : IUserService
         await RequestAndStoreUserInfoAsync(authResult.AccessToken, authResult.RefreshToken, token);
     }
 
-    public async Task SignInAsync(string login, string password, CancellationToken token)
+    public async Task SignInAsync(string email, string password, CancellationToken token)
     {
         var authResponse = await _authRestService.SignInBasicAsync(
             new SignInBasicRequest
             {
-                Login = login,
+                Login = email,
                 Password = password,
             },
             token);
