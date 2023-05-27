@@ -2,18 +2,22 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System;
-using System.Reactive.Disposables;
+using Lct2023.Commons.Extensions;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DataModel.Definitions.Enums;
+using DataModel.Responses.Art;
 using DataModel.Responses.BaseCms;
 using DataModel.Responses.Map;
 using DynamicData;
 using DynamicData.Binding;
+using Lct2023.Business.RestServices.Art;
 using Lct2023.Business.RestServices.Map;
-using Lct2023.Commons.Extensions;
+using Lct2023.Business.Definitions;
+using Lct2023.Definitions.Enums;
 using Lct2023.Services;
+using Lct2023.ViewModels.Map.Filters;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
@@ -25,15 +29,19 @@ namespace Lct2023.ViewModels.Map;
 
 public class MapViewModel : BaseViewModel
 {
+    private const int PAGE_SIZE = 100;
+    
     private readonly IMapRestService _mapRestService;
     private CmsItemResponse<SchoolLocationResponse>[] _schoolLocations;
     private CmsItemResponse<EventItemResponse>[] _events;
     private readonly IMapper _mapper;
     private IEnumerable<ContactItemViewModel> _contacts;
     private readonly IDialogService _dialogService;
+    private readonly IArtRestService _artRestService;
 
     public MapViewModel(
         IMapRestService mapRestService,
+        IArtRestService artRestService,
         ILoggerFactory logFactory,
         IMvxNavigationService navigationService,
         IDialogService dialogService,
@@ -41,6 +49,7 @@ public class MapViewModel : BaseViewModel
         IMapper mapper)
         : base(logFactory, navigationService)
     {
+        _artRestService = artRestService;
         _mapRestService = mapRestService;
         _mapper = mapper;
         _dialogService = dialogService;
@@ -163,19 +172,23 @@ public class MapViewModel : BaseViewModel
             }
         });
 
-        this.WhenValueChanged(vm => vm.SelectedLocation)
+        this.WhenAnyValue(vm => vm.SelectedLocation)
             .WhereNotNull()
             .Subscribe(_ => UpdateContacts(1));
 
-        this.WhenValueChanged(vm => vm.LocationType)
+        this.WhenAnyValue(vm => vm.LocationType, vm => vm.SelectedFilters)
             .Subscribe(_ => UpdatePlaces());
 
-        this.WhenValueChanged(vm => vm.SearchText)
+        this.WhenAnyValue(vm => vm.SearchText)
             .Throttle(TimeSpan.FromMilliseconds(350), RxApp.MainThreadScheduler)
             .Subscribe(_ => UpdateSearchResults());
     }
 
     public ObservableCollection<PlaceItemViewModel> Places { get; } = new ();
+    
+    public ObservableCollection<MapFilterGroupItemViewModel> FilterGroups { get; } = new ();
+    
+    public ObservableCollection<(MapFilterGroupType FilterGroupType, string[] Items)> SelectedFilters { get; private set; }
     
     public IMvxCommand GpsCommand { get; }
     
@@ -233,6 +246,27 @@ public class MapViewModel : BaseViewModel
         set => SetProperty(ref _contacts, value);
     }
 
+    public void ApplyFilters()
+    {
+        SelectedFilters = FilterGroups
+            .Select(pFg => (
+                pFg.FilterGroupType,
+                Items: pFg.SubGroups?.SelectMany(pFgs =>
+                    pFgs?.Items?.Where(pFgsi => pFgsi.IsSelected).Select(pFgsi => pFgsi.Title)).ToArray()))
+            .Where(x => x.Items?.Any() == true)
+            .ToObservableCollection();
+    }
+    
+    public void ResetFilters()
+    {
+        FilterGroups.ForEach(fG =>
+            fG?.SubGroups?.ForEach(fGs =>
+                fGs?.Items?.ForEach(fGsi =>
+                    fGsi.IsSelected = false)));
+
+        SelectedFilters = null;
+    }
+
     public override void ViewCreated()
     {
         base.ViewCreated();
@@ -262,8 +296,64 @@ public class MapViewModel : BaseViewModel
 
             UpdatePlaces();
         }));
+        
+        var filtersTask = Task.Run(() => RunSafeTaskAsync(async () =>
+        {
+            IEnumerable<CmsItemResponse<DistrictResponse>> districts = null;
+            IEnumerable<CmsItemResponse<StreamResponse>> streams = null;
+            
+            
+            await Task.WhenAll(Task.Run(async () => districts = (await _mapRestService.LoadUntilEndAsync<CmsItemResponse<DistrictResponse>, IEnumerable<CmsItemResponse<DistrictResponse>>, IMapRestService>((rS, start) => rS.GetDistrictsPaginationAsync(start, PAGE_SIZE, CancellationToken))).ToArray()),
+                Task.Run(async () => streams = (await _artRestService.GetStreamsAsync(CancellationToken))?.ToArray()));
 
-        Task.WhenAny(schoolLocationTask, eventsTask);
+            districts?.Where(d => d.Item?.AreaType != null).GroupBy(d => d.Item.AreaType, d => d.Item)
+                ?.Then(d => FilterGroups.Add(new MapFilterGroupItemViewModel
+                {
+                    FilterGroupType = MapFilterGroupType.District,
+                    Title = "Округа и районы",
+                    SubGroups = d.Select(g => new MapFilterSubGroupItemViewModel
+                    {
+                        Title = g.Key.GetEnumMemberValue(),
+                        Items = _mapper.Map<ObservableCollection<MapFilterItemViewModel>>(g)
+                    }).ToObservableCollection(),
+                }));
+                
+            streams?.Where(d => d.Item?.ArtCategory?.Data?.Item?.DisplayName != null).GroupBy(d => d.Item.ArtCategory.Data.Item.DisplayName, d => d.Item)
+                ?.Then(d => FilterGroups.Add(new MapFilterGroupItemViewModel
+                {
+                    FilterGroupType = MapFilterGroupType.Stream,
+                    Title = "Направления",
+                    SubGroups = d.Select(g => new MapFilterSubGroupItemViewModel
+                    {
+                        Title = g.Key,
+                        Items = _mapper.Map<ObservableCollection<MapFilterItemViewModel>>(g)
+                    }).ToObservableCollection(),
+                }));
+            
+            FilterGroups?.ForEach(fG =>
+                fG.SubGroups?.ForEach(fGs =>
+                {
+                    var updateBusy = false;
+                    fGs.WhenAnyValue(vm => vm.IsSelected)
+                        .Where(_ => fGs.IsSelected != fGs.Items?.Any(fGsi => fGsi.IsSelected))
+                        .Subscribe(_ =>
+                        {
+                            updateBusy = true;
+                            fGs.Items?.ForEach(item => item.IsSelected = fGs.IsSelected);
+                            updateBusy = false;
+                        });
+                    
+                    fGs.Items
+                        ?.ToObservableChangeSet()
+                        .AutoRefresh(vm => vm.IsSelected)
+                        .WhenAnyPropertyChanged()
+                        .Select(_ => fGs.Items?.Any(fGsi => fGsi.IsSelected) == true)
+                        .Where(isSelected => !updateBusy && fGs.IsSelected != isSelected)
+                        .Subscribe(isSelected => fGs.IsSelected = isSelected);
+                }));
+        }));
+
+        Task.WhenAny(schoolLocationTask, eventsTask, filtersTask);
     }
 
     private void UpdatePlaces()
@@ -271,11 +361,19 @@ public class MapViewModel : BaseViewModel
         Places.Clear();
         switch (LocationType)
         {
-            case LocationType.School:
-                _schoolLocations?.Then(sLs => Places.AddRange(_mapper.Map<IEnumerable<PlaceItemViewModel>>(sLs)));
-                break;
             case LocationType.Event:
                 _events?.Then(es => Places.AddRange(_mapper.Map<IEnumerable<PlaceItemViewModel>>(es)));
+                break;
+            case LocationType.School when SelectedFilters?.Any() == true:
+                _schoolLocations?.Where(sL =>
+                    SelectedFilters.All(selectedFilter => selectedFilter.FilterGroupType switch
+                    {
+                        MapFilterGroupType.District => selectedFilter.Items.Contains(sL.Item.District.Data.Item.District),
+                        MapFilterGroupType.Stream => selectedFilter.Items.Intersect(sL.Item.Streams.Data.Select(stream => stream.Item.Name)).Any(),
+                    })).Then(sLs => Places.AddRange(_mapper.Map<IEnumerable<PlaceItemViewModel>>(sLs)));
+                break;
+            case LocationType.School:
+                _schoolLocations?.Then(sLs => Places.AddRange(_mapper.Map<IEnumerable<PlaceItemViewModel>>(sLs)));
                 break;
         }
     }

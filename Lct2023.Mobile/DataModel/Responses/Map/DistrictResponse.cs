@@ -6,5 +6,7 @@ namespace DataModel.Responses.Map;
 public class DistrictResponse
 {
     [JsonProperty("area")]
-    public DistrictType DistrictType { get; set; }
+    public AreaType AreaType { get; set; }
+    
+    public string District { get; set; }
 }

@@ -58,7 +58,7 @@
         <Compile Include="Activities\MainTabbedActivity.cs" />
         <Compile Include="Activities\SplashActivity.cs" />
         <Compile Include="Activities\Tasks\TaskDetailsActivity.cs" />
-        <Compile Include="Adapters\ArtDirectionAdapter.cs" />
+        <Compile Include="Adapters\StreamsAdapter.cs" />
         <Compile Include="Adapters\AudioToPictureExerciseAnswersAdapter.cs" />
         <Compile Include="Adapters\BaseRecyclerViewAdapter.cs" />
         <Compile Include="Adapters\CourseDetailsSectionAdapter.cs" />
@@ -70,6 +70,9 @@
         <Compile Include="Adapters\BaseTemplatedRecyclerViewAdapter.cs" />
         <Compile Include="Adapters\EventsAdapter.cs" />
         <Compile Include="Adapters\MainViewPagerAdapter.cs" />
+        <Compile Include="Adapters\MapFiltersGroupsListAdapter.cs" />
+        <Compile Include="Adapters\MapFiltersItemListAdapter.cs" />
+        <Compile Include="Adapters\MapFiltersSubGroupsListAdapter.cs" />
         <Compile Include="Adapters\MapSearchResultsAdapter.cs" />
         <Compile Include="Adapters\SocialLinksAdapter.cs" />
         <Compile Include="Adapters\TaskDetailsCounterAdapter.cs" />
@@ -98,6 +101,8 @@
         <Compile Include="Fragments\MainTabs\TasksFragment.cs" />
         <Compile Include="Helpers\DefaultTabConfigurationStrategy.cs" />
         <Compile Include="Helpers\DimensUtils.cs" />
+        <Compile Include="Helpers\DrawableUtils.cs" />
+        <Compile Include="Helpers\PinUtils.cs" />
         <Compile Include="Helpers\ScrollWithSearchLayoutMediator.cs" />
         <Compile Include="Helpers\KeyboardUtils.cs" />
         <Compile Include="Listeners\DefaultClickListener.cs" />
