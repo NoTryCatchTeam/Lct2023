@@ -1,8 +1,10 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Lct2023.Services;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
+using MvvmCross.IoC;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 using PropertyChanged;
@@ -20,6 +22,9 @@ public abstract class BaseViewModel : MvxNavigationViewModel
 
         _cancellationTokenSource = new CancellationTokenSource();
     }
+
+    [MvxInject]
+    public IUserContext UserContext { get; set; }
 
     public MvxAsyncCommand NavigateBackCommand { get; }
 

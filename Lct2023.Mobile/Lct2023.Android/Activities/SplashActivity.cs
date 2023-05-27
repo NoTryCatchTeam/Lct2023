@@ -29,7 +29,7 @@ public class SplashActivity : MvxSplashScreenActivity<Setup, App>
 
     protected override async Task RunAppStartAsync(Bundle bundle)
     {
-        await Task.Delay(500);
+        await Task.Delay(300);
 
         await base.RunAppStartAsync(bundle);
     }

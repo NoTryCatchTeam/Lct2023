@@ -74,6 +74,7 @@
         <Compile Include="Adapters\BaseTemplatedRecyclerViewAdapter.cs" />
         <Compile Include="Adapters\EventsAdapter.cs" />
         <Compile Include="Adapters\LessonAnswerConversationAdapter.cs" />
+        <Compile Include="Adapters\MainStoriesAdapter.cs" />
         <Compile Include="Adapters\MainViewPagerAdapter.cs" />
         <Compile Include="Adapters\MapSearchResultsAdapter.cs" />
         <Compile Include="Adapters\SocialLinksAdapter.cs" />
@@ -121,6 +122,8 @@
         <Compile Include="Listeners\DefaultScrollListener.cs" />
         <Compile Include="Listeners\MediaPlayerCompletionListener.cs" />
         <Compile Include="Listeners\MediaPlayerPreparedListener.cs" />
+        <Compile Include="Presenters\ExtendedAndroidViewPresenter.cs" />
+        <Compile Include="Presenters\MvxRootActivityPresentationAttribute.cs" />
         <Compile Include="Resources\Resource.designer.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Services\DialogService.cs" />

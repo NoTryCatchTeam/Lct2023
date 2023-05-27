@@ -43,7 +43,8 @@ public class UserService : IUserService
         var authResult = await WebAuthenticator.AuthenticateAsync(
             new WebAuthenticatorOptions
             {
-                Url = new Uri($"{_configuration.GetValue<string>(ConfigurationConstants.AppSettings.HOST)}auth/sign-in/vk"),
+                Url = new Uri(
+                    $"http://45.9.27.2:8080/Auth/sign-in/vk"),
                 CallbackUrl = new Uri($"{callback}://"),
             }
         );

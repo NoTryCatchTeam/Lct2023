@@ -3,9 +3,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
-using Lct2023.Business.RestServices.Auth;
 using Lct2023.Definitions.Dtos;
 using Lct2023.Definitions.MvxIntercationResults;
+using Lct2023.Definitions.Types;
 using Lct2023.Services;
 using Lct2023.Services.Implementation;
 using Microsoft.Extensions.Logging;
@@ -106,6 +106,8 @@ public class AuthViewModel : BaseViewModel
                 await _signInValidator.ValidateAndThrowAsync(SignIn, CancellationToken);
 
                 await _userService.SignInAsync(SignIn.Email, SignIn.Password, CancellationToken);
+
+                await NavigationService.Navigate<MainTabbedViewModel>();
             },
             ex =>
             {
@@ -115,6 +117,10 @@ public class AuthViewModel : BaseViewModel
                         _validationInteractionLocal.Raise(new ValidationInteractionResult(typeof(SignInFields)) { ValidationResults = validationEx.Errors });
 
                         _dialogService.ShowToast(validationEx.Errors.First().ErrorMessage);
+
+                        break;
+                    default:
+                        _dialogService.ShowToast($"Ошибка при авторизации: {ex.Message}");
 
                         break;
                 }
@@ -133,6 +139,8 @@ public class AuthViewModel : BaseViewModel
             async () =>
             {
                 await _userService.SignInViaSocialAsync(CancellationToken);
+
+                await NavigationService.Navigate<MainTabbedViewModel>();
             },
             ex =>
             {
@@ -149,8 +157,12 @@ public class AuthViewModel : BaseViewModel
         State &= ~AuthViewState.SigningInViaVk;
     }
 
-    private Task SignInAnonymousAsync() =>
-        NavigationService.Navigate<MainTabbedViewModel>();
+    private async Task SignInAnonymousAsync()
+    {
+        // await _dialogService.ShowDialogAsync();
+
+        await NavigationService.Navigate<MainTabbedViewModel>();
+    }
 
     private async Task SignUpAsync()
     {
@@ -167,8 +179,13 @@ public class AuthViewModel : BaseViewModel
                         Email = SignUp.Email,
                         FirstName = SignUp.Name,
                         LastName = SignUp.Surname,
+                        Password = SignUp.Password,
+                        Photo = SignUp.PhotoBase64,
+                        BirthDate = SignUp.Birthday,
                     },
                     CancellationToken);
+
+                await NavigationService.Navigate<MainTabbedViewModel>();
             },
             ex =>
             {
@@ -177,6 +194,12 @@ public class AuthViewModel : BaseViewModel
                     case ValidationException validationEx:
                         _validationInteractionLocal.Raise(new ValidationInteractionResult(typeof(SignUpFields)) { ValidationResults = validationEx.Errors });
 
+                        _dialogService.ShowToast(validationEx.Errors.First().ErrorMessage);
+
+                        break;
+                    default:
+                        _dialogService.ShowToast($"Ошибка при регистрации: {ex.Message}");
+
                         break;
                 }
 
@@ -184,65 +207,5 @@ public class AuthViewModel : BaseViewModel
             });
 
         State &= ~AuthViewState.SigningUp;
-    }
-}
-
-[Flags]
-public enum AuthViewState
-{
-    SigningIn = 1 << 0,
-
-    SigningInViaVk = 1 << 1,
-
-    SigningUp = 1 << 2,
-}
-
-public class SignInFields
-{
-    public string Email { get; set; }
-
-    public string Password { get; set; }
-}
-
-public class SignUpFields : MvxNotifyPropertyChanged
-{
-    private string _email;
-    private string _username;
-    private DateTimeOffset? _birthday;
-
-    public string Email
-    {
-        get => _email;
-        set
-        {
-            if (!SetProperty(ref _email, value))
-            {
-                return;
-            }
-
-            Username = _email.Split("@").FirstOrDefault();
-        }
-    }
-
-    public string Username
-    {
-        get => _username;
-        private set => SetProperty(ref _username, value);
-    }
-
-    public string Password { get; set; }
-
-    public string RepeatPassword { get; set; }
-
-    public string PhotoBase64 { get; set; }
-
-    public string Name { get; set; }
-
-    public string Surname { get; set; }
-
-    public DateTimeOffset? Birthday
-    {
-        get => _birthday;
-        set => SetProperty(ref _birthday, value);
     }
 }

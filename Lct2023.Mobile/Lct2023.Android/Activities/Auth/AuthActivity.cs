@@ -54,18 +54,6 @@ public class AuthActivity : BaseActivity<AuthViewModel>
 
     private void ValidationInteractionRequested(object sender, MvxValueEventArgs<ValidationInteractionResult> e)
     {
-        if (e.Value.ValidatedType == typeof(SignInFields))
-        {
-        }
-
-        // Means reset form errors
-        if (e.Value.IsSuccess)
-        {
-            return;
-        }
-        else
-        {
-        }
     }
 
     protected override void OnCreate(Bundle bundle)
@@ -136,14 +124,7 @@ public class AuthActivity : BaseActivity<AuthViewModel>
                     }))
             .Attach();
 
-        var now = DateTimeOffset.UtcNow;
-        var birthdayPickerDialog = new DatePickerDialog(
-            this,
-            Resource.Style.AppTheme_DatePickerDialog,
-            (_, e) => ViewModel.SignUp.Birthday = new DateTimeOffset(e.Date),
-            now.Year,
-            now.Month,
-            now.Day);
+        var birthdayPickerDialog = GetBirthdayPickerDialog();
 
         var clickListener = new DefaultClickListener(v =>
         {
@@ -225,6 +206,20 @@ public class AuthActivity : BaseActivity<AuthViewModel>
             .OneWay();
 
         set.Apply();
+    }
+
+    private DatePickerDialog GetBirthdayPickerDialog()
+    {
+        var now = DateTimeOffset.UtcNow;
+        var picker = new DatePickerDialog(
+            this,
+            Resource.Style.AppTheme_DatePickerDialog,
+            (_, e) => ViewModel.SignUp.Birthday = new DateTimeOffset(e.Date),
+            now.Year,
+            now.Month,
+            now.Day);
+        
+        return picker;
     }
 
     private class SignUp

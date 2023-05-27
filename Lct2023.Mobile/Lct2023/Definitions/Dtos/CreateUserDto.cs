@@ -1,3 +1,5 @@
+using System;
+
 namespace Lct2023.Definitions.Dtos;
 
 public class CreateUserDto
@@ -10,5 +12,7 @@ public class CreateUserDto
 
     public string Password { get; set; }
 
-    public string PhotoBase64 { get; set; }
+    public string Photo { get; set; }
+
+    public DateTimeOffset? BirthDate { get; set; }
 }

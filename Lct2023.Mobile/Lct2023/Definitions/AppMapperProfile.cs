@@ -23,7 +23,8 @@ public class AppMapperProfile : Profile
             .ForMember(x => x.RefreshToken, expr => expr.Ignore())
             ;
 
-        CreateMap<CreateUserDto, CreateUserRequest>();
+        CreateMap<CreateUserDto, CreateUserRequest>()
+            .ForMember(x => x.BirthDate, expr => expr.MapFrom<DateTime?>(s => s.BirthDate == null ? null : DateTime.SpecifyKind(s.BirthDate.Value.Date, DateTimeKind.Utc).ToUniversalTime()));
 
         CreateMap<CmsItemResponse<SchoolLocationResponse>, MapSearchResultItemViewModel>()
             .ValidateMemberList(MemberList.None)
