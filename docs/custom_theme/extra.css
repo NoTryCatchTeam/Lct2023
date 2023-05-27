@@ -1,11 +1,11 @@
 html * {
-    font-family: Calibri !important;
+    font-family: Roboto !important;
     color: #404041;
 }
 
 @font-face {
-    font-family: Calibri;
-    src: url("fonts/calibri\ regular.TTF");
+    font-family: Roboto;
+    src: url("fonts/roboto_regular.ttf");
 }
 
 .navbar {
@@ -13,7 +13,7 @@ html * {
 }
 
 .bg-secondary {
-    background-color: #D0E4A4 !important;
+    background-color: #F3F4C1 !important;
 }
 
 body {
