@@ -2,7 +2,7 @@ using System.Runtime.Serialization;
 
 namespace DataModel.Definitions.Enums;
 
-public enum DistrictType
+public enum AreaType
 {
     Default,
     
