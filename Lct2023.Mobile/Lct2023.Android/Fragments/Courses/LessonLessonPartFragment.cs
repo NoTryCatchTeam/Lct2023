@@ -46,12 +46,6 @@ public class LessonLessonPartFragment : MvxFragment
         {
             _views.Video.Player = GetVideoPlayer();
         }
-        // else if (_viewModel.NavigationParameter.LessonItem.Attachment != null)
-        // {
-        //     _views.File.SetOnClickListener(new DefaultClickListener(_ =>
-        //     {
-        //     }));
-        // }
 
         var set = this.CreateBindingSet<LessonLessonPartFragment, CourseLessonViewModel>();
 
