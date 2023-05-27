@@ -142,7 +142,7 @@ public class AuthController : ControllerBase
                            UserName = userName,
                            LastName = lastName,
                            BirthDate = birthDate,
-                           PhotoUrl = photoUrl,
+                           PhotoUrl = photo,
                            LoginProvider = provider,
                            LoginProviderKey = providerKey,
                        });

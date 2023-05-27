@@ -19,6 +19,7 @@ using Google.Android.Material.Button;
 using Google.Android.Material.Card;
 using Google.Android.Material.TextField;
 using Lct2023.Android.Adapters;
+using Lct2023.Android.Bindings;
 using Lct2023.Android.Decorations;
 using Lct2023.Android.Definitions.Extensions;
 using Lct2023.Android.Helpers;
@@ -42,9 +43,11 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
     private MapView _mapView;
 
     private GoogleMap _googleMap;
-    private BottomSheetBehavior _bottomSheetBehavior;
-    private MaterialCardView _bottomSheet;
+    private BottomSheetBehavior _locationDetailsBottomSheetBehavior;
+    private MaterialCardView _locationDetailsBottomSheet;
     private View _addressLayout;
+    private MaterialCardView _filtersBottomSheet;
+    private BottomSheetBehavior _filtersBottomSheetBehavior;
 
     protected override int GetLayoutId() => Resource.Layout.MapFragment;
     
@@ -62,8 +65,8 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         var filtersButton = view.FindViewById<MaterialButton>(Resource.Id.location_filters_button);
         var zoomInButton = view.FindViewById<MaterialButton>(Resource.Id.zoom_in_button);
         var zoomOutButton = view.FindViewById<MaterialButton>(Resource.Id.zoom_out_button);
-        _bottomSheet = view.FindViewById<MaterialCardView>(Resource.Id.location_info_bottom_sheet);
-        _bottomSheetBehavior = BottomSheetBehavior.From(_bottomSheet);
+        _locationDetailsBottomSheet = view.FindViewById<MaterialCardView>(Resource.Id.location_info_bottom_sheet);
+        _locationDetailsBottomSheetBehavior = BottomSheetBehavior.From(_locationDetailsBottomSheet);
         
         var closeBsButton = view.FindViewById<MaterialButton>(Resource.Id.close_bs_button);
         var contactsItemsLayout = view.FindViewById<MvxLinearLayout>(Resource.Id.contacts_items_layout);
@@ -78,14 +81,21 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         var artDirectionsLayout = view.FindViewById<MvxRecyclerView>(Resource.Id.art_directions_layout);
         var afishaLayout = view.FindViewById<MvxRecyclerView>(Resource.Id.afisha_layout);
         var actionButton = view.FindViewById<MaterialButton>(Resource.Id.action_button);
+        _filtersBottomSheet = view.FindViewById<MaterialCardView>(Resource.Id.filters_bottom_sheet);
+        _filtersBottomSheetBehavior = BottomSheetBehavior.From(_filtersBottomSheet);
+        var mapFiltersRecycle = view.FindViewById<MvxRecyclerView>(Resource.Id.map_filters_recycle);
+        var filtersCloseBsButton = view.FindViewById<MaterialButton>(Resource.Id.map_filters_close_bs_button);
+        var clearFiltersButton = view.FindViewById<MaterialButton>(Resource.Id.map_clear_filters_button);
+        var applyFiltersButton = view.FindViewById<MaterialButton>(Resource.Id.map_apply_filters_button);
 
-        var artDirectionsAdapter = new ArtDirectionAdapter((IMvxAndroidBindingContext)BindingContext)
+        var artDirectionsAdapter = new StreamsAdapter((IMvxAndroidBindingContext)BindingContext)
         {
             ItemTemplateSelector = new MvxDefaultTemplateSelector(Resource.Layout.ArtDirectionItem),
         };
 
         var horizontal16dpItemSpacingDecoration = new ItemSeparateDecoration(DimensUtils.DpToPx(Activity, 16), LinearLayoutManager.Horizontal);
         var horizontal8dpItemSpacingDecoration = new ItemSeparateDecoration(DimensUtils.DpToPx(Activity, 8), LinearLayoutManager.Horizontal);
+        var vertical16dpItemSpacingDecoration = new ItemSeparateDecoration(DimensUtils.DpToPx(Activity, 16), LinearLayoutManager.Vertical);
         
         artDirectionsLayout.SetLayoutManager(new MvxGuardedLinearLayoutManager(Activity) { Orientation = LinearLayoutManager.Horizontal });
         artDirectionsLayout.ItemTemplateId = Resource.Layout.ArtDirectionItem;
@@ -125,6 +135,15 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
 
         searchResultsList.SetAdapter(searchAdapter);
         
+        var mapFiltersAdapter = new MapFiltersGroupsListAdapter((IMvxAndroidBindingContext)BindingContext)
+        {
+            ItemTemplateSelector = new MvxDefaultTemplateSelector(Resource.Layout.MapFiltersGroupItemView),
+        };
+
+        mapFiltersRecycle.SetLayoutManager(new MvxGuardedLinearLayoutManager(Context) { Orientation = LinearLayoutManager.Vertical });
+        mapFiltersRecycle.SetAdapter(mapFiltersAdapter);
+        mapFiltersRecycle.AddItemDecoration(vertical16dpItemSpacingDecoration);
+        
         searchAdapter.ItemClick = new MvxCommand<MapSearchResultItemViewModel>(
             item =>
             {
@@ -147,10 +166,10 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
                 }
             });
         
-        _bottomSheetBehavior.Hideable = true;
-        _bottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
+        _locationDetailsBottomSheetBehavior.Hideable = true;
+        _locationDetailsBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
 
-        foreach (var button in new [] { filtersButton, closeBsButton, zoomInButton, zoomOutButton, })
+        foreach (var button in new [] { filtersButton, closeBsButton, zoomInButton, zoomOutButton, filtersCloseBsButton, applyFiltersButton, clearFiltersButton })
         {
             button.SetOnClickListener(this);
         }
@@ -284,7 +303,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         set
             .Bind(artDirectionsLayout)
             .For(v => v.ItemsSource)
-            .To(vm => vm.SelectedLocation.ArtDirections);
+            .To(vm => vm.SelectedLocation.Streams);
         
         set
             .Bind(contactsItemsLayout)
@@ -305,7 +324,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         set
             .Bind(artDirectionsLayout)
             .For(v => v.BindVisible())
-            .To(vm => vm.SelectedLocation.ArtDirections)
+            .To(vm => vm.SelectedLocation.Streams)
             .WithConversion(itemsVisibilityConverter);
 
         set
@@ -335,6 +354,12 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
             .For(v => v.BindVisible())
             .To(vm => vm.SelectedLocation.Contacts)
             .WithConversion(new AnyExpressionConverter<IEnumerable<string>, bool>(items => items?.Count() > 1));
+
+        set
+            .Bind(filtersButton)
+            .For(nameof(ButtonIconResourceBinding))
+            .To(vm => vm.SelectedFilters)
+            .WithConversion(new AnyExpressionConverter<object, int>(filters => filters == null ? Resource.Drawable.ic_filters : Resource.Drawable.ic_filters_selected));
 
         set
             .Bind(locationTypesGroup)
@@ -384,6 +409,11 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
             .Bind(actionButton)
             .For(v => v.BindClick())
             .To(vm => vm.ActionCommand);
+        
+        set
+            .Bind(mapFiltersRecycle)
+            .For(v => v.ItemsSource)
+            .To(vm => vm.FilterGroups);
 
         set.Apply();
 
@@ -457,7 +487,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         _googleMap.SetOnMapClickListener(this);
         
         _googleMap.MapType = GoogleMap.MapTypeNormal;
-        _googleMap.MoveCamera(CameraUpdateFactory.NewLatLngZoom(new LatLng(55.7499931, 37.624216), 10));
+        _googleMap.MoveCamera(CameraUpdateFactory.NewLatLngZoom(new LatLng(55.7499931, 37.624216), 9));
 
         _googleMap.UiSettings.CompassEnabled = false;
         _googleMap.UiSettings.ZoomControlsEnabled = false;
@@ -468,6 +498,9 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
 
     private void UpdateMarkers()
     {
+        KeyboardUtils.HideKeyboard(Activity);
+        DeselectLocation();
+        
         if (_googleMap == null)
         {
             return;
@@ -477,8 +510,29 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
             
         foreach (var place in ViewModel.Places)
         {
+            Bitmap bitmap = null;
+
+            switch (place.LocationType)
+            {
+                case LocationType.Event:
+                {
+                    var diameter = DimensUtils.DpToPx(Context, 32);
+                    bitmap = PinUtils.CreateBitmap(diameter, DrawableUtils.CreateCircleDrawable(diameter, DimensUtils.DpToPx(Context, 4), Color.ParseColor(place.HexColor), Color.White));
+                    
+                    break;
+                }
+                case LocationType.School:
+                {
+                    var drawable = Resource.Drawable.ic_pin.GetDrawable(Context);
+                    var diameter = Math.Min(drawable.IntrinsicWidth, drawable.IntrinsicHeight);
+                    bitmap = PinUtils.CreateBitmap(diameter, DrawableUtils.CreateCircleDrawable(diameter, DimensUtils.DpToPx(Context, 4), Color.White, Color.ParseColor(place.HexColor)), drawable);
+                    
+                    break;
+                }
+            }
+            
             _googleMap.AddMarker(new MarkerOptions()
-                .SetIcon(BitmapDescriptorFactory.FromBitmap(Resource.Drawable.ic_pin.GetDrawable(Context).AddCircleWithStroke(DimensUtils.DpToPx(Context, 2), Color.White, Color.ParseColor(place.HexColor))))
+                .SetIcon(BitmapDescriptorFactory.FromBitmap(bitmap))
                 .SetSnippet(place.Id)
                 .SetPosition(new LatLng(place.Latitude, place.Longitude))
                 .SetTitle(place.Title));
@@ -489,6 +543,20 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
     {
         switch (view.Id)
         {
+            case Resource.Id.map_apply_filters_button:
+                _filtersBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
+                ViewModel.ApplyFilters();
+                break;
+            case Resource.Id.map_clear_filters_button:
+                _filtersBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
+                ViewModel.ResetFilters();
+                break;
+            case Resource.Id.location_filters_button:
+                _filtersBottomSheetBehavior.State = BottomSheetBehavior.StateExpanded;
+                break;
+            case Resource.Id.map_filters_close_bs_button:
+                _filtersBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
+                break;
             case Resource.Id.close_bs_button:
                 DeselectLocation();
                 break;
@@ -523,9 +591,10 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         }
         
         ViewModel.SelectedLocation = null;
-        _bottomSheetBehavior.PeekHeight = 0;
-        _bottomSheetBehavior.Hideable = true;
-        _bottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
+        _filtersBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
+        _locationDetailsBottomSheetBehavior.PeekHeight = 0;
+        _locationDetailsBottomSheetBehavior.Hideable = true;
+        _locationDetailsBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
     }
 
     public bool OnMarkerClick(Marker marker)
@@ -543,12 +612,13 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
             return;
         }
         
+        _filtersBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
         var addressRect = new Rect();
         _addressLayout.GetDrawingRect(addressRect);
-        _bottomSheet.OffsetDescendantRectToMyCoords(_addressLayout, addressRect);
-        _bottomSheetBehavior.SetPeekHeight(addressRect.Top + addressRect.Height() + DimensUtils.DpToPx(Context, 56), false);
-        _bottomSheetBehavior.Hideable = false;
-        _bottomSheetBehavior.State = BottomSheetBehavior.StateCollapsed;
+        _locationDetailsBottomSheet.OffsetDescendantRectToMyCoords(_addressLayout, addressRect);
+        _locationDetailsBottomSheetBehavior.SetPeekHeight(addressRect.Top + addressRect.Height() + DimensUtils.DpToPx(Context, 56), false);
+        _locationDetailsBottomSheetBehavior.Hideable = false;
+        _locationDetailsBottomSheetBehavior.State = BottomSheetBehavior.StateCollapsed;
     }
 
     public void OnMapClick(LatLng point) => DeselectLocation();
