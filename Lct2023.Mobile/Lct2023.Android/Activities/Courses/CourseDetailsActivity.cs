@@ -34,14 +34,7 @@ public partial class CourseDetailsActivity : BaseActivity<CourseDetailsViewModel
         base.OnCreate(bundle);
         SetContentView(Resource.Layout.CourseDetailsActivity);
 
-        var toolbar = FindViewById<MaterialToolbar>(Resource.Id.toolbar_inner);
-        toolbar.Title = "Гитара";
-        toolbar.SetOnMenuItemClickListener(new DefaultMenuItemClickListener(_ =>
-        {
-            ViewModel.NavigateBackCommand.ExecuteAsync();
-
-            return true;
-        }));
+        Toolbar.Title = "Гитара";
 
         var views = new Views(
             new Views.TeacherViews(

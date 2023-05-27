@@ -4,6 +4,7 @@ using Android.Widget;
 using Google.Android.Material.Card;
 using Lct2023.Android.Bindings;
 using Lct2023.Converters;
+using Lct2023.Definitions.Types;
 using Lct2023.ViewModels.Courses;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Binding;

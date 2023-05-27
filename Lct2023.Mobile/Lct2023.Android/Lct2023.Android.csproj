@@ -51,7 +51,6 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Activities\Auth\AuthActivity.cs" />
-        <Compile Include="Activities\Auth\LoginActivity.cs" />
         <Compile Include="Activities\Auth\WebAuthenticationCallbackActivity.cs" />
         <Compile Include="Activities\BaseActivity.cs" />
         <Compile Include="Activities\Common\WebViewActivity.cs" />
@@ -116,9 +115,12 @@
         <Compile Include="Fragments\MainTabs\MapFragment.cs" />
         <Compile Include="Fragments\MainTabs\TasksFragment.cs" />
         <Compile Include="Helpers\ActivityExtensions.cs" />
+        <Compile Include="Helpers\BaseAppToolbar.cs" />
         <Compile Include="Helpers\DefaultTabConfigurationStrategy.cs" />
         <Compile Include="Helpers\DimensUtils.cs" />
         <Compile Include="Helpers\DrawableUtils.cs" />
+        <Compile Include="Helpers\ImagedToolbar.cs" />
+        <Compile Include="Helpers\InnerToolbar.cs" />
         <Compile Include="Helpers\PinUtils.cs" />
         <Compile Include="Helpers\ScrollWithSearchLayoutMediator.cs" />
         <Compile Include="Helpers\KeyboardUtils.cs" />

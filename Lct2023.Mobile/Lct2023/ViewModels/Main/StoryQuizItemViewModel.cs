@@ -13,4 +13,6 @@ public class StoryQuizItemViewModel : MvxNotifyPropertyChanged, IStoryCardItemVi
     public string Title => Item.Title;
 
     public StoryQuizResponse Item { get;}
+
+    public string CoverUrl { get; set; }
 }

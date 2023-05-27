@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Lct2023.Definitions.Models;
+using Lct2023.Definitions.Types;
 using Lct2023.Services;
 using Lct2023.Services.Implementation;
 using Lct2023.ViewModels.Common;

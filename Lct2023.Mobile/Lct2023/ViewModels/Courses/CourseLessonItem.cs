@@ -1,3 +1,4 @@
+using Lct2023.Definitions.Types;
 using MvvmCross.ViewModels;
 
 namespace Lct2023.ViewModels.Courses;

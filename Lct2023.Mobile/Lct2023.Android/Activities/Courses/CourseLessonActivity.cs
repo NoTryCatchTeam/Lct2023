@@ -23,14 +23,7 @@ public class CourseLessonActivity : BaseActivity<CourseLessonViewModel>
         base.OnCreate(bundle);
         SetContentView(Resource.Layout.CourseLessonActivity);
 
-        var toolbar = FindViewById<MaterialToolbar>(Resource.Id.toolbar_inner);
-        toolbar.Title = "Гитара";
-        toolbar.SetOnMenuItemClickListener(new DefaultMenuItemClickListener(_ =>
-        {
-            ViewModel.NavigateBackCommand.ExecuteAsync();
-
-            return true;
-        }));
+        Toolbar.Title = "Гитара";
 
         var info = new Info(
             FindViewById<ImageView>(Resource.Id.course_lesson_info_image),

@@ -1,8 +1,9 @@
 using System.Reactive.Disposables;
 using Android.OS;
 using Android.Views;
-using Android.Widget;
 using Google.Android.Material.AppBar;
+using Lct2023.Android.Helpers;
+using Lct2023.Android.Listeners;
 using Lct2023.ViewModels;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Views.Fragments;
@@ -13,7 +14,7 @@ namespace Lct2023.Android.Fragments;
 public abstract class BaseFragment<TViewModel> : MvxFragment<TViewModel>
     where TViewModel : BaseViewModel
 {
-    public AppToolbar Toolbar { get; private set; }
+    public BaseAppToolbar Toolbar { get; private set; }
 
     protected CompositeDisposable CompositeDisposable { get; } = new ();
 
@@ -23,33 +24,43 @@ public abstract class BaseFragment<TViewModel> : MvxFragment<TViewModel>
 
         var view = this.BindingInflate(GetLayoutId(), container, false);
 
-        if (view.FindViewById<MaterialToolbar>(Resource.Id.toolbar) is not { } toolbar)
+        if (view.FindViewById<MaterialToolbar>(Resource.Id.toolbar) is { } imagedToolbarView)
         {
-            return view;
+            var toolbar = new ImagedToolbar(imagedToolbarView);
+
+            if (ViewModel.UserContext.User?.PhotoUrl is { } photoUrl)
+            {
+                Picasso.Get()
+                    .Load(photoUrl)
+                    .Placeholder(Resource.Drawable.ic_profile_circle)
+                    .Error(Resource.Drawable.ic_profile_circle)
+                    .Into(toolbar.Avatar);
+            }
+            else
+            {
+                toolbar.Avatar.SetImageResource(Resource.Drawable.ic_profile_circle);
+            }
+
+            toolbar.Title = ViewModel.UserContext.User?.FirstName;
+
+            Toolbar = toolbar;
         }
-
-        Toolbar = new AppToolbar(toolbar);
-
-        var set = CreateBindingSet();
-
-        if (ViewModel.UserContext.User?.PhotoUrl is { } photoUrl)
+        else if (view.FindViewById<MaterialToolbar>(Resource.Id.toolbar_inner) is { } innerToolbarView)
         {
-            Picasso.Get()
-                .Load(photoUrl)
-                .Placeholder(Resource.Drawable.ic_profile_circle)
-                .Error(Resource.Drawable.ic_profile_circle)
-                .Into(Toolbar.Avatar);
-        }
-        else
-        {
-            Toolbar.Avatar.SetImageResource(Resource.Drawable.ic_profile_circle);
-        }
+            var toolbar = new InnerToolbar(innerToolbarView)
+            {
+                Title = ViewModel.UserContext.User?.FirstName,
+            };
 
-        set.Bind(Toolbar.Title)
-            .For(x => x.Text)
-            .To(x => x.UserContext.User.FirstName);
+            toolbar.Toolbar.SetOnMenuItemClickListener(new DefaultMenuItemClickListener(_ =>
+            {
+                ViewModel.NavigateBackCommand.ExecuteAsync();
 
-        set.Apply();
+                return true;
+            }));
+
+            Toolbar = toolbar;
+        }
 
         return view;
     }
@@ -65,23 +76,6 @@ public abstract class BaseFragment<TViewModel> : MvxFragment<TViewModel>
 
         base.Dispose(disposing);
     }
-}
-
-public class AppToolbar
-{
-    public AppToolbar(MaterialToolbar toolbar)
-    {
-        Toolbar = toolbar;
-
-        Avatar = toolbar.FindViewById<ImageView>(Resource.Id.toolbar_image);
-        Title = toolbar.FindViewById<TextView>(Resource.Id.toolbar_title);
-    }
-
-    public MaterialToolbar Toolbar { get; }
-
-    public ImageView Avatar { get; }
-
-    public TextView Title { get; }
 }
 
 public abstract class BaseFragment : MvxFragment
