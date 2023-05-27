@@ -30,4 +30,5 @@ jobs:
                 -e "Jwt__Secret=${{ secrets.JWT_SECRET }}" \
                 -e "Vk__ClientId=${{ secrets.CLIENT_ID }}" \
                 -e "Vk__ClientSecret=${{ secrets.CLIENT_SECRET }}" \
+                -e "Cms__ApiKey=${{ secrets.CMS_API_KEY }}" \
                 swamp1820/lct2023 

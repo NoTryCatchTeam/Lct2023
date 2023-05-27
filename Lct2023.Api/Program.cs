@@ -78,8 +78,14 @@ builder.Services
         options.ClientSecret = builder.Configuration.GetValue<string>(ConfigurationConstants.Secrets.VK_CLIENT_SECRET);
 
         options.Scope.Add("email");
-
+        //options.Scope.Add("photos");
+        options.Scope.Add("friends");
+        options.Fields.Add("bdate");
+		options.Fields.Add("photo_max");
+         
         options.ClaimActions.MapJsonKey(CustomClaimTypes.PHOTO_URL, "photo");
+        options.ClaimActions.MapJsonKey(CustomClaimTypes.BIRTH_DATE, "bdate");
+        options.ClaimActions.MapJsonKey(CustomClaimTypes.PHOTO_MAX, "photo_max");
 
         options.Events.OnTicketReceived += context =>
         {
@@ -93,7 +99,9 @@ builder.Services
                 { CustomClaimTypes.EMAIL, context.Principal.FindFirst(ClaimTypes.Email)?.Value },
                 { CustomClaimTypes.FIRST_NAME, context.Principal.FindFirst(ClaimTypes.GivenName)?.Value },
                 { CustomClaimTypes.LAST_NAME, context.Principal.FindFirst(ClaimTypes.Surname)?.Value },
+                { CustomClaimTypes.BIRTH_DATE, context.Principal.FindFirst(CustomClaimTypes.BIRTH_DATE)?.Value },
                 { CustomClaimTypes.PHOTO_URL, context.Principal.FindFirst(CustomClaimTypes.PHOTO_URL)?.Value },
+                { CustomClaimTypes.PHOTO_MAX, context.Principal.FindFirst(CustomClaimTypes.PHOTO_MAX)?.Value },
                 { CustomClaimTypes.EXTERNAL_LOGIN_PROVIDER, VkontakteAuthenticationDefaults.AuthenticationScheme },
                 { CustomClaimTypes.EXTERNAL_LOGIN_PROVIDER_KEY, context.Principal.FindFirst(ClaimTypes.NameIdentifier)?.Value },
             };
@@ -109,7 +117,14 @@ builder.Services.AddAutoMapper(x => x.AddProfile<ApiMapperProfile>());
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IAuthTokensService, AuthTokensService>();
 builder.Services.AddTransient<IUserService, UserService>();
-
+builder.Services.AddHttpClient(
+    "CMS",
+    client =>
+    {
+        client.BaseAddress = new Uri("http://45.9.27.2/api");
+        client.DefaultRequestHeaders.Add("Authorization","Bearer " + 
+        builder.Configuration.GetValue<string>(ConfigurationConstants.Secrets.CMS_API_KEY));
+    });
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
