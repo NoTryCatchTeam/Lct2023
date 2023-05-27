@@ -303,7 +303,7 @@ public class MapViewModel : BaseViewModel
             IEnumerable<CmsItemResponse<StreamResponse>> streams = null;
             
             
-            await Task.WhenAll(Task.Run(async () => districts = (await _mapRestService.LoadUntilEndAsync<CmsItemResponse<DistrictResponse>, IEnumerable<CmsItemResponse<DistrictResponse>>, IMapRestService>((rS, start) => rS.GetDistrictsPaginationAsync(start, PAGE_SIZE, CancellationToken))).ToArray()),
+            await Task.WhenAll(Task.Run(async () => districts = (await _mapRestService.LoadUntilEndAsync((rS, start) => rS.GetDistrictsPaginationAsync(start, PAGE_SIZE, CancellationToken))).ToArray()),
                 Task.Run(async () => streams = (await _artRestService.GetStreamsAsync(CancellationToken))?.ToArray()));
 
             districts?.Where(d => d.Item?.AreaType != null).GroupBy(d => d.Item.AreaType, d => d.Item)
