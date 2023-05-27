@@ -1,0 +1,26 @@
+name: Deploy PDFJS
+
+on: 
+  workflow_dispatch:
+  workflow_run:
+    workflows: [Docker CI PDFJS]
+    types: [completed]
+jobs:
+
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Run Docker SSH
+            uses: appleboy/ssh-action@master
+            with:
+              host: ${{ secrets.HOST }}
+              username: ${{ secrets.USERNAME }}
+              password: ${{ secrets.PASSWORD }}
+              port: 22
+              script: |
+                docker stop pdf && docker rm pdf
+                docker rmi swamp1820/lct2023-pdf
+                docker pull swamp1820/lct2023-pdf:latest
+                docker run --name pdf -d --restart always -p 8081:80 \
+                -v /upload:/usr/share/nginx/html/files:ro
+                swamp1820/lct2023-pdf 

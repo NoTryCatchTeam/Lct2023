@@ -2012,13 +2012,8 @@ body {
 :is(#download, #secondaryDownload)::before {
   -webkit-mask-image: var(--toolbarButton-download-icon);
           mask-image: var(--toolbarButton-download-icon);
-          appearance: none;
 }
 
-#download
-{
-  visibility: none !important;
-}
 a.secondaryToolbarButton {
   padding-top: 5px;
   text-decoration: none;
