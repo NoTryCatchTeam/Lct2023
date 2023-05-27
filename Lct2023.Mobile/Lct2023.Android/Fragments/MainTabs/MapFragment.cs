@@ -55,13 +55,13 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
     {
         var view = base.OnCreateView(inflater, container, savedInstanceState);
         
-        view.FindViewById<TextView>(Resource.Id.title).Text = "Карта";
+        Toolbar.Title.Text = "Карта";
+        
         _mapView = view.FindViewById<MapView>(Resource.Id.map_view);
         
         var locationsSearchEditText = view.FindViewById<TextInputEditText>(Resource.Id.locations_search_value);
         var searchResultsList = view.FindViewById<MvxRecyclerView>(Resource.Id.map_search_results);
         var locationTypesGroup = view.FindViewById<MaterialButtonToggleGroup>(Resource.Id.location_types_group);
-        var avatarImageButton = view.FindViewById<ImageView>(Resource.Id.toolbar_image);
         var filtersButton = view.FindViewById<MaterialButton>(Resource.Id.location_filters_button);
         var zoomInButton = view.FindViewById<MaterialButton>(Resource.Id.zoom_in_button);
         var zoomOutButton = view.FindViewById<MaterialButton>(Resource.Id.zoom_out_button);
@@ -173,10 +173,6 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         {
             button.SetOnClickListener(this);
         }
-        
-        Picasso.Get()
-            .Load(ViewModel.Image)
-            .Into(avatarImageButton);
         
         _mapView?.OnCreate(savedInstanceState);
         _mapView?.GetMapAsync(this);

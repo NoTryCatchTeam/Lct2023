@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="wrap_content"
+                                                   android:paddingTop="32dp">
+
+    <TextView android:id="@+id/auth_signup_email_label"
+              style="@style/AppTheme.Body.Small"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="Почта"
+              app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.google.android.material.textfield.TextInputLayout android:id="@+id/auth_signup_email_layout"
+                                                           style="@style/AppTheme.TextInputLayout.Default"
+                                                           android:layout_width="match_parent"
+                                                           android:layout_height="wrap_content"
+                                                           android:layout_marginTop="4dp"
+                                                           app:layout_constraintTop_toBottomOf="@id/auth_signup_email_label">
+
+        <com.google.android.material.textfield.TextInputEditText android:id="@+id/auth_signup_email_value"
+                                                                 style="@style/AppTheme.Body.Small"
+                                                                 android:layout_width="match_parent"
+                                                                 android:layout_height="match_parent"
+                                                                 android:hint="Введите почту"
+                                                                 android:inputType="textEmailAddress"
+                                                                 android:maxLines="1"
+                                                                 android:padding="16dp">
+
+        </com.google.android.material.textfield.TextInputEditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView android:id="@+id/auth_signup_username_label"
+              style="@style/AppTheme.Body.Small"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="16dp"
+              android:text="Имя пользователя"
+              app:layout_constraintTop_toBottomOf="@id/auth_signup_email_layout"/>
+
+    <com.google.android.material.textfield.TextInputLayout android:id="@+id/auth_signup_username_layout"
+                                                           style="@style/AppTheme.TextInputLayout.Default"
+                                                           android:layout_width="match_parent"
+                                                           android:layout_height="wrap_content"
+                                                           android:layout_marginTop="4dp"
+                                                           android:enabled="false"
+                                                           app:boxBackgroundColor="@color/bgIslandInner"
+                                                           app:layout_constraintTop_toBottomOf="@id/auth_signup_username_label">
+
+        <com.google.android.material.textfield.TextInputEditText android:id="@+id/auth_signup_username_value"
+                                                                 style="@style/AppTheme.Body.Small"
+                                                                 android:layout_width="match_parent"
+                                                                 android:layout_height="match_parent"
+                                                                 android:focusable="false"
+                                                                 android:focusableInTouchMode="false"
+                                                                 android:hint="Ваше имя пользователя"
+                                                                 android:maxLines="1"
+                                                                 android:padding="16dp">
+
+        </com.google.android.material.textfield.TextInputEditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView android:id="@+id/auth_signup_password_label"
+              style="@style/AppTheme.Body.Small"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="16dp"
+              android:text="Пароль"
+              app:layout_constraintTop_toBottomOf="@id/auth_signup_username_layout"/>
+
+    <com.google.android.material.textfield.TextInputLayout android:id="@+id/auth_signup_password_layout"
+                                                           style="@style/AppTheme.TextInputLayout.Default"
+                                                           android:layout_width="match_parent"
+                                                           android:layout_height="wrap_content"
+                                                           android:layout_marginTop="4dp"
+                                                           app:layout_constraintTop_toBottomOf="@id/auth_signup_password_label"
+                                                           app:passwordToggleDrawable="@drawable/text_input_password_toggle"
+                                                           app:passwordToggleEnabled="true"
+                                                           app:passwordToggleTint="@color/iconAccent">
+
+        <com.google.android.material.textfield.TextInputEditText android:id="@+id/auth_signup_password_value"
+                                                                 style="@style/AppTheme.Body.Small"
+                                                                 android:layout_width="match_parent"
+                                                                 android:layout_height="match_parent"
+                                                                 android:hint="Введите пароль"
+                                                                 android:inputType="textPassword"
+                                                                 android:maxLines="1"
+                                                                 android:padding="16dp">
+
+        </com.google.android.material.textfield.TextInputEditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView android:id="@+id/auth_signup_repeat_password_label"
+              style="@style/AppTheme.Body.Small"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="16dp"
+              android:text="Повторите пароль"
+              app:layout_constraintTop_toBottomOf="@id/auth_signup_password_layout"/>
+
+    <com.google.android.material.textfield.TextInputLayout android:id="@+id/auth_signup_repeat_password_layout"
+                                                           style="@style/AppTheme.TextInputLayout.Default"
+                                                           android:layout_width="match_parent"
+                                                           android:layout_height="wrap_content"
+                                                           android:layout_marginTop="4dp"
+                                                           app:layout_constraintTop_toBottomOf="@id/auth_signup_repeat_password_label"
+                                                           app:passwordToggleDrawable="@drawable/text_input_password_toggle"
+                                                           app:passwordToggleEnabled="true"
+                                                           app:passwordToggleTint="@color/iconAccent">
+
+        <com.google.android.material.textfield.TextInputEditText android:id="@+id/auth_signup_repeat_password_value"
+                                                                 style="@style/AppTheme.Body.Small"
+                                                                 android:layout_width="match_parent"
+                                                                 android:layout_height="match_parent"
+                                                                 android:hint="Повторите пароль"
+                                                                 android:inputType="textPassword"
+                                                                 android:maxLines="1"
+                                                                 android:padding="16dp">
+
+        </com.google.android.material.textfield.TextInputEditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton android:id="@+id/auth_signup_sign_up"
+                                                       style="@style/AppTheme.Button.Base"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="wrap_content"
+                                                       android:layout_marginTop="24dp"
+                                                       android:text="Далее"
+                                                       app:layout_constraintBottom_toBottomOf="parent"
+                                                       app:layout_constraintTop_toBottomOf="@id/auth_signup_repeat_password_layout"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

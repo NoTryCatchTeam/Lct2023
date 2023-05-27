@@ -2,6 +2,7 @@ using Android.Widget;
 using Google.Android.Material.Button;
 using Google.Android.Material.Card;
 using Lct2023.Android.Bindings;
+using Lct2023.Android.Presenters;
 using Lct2023.Android.Services;
 using Lct2023.Factories;
 using Lct2023.Services;
@@ -11,6 +12,7 @@ using MvvmCross.Binding.Bindings.Target.Construction;
 using MvvmCross.IoC;
 using MvvmCross.Platforms.Android.Binding.Target;
 using MvvmCross.Platforms.Android.Core;
+using MvvmCross.Platforms.Android.Presenters;
 
 namespace Lct2023.Android;
 
@@ -33,14 +35,17 @@ public class Setup : MvxAndroidSetup<App>
             nameof(ButtonIconResourceBinding),
             v => new ButtonIconResourceBinding(v));
 
-
         registry.RegisterCustomBindingFactory<MaterialCardView>(
             nameof(CardViewBackgroundColorByHexBinding),
             v => new CardViewBackgroundColorByHexBinding(v));
-        
+
         registry.RegisterCustomBindingFactory<ImageView>(
             nameof(MvxImageViewResourceNameTargetBinding),
             v => new MvxImageViewResourceNameTargetBinding(v));
+
+        registry.RegisterCustomBindingFactory<ImageView>(
+            nameof(MvxImageViewBitmapTargetBinding),
+            v => new MvxImageViewBitmapTargetBinding(v));
 
         registry.RegisterCustomBindingFactory<MaterialCardView>(
             nameof(CardViewStrokeColorBinding),
@@ -50,6 +55,15 @@ public class Setup : MvxAndroidSetup<App>
             nameof(TextViewTextColorBinding),
             v => new TextViewTextColorBinding(v));
     }
+
+    protected override IMvxAndroidViewPresenter CreateViewPresenter() =>
+        new ExtendedAndroidViewPresenter(AndroidViewAssemblies);
+    
+    protected override IMvxIocOptions CreateIocOptions() =>
+        new MvxIocOptions
+        {
+            PropertyInjectorOptions = MvxPropertyInjectorOptions.MvxInject,
+        };
 
     protected override ILoggerProvider CreateLogProvider() =>
         null;

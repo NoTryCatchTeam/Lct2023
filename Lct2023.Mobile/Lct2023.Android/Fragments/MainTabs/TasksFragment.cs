@@ -32,6 +32,8 @@ public class TasksFragment : BaseFragment<TasksViewModel>
     {
         var view = base.OnCreateView(inflater, container, savedInstanceState);
 
+        Toolbar.Title.Text = "Задания";
+
         var parent = view.FindViewById<ConstraintLayout>(Resource.Id.tasks_layout);
         var searchLayout = view.FindViewById<TextInputLayout>(Resource.Id.tasks_search_layout);
         var search = view.FindViewById<TextInputEditText>(Resource.Id.tasks_search_value);
