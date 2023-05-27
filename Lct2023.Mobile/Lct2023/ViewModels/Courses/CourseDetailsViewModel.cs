@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using DynamicData;
 using Microsoft.Extensions.Logging;
+using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 
@@ -8,16 +11,22 @@ namespace Lct2023.ViewModels.Courses;
 
 public class CourseDetailsViewModel : BaseViewModel<CourseDetailsViewModel.NavParameter>
 {
-    public CourseDetailsViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService)
+    public CourseDetailsViewModel(
+        ILoggerFactory logFactory,
+        IMvxNavigationService navigationService)
         : base(logFactory, navigationService)
     {
+        LessonTapCommand = new MvxAsyncCommand<CourseLessonItem>(LessonTapAsync);
+
         CourseTagsCollection = new List<CourseTagItem>();
-        CourseSectionsCollection = new MvxObservableCollection<CourseSectionItem>();
+        CourseSectionsCollection = new MvxObservableCollection<CourseLessonSectionItem>();
     }
+
+    public IMvxAsyncCommand<CourseLessonItem> LessonTapCommand { get; }
 
     public IList<CourseTagItem> CourseTagsCollection { get; }
 
-    public IList<CourseSectionItem> CourseSectionsCollection { get; }
+    public IList<CourseLessonSectionItem> CourseSectionsCollection { get; }
 
     public override void Prepare(NavParameter parameter)
     {
@@ -25,22 +34,49 @@ public class CourseDetailsViewModel : BaseViewModel<CourseDetailsViewModel.NavPa
 
         CourseTagsCollection.AddRange(parameter.CourseItem.Tags);
 
-        CourseSectionsCollection.AddRange(new CourseSectionItem[]
+        var sections = new List<CourseLessonSectionItem>();
+
+        if (parameter.CourseItem.Lessons is { } lessons && lessons.Any())
+        {
+            var courseLessonItems = lessons.ToArray();
+
+            sections.AddRange(courseLessonItems.GroupBy(x => x.SectionNumber)
+                .Select(lessonGroup => new CourseLessonSectionItem($"Глава {lessonGroup.Key}")
+                {
+                    Lessons = courseLessonItems,
+                }));
+        }
+        else
+        {
+            sections.AddRange(MockSectionItems(parameter));
+        }
+
+        CourseSectionsCollection.AddRange(sections);
+    }
+
+    private Task LessonTapAsync(CourseLessonItem item) =>
+        NavigationService.Navigate<CourseLessonViewModel, CourseLessonViewModel.NavParameter>(new CourseLessonViewModel.NavParameter(item));
+
+    private IEnumerable<CourseLessonSectionItem> MockSectionItems(NavParameter parameter) =>
+        new CourseLessonSectionItem[]
         {
             new ("Глава 1")
             {
                 Lessons = new[]
                 {
-                    new CourseLessonItem("Знакомство с курсом")
+                    new CourseLessonItem
                     {
+                        Title = "Знакомство с курсом",
                         Status = parameter.CourseItem.IsPurchased ? CourseLessonStatus.Finished : CourseLessonStatus.Locked,
                     },
-                    new CourseLessonItem("Знакомство с устройством гитары: дека и гриф")
+                    new CourseLessonItem
                     {
+                        Title = "Знакомство с устройством гитары: дека и гриф",
                         Status = parameter.CourseItem.IsPurchased ? CourseLessonStatus.Finished : CourseLessonStatus.Locked,
                     },
-                    new CourseLessonItem("Техника постановки пальцев в баррэ")
+                    new CourseLessonItem
                     {
+                        Title = "Техника постановки пальцев в баррэ",
                         Status = parameter.CourseItem.IsPurchased ? CourseLessonStatus.WaitingForReview : CourseLessonStatus.Locked,
                     },
                 },
@@ -50,16 +86,19 @@ public class CourseDetailsViewModel : BaseViewModel<CourseDetailsViewModel.NavPa
             {
                 Lessons = new[]
                 {
-                    new CourseLessonItem("Продолжение")
+                    new CourseLessonItem
                     {
+                        Title = "Продолжение",
                         Status = CourseLessonStatus.Locked,
                     },
-                    new CourseLessonItem("Гитара: дека и гриф")
+                    new CourseLessonItem
                     {
+                        Title = "Гитара: дека и гриф",
                         Status = CourseLessonStatus.Locked,
                     },
-                    new CourseLessonItem("Техника постановки пальцев в баррэ")
+                    new CourseLessonItem
                     {
+                        Title = "Техника постановки пальцев в баррэ",
                         Status = CourseLessonStatus.Locked,
                     },
                 },
@@ -68,22 +107,24 @@ public class CourseDetailsViewModel : BaseViewModel<CourseDetailsViewModel.NavPa
             {
                 Lessons = new[]
                 {
-                    new CourseLessonItem("Продолжение")
+                    new CourseLessonItem
                     {
+                        Title = "Продолжение",
                         Status = CourseLessonStatus.Locked,
                     },
-                    new CourseLessonItem("Гитара: дека и гриф")
+                    new CourseLessonItem
                     {
+                        Title = "Гитара: дека и гриф",
                         Status = CourseLessonStatus.Locked,
                     },
-                    new CourseLessonItem("Техника постановки пальцев в баррэ")
+                    new CourseLessonItem
                     {
+                        Title = "Техника постановки пальцев в баррэ",
                         Status = CourseLessonStatus.Locked,
                     },
                 },
             },
-        });
-    }
+        };
 
     public class NavParameter
     {
@@ -94,47 +135,4 @@ public class CourseDetailsViewModel : BaseViewModel<CourseDetailsViewModel.NavPa
 
         public CourseItem CourseItem { get; }
     }
-}
-
-public class CourseSectionItem : MvxNotifyPropertyChanged
-{
-    public CourseSectionItem(string title)
-    {
-        Title = title;
-    }
-
-    public string Title { get; }
-
-    public bool IsPossibleToSync { get; set; }
-
-    public IEnumerable<CourseLessonItem> Lessons { get; set; }
-}
-
-public class CourseLessonItem : MvxNotifyPropertyChanged
-{
-    private CourseLessonStatus _status;
-
-    public CourseLessonItem(string title)
-    {
-        Title = title;
-    }
-
-    public string Title { get; }
-
-    public CourseLessonStatus Status
-    {
-        get => _status;
-        set => SetProperty(ref _status, value);
-    }
-}
-
-public enum CourseLessonStatus
-{
-    Available,
-
-    Locked,
-
-    Finished,
-
-    WaitingForReview,
 }

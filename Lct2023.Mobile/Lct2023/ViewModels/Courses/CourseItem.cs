@@ -17,6 +17,8 @@ public class CourseItem : MvxNotifyPropertyChanged
 
     public IEnumerable<CourseTagItem> Tags { get; }
 
+    public IEnumerable<CourseLessonItem> Lessons { get; set; }
+
     public bool IsPurchased
     {
         get => _isPurchased;

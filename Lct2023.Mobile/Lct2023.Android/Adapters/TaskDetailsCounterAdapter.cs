@@ -30,10 +30,12 @@ public class TaskDetailsCounterAdapter : BaseRecyclerViewAdapter<BaseExerciseIte
         if (holder.ItemView is { } view && ItemCount >= 10)
         {
             var itemLayoutParams = (ViewGroup.MarginLayoutParams)view.LayoutParameters;
-            itemLayoutParams.Width = (parent.MeasuredWidth -
-                                      parent.PaddingLeft -
-                                      parent.PaddingRight -
-                                      DimensUtils.DpToPx(parent.Context, 6) * 9) / 10;
+            itemLayoutParams.Width = Math.Max(
+                view.MinimumWidth,
+                (parent.MeasuredWidth -
+                 parent.PaddingLeft -
+                 parent.PaddingRight -
+                 DimensUtils.DpToPx(parent.Context, 6) * 9) / 10);
         }
 
         return holder;

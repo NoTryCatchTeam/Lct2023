@@ -55,6 +55,7 @@
         <Compile Include="Activities\BaseActivity.cs" />
         <Compile Include="Activities\Courses\CourseDetailsActivity.cs" />
         <Compile Include="Activities\Courses\CourseDetailsActivity.Helpers.cs" />
+        <Compile Include="Activities\Courses\CourseLessonActivity.cs" />
         <Compile Include="Activities\MainTabbedActivity.cs" />
         <Compile Include="Activities\SplashActivity.cs" />
         <Compile Include="Activities\Tasks\TaskDetailsActivity.cs" />
@@ -62,6 +63,7 @@
         <Compile Include="Adapters\AudioToPictureExerciseAnswersAdapter.cs" />
         <Compile Include="Adapters\BaseRecyclerViewAdapter.cs" />
         <Compile Include="Adapters\CourseDetailsSectionAdapter.cs" />
+        <Compile Include="Adapters\CourseLessonViewPagerAdapter.cs" />
         <Compile Include="Adapters\CoursesBannersAdapter.cs" />
         <Compile Include="Adapters\CourseSectionLessonsAdapter.cs" />
         <Compile Include="Adapters\CoursesGroupsListAdapter.cs" />
@@ -69,6 +71,7 @@
         <Compile Include="Adapters\CourseTagsListAdapter.cs" />
         <Compile Include="Adapters\BaseTemplatedRecyclerViewAdapter.cs" />
         <Compile Include="Adapters\EventsAdapter.cs" />
+        <Compile Include="Adapters\LessonAnswerConversationAdapter.cs" />
         <Compile Include="Adapters\MainViewPagerAdapter.cs" />
         <Compile Include="Adapters\MapFiltersGroupsListAdapter.cs" />
         <Compile Include="Adapters\MapFiltersItemListAdapter.cs" />
@@ -84,12 +87,17 @@
         <Compile Include="Bindings\CardViewStrokeColorBinding.cs" />
         <Compile Include="Bindings\CardViewBackgroundColorByHexBinding.cs" />
         <Compile Include="Bindings\ImageViewByUrlBinding.cs" />
+        <Compile Include="Bindings\TextViewTextColorBinding.cs" />
+        <Compile Include="Callbacks\DefaultPicassoCallback.cs" />
         <Compile Include="Decorations\ColoredDividerItemDecoration.cs" />
         <Compile Include="Decorations\CourseSectionLessonsItemDecoration.cs" />
         <Compile Include="Decorations\GridItemDecoration.cs" />
         <Compile Include="Decorations\ItemSeparateDecoration.cs" />
         <Compile Include="Definitions\Extensions\DrawableExtensions.cs" />
         <Compile Include="Fragments\BaseFragment.cs" />
+        <Compile Include="Fragments\Courses\LessonAnswerPartFragment.cs" />
+        <Compile Include="Fragments\Courses\LessonLessonPartFragment.cs" />
+        <Compile Include="Fragments\Courses\LessonTaskPartFragment.cs" />
         <Compile Include="Fragments\Exercises\AudioToPictureExerciseFragment.cs" />
         <Compile Include="Fragments\Exercises\TextExerciseFragment.cs" />
         <Compile Include="Fragments\Exercises\VideoToAudioExerciseFragment.cs" />
@@ -114,7 +122,8 @@
         <Compile Include="Resources\Resource.designer.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Services\DialogService.cs" />
-        <Compile Include="Services\FileProvider.cs" />
+        <Compile Include="Services\PlatformFileProvider.cs" />
+        <Compile Include="Services\PlatformFileViewer.cs" />
         <Compile Include="Setup.cs" />
         <Compile Include="TemplateSelectors\MultipleTemplateSelector.cs" />
         <Compile Include="Views\ExtendedToolbar.cs" />
@@ -135,6 +144,11 @@
         <AndroidResource Include="Resources\mipmap-xhdpi\*.png" />
         <AndroidResource Include="Resources\mipmap-xxhdpi\*.png" />
         <AndroidResource Include="Resources\mipmap-xxxhdpi\*.png" />
+        <AndroidResource Update="Resources\layout\CourseLessonAnswerPartFragment.xml">
+          <SubType>Designer</SubType>
+          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+        </AndroidResource>
+        <AndroidResource Include="Resources\xml\file_paths.xml" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Assets" />
@@ -150,6 +164,7 @@
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+        <PackageReference Include="MimeTypeMapOfficial" Version="1.0.17" />
         <PackageReference Include="MvvmCross" Version="8.0.2" />
         <PackageReference Include="MvvmCross.DroidX.RecyclerView" Version="8.0.2" />
         <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />

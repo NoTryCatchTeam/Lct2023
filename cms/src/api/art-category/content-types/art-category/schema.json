@@ -4,7 +4,8 @@
   "info": {
     "singularName": "art-category",
     "pluralName": "art-categories",
-    "displayName": "Art category"
+    "displayName": "Art category",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -12,6 +13,9 @@
   "pluginOptions": {},
   "attributes": {
     "name": {
+      "type": "string"
+    },
+    "displayName": {
       "type": "string"
     }
   }

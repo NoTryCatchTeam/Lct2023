@@ -13,4 +13,6 @@ public interface IAuthService
     Task<AuthSuccessDto> SignInViaSocialAsync(string login, string loginProvider);
 
     Task<AuthSuccessDto> RefreshAsync(RefreshTokensDto data);
+
+    Task<string> CreateUserNameAsync(CreateUserNameDto data);
 }

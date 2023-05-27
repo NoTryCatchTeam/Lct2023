@@ -2,18 +2,22 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
                                                    xmlns:app="http://schemas.android.com/apk/res-auto"
                                                    android:id="@+id/task_details_progress_item_layout"
-                                                   android:layout_width="28dp"
-                                                   android:layout_height="28dp"
+                                                   android:layout_width="wrap_content"
+                                                   android:layout_height="wrap_content"
+                                                   android:minWidth="28dp"
                                                    app:cardBackgroundColor="@color/backgroundDark"
                                                    app:cardCornerRadius="8dp"
-                                                   app:cardElevation="0dp">
+                                                   app:cardElevation="0dp"
+                                                   app:contentPaddingBottom="4dp"
+                                                   app:contentPaddingTop="4dp">
 
     <TextView android:id="@+id/task_details_progress_item_number"
               style="@style/AppTheme.BodyMedium.Small"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:gravity="center"
-              android:text="1"
-              android:textAlignment="gravity"/>
+              android:layout_gravity="center"
+              android:lines="1"
+              android:maxLength="2"
+              android:text="11"/>
 
 </com.google.android.material.card.MaterialCardView>
