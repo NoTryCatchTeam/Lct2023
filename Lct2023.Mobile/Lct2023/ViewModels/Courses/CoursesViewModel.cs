@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -151,7 +152,9 @@ public class CoursesViewModel : BaseViewModel
                                     Name = attachment.Data.Item.Name,
                                     Extension = attachment.Data.Item.Extension,
                                     Mime = attachment.Data.Item.Mime,
-                                    Url = $"{resourcesBaseUrl}{attachment.Data.Item.Url}",
+                                    Url = attachment.Data.Item.Extension.Contains("pdf", StringComparison.InvariantCultureIgnoreCase) ?
+                                        $"http://45.9.27.2:8081/viewer.html?file=files/{attachment.Data.Item.Url.Split("/").LastOrDefault()}" :
+                                        $"{resourcesBaseUrl}{attachment.Data.Item.Url}",
                                 };
                             }
 

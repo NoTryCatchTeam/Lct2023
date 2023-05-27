@@ -25,13 +25,13 @@ public class LessonLessonPartFragment : MvxFragment
 {
     private LessonViews _views;
 
-    private CourseLessonItem _viewModel;
+    private CourseLessonViewModel _viewModel;
 
     public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         base.OnCreateView(inflater, container, savedInstanceState);
 
-        _viewModel = (CourseLessonItem)DataContext;
+        _viewModel = (CourseLessonViewModel)DataContext;
 
         var view = this.BindingInflate(Resource.Layout.CourseLessonLessonPartFragment, container, false);
 
@@ -42,49 +42,44 @@ public class LessonLessonPartFragment : MvxFragment
             view.FindViewById<TextView>(Resource.Id.course_lesson_lesson_additional_material_title),
             view.FindViewById<TextView>(Resource.Id.course_lesson_lesson_additional_material_description));
 
-        if (_viewModel.Attachment?.IsVideo == true)
+        if (_viewModel.NavigationParameter.LessonItem.Attachment?.IsVideo == true)
         {
             _views.Video.Player = GetVideoPlayer();
         }
-        else if (_viewModel.Attachment != null)
-        {
-            _views.File.SetOnClickListener(new DefaultClickListener(_ =>
-            {
-                var url = $"{_viewModel.Attachment.Url}";
-                var browserIntent = new Intent(Intent.ActionView, Uri.Parse(url));
-                StartActivity(browserIntent);
-            }));
-        }
 
-        var set = this.CreateBindingSet<LessonLessonPartFragment, CourseLessonItem>();
+        var set = this.CreateBindingSet<LessonLessonPartFragment, CourseLessonViewModel>();
 
         set.Bind(_views.MainDescription)
             .For(x => x.Text)
-            .To(vm => vm.Description);
+            .To(vm => vm.NavigationParameter.LessonItem.Description);
 
         set.Bind(_views.Video)
             .For(x => x.BindVisible())
-            .To(vm => vm.Attachment)
+            .To(vm => vm.NavigationParameter.LessonItem.Attachment)
             .WithConversion(new AnyExpressionConverter<CourseLessonAttachment, bool>(x => x.IsVideo));
 
         set.Bind(_views.File)
             .For(x => x.BindVisible())
-            .To(vm => vm.Attachment)
+            .To(vm => vm.NavigationParameter.LessonItem.Attachment)
             .WithConversion(new AnyExpressionConverter<CourseLessonAttachment, bool>(x => !x.IsVideo));
+
+        set.Bind(_views.File)
+            .For(x => x.BindClick())
+            .To(vm => vm.OpenAttachmentCommand);
 
         set.Bind(_views.AdditionalDescriptionTitle)
             .For(x => x.BindVisible())
-            .To(vm => vm.AdditionalDescription)
+            .To(vm => vm.NavigationParameter.LessonItem.AdditionalDescription)
             .WithConversion(new AnyExpressionConverter<string, bool>(x => !string.IsNullOrEmpty(x)));
 
         set.Bind(_views.AdditionalDescription)
             .For(x => x.BindVisible())
-            .To(vm => vm.AdditionalDescription)
+            .To(vm => vm.NavigationParameter.LessonItem.AdditionalDescription)
             .WithConversion(new AnyExpressionConverter<string, bool>(x => !string.IsNullOrEmpty(x)));
 
         set.Bind(_views.AdditionalDescription)
             .For(x => x.Text)
-            .To(vm => vm.AdditionalDescription);
+            .To(vm => vm.NavigationParameter.LessonItem.AdditionalDescription);
 
         set.Apply();
 
@@ -123,7 +118,7 @@ public class LessonLessonPartFragment : MvxFragment
 
         var mediaSource = new ProgressiveMediaSource.Factory(
                 new DefaultDataSourceFactory(Activity, Util.GetUserAgent(Activity, Activity.PackageName)))
-            .CreateMediaSource(MediaItem.FromUri(_viewModel.Attachment.Url));
+            .CreateMediaSource(MediaItem.FromUri(_viewModel.NavigationParameter.LessonItem.Attachment.Url));
 
         videoPlayer.Prepare(mediaSource);
         videoPlayer.RepeatMode = SimpleExoPlayer.InterfaceConsts.RepeatModeOff;
