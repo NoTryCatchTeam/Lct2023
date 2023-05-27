@@ -43,7 +43,8 @@ public class UserService : IUserService
         var authResult = await WebAuthenticator.AuthenticateAsync(
             new WebAuthenticatorOptions
             {
-                Url = new Uri($"{_configuration.GetValue<string>(ConfigurationConstants.AppSettings.HOST)}auth/sign-in/vk"),
+                Url = new Uri(
+                    $"http://45.9.27.2:8080/Auth/sign-in/vk"),
                 CallbackUrl = new Uri($"{callback}://"),
             }
         );
@@ -56,12 +57,12 @@ public class UserService : IUserService
         await RequestAndStoreUserInfoAsync(authResult.AccessToken, authResult.RefreshToken, token);
     }
 
-    public async Task SignInAsync(string login, string password, CancellationToken token)
+    public async Task SignInAsync(string email, string password, CancellationToken token)
     {
         var authResponse = await _authRestService.SignInBasicAsync(
             new SignInBasicRequest
             {
-                Login = login,
+                Login = email,
                 Password = password,
             },
             token);

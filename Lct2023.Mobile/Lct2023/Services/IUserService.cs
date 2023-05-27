@@ -8,7 +8,7 @@ public interface IUserService
 {
     Task SignInViaSocialAsync(CancellationToken token);
 
-    Task SignInAsync(string login, string password, CancellationToken token);
+    Task SignInAsync(string email, string password, CancellationToken token);
 
     Task SignUpAsync(CreateUserDto dto, CancellationToken token);
 

@@ -1,8 +1,10 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Lct2023.Services;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
+using MvvmCross.IoC;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 using PropertyChanged;
@@ -21,11 +23,14 @@ public abstract class BaseViewModel : MvxNavigationViewModel
         _cancellationTokenSource = new CancellationTokenSource();
     }
 
+    [MvxInject]
+    public IUserContext UserContext { get; set; }
+
     public MvxAsyncCommand NavigateBackCommand { get; }
 
     public CancellationToken CancellationToken => _cancellationTokenSource?.Token ?? CancellationToken.None;
 
-    protected async Task RunSafeTaskAsync(Func<Task> task, Action<Exception> onException = null)
+    protected async Task RunSafeTaskAsync(Func<Task> task, Func<Exception, Task> onException = null)
     {
         try
         {
@@ -34,7 +39,11 @@ public abstract class BaseViewModel : MvxNavigationViewModel
         catch (Exception ex)
         {
             Log.LogError(ex, ex.Message);
-            onException?.Invoke(ex);
+
+            if (onException != null)
+            {
+                await onException.Invoke(ex);
+            }
         }
     }
 

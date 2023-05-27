@@ -165,4 +165,11 @@ public class AuthService : IAuthService
             RefreshToken = refreshTokenEntity.Token,
         };
     }
+
+    public async Task<string> CreateUserNameAsync(CreateUserNameDto data)
+    {
+        var userNameEmail = data.Email.Split("@", StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
+        var count = await _dbContext.Users.Where(x=> x.Email.StartsWith(userNameEmail +'@')).CountAsync(); 
+        return userNameEmail + (count+1).ToString();
+    }
 }

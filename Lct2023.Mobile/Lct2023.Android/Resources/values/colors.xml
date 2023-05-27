@@ -38,5 +38,8 @@
     <color name="courseTagOther">@color/bgIslandInner</color>
 
     <color name="courseLessonReadyBorder">#8EB04D</color>
+    
+    
+    <color name="default_pin_color">#8fb14c</color>
 </resources>
 

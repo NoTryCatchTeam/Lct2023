@@ -24,7 +24,7 @@ public class BusinessRequestAuthenticator : IRequestAuthenticator
             return new AuthenticationHeaderValue("Bearer", _configuration.GetValue<string>(ConfigurationConstants.Secrets.CMS_TOKEN));
         }
 
-        return path.StartsWith($"{_configuration.GetValue<string>(ConfigurationConstants.AppSettings.API_PATH)}/auth") ?
+        return path.StartsWith($"{_configuration.GetValue<string>(ConfigurationConstants.AppSettings.API_PATH)}auth") ?
             null :
             new AuthenticationHeaderValue("Bearer", _userContext.User.AccessToken);
     }
