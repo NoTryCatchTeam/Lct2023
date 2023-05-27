@@ -13,4 +13,8 @@ public static class CustomClaimTypes
     public const string EXTERNAL_LOGIN_PROVIDER = "LoginProvider";
 
     public const string EXTERNAL_LOGIN_PROVIDER_KEY = "LoginProviderKey";
+
+    public const string BIRTH_DATE = "BirthDate";
+
+    public const string PHOTO_MAX = "photo_max";
 }

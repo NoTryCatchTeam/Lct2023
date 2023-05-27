@@ -96,6 +96,10 @@ public class AuthController : ControllerBase
         var firstName = userData[CustomClaimTypes.FIRST_NAME].ToString();
         var lastName = userData[CustomClaimTypes.LAST_NAME].ToString();
         userData.TryGetValue(CustomClaimTypes.PHOTO_URL, out var photoUrl);
+        userData.TryGetValue(CustomClaimTypes.PHOTO_MAX, out var photomax);
+        var photo = string.IsNullOrEmpty(photomax) ? photoUrl : photomax;
+        DateTime.TryParse(userData[CustomClaimTypes.BIRTH_DATE].ToString(),out var bdate);
+        Nullable<DateTime> birthDate = bdate != DateTime.MinValue ? DateTime.SpecifyKind(bdate,DateTimeKind.Utc).ToUniversalTime() : null;
         var provider = userData[CustomClaimTypes.EXTERNAL_LOGIN_PROVIDER].ToString();
         var providerKey = userData[CustomClaimTypes.EXTERNAL_LOGIN_PROVIDER_KEY].ToString();
 
@@ -107,6 +111,7 @@ public class AuthController : ControllerBase
                            Email = email,
                            FirstName = firstName,
                            LastName = lastName,
+                           BirthDate = birthDate,
                            PhotoUrl = photoUrl,
                            LoginProvider = provider,
                            LoginProviderKey = providerKey,

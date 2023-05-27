@@ -12,6 +12,8 @@ public class ExtendedIdentityUser : IdentityUser<int>
     [Required]
     public string LastName { get; set; }
 
+    public DateTime? BirthDate { get; set; }
+
     public string PhotoUrl { get; set; }
 
     [Required]
