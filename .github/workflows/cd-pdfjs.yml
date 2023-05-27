@@ -22,5 +22,5 @@ jobs:
                 docker rmi swamp1820/lct2023-pdf
                 docker pull swamp1820/lct2023-pdf:latest
                 docker run --name pdf -d --restart always -p 8081:80 \
-                -v /upload:/usr/share/nginx/html/files:ro
+                -v /upload:/usr/share/nginx/html/files:ro \
                 swamp1820/lct2023-pdf 
