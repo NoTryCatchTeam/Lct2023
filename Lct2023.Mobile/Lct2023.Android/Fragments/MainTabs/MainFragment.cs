@@ -1,6 +1,5 @@
 using Android.OS;
 using Android.Views;
-using Android.Widget;
 using AndroidX.ConstraintLayout.Widget;
 using AndroidX.RecyclerView.Widget;
 using Google.Android.Material.Button;
@@ -13,12 +12,10 @@ using Lct2023.Commons.Extensions;
 using Lct2023.Converters;
 using Lct2023.Definitions.Internals;
 using Lct2023.Services;
-using MvvmCross.Binding.BindingContext;
 using MvvmCross.DroidX.RecyclerView;
 using MvvmCross.DroidX.RecyclerView.ItemTemplates;
 using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
-using Square.Picasso;
 
 namespace Lct2023.Android.Fragments.MainTabs;
 
@@ -30,9 +27,12 @@ public class MainFragment : BaseFragment<MainViewModel>
         var view = base.OnCreateView(inflater, container, savedInstanceState);
 
         var stories = view.FindViewById<MvxRecyclerView>(Resource.Id.main_stories);
+
         (ConstraintLayout Layout, MaterialButton Button) profTest = (
             view.FindViewById<ConstraintLayout>(Resource.Id.main_proftest_layout),
             view.FindViewById<MaterialButton>(Resource.Id.main_proftest_button));
+
+        var events = view.FindViewById<MvxRecyclerView>(Resource.Id.main_events_collection);
 
         var storiesAdapter = new MainStoriesAdapter((IMvxAndroidBindingContext)BindingContext)
         {
@@ -43,9 +43,18 @@ public class MainFragment : BaseFragment<MainViewModel>
         stories.SetAdapter(storiesAdapter);
         stories.AddItemDecoration(new ItemSeparateDecoration(DimensUtils.DpToPx(Activity, 4), LinearLayoutManager.Horizontal));
 
+        var eventsAdapter = new MainEventsAdapter((IMvxAndroidBindingContext)BindingContext)
+        {
+            ItemTemplateSelector = new MvxDefaultTemplateSelector(Resource.Layout.main_events_list_item),
+        };
+
+        events.SetLayoutManager(new MvxGuardedLinearLayoutManager(Activity) { Orientation = LinearLayoutManager.Horizontal });
+        events.SetAdapter(eventsAdapter);
+        events.AddItemDecoration(new ItemSeparateDecoration(DimensUtils.DpToPx(Activity, 8), LinearLayoutManager.Horizontal));
+
         var set = CreateBindingSet();
 
-        set.Bind(stories)
+        set.Bind(storiesAdapter)
             .For(v => v.ItemsSource)
             .To(vm => vm.StoryCards);
 
@@ -57,6 +66,10 @@ public class MainFragment : BaseFragment<MainViewModel>
         set.Bind(profTest.Button)
             .For(x => x.BindClick())
             .To(vm => vm.StartProfTestCommand);
+
+        set.Bind(eventsAdapter)
+            .For(v => v.ItemsSource)
+            .To(vm => vm.EventsCollection);
 
         set.Apply();
 

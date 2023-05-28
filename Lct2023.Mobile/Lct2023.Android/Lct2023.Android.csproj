@@ -63,6 +63,7 @@
         <Compile Include="Activities\Tasks\TaskDetailsActivity.cs" />
         <Compile Include="Adapters\FeedFiltersGroupsListAdapter.cs" />
         <Compile Include="Adapters\FeedListAdapter.cs" />
+        <Compile Include="Adapters\MainEventsAdapter.cs" />
         <Compile Include="Adapters\StreamsAdapter.cs" />
         <Compile Include="Adapters\AudioToPictureExerciseAnswersAdapter.cs" />
         <Compile Include="Adapters\AuthViewPagerAdapter.cs" />
