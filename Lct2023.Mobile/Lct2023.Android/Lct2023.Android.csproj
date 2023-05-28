@@ -107,6 +107,7 @@
         <Compile Include="Fragments\Auth\AuthSignInFragment.cs" />
         <Compile Include="Fragments\Auth\AuthSignUpFragment.cs" />
         <Compile Include="Fragments\BaseFragment.cs" />
+        <Compile Include="Fragments\Courses\CourseOpenFragment.cs" />
         <Compile Include="Fragments\Courses\LessonAnswerPartFragment.cs" />
         <Compile Include="Fragments\Courses\LessonLessonPartFragment.cs" />
         <Compile Include="Fragments\Courses\LessonTaskPartFragment.cs" />

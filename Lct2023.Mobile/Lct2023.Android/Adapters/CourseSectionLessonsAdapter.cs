@@ -80,5 +80,15 @@ public class CourseSectionLessonsAdapter : BaseRecyclerViewAdapter<CourseLessonI
                 set.Apply();
             });
         }
+
+        protected override void OnItemViewClick(object sender, EventArgs e)
+        {
+            if (ViewModel.Status is CourseLessonStatus.Locked)
+            {
+                return;
+            }
+
+            base.OnItemViewClick(sender, e);
+        }
     }
 }
