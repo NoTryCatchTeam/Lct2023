@@ -25,6 +25,10 @@ html * {
     background-color: #FFFFFF !important;
 }
 
+p>a {
+  color: #8B72AB;
+}
+
 body {
   background-image: linear-gradient(to right, rgba(255,255,255, 0.85) 0 100%), url(img/background.png);
   background-size: cover;

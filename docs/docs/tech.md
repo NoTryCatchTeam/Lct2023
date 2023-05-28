@@ -1,13 +1,12 @@
 # Установка серверной части
 Для развертывания серверной части необходим сервер на базе Unix с установленным Docker или кластер [Kubernetes](https://kubernetes.io/ru/).  
 Далее в примерах будет использоваться сервер Ubuntu 22.04 с установленным [Docker Engine](https://docs.docker.com/engine/install/ubuntu/).  
-Каждый образ указанный на этой страницу можно собрать самостоятельно из репозитория    
+Каждый образ указанный на этой страницу можно собрать самостоятельно из [репозитория](https://github.com/NoTryCatchTeam/Lct2023)    
 ` 
 git clone https://github.com/NoTryCatchTeam/Lct2023.git
 ` 
-и воспользовавшись командой docker build [см.документацию](https://docs.docker.com/engine/reference/commandline/build/).  
-Развернуть API Gateway можно по спецификации  
-[ссылка](https://github.com/NoTryCatchTeam/Lct2023/blob/master/deployment/api-gateway.json)  
+и воспользовавшись командой [docker build](https://docs.docker.com/engine/reference/commandline/build/).  
+Развернуть API Gateway можно по [спецификации](https://github.com/NoTryCatchTeam/Lct2023/blob/master/deployment/api-gateway.json)  
 
 ## Развертывание API
 Скачайте образ с API из репозитория [Docker Hub](https://hub.docker.com/)
@@ -32,7 +31,7 @@ docker run --name api -d --restart always -p 8080:80 \
 Переменные и секреты  
 - DbConnectionString - Строка подключение к базе данных `User ID=root;Password=myPassword;Host=localhost;Port=5432;Database=myDataBase;`   
 - Jwt__AccessTokenExpiresInDays -  Сколько дней активен токен доступа мобильного приложения `30`  
-- Jwt__Audience  
+- Jwt__Audience - имя аудиенции jwt
 - Jwt__Issuer  
 - Jwt__RefreshTokenExpiresInDays  
 - Jwt__Secret  
