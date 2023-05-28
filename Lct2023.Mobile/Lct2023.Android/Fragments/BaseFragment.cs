@@ -35,7 +35,12 @@ public abstract class BaseFragment<TViewModel> : MvxFragment<TViewModel>
                     .Load(Uri.Parse(photoUrl))
                     .Placeholder(Resource.Drawable.ic_profile_circle)
                     .Error(Resource.Drawable.ic_profile_circle)
-                    .Into(toolbar.Avatar);
+                    .Into(
+                        toolbar.Avatar,
+                        () => toolbar.Avatar.ImageTintList = null,
+                        _ =>
+                        {
+                        });
             }
             else
             {
@@ -43,7 +48,7 @@ public abstract class BaseFragment<TViewModel> : MvxFragment<TViewModel>
             }
 
             toolbar.Title = ViewModel.UserContext.User?.FirstName;
-            
+
             toolbar.Toolbar.SetOnMenuItemClickListener(new DefaultMenuItemClickListener(
                 v =>
                 {
