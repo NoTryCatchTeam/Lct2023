@@ -1,19 +1,32 @@
 html * {
-    font-family: Calibri !important;
+    font-family: Roboto !important;
     color: #404041;
 }
 
 @font-face {
-    font-family: Calibri;
-    src: url("fonts/calibri\ regular.TTF");
+    font-family: Roboto;
+    src: url("fonts/roboto_regular.ttf");
 }
 
 .navbar {
     background-color: #A4CE57;
 }
 
+.navbar-nav>.navitem>.nav-link:hover, .navbar-nav>.navitem>.nav-link:focus
+{
+  color: #FFFFFF;
+}
+.nav>.nav-item>.nav-link:hover
+{
+  text-decoration: underline;
+  color: #404041;
+}
 .bg-secondary {
-    background-color: #D0E4A4 !important;
+    background-color: #FFFFFF !important;
+}
+
+p>a {
+  color: #8B72AB;
 }
 
 body {
