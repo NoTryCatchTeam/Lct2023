@@ -160,6 +160,8 @@
         <AndroidResource Include="Resources\layout\*.xml" />
         <AndroidResource Include="Resources\font\*.ttf" />
         <AndroidResource Include="Resources\menu\*.xml" />
+        <AndroidResource Include="Resources\mipmap-anydpi-v26\ic_launcher.xml" />
+        <AndroidResource Include="Resources\mipmap-anydpi-v26\ic_launcher_round.xml" />
         <AndroidResource Include="Resources\values\*.xml" />
         <AndroidResource Include="Resources\mipmap-hdpi\*.png" />
         <AndroidResource Include="Resources\mipmap-mdpi\*.png" />

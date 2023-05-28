@@ -9,7 +9,7 @@ namespace Lct2023.Android.Activities;
 
 [MvxActivityPresentation]
 [Activity(
-    Label = "Lct2023",
+    Label = "@string/app_name",
     MainLauncher = true,
     NoHistory = true,
     ScreenOrientation = ScreenOrientation.Portrait)]
