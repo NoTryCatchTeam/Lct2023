@@ -7,7 +7,7 @@
                                                    android:layout_width="match_parent"
                                                    android:layout_height="wrap_content"
                                                    app:rippleColor="?attr/colorControlHighlight"
-                                                   app:cardCornerRadius="30dp">
+                                                   app:cardCornerRadius="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
                                                        android:layout_height="wrap_content">
@@ -112,13 +112,14 @@
                                                                android:paddingVertical="4dp"
                                                                android:textSize="14sp"
                                                                android:text="10"
+                                                               app:layout_constraintHorizontal_bias="0"
                                                                app:icon="@drawable/ic_like"
                                                                app:iconSize="16dp"
                                                                app:iconTint="@color/iconPrimary"/>
 
             <com.google.android.material.button.MaterialButton android:id="@+id/feed_item_top_art_category_button"
                                                                android:layout_width="wrap_content"
-                                                               android:layout_height="24px"
+                                                               android:layout_height="24dp"
                                                                app:rippleColor="?attr/colorControlHighlight"
                                                                app:layout_constraintTop_toTopOf="parent"
                                                                app:layout_constraintHorizontal_bias="1"

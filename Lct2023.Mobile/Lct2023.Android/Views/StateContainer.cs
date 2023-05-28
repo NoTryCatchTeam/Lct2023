@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
 using Android.Content;
+using Android.Graphics;
 using Android.Runtime;
 using Android.Util;
 using Android.Views;
@@ -87,13 +88,30 @@ public class StateContainer: ConstraintLayout, INotifyPropertyChanged
         
         if (State == State.MinorLoading)
         {
-            _indicator ??= new CircularProgressIndicator(Context)
-            {
-                Indeterminate = true,
-                TrackColor = ContextCompat.GetColor(Context, Resource.Color.lightPurple)
-            };
-            Add(_indicator);
+            _indicator ??= CreateProgressIndicator();
+            using var layoutParams =
+                new LayoutParams(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.WrapContent)
+                {
+                    StartToStart = LayoutParams.ParentId,
+                    EndToEnd = LayoutParams.ParentId,
+                    TopToTop = LayoutParams.ParentId,
+                    BottomToBottom = LayoutParams.ParentId,
+                };
+            
+            AddView(_indicator, layoutParams);
             return;
+
+            CircularProgressIndicator CreateProgressIndicator()
+            {
+                _indicator = new CircularProgressIndicator(Context)
+                {
+                    Indeterminate = true,
+                    TrackColor = Color.Transparent
+                };
+                _indicator.SetIndicatorColor(ContextCompat.GetColor(Context, Resource.Color.lightPurple));
+
+                return _indicator;
+            }
         }
 
         var currentView = this.GetAllChildViews()?.FirstOrDefault();
@@ -112,17 +130,17 @@ public class StateContainer: ConstraintLayout, INotifyPropertyChanged
 
     private void Add(View newView)
     {
-        AddView(newView);
-
-        using var constraintSet = new ConstraintSet();
-        constraintSet.Clone(this);
-
-        var newViewId = newView.Id;
-        constraintSet.Connect(newViewId, ConstraintSet.Top, ConstraintSet.ParentId, ConstraintSet.Top);
-        constraintSet.Connect(newViewId, ConstraintSet.Start, ConstraintSet.ParentId, ConstraintSet.Start);
-        constraintSet.Connect(newViewId, ConstraintSet.End, ConstraintSet.ParentId, ConstraintSet.End);
-        constraintSet.Connect(newViewId, ConstraintSet.Bottom, ConstraintSet.ParentId, ConstraintSet.Bottom);
-        constraintSet.ApplyTo(this);
+        using var layoutParams =
+            new LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent)
+            {
+                StartToStart = LayoutParams.ParentId,
+                EndToEnd = LayoutParams.ParentId,
+                TopToTop = LayoutParams.ParentId,
+                BottomToBottom = LayoutParams.ParentId,
+                VerticalBias = 0
+            };
+        
+        AddView(newView, layoutParams);
     }
 
     public State State { get; set; }
