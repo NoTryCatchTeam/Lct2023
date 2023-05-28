@@ -29,8 +29,6 @@
     </style>
 
     <style name="AppTheme.DatePickerDialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
-<!--        <item name="android:colorAccent">@color/accent</item>-->
-<!--        <item name="android:colorControlActivated">@color/backgroundDark</item>-->
         <item name="android:buttonBarPositiveButtonStyle">@style/AppTheme.Alert.Button.Positive</item>
         <item name="android:buttonBarNegativeButtonStyle">@style/AppTheme.Alert.Button.Negative</item>
         <item name="android:buttonBarNeutralButtonStyle">@style/AppTheme.Alert.Button.Neutral</item>
