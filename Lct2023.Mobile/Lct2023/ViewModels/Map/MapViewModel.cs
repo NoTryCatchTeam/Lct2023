@@ -365,6 +365,14 @@ public class MapViewModel : BaseViewModel
             Places.Clear();
             switch (LocationType)
             {
+                case LocationType.Event when SelectedFilters?.Any() == true:
+                    _events?.Where(e =>
+                        SelectedFilters.All(selectedFilter => selectedFilter.FilterGroupType switch
+                        {
+                            MapFilterGroupType.District => selectedFilter.Items.Contains(e.Item?.Place?.Data?.Item?.District?.Data?.Item?.District),
+                            MapFilterGroupType.Stream => e.Item?.Streams?.Data?.Select(stream => stream.Item.Name)?.Intersect(selectedFilter.Items).Any() == true,
+                        })).Then(es => Places.AddRange(_mapper.Map<IEnumerable<PlaceItemViewModel>>(es)));
+                    break;
                 case LocationType.Event:
                     _events?.Then(es => Places.AddRange(_mapper.Map<IEnumerable<PlaceItemViewModel>>(es)));
                     break;
