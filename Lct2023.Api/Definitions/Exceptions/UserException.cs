@@ -13,4 +13,7 @@ public class UserException : TypedException<UserExceptionType>
         : base(message, type)
     {
     }
+
+    public override string ToString() =>
+        $"UserException type {Type}{Environment.NewLine}{base.ToString()}";
 }

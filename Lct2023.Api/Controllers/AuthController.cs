@@ -52,16 +52,19 @@ public class AuthController : ControllerBase
         {
             string userName = await _authService.CreateUserNameAsync(new CreateUserNameDto() { Email = data.Email });
             string photoUrl = string.Empty;
+
             if (!string.IsNullOrEmpty(data.Photo))
             {
                 // грузим фото
                 using HttpClient client = _httpClientFactory.CreateClient("CMS");
+
                 using (var formData = new MultipartFormDataContent())
                 {
                     var bytes = Convert.FromBase64String(data.Photo);
                     var contents = new StreamContent(new MemoryStream(bytes));
                     formData.Add(contents, "files", userName + ".jpg");
                     var response = await client.PostAsync("/api/upload", formData);
+
                     if (response.IsSuccessStatusCode)
                     {
                         var responseContent = await response.Content.ReadFromJsonAsync<List<UploadFileResponse>>();
@@ -73,11 +76,13 @@ public class AuthController : ControllerBase
                     }
                 }
             }
-            var createUserDto =_mapper.Map<CreateUserDto>(data);
+
+            var createUserDto = _mapper.Map<CreateUserDto>(data);
             createUserDto.UserName = userName;
+
             var user = await _authService.SignUpAsync(createUserDto);
 
-            return Ok(await _authService.SignInAsync(user.Username, data.Password));
+            return Ok(await _authService.SignInAsync(user.Email, data.Password));
         }
         catch (Exception ex)
         {
@@ -132,6 +137,7 @@ public class AuthController : ControllerBase
         var provider = userData[CustomClaimTypes.EXTERNAL_LOGIN_PROVIDER].ToString();
         var providerKey = userData[CustomClaimTypes.EXTERNAL_LOGIN_PROVIDER_KEY].ToString();
         var userName = await _authService.CreateUserNameAsync(new CreateUserNameDto() { Email = email });
+
         try
         {
             var user = await _userService.GetByEmailAsync(email) ??

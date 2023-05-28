@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   android:background="#99000000">
+
+    <com.google.android.material.card.MaterialCardView style="@style/AppTheme.MaterialCardView.White"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="wrap_content"
+                                                       app:layout_constraintBottom_toBottomOf="parent"
+                                                       app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                           android:layout_height="wrap_content"
+                                                           android:paddingHorizontal="16dp"
+                                                           android:paddingVertical="24dp">
+
+            <TextView android:id="@+id/prof_test_step2_title"
+                      style="@style/AppTheme.H4"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:gravity="center"
+                      android:text="Какой у вас уровень знаний?"
+                      android:textAlignment="center"
+                      app:layout_constraintTop_toTopOf="parent"/>
+
+            <RadioGroup android:id="@+id/prof_test_step2_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:divider="@drawable/simple_list_item_decorator"
+                        android:showDividers="middle"
+                        app:layout_constraintTop_toBottomOf="@id/prof_test_step2_title">
+
+                <com.google.android.material.radiobutton.MaterialRadioButton style="@style/AppTheme.RadioButton"
+                                                                             android:layout_width="match_parent"
+                                                                             android:layout_height="wrap_content"
+                                                                             android:text="Новичок"/>
+
+                <com.google.android.material.radiobutton.MaterialRadioButton style="@style/AppTheme.RadioButton"
+                                                                             android:layout_width="match_parent"
+                                                                             android:layout_height="wrap_content"
+                                                                             android:text="Продвинутый"/>
+
+                <com.google.android.material.radiobutton.MaterialRadioButton style="@style/AppTheme.RadioButton"
+                                                                             android:layout_width="match_parent"
+                                                                             android:layout_height="wrap_content"
+                                                                             android:text="Профессионал"/>
+
+            </RadioGroup>
+
+            <com.google.android.material.button.MaterialButton android:id="@+id/prof_test_step2_next"
+                                                               style="@style/AppTheme.Button.Base"
+                                                               android:layout_width="match_parent"
+                                                               android:layout_height="wrap_content"
+                                                               android:layout_marginTop="16dp"
+                                                               android:text="Продолжить"
+                                                               app:layout_constraintTop_toBottomOf="@id/prof_test_step2_list"/>
+
+            <com.google.android.material.button.MaterialButton android:id="@+id/prof_test_step2_back"
+                                                               style="@style/AppTheme.Button.Base"
+                                                               android:layout_width="match_parent"
+                                                               android:layout_height="wrap_content"
+                                                               android:layout_marginTop="4dp"
+                                                               android:text="В другой раз"
+                                                               android:textColor="@color/textSecondary"
+                                                               app:backgroundTint="@color/background"
+                                                               app:layout_constraintTop_toBottomOf="@id/prof_test_step2_next"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

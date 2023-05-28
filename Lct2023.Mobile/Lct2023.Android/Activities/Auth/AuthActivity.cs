@@ -11,6 +11,7 @@ using AndroidX.ConstraintLayout.Widget;
 using AndroidX.ViewPager2.Widget;
 using Google.Android.Material.Button;
 using Google.Android.Material.Card;
+using Google.Android.Material.ProgressIndicator;
 using Google.Android.Material.Tabs;
 using Google.Android.Material.TextField;
 using Lct2023.Android.Adapters;
@@ -19,6 +20,7 @@ using Lct2023.Android.Helpers;
 using Lct2023.Android.Listeners;
 using Lct2023.Converters;
 using Lct2023.Definitions.MvxIntercationResults;
+using Lct2023.Definitions.Types;
 using Lct2023.ViewModels.Auth;
 using MvvmCross.Base;
 using MvvmCross.Platforms.Android.Binding;
@@ -76,6 +78,7 @@ public class AuthActivity : BaseActivity<AuthViewModel>
             FindViewById<MaterialCardView>(Resource.Id.auth_signup_2_birthday_picker),
             FindViewById<TextView>(Resource.Id.auth_signup_2_birthday_value),
             FindViewById<MaterialButton>(Resource.Id.auth_signup_finish),
+            FindViewById<CircularProgressIndicator>(Resource.Id.auth_signup_finish_loader),
             FindViewById<MaterialButton>(Resource.Id.auth_signup_back));
 
         var anonymous = FindViewById<MaterialButton>(Resource.Id.auth_anonymous);
@@ -195,6 +198,11 @@ public class AuthActivity : BaseActivity<AuthViewModel>
         set.Bind(signUp.Finish)
             .For(x => x.BindClick())
             .To(vm => vm.SignUpCommand);
+        
+        set.Bind(signUp.FinishLoader)
+            .For(x => x.BindVisible())
+            .To(vm => vm.State)
+            .WithConversion(new AnyExpressionConverter<AuthViewState, bool>(x => x.HasFlag(AuthViewState.SigningUp)));
 
         set.Bind(anonymous)
             .For(x => x.BindClick())
@@ -233,6 +241,7 @@ public class AuthActivity : BaseActivity<AuthViewModel>
             MaterialCardView birthdayLayout,
             TextView birthdayValue,
             MaterialButton finish,
+            CircularProgressIndicator finishLoader,
             MaterialButton back)
         {
             UploadLayout = uploadLayout;
@@ -243,6 +252,7 @@ public class AuthActivity : BaseActivity<AuthViewModel>
             BirthdayLayout = birthdayLayout;
             BirthdayValue = birthdayValue;
             Finish = finish;
+            FinishLoader = finishLoader;
             Back = back;
         }
 
@@ -261,6 +271,8 @@ public class AuthActivity : BaseActivity<AuthViewModel>
         public TextView BirthdayValue { get; }
 
         public MaterialButton Finish { get; }
+
+        public CircularProgressIndicator FinishLoader { get; }
 
         public MaterialButton Back { get; }
     }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
 using Lct2023.Definitions.Dtos;
+using Lct2023.Definitions.Models;
 using Lct2023.Definitions.MvxIntercationResults;
 using Lct2023.Definitions.Types;
 using Lct2023.Services;
@@ -24,6 +25,7 @@ public class AuthViewModel : BaseViewModel
     private readonly IValidator<SignUpFields> _signUpValidator;
 
     private readonly MvxInteraction<ValidationInteractionResult> _validationInteractionLocal;
+
     private AuthViewState _state;
 
     public AuthViewModel(
@@ -105,6 +107,8 @@ public class AuthViewModel : BaseViewModel
             {
                 await _signInValidator.ValidateAndThrowAsync(SignIn, CancellationToken);
 
+                _dialogService.ShowToast("Пробуем авторизоваться");
+
                 await _userService.SignInAsync(SignIn.Email, SignIn.Password, CancellationToken);
 
                 await NavigationService.Navigate<MainTabbedViewModel>();
@@ -120,7 +124,7 @@ public class AuthViewModel : BaseViewModel
 
                         break;
                     default:
-                        _dialogService.ShowToast($"Ошибка при авторизации: {ex.Message}");
+                        _dialogService.ShowToast($"Ошибка при авторизации");
 
                         break;
                 }
@@ -159,7 +163,7 @@ public class AuthViewModel : BaseViewModel
 
     private async Task SignInAnonymousAsync()
     {
-        // await _dialogService.ShowDialogAsync();
+        // await _dialogService.ShowDialogAsync(new DialogConfig());
 
         await NavigationService.Navigate<MainTabbedViewModel>();
     }
@@ -198,7 +202,7 @@ public class AuthViewModel : BaseViewModel
 
                         break;
                     default:
-                        _dialogService.ShowToast($"Ошибка при регистрации: {ex.Message}");
+                        _dialogService.ShowToast($"Ошибка при регистрации");
 
                         break;
                 }

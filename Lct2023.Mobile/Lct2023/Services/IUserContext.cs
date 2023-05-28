@@ -1,9 +1,10 @@
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Lct2023.Definitions.Internals;
 
 namespace Lct2023.Services;
 
-public interface IUserContext
+public interface IUserContext : INotifyPropertyChanged
 {
     bool IsAuthenticated { get; }
 
