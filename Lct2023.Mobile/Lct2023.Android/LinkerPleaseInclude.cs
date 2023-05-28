@@ -7,7 +7,7 @@ using AndroidX.RecyclerView.Widget;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.DroidX.RecyclerView;
 
-namespace ArtecMobile.Android
+namespace Lct2023.Android
 {
     public class LinkerPleaseInclude
     {
