@@ -16,5 +16,5 @@ public static class CustomClaimTypes
 
     public const string BIRTH_DATE = "BirthDate";
 
-    public const string PHOTO_MAX = "photo_max";
+    public const string PHOTO_200 = "photo_200";
 }

@@ -1,4 +1,3 @@
-using Android.App;
 using Android.OS;
 using Android.Views;
 using Google.Android.Material.Button;
@@ -7,7 +6,6 @@ using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using MvvmCross.Platforms.Android.Views.Fragments;
-using DialogFragment = AndroidX.Fragment.App.DialogFragment;
 
 namespace Lct2023.Android.Fragments.Courses;
 

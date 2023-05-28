@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   android:background="#99000000">
+
+    <com.google.android.material.card.MaterialCardView style="@style/AppTheme.MaterialCardView.White"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="wrap_content"
+                                                       app:layout_constraintBottom_toBottomOf="parent"
+                                                       app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                           android:layout_height="wrap_content"
+                                                           android:paddingHorizontal="16dp"
+                                                           android:paddingVertical="24dp">
+
+            <TextView android:id="@+id/prof_test_finish_title"
+                      style="@style/AppTheme.H4"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:gravity="center"
+                      android:text="Поздравляем!"
+                      android:textAlignment="center"
+                      app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView android:id="@+id/prof_test_finish_subtitle"
+                      style="@style/AppTheme.Body"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="16dp"
+                      android:gravity="center"
+                      android:text="Вы прошли тест на профориентацию, теперь мы знаем вас чуточку лучше!"
+                      android:textAlignment="center"
+                      app:layout_constraintTop_toBottomOf="@id/prof_test_finish_title"/>
+
+            <TextView android:id="@+id/prof_test_finish_gained_label"
+                      style="@style/AppTheme.Body"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="16dp"
+                      android:gravity="center"
+                      android:text="Вы получили"
+                      android:textAlignment="center"
+                      app:layout_constraintTop_toBottomOf="@id/prof_test_finish_subtitle"/>
+
+            <ImageView android:id="@+id/prof_test_finish_gained_image"
+                       android:layout_width="0dp"
+                       android:layout_height="0dp"
+                       android:paddingVertical="8dp"
+                       android:src="@drawable/ic_crown"
+                       app:layout_constraintBottom_toBottomOf="@id/prof_test_finish_gained_value"
+                       app:layout_constraintDimensionRatio="1:1"
+                       app:layout_constraintEnd_toStartOf="@id/prof_test_finish_gained_value"
+                       app:layout_constraintHorizontal_chainStyle="packed"
+                       app:layout_constraintStart_toStartOf="parent"
+                       app:layout_constraintTop_toTopOf="@id/prof_test_finish_gained_value"
+                       app:tint="@color/accent"/>
+
+            <TextView android:id="@+id/prof_test_finish_gained_value"
+                      style="@style/AppTheme.BodyMedium"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="16dp"
+                      android:ellipsize="end"
+                      android:gravity="center"
+                      android:lines="1"
+                      android:text="50 баллов"
+                      android:textSize="40sp"
+                      app:layout_constrainedWidth="true"
+                      app:layout_constraintEnd_toEndOf="parent"
+                      app:layout_constraintStart_toEndOf="@id/prof_test_finish_gained_image"
+                      app:layout_constraintTop_toBottomOf="@id/prof_test_finish_gained_label"/>
+
+            <com.google.android.material.button.MaterialButton android:id="@+id/prof_test_finish_next"
+                                                               style="@style/AppTheme.Button.Base"
+                                                               android:layout_width="match_parent"
+                                                               android:layout_height="wrap_content"
+                                                               android:layout_marginTop="24dp"
+                                                               android:text="Закрыть"
+                                                               android:textColor="@color/textSecondary"
+                                                               app:backgroundTint="@color/bgIslandInner"
+                                                               app:layout_constraintTop_toBottomOf="@id/prof_test_finish_gained_value"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

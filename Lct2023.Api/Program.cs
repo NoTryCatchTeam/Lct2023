@@ -81,11 +81,11 @@ builder.Services
         //options.Scope.Add("photos");
         options.Scope.Add("friends");
         options.Fields.Add("bdate");
-		options.Fields.Add("photo_max");
+		options.Fields.Add("photo_200");
          
         options.ClaimActions.MapJsonKey(CustomClaimTypes.PHOTO_URL, "photo");
         options.ClaimActions.MapJsonKey(CustomClaimTypes.BIRTH_DATE, "bdate");
-        options.ClaimActions.MapJsonKey(CustomClaimTypes.PHOTO_MAX, "photo_max");
+        options.ClaimActions.MapJsonKey(CustomClaimTypes.PHOTO_200, "photo_200");
 
         options.Events.OnTicketReceived += context =>
         {
@@ -101,7 +101,7 @@ builder.Services
                 { CustomClaimTypes.LAST_NAME, context.Principal.FindFirst(ClaimTypes.Surname)?.Value },
                 { CustomClaimTypes.BIRTH_DATE, context.Principal.FindFirst(CustomClaimTypes.BIRTH_DATE)?.Value },
                 { CustomClaimTypes.PHOTO_URL, context.Principal.FindFirst(CustomClaimTypes.PHOTO_URL)?.Value },
-                { CustomClaimTypes.PHOTO_MAX, context.Principal.FindFirst(CustomClaimTypes.PHOTO_MAX)?.Value },
+                { CustomClaimTypes.PHOTO_200, context.Principal.FindFirst(CustomClaimTypes.PHOTO_200)?.Value },
                 { CustomClaimTypes.EXTERNAL_LOGIN_PROVIDER, VkontakteAuthenticationDefaults.AuthenticationScheme },
                 { CustomClaimTypes.EXTERNAL_LOGIN_PROVIDER_KEY, context.Principal.FindFirst(ClaimTypes.NameIdentifier)?.Value },
             };

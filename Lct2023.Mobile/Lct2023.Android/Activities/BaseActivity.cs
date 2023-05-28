@@ -67,7 +67,12 @@ public abstract class BaseActivity<TViewModel> : MvxActivity<TViewModel>
                     .Load(Uri.Parse(photoUrl))
                     .Placeholder(Resource.Drawable.ic_profile_circle)
                     .Error(Resource.Drawable.ic_profile_circle)
-                    .Into(toolbar.Avatar);
+                    .Into(
+                        toolbar.Avatar,
+                        () => toolbar.Avatar.ImageTintList = null,
+                        _ =>
+                        {
+                        });
             }
             else
             {
@@ -75,6 +80,17 @@ public abstract class BaseActivity<TViewModel> : MvxActivity<TViewModel>
             }
 
             toolbar.Title = ViewModel.UserContext.User?.FirstName;
+
+            toolbar.Toolbar.SetOnMenuItemClickListener(new DefaultMenuItemClickListener(
+                v =>
+                {
+                    if (v.ItemId == Resource.Id.rating)
+                    {
+                        ViewModel.RateAppCommand.ExecuteAsync();
+                    }
+
+                    return true;
+                }));
 
             Toolbar = toolbar;
         }

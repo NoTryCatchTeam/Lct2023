@@ -104,6 +104,9 @@
         <Compile Include="Decorations\ItemSeparateDecoration.cs" />
         <Compile Include="Definitions\Extensions\DrawableExtensions.cs" />
         <Compile Include="Definitions\Extensions\ViewGroupExtensions.cs" />
+        <Compile Include="Fragments\Anonymous\AnonymousWarningFragment.cs" />
+        <Compile Include="Fragments\AppRate\AppRateFinishFragment.cs" />
+        <Compile Include="Fragments\AppRate\AppRateFragment.cs" />
         <Compile Include="Fragments\Auth\AuthSignInFragment.cs" />
         <Compile Include="Fragments\Auth\AuthSignUpFragment.cs" />
         <Compile Include="Fragments\BaseFragment.cs" />
@@ -120,6 +123,11 @@
         <Compile Include="Fragments\MainTabs\MainFragment.cs" />
         <Compile Include="Fragments\MainTabs\MapFragment.cs" />
         <Compile Include="Fragments\MainTabs\TasksFragment.cs" />
+        <Compile Include="Fragments\ProfTest\ProfTestFinishFragment.cs" />
+        <Compile Include="Fragments\ProfTest\ProfTestStartFragment.cs" />
+        <Compile Include="Fragments\ProfTest\ProfTestStep1Fragment.cs" />
+        <Compile Include="Fragments\ProfTest\ProfTestStep2Fragment.cs" />
+        <Compile Include="Fragments\ProfTest\ProfTestStep3Fragment.cs" />
         <Compile Include="Helpers\ActivityExtensions.cs" />
         <Compile Include="Helpers\BaseAppToolbar.cs" />
         <Compile Include="Helpers\DefaultTabConfigurationStrategy.cs" />
@@ -175,6 +183,26 @@
         <AndroidResource Include="Resources\xml\auth_activity_scene.xml" />
         <AndroidResource Include="Resources\xml\file_paths.xml" />
         <AndroidResource Update="Resources\layout\AuthSignUpFragment.xml">
+          <SubType>Designer</SubType>
+          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+        </AndroidResource>
+        <AndroidResource Update="Resources\layout\ProfTestStep1Fragment.xml">
+          <SubType>Designer</SubType>
+          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+        </AndroidResource>
+        <AndroidResource Update="Resources\layout\ProfTestStep2Fragment.xml">
+          <SubType>Designer</SubType>
+          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+        </AndroidResource>
+        <AndroidResource Update="Resources\layout\ProfTestStep3Fragment.xml">
+          <SubType>Designer</SubType>
+          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+        </AndroidResource>
+        <AndroidResource Update="Resources\layout\ProfTestFinishFragment.xml">
+          <SubType>Designer</SubType>
+          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+        </AndroidResource>
+        <AndroidResource Update="Resources\layout\AppRateFinishFragment.xml">
           <SubType>Designer</SubType>
           <Generator>MSBuild:UpdateGeneratedFiles</Generator>
         </AndroidResource>

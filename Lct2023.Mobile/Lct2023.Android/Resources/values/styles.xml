@@ -263,7 +263,7 @@
         <item name="android:insetRight">0dp</item>
         <item name="android:insetLeft">0dp</item>
         <item name="android:letterSpacing">0</item>
-        <item name="android:gravity">center</item>
+        <item name="android:gravity">start</item>
         <item name="android:textAlignment">gravity</item>
         <item name="cornerRadius">30dp</item>
         <item name="iconGravity">end</item>
@@ -335,6 +335,28 @@
         <item name="boxStrokeWidth">1dp</item>
         <item name="boxStrokeWidthFocused">1dp</item>
         <item name="hintEnabled">false</item>
+    </style>
+
+    <style name="AppTheme.Checkbox" parent="AppTheme">
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textColor">@color/textPrimary</item>
+        <item name="android:textSize">@dimen/text</item>
+        <item name="buttonTint">@color/lightPurple</item>
+        <item name="paddingStart">8dp</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:lines">1</item>
+    </style>
+
+    <style name="AppTheme.RadioButton" parent="AppTheme">
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textColor">@color/textPrimary</item>
+        <item name="android:textSize">@dimen/text</item>
+        <item name="buttonTint">@color/lightPurple</item>
+        <item name="paddingStart">8dp</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:lines">1</item>
     </style>
 
 </resources>

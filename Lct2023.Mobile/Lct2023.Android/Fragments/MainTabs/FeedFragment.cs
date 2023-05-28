@@ -43,7 +43,6 @@ public class FeedFragment : BaseFragment<FeedViewModel>, View.IOnClickListener
         
         view.FindViewById<TextView>(Resource.Id.toolbar_title).Text = "Лента";
         var feedSearchEditText = view.FindViewById<TextInputEditText>(Resource.Id.feed_search_edit_text);
-        var avatarImageButton = view.FindViewById<ImageView>(Resource.Id.toolbar_image);
         var filtersButton = view.FindViewById<MaterialButton>(Resource.Id.feed_filters_button);
         _filtersBottomSheet = view.FindViewById<MaterialCardView>(Resource.Id.feed_filters_bottom_sheet);
         _filtersBottomSheetBehavior = BottomSheetBehavior.From(_filtersBottomSheet);

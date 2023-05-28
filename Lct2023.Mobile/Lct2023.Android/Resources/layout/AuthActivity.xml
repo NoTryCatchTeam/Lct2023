@@ -254,6 +254,15 @@
                                                                        app:layout_constraintBottom_toBottomOf="parent"
                                                                        app:layout_constraintTop_toBottomOf="@id/auth_signup_2_birthday_picker"/>
 
+                    <com.google.android.material.progressindicator.CircularProgressIndicator android:id="@+id/auth_signup_finish_loader"
+                                                                                             style="@style/AppTheme.Loader.Default"
+                                                                                             android:layout_width="wrap_content"
+                                                                                             android:layout_height="wrap_content"
+                                                                                             app:layout_constraintBottom_toBottomOf="@id/auth_signup_finish"
+                                                                                             app:layout_constraintEnd_toEndOf="@id/auth_signup_finish"
+                                                                                             app:layout_constraintStart_toStartOf="@id/auth_signup_finish"
+                                                                                             app:layout_constraintTop_toTopOf="@id/auth_signup_finish"/>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.core.widget.NestedScrollView>
