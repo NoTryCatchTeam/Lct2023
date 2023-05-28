@@ -6,11 +6,13 @@ using Lct2023.ViewModels.Map;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
 using Android.Gms.Maps.Model;
 using Android.Graphics;
 using Android.Widget;
+using AndroidX.ConstraintLayout.Widget;
 using AndroidX.RecyclerView.Widget;
 using DataModel.Definitions.Enums;
 using DynamicData.Binding;
@@ -25,6 +27,7 @@ using Lct2023.Android.Definitions.Extensions;
 using Lct2023.Android.Helpers;
 using Lct2023.Android.TemplateSelectors;
 using Lct2023.Converters;
+using Lct2023.Definitions.Enums;
 using MvvmCross.Binding.ValueConverters;
 using MvvmCross.Commands;
 using MvvmCross.DroidX.RecyclerView;
@@ -33,7 +36,6 @@ using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Binding.Views;
 using ReactiveUI;
-using Square.Picasso;
 
 namespace Lct2023.Android.Fragments.MainTabs;
 
@@ -48,6 +50,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
     private View _addressLayout;
     private MaterialCardView _filtersBottomSheet;
     private BottomSheetBehavior _filtersBottomSheetBehavior;
+    private ConstraintLayout _mapContainer;
 
     protected override int GetLayoutId() => Resource.Layout.MapFragment;
     
@@ -59,6 +62,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         
         _mapView = view.FindViewById<MapView>(Resource.Id.map_view);
         
+        _mapContainer = view.FindViewById<ConstraintLayout>(Resource.Id.map_container);
         var locationsSearchEditText = view.FindViewById<TextInputEditText>(Resource.Id.locations_search_value);
         var searchResultsList = view.FindViewById<MvxRecyclerView>(Resource.Id.map_search_results);
         var locationTypesGroup = view.FindViewById<MaterialButtonToggleGroup>(Resource.Id.location_types_group);
@@ -359,7 +363,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
             .Bind(filtersButton)
             .For(nameof(ButtonIconResourceBinding))
             .To(vm => vm.SelectedFilters)
-            .WithConversion(new AnyExpressionConverter<object, int>(filters => filters == null ? Resource.Drawable.ic_filters : Resource.Drawable.ic_filters_selected));
+            .WithConversion(new AnyExpressionConverter<ObservableCollection<(MapFilterGroupType FilterGroupType, string[] Items)>, int>(filters => filters?.Any() == true ? Resource.Drawable.ic_filters_selected : Resource.Drawable.ic_filters));
 
         set
             .Bind(locationTypesGroup)
@@ -611,14 +615,17 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         {
             return;
         }
-        
-        _filtersBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
-        var addressRect = new Rect();
-        _addressLayout.GetDrawingRect(addressRect);
-        _locationDetailsBottomSheet.OffsetDescendantRectToMyCoords(_addressLayout, addressRect);
-        _locationDetailsBottomSheetBehavior.SetPeekHeight(addressRect.Top + addressRect.Height() + DimensUtils.DpToPx(Context, 56), false);
-        _locationDetailsBottomSheetBehavior.Hideable = false;
-        _locationDetailsBottomSheetBehavior.State = BottomSheetBehavior.StateCollapsed;
+
+        _mapContainer.Post(() =>
+        {
+            _filtersBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
+            var addressRect = new Rect();
+            _addressLayout.GetDrawingRect(addressRect);
+            _locationDetailsBottomSheet.OffsetDescendantRectToMyCoords(_addressLayout, addressRect);
+            _locationDetailsBottomSheetBehavior.SetPeekHeight(addressRect.Top + addressRect.Height() + DimensUtils.DpToPx(Context, 32), false);
+            _locationDetailsBottomSheetBehavior.Hideable = false;
+            _locationDetailsBottomSheetBehavior.State = BottomSheetBehavior.StateCollapsed;
+        });
     }
 
     public void OnMapClick(LatLng point) => DeselectLocation();

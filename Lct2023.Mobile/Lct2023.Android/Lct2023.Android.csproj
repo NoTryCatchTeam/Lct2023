@@ -63,6 +63,7 @@
         <Compile Include="Activities\Tasks\TaskDetailsActivity.cs" />
         <Compile Include="Adapters\FeedFiltersGroupsListAdapter.cs" />
         <Compile Include="Adapters\FeedListAdapter.cs" />
+        <Compile Include="Adapters\MainEventsAdapter.cs" />
         <Compile Include="Adapters\StreamsAdapter.cs" />
         <Compile Include="Adapters\AudioToPictureExerciseAnswersAdapter.cs" />
         <Compile Include="Adapters\AuthViewPagerAdapter.cs" />
@@ -89,7 +90,7 @@
         <Compile Include="Adapters\TasksAdapter.cs" />
         <Compile Include="Adapters\TextExerciseAnswersAdapter.cs" />
         <Compile Include="Adapters\VideoToAudioExerciseAnswersAdapter.cs" />
-        <Compile Include="Bindings\ButtonBackgroundByHexBinding.cs" />
+        <Compile Include="Bindings\ButtonBackgroundByIdBinding.cs" />
         <Compile Include="Bindings\ButtonIconResourceBinding.cs" />
         <Compile Include="Bindings\CardViewStrokeColorBinding.cs" />
         <Compile Include="Bindings\CardViewBackgroundColorByHexBinding.cs" />

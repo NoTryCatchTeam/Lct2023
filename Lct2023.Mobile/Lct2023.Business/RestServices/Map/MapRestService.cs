@@ -24,5 +24,8 @@ namespace Lct2023.Business.RestServices.Map
 
         public Task<IEnumerable<CmsItemResponse<EventItemResponse>>> GetEventsAsync(CancellationToken token) =>
             CmsExecuteAsync<IEnumerable<CmsItemResponse<EventItemResponse>>>("events?fields[0]=name&fields[0]=description&fields[0]=link&populate[place][fields][0]=lat&populate[place][fields][0]=lon&populate[place][fields][0]=address&fields[0]=ticketLink&fields[0]=createdAt&pagination[pageSize]=100", HttpMethod.Get, token);
+        
+        public Task<IEnumerable<CmsItemResponse<EventItemResponse>>> GetMainEventsAsync(CancellationToken token) =>
+            CmsExecuteAsync<IEnumerable<CmsItemResponse<EventItemResponse>>>("events?[populate]=*", HttpMethod.Get, token);
     }
 }

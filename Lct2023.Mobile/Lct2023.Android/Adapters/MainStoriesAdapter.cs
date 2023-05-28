@@ -45,9 +45,12 @@ public class MainStoriesAdapter : BaseRecyclerViewAdapter<StoryQuizItemViewModel
         {
             base.Bind();
 
-            Picasso.Get()
-                .Load(Uri.Parse(ViewModel.CoverUrl))
-                .Into(_image);
+            if (!string.IsNullOrEmpty(ViewModel.CoverUrl))
+            {
+                Picasso.Get()
+                    .Load(Uri.Parse(ViewModel.CoverUrl))
+                    .Into(_image);
+            }
         }
     }
 }

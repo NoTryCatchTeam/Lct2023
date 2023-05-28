@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -66,7 +65,7 @@ public class FeedViewModel : BaseViewModel
             UpdateItemsAsync,
             _ =>
             {
-                State = State.Default;
+                SetState();
                 IsLoadMoreEnabled = false;
                 IsLoadingMore = false;
                 return Task.CompletedTask;
@@ -82,10 +81,10 @@ public class FeedViewModel : BaseViewModel
             IsLoadMoreEnabled = false;
             IsLoadingMore = false;
             return Task.CompletedTask;
-        }),() => IsLoadMoreEnabled && !IsLoadingMore);
+        }),() => IsLoadMoreEnabled && !IsLoadingMore && State is not (State.MinorLoading or State.Loading));
         
         this.WhenAnyValue(vm => vm.SearchText, vm => vm.SelectedFilters)
-            .Skip(2)
+            .Skip(1)
             .Throttle(TimeSpan.FromMilliseconds(350), RxApp.MainThreadScheduler)
             .InvokeCommand(UpdateItemsCommand);
         
@@ -93,9 +92,6 @@ public class FeedViewModel : BaseViewModel
             .ObserveCollectionChanges()
             .Subscribe(_ => LoadingOffset = Items.Count - 3);
     }
-
-    public string Image { get; private set; } =
-        "https://media.newyorker.com/photos/59095bb86552fa0be682d9d0/master/w_2560%2Cc_limit/Monkey-Selfie.jpg";
 
     public State State { get; set; }
     
@@ -174,14 +170,14 @@ public class FeedViewModel : BaseViewModel
         Task.WhenAny(RunSafeTaskAsync(UpdateItemsAsync,
             _ =>
             {
-                State = State.Default;
+                SetState();
                 IsLoadMoreEnabled = false;
                 IsLoadingMore = false;
                 return Task.CompletedTask;
             }),
             filtersTask);
     }
-    
+
     public override void ViewDestroy(bool viewFinishing = true)
     {
         base.ViewDestroy(viewFinishing);
@@ -193,13 +189,13 @@ public class FeedViewModel : BaseViewModel
 
     private async Task UpdateItemsAsync()
     {
+        State = State.MinorLoading;
+        
         Items.Clear();
 
-        State = State.MinorLoading;
-
         await LoadArticlesAsync();
-        
-        State = State.Default;
+
+        SetState();
     }
     
     private async Task LoadArticlesAsync()
@@ -219,7 +215,6 @@ public class FeedViewModel : BaseViewModel
                 }).ToArray(),
             _feedCancellationTokenSource.Token))?.Data?.ToArray();
 
-        await Task.Delay(5000);
         if (newArticles?.Length > 0)
         {
             Items.AddRange(_mapper.Map<IEnumerable<FeedItemViewModel>>(newArticles));
@@ -228,4 +223,6 @@ public class FeedViewModel : BaseViewModel
         IsLoadMoreEnabled = newArticles?.Length >= PAGE_SIZE;
         IsLoadingMore = false;
     }
+
+    private void SetState() => State = Items?.Any() == true ? State.Default : State.NoData;
 }
