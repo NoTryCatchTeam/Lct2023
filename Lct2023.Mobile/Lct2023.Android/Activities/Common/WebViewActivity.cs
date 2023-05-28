@@ -17,6 +17,8 @@ public class WebViewActivity : BaseActivity<WebViewModel>
         base.OnCreate(bundle);
         SetContentView(Resource.Layout.WebViewActivity);
 
+        Toolbar.Title = "Материал";
+
         var webView = FindViewById<WebView>(Resource.Id.web_view);
         webView.SetWebViewClient(new WebViewClient());
         webView.Settings.JavaScriptEnabled = true;
