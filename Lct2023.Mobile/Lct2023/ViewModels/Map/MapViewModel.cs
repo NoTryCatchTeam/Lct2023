@@ -370,7 +370,7 @@ public class MapViewModel : BaseViewModel
                         SelectedFilters.All(selectedFilter => selectedFilter.FilterGroupType switch
                         {
                             MapFilterGroupType.District => selectedFilter.Items.Contains(e.Item?.Place?.Data?.Item?.District?.Data?.Item?.District),
-                            MapFilterGroupType.Stream => e.Item?.Streams?.Data?.Select(stream => stream.Item.Name)?.Intersect(selectedFilter.Items).Any() == true,
+                            MapFilterGroupType.Stream => e.Item?.Streams?.Data?.Select(stream => stream?.Item?.Name)?.Intersect(selectedFilter.Items).Any() == true,
                         })).Then(es => Places.AddRange(_mapper.Map<IEnumerable<PlaceItemViewModel>>(es)));
                     break;
                 case LocationType.Event:
