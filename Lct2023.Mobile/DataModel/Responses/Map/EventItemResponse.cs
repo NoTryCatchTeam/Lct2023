@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using DataModel.Responses.Art;
 using DataModel.Responses.BaseCms;
 using DataModel.Responses.Media;
 using Newtonsoft.Json;
@@ -21,6 +23,8 @@ public class EventItemResponse
     public DateTime CreatedAt { get; set; }
 
     public string Phone { get; set; }
+    
+    public CmsResponse<IEnumerable<CmsItemResponse<StreamResponse>>> Streams { get; set; }
 
     public CmsResponse<CmsItemResponse<LocationResponse>> Place { get; set; }
 
