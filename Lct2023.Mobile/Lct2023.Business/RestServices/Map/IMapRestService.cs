@@ -14,5 +14,7 @@ namespace Lct2023.Business.RestServices.Map
         Task<IEnumerable<CmsItemResponse<SchoolLocationResponse>>> GetSchoolsLocationAsync(CancellationToken token);
         
         Task<IEnumerable<CmsItemResponse<EventItemResponse>>> GetEventsAsync(CancellationToken token);
+
+        Task<IEnumerable<CmsItemResponse<EventItemResponse>>> GetMainEventsAsync(CancellationToken token);
     }
 }

@@ -5,15 +5,15 @@
                                                    android:layout_height="match_parent"
                                                    android:background="@color/backgroundDark">
 
-    <include layout="@layout/Toolbar"/>
-
     <androidx.core.widget.NestedScrollView android:layout_width="match_parent"
-                                           android:layout_height="0dp"
-                                           app:layout_constraintBottom_toBottomOf="parent"
-                                           app:layout_constraintTop_toBottomOf="@id/toolbar">
+                                           android:layout_height="match_parent"
+                                           android:clipToPadding="false"
+                                           android:fillViewport="true"
+                                           android:paddingTop="@dimen/scroll_under_toolbar_padding">
 
         <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
-                                                           android:layout_height="wrap_content">
+                                                           android:layout_height="wrap_content"
+                                                           android:paddingBottom="40dp">
 
             <mvvmcross.droidx.recyclerview.MvxRecyclerView android:id="@+id/main_stories"
                                                            android:layout_width="match_parent"
@@ -26,7 +26,8 @@
                                                            android:paddingBottom="24dp"
                                                            app:layout_constraintTop_toTopOf="parent"/>
 
-            <com.google.android.material.card.MaterialCardView android:id="@+id/main_statistics_layout"
+            <!-- Stats -->
+            <com.google.android.material.card.MaterialCardView android:id="@+id/main_statistics_frame"
                                                                style="@style/AppTheme.MaterialCardView.White"
                                                                android:layout_width="match_parent"
                                                                android:layout_height="wrap_content"
@@ -167,120 +168,346 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <com.google.android.material.card.MaterialCardView style="@style/AppTheme.MaterialCardView.White"
+            <!-- Courses -->
+            <com.google.android.material.card.MaterialCardView android:id="@+id/main_courses_frame"
+                                                               style="@style/AppTheme.MaterialCardView.White"
                                                                android:layout_width="match_parent"
                                                                android:layout_height="wrap_content"
                                                                android:layout_marginTop="8dp"
-                                                               app:contentPaddingBottom="24dp"
-                                                               app:contentPaddingLeft="16dp"
-                                                               app:contentPaddingRight="16dp"
-                                                               app:contentPaddingTop="24dp"
-                                                               app:layout_constraintTop_toBottomOf="@id/main_statistics_layout">
+                                                               app:layout_constraintTop_toBottomOf="@id/main_statistics_frame">
 
                 <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
-                                                                   android:layout_height="wrap_content">
+                                                                   android:layout_height="wrap_content"
+                                                                   android:padding="16dp">
+
+                    <TextView android:id="@+id/main_courses_title"
+                              style="@style/AppTheme.H4"
+                              android:layout_width="0dp"
+                              android:layout_height="wrap_content"
+                              android:gravity="center_vertical"
+                              android:text="Курсы"
+                              app:layout_constraintEnd_toStartOf="@id/main_all_courses_button"
+                              app:layout_constraintStart_toStartOf="parent"
+                              app:layout_constraintTop_toTopOf="parent"/>
+
+                    <com.google.android.material.button.MaterialButton android:id="@+id/main_all_courses_button"
+                                                                       style="@style/AppTheme.Button.Chevron"
+                                                                       android:layout_width="wrap_content"
+                                                                       android:layout_height="wrap_content"
+                                                                       android:text="Все курсы"
+                                                                       app:layout_constraintEnd_toEndOf="parent"
+                                                                       app:layout_constraintTop_toTopOf="parent"/>
+
+                    <com.google.android.material.card.MaterialCardView android:id="@+id/main_course_1_layout"
+                                                                       style="@style/AppTheme.MaterialCardView.White"
+                                                                       android:layout_width="match_parent"
+                                                                       android:layout_height="wrap_content"
+                                                                       android:layout_marginTop="16dp"
+                                                                       app:cardBackgroundColor="@color/bgIslandInner"
+                                                                       app:contentPaddingBottom="16dp"
+                                                                       app:contentPaddingTop="16dp"
+                                                                       app:layout_constraintTop_toBottomOf="@id/main_courses_title">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                                           android:layout_height="wrap_content">
+
+                            <ImageView android:id="@+id/main_course_1_image"
+                                       android:layout_width="64dp"
+                                       android:layout_height="64dp"
+                                       android:layout_marginStart="16dp"
+                                       android:scaleType="fitCenter"
+                                       android:src="@drawable/image_course_guitar"
+                                       app:layout_constraintBottom_toBottomOf="parent"
+                                       app:layout_constraintStart_toStartOf="parent"
+                                       app:layout_constraintTop_toTopOf="parent"
+                                       app:layout_constraintVertical_bias="0"/>
+
+                            <TextView android:id="@+id/main_course_1_title"
+                                      style="@style/AppTheme.BodyMedium"
+                                      android:layout_width="0dp"
+                                      android:layout_height="wrap_content"
+                                      android:layout_marginHorizontal="16dp"
+                                      android:text="Гитара"
+                                      android:textSize="18sp"
+                                      app:layout_constraintBottom_toTopOf="@id/main_course_1_availability"
+                                      app:layout_constraintEnd_toStartOf="@id/main_course_1_chevron"
+                                      app:layout_constraintStart_toEndOf="@id/main_course_1_image"
+                                      app:layout_constraintTop_toTopOf="parent"
+                                      app:layout_constraintVertical_chainStyle="packed"/>
+
+                            <TextView android:id="@+id/main_course_1_availability"
+                                      style="@style/AppTheme.Secondary.Small"
+                                      android:layout_width="0dp"
+                                      android:layout_height="wrap_content"
+                                      android:text="Доступно 4 курса"
+                                      app:layout_constraintBottom_toBottomOf="@id/main_course_1_image"
+                                      app:layout_constraintEnd_toEndOf="@id/main_course_1_title"
+                                      app:layout_constraintStart_toStartOf="@id/main_course_1_title"
+                                      app:layout_constraintTop_toBottomOf="@id/main_course_1_title"/>
+
+                            <ImageView android:id="@+id/main_course_1_chevron"
+                                       android:layout_width="20dp"
+                                       android:layout_height="20dp"
+                                       android:layout_marginEnd="16dp"
+                                       android:scaleType="fitCenter"
+                                       android:src="@drawable/ic_chevron_right"
+                                       app:layout_constraintBottom_toBottomOf="@id/main_course_1_image"
+                                       app:layout_constraintEnd_toEndOf="parent"
+                                       app:layout_constraintTop_toTopOf="parent"/>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView android:id="@+id/main_course_2_layout"
+                                                                       style="@style/AppTheme.MaterialCardView.White"
+                                                                       android:layout_width="match_parent"
+                                                                       android:layout_height="wrap_content"
+                                                                       android:layout_marginTop="16dp"
+                                                                       app:cardBackgroundColor="@color/bgIslandInner"
+                                                                       app:contentPaddingBottom="16dp"
+                                                                       app:contentPaddingTop="16dp"
+                                                                       app:layout_constraintTop_toBottomOf="@id/main_course_1_layout">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                                           android:layout_height="wrap_content">
+
+                            <ImageView android:id="@+id/main_course_2_image"
+                                       android:layout_width="64dp"
+                                       android:layout_height="64dp"
+                                       android:layout_marginStart="16dp"
+                                       android:scaleType="fitCenter"
+                                       android:src="@drawable/image_course_french_horn"
+                                       app:layout_constraintBottom_toBottomOf="parent"
+                                       app:layout_constraintStart_toStartOf="parent"
+                                       app:layout_constraintTop_toTopOf="parent"
+                                       app:layout_constraintVertical_bias="0"/>
+
+                            <TextView android:id="@+id/main_course_2_title"
+                                      style="@style/AppTheme.BodyMedium"
+                                      android:layout_width="0dp"
+                                      android:layout_height="wrap_content"
+                                      android:layout_marginHorizontal="16dp"
+                                      android:text="Валторна"
+                                      android:textSize="18sp"
+                                      app:layout_constraintBottom_toTopOf="@id/main_course_2_availability"
+                                      app:layout_constraintEnd_toStartOf="@id/main_course_2_chevron"
+                                      app:layout_constraintStart_toEndOf="@id/main_course_2_image"
+                                      app:layout_constraintTop_toTopOf="parent"
+                                      app:layout_constraintVertical_chainStyle="packed"/>
+
+                            <TextView android:id="@+id/main_course_2_availability"
+                                      style="@style/AppTheme.Secondary.Small"
+                                      android:layout_width="0dp"
+                                      android:layout_height="wrap_content"
+                                      android:text="Доступно 2 курса"
+                                      app:layout_constraintBottom_toBottomOf="@id/main_course_2_image"
+                                      app:layout_constraintEnd_toEndOf="@id/main_course_2_title"
+                                      app:layout_constraintStart_toStartOf="@id/main_course_2_title"
+                                      app:layout_constraintTop_toBottomOf="@id/main_course_2_title"/>
+
+                            <ImageView android:id="@+id/main_course_2_chevron"
+                                       android:layout_width="20dp"
+                                       android:layout_height="20dp"
+                                       android:layout_marginEnd="16dp"
+                                       android:scaleType="fitCenter"
+                                       android:src="@drawable/ic_chevron_right"
+                                       app:layout_constraintBottom_toBottomOf="@id/main_course_2_image"
+                                       app:layout_constraintEnd_toEndOf="parent"
+                                       app:layout_constraintTop_toTopOf="parent"/>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Events -->
+            <com.google.android.material.card.MaterialCardView android:id="@+id/main_events_frame"
+                                                               style="@style/AppTheme.MaterialCardView.White"
+                                                               android:layout_width="match_parent"
+                                                               android:layout_height="wrap_content"
+                                                               android:layout_marginTop="8dp"
+                                                               app:layout_constraintTop_toBottomOf="@id/main_courses_frame">
+
+                <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                                   android:layout_height="wrap_content"
+                                                                   android:padding="16dp">
 
                     <TextView android:id="@+id/main_events_title"
                               style="@style/AppTheme.H4"
                               android:layout_width="0dp"
                               android:layout_height="wrap_content"
                               android:gravity="center_vertical"
-                              android:text="События"
+                              android:text="Мероприятия"
                               app:layout_constraintEnd_toStartOf="@id/main_all_events_button"
                               app:layout_constraintStart_toStartOf="parent"
                               app:layout_constraintTop_toTopOf="parent"/>
 
                     <com.google.android.material.button.MaterialButton android:id="@+id/main_all_events_button"
-                                                                       style="@style/AppTheme.Button.Base"
+                                                                       style="@style/AppTheme.Button.Chevron"
                                                                        android:layout_width="wrap_content"
                                                                        android:layout_height="wrap_content"
-                                                                       android:backgroundTint="@color/bgIslandInner"
-                                                                       android:paddingHorizontal="12dp"
-                                                                       android:paddingVertical="4dp"
-                                                                       android:text="Все"
-                                                                       android:textColor="@color/textPrimary"
-                                                                       android:textSize="14sp"
-                                                                       app:cornerRadius="30dp"
-                                                                       app:icon="@drawable/ic_chevron_right"
-                                                                       app:iconGravity="textEnd"
-                                                                       app:iconPadding="4dp"
-                                                                       app:iconSize="16dp"
-                                                                       app:iconTint="@color/iconPrimary"
+                                                                       android:text="Все мероприятия"
                                                                        app:layout_constraintEnd_toEndOf="parent"
                                                                        app:layout_constraintTop_toTopOf="parent"/>
 
-                    <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/main_event_1_layout"
+                    <mvvmcross.droidx.recyclerview.MvxRecyclerView android:id="@+id/main_events_collection"
+                                                                   android:layout_width="match_parent"
+                                                                   android:layout_height="wrap_content"
+                                                                   android:layout_marginTop="16dp"
+                                                                   app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                                                   app:layout_constraintTop_toBottomOf="@id/main_events_title"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Feed -->
+            <com.google.android.material.card.MaterialCardView android:id="@+id/main_feed_frame"
+                                                               style="@style/AppTheme.MaterialCardView.White"
+                                                               android:layout_width="match_parent"
+                                                               android:layout_height="wrap_content"
+                                                               android:layout_marginTop="8dp"
+                                                               app:contentPaddingBottom="16dp"
+                                                               app:contentPaddingTop="16dp"
+                                                               app:layout_constraintTop_toBottomOf="@id/main_events_frame">
+
+                <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                                   android:layout_height="wrap_content">
+
+                    <com.google.android.material.card.MaterialCardView android:id="@+id/main_feed_header_image_background"
+                                                                       style="@style/AppTheme.MaterialCardView.White"
+                                                                       android:layout_width="32dp"
+                                                                       android:layout_height="32dp"
+                                                                       android:layout_marginStart="16dp"
+                                                                       app:cardBackgroundColor="@color/accent"
+                                                                       app:cardCornerRadius="50dp"
+                                                                       app:cardElevation="0dp"
+                                                                       app:contentPadding="0dp"
+                                                                       app:layout_constraintBottom_toBottomOf="@id/main_feed_header_layout"
+                                                                       app:layout_constraintStart_toStartOf="parent"
+                                                                       app:layout_constraintTop_toTopOf="@id/main_feed_header_layout">
+
+                        <ImageView android:layout_width="match_parent"
+                                   android:layout_height="match_parent"
+                                   android:src="@drawable/ic_pin"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/main_feed_header_layout"
                                                                        android:layout_width="0dp"
                                                                        android:layout_height="wrap_content"
-                                                                       android:layout_marginTop="16dp"
-                                                                       android:background="@drawable/event_card_background"
-                                                                       app:layout_constraintEnd_toStartOf="@id/main_event_2_layout"
-                                                                       app:layout_constraintStart_toStartOf="parent"
-                                                                       app:layout_constraintTop_toBottomOf="@id/main_events_title">
+                                                                       android:paddingHorizontal="8dp"
+                                                                       app:layout_constraintEnd_toStartOf="@+id/main_feed_action_button"
+                                                                       app:layout_constraintStart_toEndOf="@id/main_feed_header_image_background"
+                                                                       app:layout_constraintTop_toTopOf="parent">
 
-                        <ImageView android:layout_width="0dp"
-                                   android:layout_height="0dp"
-                                   android:layout_marginStart="40dp"
-                                   android:layout_marginTop="40dp"
-                                   android:scaleType="fitEnd"
-                                   android:src="@drawable/image_violin"
-                                   app:layout_constraintBottom_toBottomOf="parent"
-                                   app:layout_constraintDimensionRatio="1:1"
-                                   app:layout_constraintEnd_toEndOf="parent"
-                                   app:layout_constraintHorizontal_bias="1"
-                                   app:layout_constraintStart_toStartOf="parent"
-                                   app:layout_constraintTop_toTopOf="parent"/>
-
-                        <TextView style="@style/AppTheme.BodyMedium"
+                        <TextView android:id="@+id/main_feed_title"
+                                  style="@style/AppTheme.BodyMedium"
                                   android:layout_width="0dp"
                                   android:layout_height="wrap_content"
-                                  android:layout_margin="16dp"
-                                  android:maxLines="3"
-                                  android:text="Ночной концерт в МШИ"
-                                  android:textColor="@color/textLight"
-                                  app:layout_constraintBottom_toBottomOf="parent"
+                                  android:layout_marginStart="8dp"
+                                  android:text="Слово дня"
+                                  app:layout_constraintBottom_toTopOf="@id/main_feed_publish_date"
                                   app:layout_constraintEnd_toEndOf="parent"
                                   app:layout_constraintStart_toStartOf="parent"
-                                  app:layout_constraintTop_toTopOf="parent"
-                                  app:layout_constraintVertical_bias="0"/>
+                                  app:layout_constraintTop_toTopOf="parent"/>
+
+                        <TextView android:id="@+id/main_feed_publish_date"
+                                  style="@style/AppTheme.Body.Small"
+                                  android:layout_width="0dp"
+                                  android:layout_height="wrap_content"
+                                  android:text="24 мая 2023 22:53"
+                                  android:textColor="@color/gray"
+                                  app:layout_constraintBottom_toBottomOf="parent"
+                                  app:layout_constraintEnd_toEndOf="@id/main_feed_title"
+                                  app:layout_constraintStart_toStartOf="@id/main_feed_title"
+                                  app:layout_constraintTop_toBottomOf="@id/main_feed_title"/>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/main_event_2_layout"
-                                                                       android:layout_width="0dp"
-                                                                       android:layout_height="0dp"
-                                                                       android:layout_marginStart="16dp"
-                                                                       android:background="@drawable/event_card_background"
-                                                                       app:layout_constraintBottom_toBottomOf="@id/main_event_1_layout"
+                    <com.google.android.material.button.MaterialButton android:id="@+id/main_feed_action_button"
+                                                                       style="@style/AppTheme.Button.Image"
+                                                                       android:layout_width="24dp"
+                                                                       android:layout_height="24dp"
+                                                                       android:layout_marginRight="16dp"
+                                                                       app:cornerRadius="8dp"
+                                                                       app:icon="@drawable/ic_more"
+                                                                       app:layout_constraintBottom_toBottomOf="@id/main_feed_header_layout"
                                                                        app:layout_constraintEnd_toEndOf="parent"
-                                                                       app:layout_constraintStart_toEndOf="@id/main_event_1_layout"
-                                                                       app:layout_constraintTop_toTopOf="@id/main_event_1_layout">
+                                                                       app:layout_constraintStart_toEndOf="@id/main_feed_header_layout"
+                                                                       app:layout_constraintTop_toTopOf="@id/main_feed_header_layout"
+                                                                       app:rippleColor="?attr/colorControlHighlight"/>
 
-                        <ImageView android:layout_width="0dp"
-                                   android:layout_height="0dp"
-                                   android:layout_marginStart="40dp"
-                                   android:layout_marginTop="40dp"
-                                   android:scaleType="fitEnd"
-                                   android:src="@drawable/image_cylinder"
-                                   app:layout_constraintBottom_toBottomOf="parent"
-                                   app:layout_constraintDimensionRatio="1:1"
-                                   app:layout_constraintEnd_toEndOf="parent"
-                                   app:layout_constraintHorizontal_bias="1"
-                                   app:layout_constraintStart_toStartOf="parent"
-                                   app:layout_constraintTop_toTopOf="parent"/>
+                    <TextView android:id="@+id/main_feed_description"
+                              style="@style/AppTheme.Body"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginHorizontal="16dp"
+                              android:layout_marginTop="12dp"
+                              android:maxLines="5"
+                              android:text="Ариозо — это жанр вокальной музыки, который можно назвать средним между арией и речитативом. В ариозо нет такой четкой структуры, как в арии, а его мелодия более простая и напевная, чем у речитатива."
+                              app:layout_constraintTop_toBottomOf="@id/main_feed_header_layout"/>
 
-                        <TextView style="@style/AppTheme.BodyMedium"
-                                  android:layout_width="0dp"
-                                  android:layout_height="0dp"
-                                  android:layout_margin="16dp"
-                                  android:maxLines="3"
-                                  android:text="Открытый урок игры на фортепиано"
-                                  android:textColor="@color/textLight"
-                                  app:layout_constraintBottom_toBottomOf="parent"
-                                  app:layout_constraintEnd_toEndOf="parent"
-                                  app:layout_constraintStart_toStartOf="parent"
-                                  app:layout_constraintTop_toTopOf="parent"
-                                  app:layout_constraintVertical_bias="0"/>
+                    <ImageView android:id="@+id/main_feed_image"
+                               android:layout_width="match_parent"
+                               android:layout_height="203dp"
+                               android:layout_marginTop="16dp"
+                               android:background="@color/bgIslandInner"
+                               android:scaleType="centerCrop"
+                               android:src="@drawable/image_main_feed"
+                               app:layout_constraintTop_toBottomOf="@id/main_feed_description"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/main_feed_bottom_layout"
+                                                                       android:layout_width="match_parent"
+                                                                       android:layout_height="wrap_content"
+                                                                       android:layout_marginTop="16dp"
+                                                                       android:paddingHorizontal="16dp"
+                                                                       app:layout_constraintBottom_toBottomOf="parent"
+                                                                       app:layout_constraintTop_toBottomOf="@id/main_feed_image">
+
+                        <com.google.android.material.button.MaterialButton android:id="@+id/main_feed_like_button"
+                                                                           style="@style/AppTheme.Button.Base"
+                                                                           android:layout_width="wrap_content"
+                                                                           android:layout_height="wrap_content"
+                                                                           android:backgroundTint="@color/bgIslandInner"
+                                                                           android:paddingHorizontal="12dp"
+                                                                           android:paddingVertical="4dp"
+                                                                           android:text="10"
+                                                                           android:textColor="@color/textPrimary"
+                                                                           android:textSize="14sp"
+                                                                           app:cornerRadius="50dp"
+                                                                           app:icon="@drawable/ic_like"
+                                                                           app:iconGravity="textStart"
+                                                                           app:iconSize="16dp"
+                                                                           app:iconTint="@color/iconPrimary"
+                                                                           app:layout_constraintBottom_toBottomOf="parent"
+                                                                           app:layout_constraintStart_toStartOf="parent"
+                                                                           app:layout_constraintTop_toTopOf="parent"
+                                                                           app:rippleColor="?attr/colorControlHighlight"/>
+
+                        <com.google.android.material.button.MaterialButton android:id="@+id/main_feed_top_art_category_button"
+                                                                           style="@style/AppTheme.Button.Base"
+                                                                           android:layout_width="wrap_content"
+                                                                           android:layout_height="24dp"
+                                                                           android:layout_marginStart="16dp"
+                                                                           android:paddingHorizontal="12dp"
+                                                                           android:paddingVertical="4dp"
+                                                                           android:text="Музыкальное искусство"
+                                                                           android:textColor="@color/accent"
+                                                                           android:textSize="12sp"
+                                                                           app:backgroundTint="@color/accent20"
+                                                                           app:cornerRadius="4dp"
+                                                                           app:iconSize="0dp"
+                                                                           app:layout_constraintBottom_toBottomOf="parent"
+                                                                           app:layout_constraintEnd_toEndOf="parent"
+                                                                           app:layout_constraintHorizontal_bias="1"
+                                                                           app:layout_constraintStart_toEndOf="@id/main_feed_like_button"
+                                                                           app:layout_constraintTop_toTopOf="parent"
+                                                                           app:rippleColor="?attr/colorControlHighlight"/>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -292,4 +519,7 @@
 
     </androidx.core.widget.NestedScrollView>
 
+    <include layout="@layout/Toolbar"
+             app:layout_constraintTop_toTopOf="parent"/>
+    
 </androidx.constraintlayout.widget.ConstraintLayout>

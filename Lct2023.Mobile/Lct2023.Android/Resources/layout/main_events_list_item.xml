@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   android:layout_width="160dp"
+                                                   android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView android:id="@+id/main_events_list_item_image_container"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="92dp"
+                                                       app:cardCornerRadius="8dp"
+                                                       app:cardElevation="0dp"
+                                                       app:layout_constraintStart_toStartOf="parent"
+                                                       app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView android:id="@+id/main_events_list_item_image"
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:background="@color/bgIslandInner"
+                   android:scaleType="centerCrop"/>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView android:id="@+id/main_events_list_item_title"
+              style="@style/AppTheme.BodyMedium.Small"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="8dp"
+              android:lines="1"
+              android:text="Cinema Orchestra Medlqweqwe qweqeqeq"
+              app:layout_constraintEnd_toEndOf="@id/main_events_list_item_image_container"
+              app:layout_constraintStart_toStartOf="@id/main_events_list_item_image_container"
+              app:layout_constraintTop_toBottomOf="@id/main_events_list_item_image_container"/>
+
+    <TextView android:id="@+id/main_events_list_item_subtitle"
+              style="@style/AppTheme.Secondary.Small"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="4dp"
+              android:text="4 июня, 13:00"
+              android:lines="1"
+              app:layout_constraintEnd_toEndOf="@id/main_events_list_item_image_container"
+              app:layout_constraintStart_toStartOf="@id/main_events_list_item_image_container"
+              app:layout_constraintTop_toBottomOf="@id/main_events_list_item_title"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
