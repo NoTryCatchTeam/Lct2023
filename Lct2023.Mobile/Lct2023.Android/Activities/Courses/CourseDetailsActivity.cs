@@ -82,14 +82,12 @@ public partial class CourseDetailsActivity : BaseActivity<CourseDetailsViewModel
 
         set.Bind(views.Info.Extender.Layout)
             .For(x => x.BindVisible())
-            .To(vm => vm.NavigationParameter.CourseItem.IsPurchased)
-            .OneTime();
+            .To(vm => vm.NavigationParameter.CourseItem.IsPurchased);
 
         set.Bind(views.Info.Details.Layout)
             .For(x => x.BindVisible())
             .To(vm => vm.NavigationParameter.CourseItem.IsPurchased)
-            .WithConversion(new AnyExpressionConverter<bool, bool>(x => !x))
-            .OneTime();
+            .WithConversion(new AnyExpressionConverter<bool, bool>(x => !x));
 
         set.Bind(tagsAdapter)
             .For(x => x.ItemsSource)
@@ -98,6 +96,10 @@ public partial class CourseDetailsActivity : BaseActivity<CourseDetailsViewModel
         set.Bind(sectionsAdapter)
             .For(x => x.ItemsSource)
             .To(vm => vm.CourseSectionsCollection);
+
+        set.Bind(views.Purchase)
+            .For(x => x.BindClick())
+            .To(vm => vm.RequestOpenCourseCommand);
 
         set.Bind(views.Purchase)
             .For(x => x.BindVisible())

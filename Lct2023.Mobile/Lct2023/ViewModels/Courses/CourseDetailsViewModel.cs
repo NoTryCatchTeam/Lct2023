@@ -18,10 +18,13 @@ public class CourseDetailsViewModel : BaseViewModel<CourseDetailsViewModel.NavPa
         : base(logFactory, navigationService)
     {
         LessonTapCommand = new MvxAsyncCommand<CourseLessonItem>(LessonTapAsync);
+        RequestOpenCourseCommand = new MvxAsyncCommand(OpenCourseAsync);
 
         CourseTagsCollection = new List<CourseTagItem>();
         CourseSectionsCollection = new MvxObservableCollection<CourseLessonSectionItem>();
     }
+
+    public MvxAsyncCommand RequestOpenCourseCommand { get; }
 
     public IMvxAsyncCommand<CourseLessonItem> LessonTapCommand { get; }
 
@@ -57,6 +60,10 @@ public class CourseDetailsViewModel : BaseViewModel<CourseDetailsViewModel.NavPa
 
     private Task LessonTapAsync(CourseLessonItem item) =>
         NavigationService.Navigate<CourseLessonViewModel, CourseLessonViewModel.NavParameter>(new CourseLessonViewModel.NavParameter(item));
+
+    private Task OpenCourseAsync() =>
+        NavigationService.Navigate<CourseOpenViewModel, CourseOpenViewModel.NavParameter>(
+            new CourseOpenViewModel.NavParameter(NavigationParameter.CourseItem));
 
     private IEnumerable<CourseLessonSectionItem> MockSectionItems(NavParameter parameter) =>
         new CourseLessonSectionItem[]
