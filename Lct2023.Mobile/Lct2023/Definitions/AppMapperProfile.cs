@@ -156,9 +156,8 @@ public class AppMapperProfile : Profile
             .ForMember(x => x.ImageUrl, expr => expr.MapFrom((s, d, _) => s.Cover?.Data?.Item?.Url?.Then(url =>
             {
                 var configuration = Mvx.IoCProvider.Resolve<IConfiguration>();
-                return $"{configuration.GetValue<string>(ConfigurationConstants.AppSettings.HOST)}{configuration.GetValue<string>(ConfigurationConstants.AppSettings.CMS_PATH)}{url}";
+                return $"{configuration.GetValue<string>(ConfigurationConstants.AppSettings.HOST)}{configuration.GetValue<string>(ConfigurationConstants.AppSettings.CMS_PATH).TrimEnd('/')}{url}";
             })))
-            .ForMember(x => x.ClickCommand, expr => expr.Ignore())
             ;
     }
 
