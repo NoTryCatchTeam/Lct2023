@@ -1,0 +1,27 @@
+name: Docker CI Docs
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'docs/**'
+jobs:
+
+  build_and_push:
+    
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: docker login
+      env:
+        DOCKER_USER: ${{secrets.DOCKER_USER}}
+        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      run: |
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
+
+    - name: Build the Docs Docker image
+      run: docker build . --file ./docs/Dockerfile --tag ${{secrets.DOCKER_USER}}/lct2023-docs:latest
+      
+    - name: Docker push Docs image
+      run: docker push ${{secrets.DOCKER_USER}}/lct2023-docs
