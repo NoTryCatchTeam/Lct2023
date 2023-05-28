@@ -14,6 +14,7 @@ using Lct2023.Android.Adapters;
 using Lct2023.Android.Decorations;
 using Lct2023.Android.Helpers;
 using Lct2023.Converters;
+using Lct2023.Definitions.Types;
 using Lct2023.Helpers;
 using Lct2023.ViewModels.Courses;
 using MvvmCross.Binding.BindingContext;

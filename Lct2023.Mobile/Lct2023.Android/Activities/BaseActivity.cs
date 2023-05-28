@@ -1,9 +1,12 @@
 using System.Reactive.Disposables;
 using Android.App;
 using Android.Content.PM;
+using Android.Net;
 using Android.OS;
 using Google.Android.Material.AppBar;
 using Lct2023.Android.Fragments;
+using Lct2023.Android.Helpers;
+using Lct2023.Android.Listeners;
 using Lct2023.Android.Views;
 using Lct2023.ViewModels;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
@@ -19,7 +22,7 @@ public abstract class BaseActivity<TViewModel> : MvxActivity<TViewModel>
 {
     protected CompositeDisposable CompositeDisposable { get; } = new ();
 
-    protected AppToolbar Toolbar { get; private set; }
+    protected BaseAppToolbar Toolbar { get; private set; }
 
     public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
     {
@@ -32,33 +35,43 @@ public abstract class BaseActivity<TViewModel> : MvxActivity<TViewModel>
     {
         base.OnCreate(savedInstanceState);
 
-        if (FindViewById<MaterialToolbar>(Resource.Id.toolbar) is not { } toolbar)
+        if (FindViewById<MaterialToolbar>(Resource.Id.toolbar) is { } imagedToolbarView)
         {
-            return;
+            var toolbar = new ImagedToolbar(imagedToolbarView);
+
+            if (ViewModel.UserContext.User?.PhotoUrl is { } photoUrl)
+            {
+                Picasso.Get()
+                    .Load(Uri.Parse(photoUrl))
+                    .Placeholder(Resource.Drawable.ic_profile_circle)
+                    .Error(Resource.Drawable.ic_profile_circle)
+                    .Into(toolbar.Avatar);
+            }
+            else
+            {
+                toolbar.Avatar.SetImageResource(Resource.Drawable.ic_profile_circle);
+            }
+
+            toolbar.Title = ViewModel.UserContext.User?.FirstName;
+
+            Toolbar = toolbar;
         }
-
-        Toolbar = new AppToolbar(toolbar);
-
-        var set = CreateBindingSet();
-
-        if (ViewModel.UserContext.User?.PhotoUrl is { } photoUrl)
+        else if (FindViewById<MaterialToolbar>(Resource.Id.toolbar_inner) is { } innerToolbarView)
         {
-            Picasso.Get()
-                .Load(photoUrl)
-                .Placeholder(Resource.Drawable.ic_profile_circle)
-                .Error(Resource.Drawable.ic_profile_circle)
-                .Into(Toolbar.Avatar);
-        }
-        else
-        {
-            Toolbar.Avatar.SetImageResource(Resource.Drawable.ic_profile_circle);
-        }
+            var toolbar = new InnerToolbar(innerToolbarView)
+            {
+                Title = ViewModel.UserContext.User?.FirstName,
+            };
 
-        set.Bind(Toolbar.Title)
-            .For(x => x.Text)
-            .To(x => x.UserContext.User.FirstName);
+            toolbar.Toolbar.SetOnMenuItemClickListener(new DefaultMenuItemClickListener(_ =>
+            {
+                ViewModel.NavigateBackCommand.ExecuteAsync();
 
-        set.Apply();
+                return true;
+            }));
+
+            Toolbar = toolbar;
+        }
     }
 
     protected override void Dispose(bool disposing)

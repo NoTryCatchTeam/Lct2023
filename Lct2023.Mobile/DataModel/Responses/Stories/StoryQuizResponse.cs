@@ -1,4 +1,6 @@
 using System;
+using DataModel.Responses.BaseCms;
+using DataModel.Responses.Media;
 
 namespace DataModel.Responses.Stories;
 
@@ -17,4 +19,6 @@ public class StoryQuizResponse
     public string Question { get; set; }
 
     public DateTime CreatedAt { get; set; }
+
+    public CmsResponse<CmsItemResponse<CommonMediaItem>> Cover { get; set; }
 }

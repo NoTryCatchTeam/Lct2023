@@ -17,5 +17,5 @@ public class StoriesRestService : BaseRestService, IStoriesRestService
     }
 
     public Task<IEnumerable<CmsItemResponse<StoryQuizResponse>>> GetStoryQuizzesAsync(CancellationToken token) =>
-        CmsExecuteAsync<IEnumerable<CmsItemResponse<StoryQuizResponse>>>("story-quizzes", HttpMethod.Get, token);
+        CmsExecuteAsync<IEnumerable<CmsItemResponse<StoryQuizResponse>>>("story-quizzes?[populate]=*", HttpMethod.Get, token);
 }
