@@ -20,9 +20,23 @@ namespace Lct2023.Android.Activities;
 public abstract class BaseActivity<TViewModel> : MvxActivity<TViewModel>
     where TViewModel : BaseViewModel
 {
+    private BaseAppToolbar _toolbar;
+
     protected CompositeDisposable CompositeDisposable { get; } = new ();
 
-    protected BaseAppToolbar Toolbar { get; private set; }
+    protected BaseAppToolbar Toolbar
+    {
+        get
+        {
+            if (_toolbar == null)
+            {
+                InitToolbar();
+            }
+
+            return _toolbar;
+        }
+        private set => _toolbar = value;
+    }
 
     public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
     {
@@ -31,10 +45,18 @@ public abstract class BaseActivity<TViewModel> : MvxActivity<TViewModel>
         Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    protected override void OnCreate(Bundle savedInstanceState)
+    protected override void Dispose(bool disposing)
     {
-        base.OnCreate(savedInstanceState);
+        if (disposing)
+        {
+            CompositeDisposable.Clear();
+        }
 
+        base.Dispose(disposing);
+    }
+
+    private void InitToolbar()
+    {
         if (FindViewById<MaterialToolbar>(Resource.Id.toolbar) is { } imagedToolbarView)
         {
             var toolbar = new ImagedToolbar(imagedToolbarView);
@@ -72,15 +94,5 @@ public abstract class BaseActivity<TViewModel> : MvxActivity<TViewModel>
 
             Toolbar = toolbar;
         }
-    }
-
-    protected override void Dispose(bool disposing)
-    {
-        if (disposing)
-        {
-            CompositeDisposable.Clear();
-        }
-
-        base.Dispose(disposing);
     }
 }
