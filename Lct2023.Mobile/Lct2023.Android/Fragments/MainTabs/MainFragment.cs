@@ -1,4 +1,3 @@
-using System;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
@@ -7,7 +6,6 @@ using Lct2023.Android.Adapters;
 using Lct2023.Android.Decorations;
 using Lct2023.Android.Helpers;
 using Lct2023.ViewModels.Main;
-using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using Lct2023.Commons.Extensions;
 using MvvmCross.DroidX.RecyclerView;
@@ -27,9 +25,6 @@ public class MainFragment : BaseFragment<MainViewModel>
         var stories = view.FindViewById<MvxRecyclerView>(Resource.Id.main_stories);
         var pointsTextView = view.FindViewById<TextView>(Resource.Id.main_points_text);
         var rankingTextView = view.FindViewById<TextView>(Resource.Id.main_ranking_text);
-        var avatarImageButton = view.FindViewById<ImageView>(Resource.Id.toolbar_image);
-
-        stories.ItemTemplateId = Resource.Layout.StoryCard;
 
         var storiesAdapter = new MainStoriesAdapter((IMvxAndroidBindingContext)BindingContext)
         {
@@ -46,10 +41,6 @@ public class MainFragment : BaseFragment<MainViewModel>
         pointsTextView.Text = $"{points} {points.FormatEnding("балл", "балла", "баллов")}";
         rankingTextView.Text = $"{position} место";
 
-        Picasso.Get()
-            .Load(ViewModel.Image)
-            .Into(avatarImageButton);
-
         var set = CreateBindingSet();
 
         set.Bind(stories)
@@ -62,35 +53,4 @@ public class MainFragment : BaseFragment<MainViewModel>
     }
 
     protected override int GetLayoutId() => Resource.Layout.MainFragment;
-}
-
-public class MainStoriesAdapter : BaseRecyclerViewAdapter<StoryQuizItemViewModel, MainStoriesAdapter.StoryViewHolder>
-{
-    public MainStoriesAdapter(IMvxAndroidBindingContext bindingContext)
-        : base(bindingContext)
-    {
-    }
-
-    protected override Func<View, IMvxAndroidBindingContext, StoryViewHolder> BindableViewHolderCreator =>
-        (v, c) => new StoryViewHolder(v, c);
-
-    public class StoryViewHolder : BaseViewHolder
-    {
-        public StoryViewHolder(View itemView, IMvxAndroidBindingContext context)
-            : base(itemView, context)
-        {
-            var text = itemView.FindViewById<TextView>(Resource.Id.main_story_item_text);
-
-            this.DelayBind(() =>
-            {
-                var set = CreateBindingSet();
-
-                set.Bind(text)
-                    .For(x => x.Text)
-                    .To(vm => vm.Title);
-
-                set.Apply();
-            });
-        }
-    }
 }

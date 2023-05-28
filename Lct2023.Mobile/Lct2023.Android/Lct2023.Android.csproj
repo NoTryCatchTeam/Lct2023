@@ -50,9 +50,11 @@
         <Reference Include="Mono.Android.Export" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Activities\Auth\AuthActivity.cs" />
         <Compile Include="Activities\Auth\LoginActivity.cs" />
         <Compile Include="Activities\Auth\WebAuthenticationCallbackActivity.cs" />
         <Compile Include="Activities\BaseActivity.cs" />
+        <Compile Include="Activities\Common\WebViewActivity.cs" />
         <Compile Include="Activities\Courses\CourseDetailsActivity.cs" />
         <Compile Include="Activities\Courses\CourseDetailsActivity.Helpers.cs" />
         <Compile Include="Activities\Courses\CourseLessonActivity.cs" />
@@ -62,6 +64,7 @@
         <Compile Include="Adapters\FeedFiltersGroupsListAdapter.cs" />
         <Compile Include="Adapters\StreamsAdapter.cs" />
         <Compile Include="Adapters\AudioToPictureExerciseAnswersAdapter.cs" />
+        <Compile Include="Adapters\AuthViewPagerAdapter.cs" />
         <Compile Include="Adapters\BaseRecyclerViewAdapter.cs" />
         <Compile Include="Adapters\CourseDetailsSectionAdapter.cs" />
         <Compile Include="Adapters\CourseLessonViewPagerAdapter.cs" />
@@ -73,6 +76,7 @@
         <Compile Include="Adapters\BaseTemplatedRecyclerViewAdapter.cs" />
         <Compile Include="Adapters\EventsAdapter.cs" />
         <Compile Include="Adapters\LessonAnswerConversationAdapter.cs" />
+        <Compile Include="Adapters\MainStoriesAdapter.cs" />
         <Compile Include="Adapters\MainViewPagerAdapter.cs" />
         <Compile Include="Adapters\MapFiltersGroupsListAdapter.cs" />
         <Compile Include="Adapters\FiltersItemListAdapter.cs" />
@@ -89,12 +93,16 @@
         <Compile Include="Bindings\CardViewBackgroundColorByHexBinding.cs" />
         <Compile Include="Bindings\ImageViewByUrlBinding.cs" />
         <Compile Include="Bindings\TextViewTextColorBinding.cs" />
+        <Compile Include="Callbacks\AuthViewPagerPageCallback.cs" />
+        <Compile Include="Callbacks\DefaultBackPressedCallback.cs" />
         <Compile Include="Callbacks\DefaultPicassoCallback.cs" />
         <Compile Include="Decorations\ColoredDividerItemDecoration.cs" />
         <Compile Include="Decorations\CourseSectionLessonsItemDecoration.cs" />
         <Compile Include="Decorations\GridItemDecoration.cs" />
         <Compile Include="Decorations\ItemSeparateDecoration.cs" />
         <Compile Include="Definitions\Extensions\DrawableExtensions.cs" />
+        <Compile Include="Fragments\Auth\AuthSignInFragment.cs" />
+        <Compile Include="Fragments\Auth\AuthSignUpFragment.cs" />
         <Compile Include="Fragments\BaseFragment.cs" />
         <Compile Include="Fragments\Courses\LessonAnswerPartFragment.cs" />
         <Compile Include="Fragments\Courses\LessonLessonPartFragment.cs" />
@@ -108,6 +116,7 @@
         <Compile Include="Fragments\MainTabs\MainFragment.cs" />
         <Compile Include="Fragments\MainTabs\MapFragment.cs" />
         <Compile Include="Fragments\MainTabs\TasksFragment.cs" />
+        <Compile Include="Helpers\ActivityExtensions.cs" />
         <Compile Include="Helpers\DefaultTabConfigurationStrategy.cs" />
         <Compile Include="Helpers\DimensUtils.cs" />
         <Compile Include="Helpers\DrawableUtils.cs" />
@@ -120,6 +129,8 @@
         <Compile Include="Listeners\DefaultScrollListener.cs" />
         <Compile Include="Listeners\MediaPlayerCompletionListener.cs" />
         <Compile Include="Listeners\MediaPlayerPreparedListener.cs" />
+        <Compile Include="Presenters\ExtendedAndroidViewPresenter.cs" />
+        <Compile Include="Presenters\MvxRootActivityPresentationAttribute.cs" />
         <Compile Include="Resources\Resource.designer.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Services\DialogService.cs" />
@@ -149,7 +160,12 @@
           <SubType>Designer</SubType>
           <Generator>MSBuild:UpdateGeneratedFiles</Generator>
         </AndroidResource>
+        <AndroidResource Include="Resources\xml\auth_activity_scene.xml" />
         <AndroidResource Include="Resources\xml\file_paths.xml" />
+        <AndroidResource Update="Resources\layout\AuthSignUpFragment.xml">
+          <SubType>Designer</SubType>
+          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+        </AndroidResource>
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Assets" />
@@ -158,6 +174,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="12.0.1" />
+        <PackageReference Include="FluentValidation" Version="11.5.2" />
         <PackageReference Include="Fody" Version="6.7.0">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -168,6 +185,7 @@
         <PackageReference Include="MimeTypeMapOfficial" Version="1.0.17" />
         <PackageReference Include="MvvmCross" Version="8.0.2" />
         <PackageReference Include="MvvmCross.DroidX.RecyclerView" Version="8.0.2" />
+        <PackageReference Include="PDFTron.Android" Version="10.1.0" />
         <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
         <PackageReference Include="Serilog" Version="2.12.0" />
         <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />

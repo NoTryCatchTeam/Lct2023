@@ -4,7 +4,8 @@
   "info": {
     "singularName": "story-quiz",
     "pluralName": "story-quizzes",
-    "displayName": "Story quiz"
+    "displayName": "Story quiz",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -31,6 +32,26 @@
     },
     "createDate": {
       "type": "datetime"
+    },
+    "cover": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "background": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
     }
   }
 }

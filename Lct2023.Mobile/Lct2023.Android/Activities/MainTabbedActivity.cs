@@ -6,12 +6,13 @@ using AndroidX.ViewPager2.Widget;
 using Google.Android.Material.BottomNavigation;
 using Lct2023.Android.Adapters;
 using Lct2023.Android.Listeners;
+using Lct2023.Android.Presenters;
 using Lct2023.ViewModels;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 
 namespace Lct2023.Android.Activities;
 
-[MvxActivityPresentation]
+[MvxRootActivityPresentation]
 [Activity(ScreenOrientation = ScreenOrientation.Portrait)]
 public class MainTabbedActivity : BaseActivity<MainTabbedViewModel>
 {

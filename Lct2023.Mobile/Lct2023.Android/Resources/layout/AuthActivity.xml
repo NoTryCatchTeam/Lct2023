@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                      xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                      xmlns:tools="http://schemas.android.com/tools"
+                                                      android:id="@+id/auth_layout"
+                                                      android:layout_width="match_parent"
+                                                      android:layout_height="match_parent"
+                                                      android:background="@color/bgGlobe"
+                                                      app:layoutDescription="@xml/auth_activity_scene">
+
+    <ImageView android:id="@+id/auth_motion_background"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:scaleType="centerCrop"
+               android:src="@drawable/image_splash_background"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/auth_motion_header"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="84dp"
+                                                       android:background="@drawable/top_view_island_background"
+                                                       app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/auth_motion_auth_container"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="match_parent"
+                                                       android:paddingTop="92dp">
+
+        <com.google.android.material.card.MaterialCardView android:id="@+id/auth_motion_auth_container_layout"
+                                                           style="@style/AppTheme.MaterialCardView.White"
+                                                           android:layout_width="match_parent"
+                                                           android:layout_height="wrap_content"
+                                                           app:layout_constraintTop_toTopOf="parent"
+                                                           app:layout_constraintVertical_chainStyle="spread_inside">
+
+            <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                               android:layout_height="match_parent"
+                                                               android:paddingHorizontal="16dp"
+                                                               android:paddingVertical="24dp">
+
+                <com.google.android.material.card.MaterialCardView android:id="@+id/auth_tabs_container"
+                                                                   android:layout_width="match_parent"
+                                                                   android:layout_height="wrap_content"
+                                                                   app:cardBackgroundColor="@color/bgIslandInner"
+                                                                   app:cardCornerRadius="8dp"
+                                                                   app:cardElevation="0dp"
+                                                                   app:contentPadding="2dp"
+                                                                   app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.tabs.TabLayout android:id="@+id/auth_tabs"
+                                                                android:layout_width="match_parent"
+                                                                android:layout_height="32dp"
+                                                                android:background="@drawable/tabs_layout_background"
+                                                                app:tabBackground="@drawable/tabs_layout_tab_background_selector"
+                                                                app:tabIndicatorHeight="0dp"
+                                                                app:tabTextAppearance="@style/ThemeOverlay.TabTextAppearance"
+                                                                app:tabTextColor="@color/textPrimary"/>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <androidx.viewpager2.widget.ViewPager2 android:id="@+id/auth_view_pager"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="match_parent"
+                                                       android:paddingTop="32dp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton android:id="@+id/auth_anonymous"
+                                                           style="@style/AppTheme.Button.Base"
+                                                           android:layout_width="match_parent"
+                                                           android:layout_height="wrap_content"
+                                                           android:layout_marginHorizontal="16dp"
+                                                           android:layout_marginBottom="16dp"
+                                                           android:text="Войти как аноним"
+                                                           android:textColor="@color/textSecondary"
+                                                           app:backgroundTint="@color/bgGlobe"
+                                                           app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/auth_motion_signup_container"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="match_parent"
+                                                       android:paddingTop="92dp">
+
+        <com.google.android.material.card.MaterialCardView android:id="@+id/auth_motion_signup_container_layout"
+                                                           style="@style/AppTheme.MaterialCardView.White"
+                                                           android:layout_width="match_parent"
+                                                           android:layout_height="0dp"
+                                                           android:layout_marginTop="8dp"
+                                                           android:layout_marginBottom="24dp"
+                                                           app:layout_constraintBottom_toTopOf="@id/auth_signup_back"
+                                                           app:layout_constraintHeight_max="wrap"
+                                                           app:layout_constraintTop_toTopOf="parent"
+                                                           app:layout_constraintVertical_chainStyle="spread_inside">
+
+            <androidx.core.widget.NestedScrollView android:id="@+id/auth_motion_signup_container_layout_scroll"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="wrap_content"
+                                                   android:fadeScrollbars="true"
+                                                   android:fillViewport="true"
+                                                   android:scrollbars="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                                   android:layout_height="match_parent"
+                                                                   android:paddingHorizontal="16dp"
+                                                                   android:paddingVertical="24dp">
+
+                    <TextView android:id="@+id/auth_signup_2_title"
+                              style="@style/AppTheme.H4"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:text="Заполните данные"
+                              app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TextView android:id="@+id/auth_signup_2_subtitle"
+                              style="@style/AppTheme.Body"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="8dp"
+                              android:text="Введите имя и загрузите фотографию профиля"
+                              app:layout_constraintTop_toBottomOf="@id/auth_signup_2_title"/>
+
+                    <com.google.android.material.card.MaterialCardView android:id="@+id/auth_signup_2_photo_layout"
+                                                                       android:layout_width="100dp"
+                                                                       android:layout_height="100dp"
+                                                                       android:layout_marginTop="24dp"
+                                                                       app:cardBackgroundColor="@color/bgIslandInner"
+                                                                       app:cardCornerRadius="@dimen/default_corner_radius"
+                                                                       app:cardElevation="0dp"
+                                                                       app:layout_constraintStart_toStartOf="parent"
+                                                                       app:layout_constraintTop_toBottomOf="@id/auth_signup_2_subtitle">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/auth_signup_2_photo_upload"
+                                                                           android:layout_width="match_parent"
+                                                                           android:layout_height="wrap_content"
+                                                                           android:paddingVertical="16dp">
+
+                            <ImageView android:id="@+id/auth_signup_2_photo_icon"
+                                       android:layout_width="32dp"
+                                       android:layout_height="32dp"
+                                       android:src="@drawable/ic_cloud_arrow_up"
+                                       app:layout_constraintEnd_toEndOf="parent"
+                                       app:layout_constraintStart_toStartOf="parent"
+                                       app:layout_constraintTop_toTopOf="parent"
+                                       app:tint="@color/iconSecondary"/>
+
+                            <TextView style="@style/AppTheme.Secondary.Small"
+                                      android:layout_width="match_parent"
+                                      android:layout_height="wrap_content"
+                                      android:gravity="center"
+                                      android:paddingHorizontal="4dp"
+                                      android:text="Загрузите фото"
+                                      android:textAlignment="center"
+                                      app:layout_constraintBottom_toBottomOf="parent"
+                                      app:layout_constraintEnd_toEndOf="parent"
+                                      app:layout_constraintStart_toStartOf="parent"
+                                      app:layout_constraintTop_toBottomOf="@id/auth_signup_2_photo_icon"/>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <ImageView android:id="@+id/auth_signup_2_photo"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="match_parent"
+                                   android:scaleType="centerCrop"
+                                   android:visibility="gone"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView android:id="@+id/auth_signup_2_name_label"
+                              style="@style/AppTheme.Body.Small"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="32dp"
+                              android:text="Имя"
+                              app:layout_constraintTop_toBottomOf="@id/auth_signup_2_photo_layout"/>
+
+                    <com.google.android.material.textfield.TextInputLayout android:id="@+id/auth_signup_2_name_layout"
+                                                                           style="@style/AppTheme.TextInputLayout.Default"
+                                                                           android:layout_width="match_parent"
+                                                                           android:layout_height="wrap_content"
+                                                                           android:layout_marginTop="4dp"
+                                                                           app:layout_constraintTop_toBottomOf="@id/auth_signup_2_name_label">
+
+                        <com.google.android.material.textfield.TextInputEditText android:id="@+id/auth_signup_2_name_value"
+                                                                                 style="@style/AppTheme.Body.Small"
+                                                                                 android:layout_width="match_parent"
+                                                                                 android:layout_height="match_parent"
+                                                                                 android:hint="Введите имя"
+                                                                                 android:maxLines="1"
+                                                                                 android:padding="16dp">
+
+                        </com.google.android.material.textfield.TextInputEditText>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView android:id="@+id/auth_signup_2_surname_label"
+                              style="@style/AppTheme.Body.Small"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="16dp"
+                              android:text="Фамилия"
+                              app:layout_constraintTop_toBottomOf="@id/auth_signup_2_name_layout"/>
+
+                    <com.google.android.material.textfield.TextInputLayout android:id="@+id/auth_signup_2_surname_layout"
+                                                                           style="@style/AppTheme.TextInputLayout.Default"
+                                                                           android:layout_width="match_parent"
+                                                                           android:layout_height="wrap_content"
+                                                                           android:layout_marginTop="4dp"
+                                                                           app:layout_constraintTop_toBottomOf="@id/auth_signup_2_surname_label">
+
+                        <com.google.android.material.textfield.TextInputEditText android:id="@+id/auth_signup_2_surname_value"
+                                                                                 style="@style/AppTheme.Body.Small"
+                                                                                 android:layout_width="match_parent"
+                                                                                 android:layout_height="match_parent"
+                                                                                 android:hint="Введите фамилию"
+                                                                                 android:maxLines="1"
+                                                                                 android:padding="16dp">
+
+                        </com.google.android.material.textfield.TextInputEditText>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView android:id="@+id/auth_signup_2_birthday_label"
+                              style="@style/AppTheme.Body.Small"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="16dp"
+                              android:text="Дата рождения"
+                              app:layout_constraintTop_toBottomOf="@id/auth_signup_2_surname_layout"/>
+
+                    <com.google.android.material.card.MaterialCardView android:id="@+id/auth_signup_2_birthday_picker"
+                                                                       android:layout_width="match_parent"
+                                                                       android:layout_height="wrap_content"
+                                                                       android:layout_marginTop="8dp"
+                                                                       app:cardBackgroundColor="@color/bgIsland"
+                                                                       app:cardCornerRadius="@dimen/default_corner_radius"
+                                                                       app:cardElevation="0dp"
+                                                                       app:contentPadding="16dp"
+                                                                       app:layout_constraintTop_toBottomOf="@id/auth_signup_2_birthday_label"
+                                                                       app:strokeColor="@color/bgBorder"
+                                                                       app:strokeWidth="1dp">
+
+                        <TextView android:id="@+id/auth_signup_2_birthday_value"
+                                  style="@style/AppTheme.Body.Small"
+                                  android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:lines="1"
+                                  android:text="xx.xx.xxxx"/>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.button.MaterialButton android:id="@+id/auth_signup_finish"
+                                                                       style="@style/AppTheme.Button.Base"
+                                                                       android:layout_width="match_parent"
+                                                                       android:layout_height="wrap_content"
+                                                                       android:layout_marginTop="24dp"
+                                                                       android:text="Регистрация"
+                                                                       app:layout_constraintBottom_toBottomOf="parent"
+                                                                       app:layout_constraintTop_toBottomOf="@id/auth_signup_2_birthday_picker"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.core.widget.NestedScrollView>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton android:id="@+id/auth_signup_back"
+                                                           style="@style/AppTheme.Button.Base"
+                                                           android:layout_width="match_parent"
+                                                           android:layout_height="wrap_content"
+                                                           android:layout_marginHorizontal="16dp"
+                                                           android:layout_marginTop="24dp"
+                                                           android:layout_marginBottom="16dp"
+                                                           android:text="Вернуться назад"
+                                                           android:textColor="@color/textSecondary"
+                                                           app:backgroundTint="@color/bgGlobe"
+                                                           app:layout_constraintBottom_toBottomOf="parent"
+                                                           app:layout_constraintTop_toBottomOf="@id/auth_motion_signup_container_layout"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView android:id="@+id/auth_motion_logo"
+                                                            android:layout_width="match_parent"
+                                                            android:layout_height="0dp"
+                                                            android:layout_marginHorizontal="16dp"
+                                                            android:adjustViewBounds="true"
+                                                            android:scaleType="fitStart"
+                                                            android:src="@drawable/image_splash_logo"
+                                                            app:layout_constraintBottom_toBottomOf="parent"
+                                                            app:layout_constraintEnd_toEndOf="parent"
+                                                            app:layout_constraintHeight_max="wrap"
+                                                            app:layout_constraintStart_toStartOf="parent"
+                                                            app:layout_constraintTop_toTopOf="parent"/>
+
+</androidx.constraintlayout.motion.widget.MotionLayout>
