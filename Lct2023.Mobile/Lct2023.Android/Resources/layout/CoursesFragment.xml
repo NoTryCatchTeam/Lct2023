@@ -213,6 +213,7 @@
                                                            app:icon="@drawable/ic_filters"
                                                            app:layout_constraintBottom_toBottomOf="parent"
                                                            app:layout_constraintEnd_toEndOf="parent"
+                                                           app:layout_constraintTop_toTopOf="parent"
                                                            app:layout_constraintStart_toEndOf="@id/courses_search_text_layout"
                                                            app:rippleColor="?attr/colorControlHighlight"/>
 
