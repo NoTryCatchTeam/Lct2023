@@ -211,9 +211,6 @@ public class MapViewModel : BaseViewModel
 
     public ObservableCollection<MapSearchResultItemViewModel> SearchResults { get; } = new();
 
-    public string Image { get; private set; } =
-        "https://media.newyorker.com/photos/59095bb86552fa0be682d9d0/master/w_2560%2Cc_limit/Monkey-Selfie.jpg";
-    
     public IEnumerable<SocialLinkItemViewModel> SocialLinks => SelectedLocation?.SocialLinks?.Then(e
         => _mapper.Map<IEnumerable<SocialLinkItemViewModel>>(e, ops => ops.AfterMap((_, socialLinks) =>
         {

@@ -30,6 +30,7 @@
 
                     <com.google.android.material.textfield.TextInputLayout android:id="@+id/feed_search_layout"
                                                                            android:layout_width="0dp"
+                                                                           android:theme="@style/ThemeOverlay.TextInputLayout"
                                                                            android:layout_height="wrap_content"
                                                                            android:layout_marginLeft="16dp"
                                                                            android:layout_marginRight="10dp"
@@ -51,9 +52,8 @@
                                                                                  android:layout_height="match_parent"
                                                                                  android:hint="Поиск"
                                                                                  android:padding="12dp"
-                                                                                 android:textColor="@color/textPrimary"
-                                                                                 android:textColorHint="@color/textSecondary"
-                                                                                 android:textSize="@dimen/textSmall"/>
+                                                                                 style="@style/AppTheme.Body.Small"
+                                                                                 android:textColorHint="@color/textSecondary"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 

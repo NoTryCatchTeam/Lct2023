@@ -19,10 +19,8 @@ using Lct2023.Definitions.Enums;
 using Lct2023.ViewModels.Feed;
 using MvvmCross.DroidX.RecyclerView;
 using MvvmCross.DroidX.RecyclerView.ItemTemplates;
-using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
-using Square.Picasso;
 
 namespace Lct2023.Android.Fragments.MainTabs;
 
@@ -72,10 +70,6 @@ public class FeedFragment : BaseFragment<FeedViewModel>, View.IOnClickListener
         {
             button.SetOnClickListener(this);
         }
-        
-        Picasso.Get()
-            .Load(ViewModel.Image)
-            .Into(avatarImageButton);
         
         var set = CreateBindingSet();
 

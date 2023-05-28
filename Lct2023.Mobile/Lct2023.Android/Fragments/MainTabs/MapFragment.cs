@@ -11,6 +11,7 @@ using System.Reactive.Linq;
 using Android.Gms.Maps.Model;
 using Android.Graphics;
 using Android.Widget;
+using AndroidX.ConstraintLayout.Widget;
 using AndroidX.RecyclerView.Widget;
 using DataModel.Definitions.Enums;
 using DynamicData.Binding;
@@ -33,7 +34,6 @@ using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Binding.Views;
 using ReactiveUI;
-using Square.Picasso;
 
 namespace Lct2023.Android.Fragments.MainTabs;
 
@@ -48,6 +48,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
     private View _addressLayout;
     private MaterialCardView _filtersBottomSheet;
     private BottomSheetBehavior _filtersBottomSheetBehavior;
+    private ConstraintLayout _mapContainer;
 
     protected override int GetLayoutId() => Resource.Layout.MapFragment;
     
@@ -59,6 +60,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         
         _mapView = view.FindViewById<MapView>(Resource.Id.map_view);
         
+        _mapContainer = view.FindViewById<ConstraintLayout>(Resource.Id.map_container);
         var locationsSearchEditText = view.FindViewById<TextInputEditText>(Resource.Id.locations_search_value);
         var searchResultsList = view.FindViewById<MvxRecyclerView>(Resource.Id.map_search_results);
         var locationTypesGroup = view.FindViewById<MaterialButtonToggleGroup>(Resource.Id.location_types_group);
@@ -611,14 +613,17 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         {
             return;
         }
-        
-        _filtersBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
-        var addressRect = new Rect();
-        _addressLayout.GetDrawingRect(addressRect);
-        _locationDetailsBottomSheet.OffsetDescendantRectToMyCoords(_addressLayout, addressRect);
-        _locationDetailsBottomSheetBehavior.SetPeekHeight(addressRect.Top + addressRect.Height() + DimensUtils.DpToPx(Context, 56), false);
-        _locationDetailsBottomSheetBehavior.Hideable = false;
-        _locationDetailsBottomSheetBehavior.State = BottomSheetBehavior.StateCollapsed;
+
+        _mapContainer.Post(() =>
+        {
+            _filtersBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
+            var addressRect = new Rect();
+            _addressLayout.GetDrawingRect(addressRect);
+            _locationDetailsBottomSheet.OffsetDescendantRectToMyCoords(_addressLayout, addressRect);
+            _locationDetailsBottomSheetBehavior.SetPeekHeight(addressRect.Top + addressRect.Height() + DimensUtils.DpToPx(Context, 32), false);
+            _locationDetailsBottomSheetBehavior.Hideable = false;
+            _locationDetailsBottomSheetBehavior.State = BottomSheetBehavior.StateCollapsed;
+        });
     }
 
     public void OnMapClick(LatLng point) => DeselectLocation();
