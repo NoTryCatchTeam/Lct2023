@@ -363,24 +363,27 @@ public class MapViewModel : BaseViewModel
 
     private void UpdatePlaces()
     {
-        Places.Clear();
-        switch (LocationType)
+        InvokeOnMainThread(() =>
         {
-            case LocationType.Event:
-                _events?.Then(es => Places.AddRange(_mapper.Map<IEnumerable<PlaceItemViewModel>>(es)));
-                break;
-            case LocationType.School when SelectedFilters?.Any() == true:
-                _schoolLocations?.Where(sL =>
-                    SelectedFilters.All(selectedFilter => selectedFilter.FilterGroupType switch
-                    {
-                        MapFilterGroupType.District => selectedFilter.Items.Contains(sL.Item.District.Data.Item.District),
-                        MapFilterGroupType.Stream => selectedFilter.Items.Intersect(sL.Item.Streams.Data.Select(stream => stream.Item.Name)).Any(),
-                    })).Then(sLs => Places.AddRange(_mapper.Map<IEnumerable<PlaceItemViewModel>>(sLs)));
-                break;
-            case LocationType.School:
-                _schoolLocations?.Then(sLs => Places.AddRange(_mapper.Map<IEnumerable<PlaceItemViewModel>>(sLs)));
-                break;
-        }
+            Places.Clear();
+            switch (LocationType)
+            {
+                case LocationType.Event:
+                    _events?.Then(es => Places.AddRange(_mapper.Map<IEnumerable<PlaceItemViewModel>>(es)));
+                    break;
+                case LocationType.School when SelectedFilters?.Any() == true:
+                    _schoolLocations?.Where(sL =>
+                        SelectedFilters.All(selectedFilter => selectedFilter.FilterGroupType switch
+                        {
+                            MapFilterGroupType.District => selectedFilter.Items.Contains(sL.Item.District.Data.Item.District),
+                            MapFilterGroupType.Stream => selectedFilter.Items.Intersect(sL.Item.Streams.Data.Select(stream => stream.Item.Name)).Any(),
+                        })).Then(sLs => Places.AddRange(_mapper.Map<IEnumerable<PlaceItemViewModel>>(sLs)));
+                    break;
+                case LocationType.School:
+                    _schoolLocations?.Then(sLs => Places.AddRange(_mapper.Map<IEnumerable<PlaceItemViewModel>>(sLs)));
+                    break;
+            }
+        });
     }
     
     private void UpdateSearchResults()
