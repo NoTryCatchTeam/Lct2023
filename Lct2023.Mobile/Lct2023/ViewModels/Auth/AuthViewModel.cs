@@ -163,7 +163,7 @@ public class AuthViewModel : BaseViewModel
 
     private async Task SignInAnonymousAsync()
     {
-        await _dialogService.ShowDialogAsync(new DialogConfig());
+        // await _dialogService.ShowDialogAsync(new DialogConfig());
 
         await NavigationService.Navigate<MainTabbedViewModel>();
     }
