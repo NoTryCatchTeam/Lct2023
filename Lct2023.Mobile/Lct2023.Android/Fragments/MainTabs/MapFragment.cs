@@ -6,6 +6,7 @@ using Lct2023.ViewModels.Map;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
 using Android.Gms.Maps.Model;
@@ -26,6 +27,7 @@ using Lct2023.Android.Definitions.Extensions;
 using Lct2023.Android.Helpers;
 using Lct2023.Android.TemplateSelectors;
 using Lct2023.Converters;
+using Lct2023.Definitions.Enums;
 using MvvmCross.Binding.ValueConverters;
 using MvvmCross.Commands;
 using MvvmCross.DroidX.RecyclerView;
@@ -361,7 +363,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
             .Bind(filtersButton)
             .For(nameof(ButtonIconResourceBinding))
             .To(vm => vm.SelectedFilters)
-            .WithConversion(new AnyExpressionConverter<object, int>(filters => filters == null ? Resource.Drawable.ic_filters : Resource.Drawable.ic_filters_selected));
+            .WithConversion(new AnyExpressionConverter<ObservableCollection<(MapFilterGroupType FilterGroupType, string[] Items)>, int>(filters => filters?.Any() == true ? Resource.Drawable.ic_filters_selected : Resource.Drawable.ic_filters));
 
         set
             .Bind(locationTypesGroup)

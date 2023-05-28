@@ -8,6 +8,7 @@ using Android.Content.Res;
 using Android.Graphics;
 using Android.Views;
 using Android.Widget;
+using AndroidX.Core.Content;
 using Google.Android.Material.Button;
 using Google.Android.Material.Card;
 using Lct2023.Android.Bindings;
@@ -128,12 +129,12 @@ public class FeedListAdapter : BaseTemplatedRecyclerViewAdapter<FeedItemViewMode
                     .WithConversion(new AnyExpressionConverter<IEnumerable<string>, string>(items => items?.FirstOrDefault()));
 
                 set.Bind(topArtCategoryButton)
-                    .For(nameof(CardViewBackgroundColorByHexBinding))
+                    .For(nameof(ButtonBackgroundByIdBinding))
                     .To(vm => vm.ArtCategories)
-                    .WithConversion(new AnyExpressionConverter<IEnumerable<string>, string>(items => items?.FirstOrDefault() switch
+                    .WithConversion(new AnyExpressionConverter<IEnumerable<string>, int>(items => items?.FirstOrDefault() switch
                     {
-                        "Музыка" => "#d19eb5",
-                        _ => "#a3ce55",
+                        "Музыка" => Resource.Color.musicArtDirectionBgColor,
+                        _ => Resource.Color.defaultArtDirectionBgColor,
                     }));
                 
                 set.Bind(topArtCategoryButton)
@@ -141,11 +142,11 @@ public class FeedListAdapter : BaseTemplatedRecyclerViewAdapter<FeedItemViewMode
                     .To(vm => vm.ArtCategories)
                     .WithConversion(new AnyExpressionConverter<IEnumerable<string>, ColorStateList>(items => items?.FirstOrDefault() switch
                     {
-                        "Музыка" => itemView.Context.Resources.GetColorStateList(Color.ParseColor("#C07290")),
-                        _ => itemView.Context.Resources.GetColorStateList(Color.ParseColor("#8EB04D")),
+                        "Музыка" => itemView.Context.Resources.GetColorStateList(Resource.Color.musicArtDirectionTextColor),
+                        _ => itemView.Context.Resources.GetColorStateList(Resource.Color.defaultArtDirectionTextColor),
                     }));
 
-                
+
                 set.Apply();
             });
         }

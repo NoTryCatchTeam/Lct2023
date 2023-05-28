@@ -28,7 +28,10 @@ public class RecyclerPaginationListener: RecyclerView.OnScrollListener, INotifyP
             return;
         }
 
-        LoadMoreCommand?.Execute(null);
+        if (LoadMoreCommand?.CanExecute(null) == true)
+        {
+            LoadMoreCommand?.Execute(null);
+        }
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
