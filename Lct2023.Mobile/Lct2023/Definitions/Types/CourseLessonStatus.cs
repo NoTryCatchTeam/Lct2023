@@ -1,4 +1,4 @@
-namespace Lct2023.ViewModels.Courses;
+namespace Lct2023.Definitions.Types;
 
 public enum CourseLessonStatus
 {

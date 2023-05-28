@@ -55,7 +55,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
     {
         var view = base.OnCreateView(inflater, container, savedInstanceState);
         
-        Toolbar.Title.Text = "Карта";
+        Toolbar.Title = "Карта";
         
         _mapView = view.FindViewById<MapView>(Resource.Id.map_view);
         

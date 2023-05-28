@@ -23,7 +23,7 @@ public class CoursesFragment : BaseFragment<CoursesViewModel>
     {
         var view = base.OnCreateView(inflater, container, savedInstanceState);
 
-        Toolbar.Title.Text = "Курсы";
+        Toolbar.Title = "Курсы";
 
         var parent = view.FindViewById<ConstraintLayout>(Resource.Id.courses_layout);
         var searchLayout = view.FindViewById<ConstraintLayout>(Resource.Id.courses_search_layout);

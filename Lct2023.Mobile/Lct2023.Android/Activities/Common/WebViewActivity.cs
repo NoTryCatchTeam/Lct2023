@@ -1,6 +1,7 @@
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Android.Views;
 using Android.Webkit;
 using Lct2023.ViewModels.Common;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
@@ -20,5 +21,19 @@ public class WebViewActivity : BaseActivity<WebViewModel>
         webView.SetWebViewClient(new WebViewClient());
         webView.Settings.JavaScriptEnabled = true;
         webView.LoadUrl(ViewModel.NavigationParameter.Url);
+    }
+
+    protected override void OnResume()
+    {
+        base.OnResume();
+
+        Window.SetFlags(WindowManagerFlags.Secure, WindowManagerFlags.Secure);
+    }
+
+    protected override void OnPause()
+    {
+        base.OnPause();
+
+        Window.ClearFlags(WindowManagerFlags.Secure);
     }
 }
