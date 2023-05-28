@@ -125,7 +125,7 @@ public class AuthController : ControllerBase
         var firstName = userData[CustomClaimTypes.FIRST_NAME].ToString();
         var lastName = userData[CustomClaimTypes.LAST_NAME].ToString();
         userData.TryGetValue(CustomClaimTypes.PHOTO_URL, out var photoUrl);
-        userData.TryGetValue(CustomClaimTypes.PHOTO_MAX, out var photomax);
+        userData.TryGetValue(CustomClaimTypes.PHOTO_200, out var photomax);
         var photo = string.IsNullOrEmpty(photomax) ? photoUrl : photomax;
         DateTime.TryParse(userData[CustomClaimTypes.BIRTH_DATE].ToString(), out var bdate);
         Nullable<DateTime> birthDate = bdate != DateTime.MinValue ? DateTime.SpecifyKind(bdate, DateTimeKind.Utc).ToUniversalTime() : null;
