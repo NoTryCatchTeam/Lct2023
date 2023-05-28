@@ -28,6 +28,7 @@
                                                                    android:layout_height="wrap_content">
 
                     <com.google.android.material.textfield.TextInputLayout android:id="@+id/feed_search_layout"
+                                                                           android:layout_width="0dp"
                                                                            android:layout_height="wrap_content"
                                                                            android:layout_marginLeft="16dp"
                                                                            android:layout_marginRight="10dp"
@@ -57,12 +58,12 @@
 
                     <com.google.android.material.button.MaterialButton android:id="@+id/feed_filters_button"
                                                                        app:cornerRadius="8dp"
+                                                                       app:rippleColor="?attr/colorControlHighlight"
                                                                        app:layout_constraintBaseline_toBaselineOf="@id/feed_search_layout"
                                                                        app:layout_constraintEnd_toEndOf="parent"
                                                                        app:layout_constraintStart_toEndOf="@id/feed_search_layout"
                                                                        style="@style/AppTheme.Button.Image"
-                                                                       android:layout_marginLeft="16dp"
-                                                                       android:layout_marginBottom="24dp"/>
+                                                                       android:layout_marginRight="16dp"/>
                     
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 
@@ -149,17 +150,15 @@
                             android:id="@+id/feed_filters_recycle"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:paddingHorizontal="16dp"
-                            android:clipToPadding="false"
-                            android:layout_marginVertical="16dp"
+                            android:layout_marginTop="16dp"
                             android:scrollbars="none"/>
 
                     <com.google.android.material.button.MaterialButton android:id="@+id/feed_apply_filters_button"
                                                                        android:layout_width="0dp"
                                                                        android:layout_height="wrap_content"
                                                                        android:layout_marginVertical="16dp"
-                                                                       android:layout_marginTop="32dp"
                                                                        android:layout_marginLeft="16dp"
+                                                                       app:rippleColor="?attr/colorControlHighlight"
                                                                        app:layout_constraintTop_toBottomOf="@id/feed_filters_recycle"
                                                                        app:layout_constraintVertical_bias="1"
                                                                        app:layout_constraintBottom_toBottomOf="parent"
@@ -171,8 +170,8 @@
                     <com.google.android.material.button.MaterialButton android:id="@+id/feed_clear_filters_button"
                                                                        android:layout_width="0dp"
                                                                        android:layout_height="wrap_content"
-                                                                       android:layout_marginTop="32dp"
                                                                        android:layout_marginVertical="16dp"
+                                                                       app:rippleColor="?attr/colorControlHighlight"
                                                                        app:layout_constraintTop_toBottomOf="@id/feed_filters_recycle"
                                                                        app:layout_constraintVertical_bias="1"
                                                                        app:layout_constraintBottom_toBottomOf="parent"

@@ -1,7 +1,10 @@
 using System;
+using Android.Graphics;
 using Android.Views;
 using Android.Widget;
 using AndroidX.RecyclerView.Widget;
+using Lct2023.Android.Decorations;
+using Lct2023.Android.Helpers;
 using Lct2023.ViewModels.Feed;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.DroidX.RecyclerView;
@@ -59,6 +62,12 @@ public class FeedFiltersGroupsListAdapter : BaseRecyclerViewAdapter<FeedFilterGr
 
             _recyclerView.SetLayoutManager(new MvxGuardedLinearLayoutManager(_recyclerView.Context) { Orientation = LinearLayoutManager.Vertical });
             _recyclerView.SetAdapter(_filtersItemAdapter);
+            _recyclerView.AddItemDecoration(
+                new ColoredDividerItemDecoration(_recyclerView.Context, LinearLayoutManager.Vertical)
+                {
+                    Drawable = _recyclerView.Context.GetDrawable(Resource.Drawable.simple_list_item_decorator),
+                    Padding = new Rect(DimensUtils.DpToPx(_recyclerView.Context, 16), 0, DimensUtils.DpToPx(_recyclerView.Context, 16), 0),
+                });
 
             var set = CreateBindingSet();
 

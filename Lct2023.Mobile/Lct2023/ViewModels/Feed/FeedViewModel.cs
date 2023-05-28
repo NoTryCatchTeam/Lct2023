@@ -105,25 +105,28 @@ public class FeedViewModel : BaseViewModel
             await Task.WhenAll(Task.Run(async () => rubrics = (await _feedRestService.GetRubricsAsync(CancellationToken))?.ToArray()),
                 Task.Run(async () => artCategories = (await _artRestService.GetArtCategoriesAsync(CancellationToken))?.ToArray()));
 
-            artCategories
-                ?.Where(ac => ac?.Item?.DisplayName != null)
-                .Select(aC => aC.Item)
-                .Then(aC => FilterGroups.Add(new FeedFilterGroupItemViewModel
-                {
-                    FilterGroupType = FeedFilterGroupType.ArtCategory,
-                    Title = "Направления",
-                    Items = _mapper.Map<ObservableCollection<FilterItemViewModel>>(aC),
-                }));
+            await InvokeOnMainThreadAsync(() =>
+            {
+                artCategories
+                    ?.Where(ac => ac?.Item?.DisplayName != null)
+                    .Select(aC => aC.Item)
+                    .Then(aC => FilterGroups.Add(new FeedFilterGroupItemViewModel
+                    {
+                        FilterGroupType = FeedFilterGroupType.ArtCategory,
+                        Title = "Направления",
+                        Items = _mapper.Map<ObservableCollection<FilterItemViewModel>>(aC),
+                    }));
                 
-            rubrics
-                ?.Where(r => r?.Item?.Name != null)
-                .Select(r => r.Item)
-                .Then(r => FilterGroups.Add(new FeedFilterGroupItemViewModel
-                {
-                    FilterGroupType = FeedFilterGroupType.Rubrics,
-                    Title = "Категории",
-                    Items = _mapper.Map<ObservableCollection<FilterItemViewModel>>(r)
-                }));
+                rubrics
+                    ?.Where(r => r?.Item?.Name != null)
+                    .Select(r => r.Item)
+                    .Then(r => FilterGroups.Add(new FeedFilterGroupItemViewModel
+                    {
+                        FilterGroupType = FeedFilterGroupType.Rubrics,
+                        Title = "Категории",
+                        Items = _mapper.Map<ObservableCollection<FilterItemViewModel>>(r)
+                    }));
+            });
         }));
 
         Task.WhenAny(feedTask, filtersTask);
