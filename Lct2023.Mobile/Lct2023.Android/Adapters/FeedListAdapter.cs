@@ -17,6 +17,7 @@ using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using ReactiveUI;
+using Square.Picasso;
 
 namespace Lct2023.Android.Adapters;
 
@@ -72,6 +73,8 @@ public class FeedListAdapter : BaseTemplatedRecyclerViewAdapter<FeedItemViewMode
 
     private class FeedItemViewHolder : BaseFeedItemViewHolder
     {
+        private readonly ImageView _image;
+
         public FeedItemViewHolder(View itemView, IMvxAndroidBindingContext context)
             : base(itemView, context)
         {
@@ -80,7 +83,7 @@ public class FeedListAdapter : BaseTemplatedRecyclerViewAdapter<FeedItemViewMode
             var publishDate = itemView.FindViewById<TextView>(Resource.Id.feed_item_publish_date);
             var actionButton = itemView.FindViewById<MaterialButton>(Resource.Id.feed_item_action_button);
             var description = itemView.FindViewById<TextView>(Resource.Id.feed_item_description);
-            var image = itemView.FindViewById<ImageView>(Resource.Id.feed_item_image);
+            _image = itemView.FindViewById<ImageView>(Resource.Id.feed_item_image);
             var likeButton = itemView.FindViewById<MaterialButton>(Resource.Id.feed_item_like_button);
             var topArtCategoryButton = itemView.FindViewById<MaterialButton>(Resource.Id.feed_item_top_art_category_button);
             
@@ -109,14 +112,10 @@ public class FeedListAdapter : BaseTemplatedRecyclerViewAdapter<FeedItemViewMode
                     .For(v => v.Text)
                     .To(vm => vm.Description);
                 
-                set.Bind(image)
+                set.Bind(_image)
                     .For(v => v.BindVisible())
                     .To(vm => vm.ImageUrl)
                     .WithConversion(new AnyExpressionConverter<string, bool>(url => !string.IsNullOrEmpty(url)));
-                
-                set.Bind(image)
-                    .For(nameof(ImageViewByUrlBinding))
-                    .To(vm => vm.ImageUrl);
                 
                 set.Bind(topArtCategoryButton)
                     .For(v => v.BindVisible())
@@ -149,6 +148,15 @@ public class FeedListAdapter : BaseTemplatedRecyclerViewAdapter<FeedItemViewMode
                 
                 set.Apply();
             });
+        }
+
+        public override void Bind()
+        {
+            base.Bind();
+            
+            Picasso.Get()
+                .Load(ViewModel.ImageUrl)
+                .Into(_image);
         }
     }
 

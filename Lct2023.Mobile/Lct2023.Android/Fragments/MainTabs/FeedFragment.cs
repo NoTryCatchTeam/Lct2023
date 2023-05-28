@@ -19,6 +19,7 @@ using Lct2023.Definitions.Enums;
 using Lct2023.ViewModels.Feed;
 using MvvmCross.DroidX.RecyclerView;
 using MvvmCross.DroidX.RecyclerView.ItemTemplates;
+using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using Square.Picasso;
@@ -39,7 +40,7 @@ public class FeedFragment : BaseFragment<FeedViewModel>, View.IOnClickListener
         
         var view = base.OnCreateView(inflater, container, savedInstanceState);
         
-        view.FindViewById<TextView>(Resource.Id.title).Text = "Лента";
+        view.FindViewById<TextView>(Resource.Id.toolbar_title).Text = "Лента";
         var feedSearchEditText = view.FindViewById<TextInputEditText>(Resource.Id.feed_search_edit_text);
         var avatarImageButton = view.FindViewById<ImageView>(Resource.Id.toolbar_image);
         var filtersButton = view.FindViewById<MaterialButton>(Resource.Id.feed_filters_button);
@@ -109,7 +110,7 @@ public class FeedFragment : BaseFragment<FeedViewModel>, View.IOnClickListener
             
             MvxRecyclerView CreateInnerFeedRecycler()
             {
-                feedRecycler = new MvxRecyclerView(Context, null);
+                feedRecycler = LayoutInflater.Inflate(Resource.Layout.FeedItemsRecycler, feedStateContainer, false) as MvxRecyclerView;
                 
                 var vertical8dpItemSpacingDecoration = new ItemSeparateDecoration(DimensUtils.DpToPx(Activity, 8), LinearLayoutManager.Vertical);
 
@@ -126,6 +127,16 @@ public class FeedFragment : BaseFragment<FeedViewModel>, View.IOnClickListener
                 feedRecycler.AddOnScrollListener(feedScrollListener);
                 
                 var innerSet = CreateBindingSet();
+                
+                innerSet
+                    .Bind(feedRecycler)
+                    .For(v => v.ItemClick)
+                    .To(vm => vm.ItemClickCommand);
+
+                innerSet
+                    .Bind(feedRecycler)
+                    .For(v => v.ItemLongClick)
+                    .To(vm => vm.ItemClickCommand);
                 
                 innerSet
                     .Bind(feedRecycler)

@@ -21,6 +21,7 @@ using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using ReactiveUI;
+using Xamarin.Essentials;
 
 namespace Lct2023.ViewModels.Feed;
 
@@ -36,6 +37,8 @@ public class FeedViewModel : BaseViewModel
     public IMvxCommand LoadMoreCommand { get; }
     
     public IMvxCommand UpdateItemsCommand { get; }
+    
+    public IMvxCommand ItemClickCommand { get; }
 
     public FeedViewModel(
         ILoggerFactory logFactory,
@@ -49,10 +52,21 @@ public class FeedViewModel : BaseViewModel
         _artRestService = artRestService;
         _mapper = mapper;
         
+        ItemClickCommand = new MvxAsyncCommand<FeedItemViewModel>(vm =>
+        {
+            if (string.IsNullOrEmpty(vm.Link))
+            {
+                return Task.CompletedTask;
+            }
+                
+            return RunSafeTaskAsync(() => Browser.OpenAsync(vm.Link, BrowserLaunchMode.SystemPreferred));
+        });
+        
         UpdateItemsCommand = new MvxAsyncCommand(() => RunSafeTaskAsync(
             UpdateItemsAsync,
             _ =>
             {
+                State = State.Default;
                 IsLoadMoreEnabled = false;
                 IsLoadingMore = false;
                 return Task.CompletedTask;
@@ -71,6 +85,7 @@ public class FeedViewModel : BaseViewModel
         }),() => IsLoadMoreEnabled && !IsLoadingMore);
         
         this.WhenAnyValue(vm => vm.SearchText, vm => vm.SelectedFilters)
+            .Skip(2)
             .Throttle(TimeSpan.FromMilliseconds(350), RxApp.MainThreadScheduler)
             .InvokeCommand(UpdateItemsCommand);
         
@@ -156,7 +171,15 @@ public class FeedViewModel : BaseViewModel
             });
         }));
 
-        Task.WhenAny(UpdateItemsAsync(), filtersTask);
+        Task.WhenAny(RunSafeTaskAsync(UpdateItemsAsync,
+            _ =>
+            {
+                State = State.Default;
+                IsLoadMoreEnabled = false;
+                IsLoadingMore = false;
+                return Task.CompletedTask;
+            }),
+            filtersTask);
     }
     
     public override void ViewDestroy(bool viewFinishing = true)
@@ -196,6 +219,7 @@ public class FeedViewModel : BaseViewModel
                 }).ToArray(),
             _feedCancellationTokenSource.Token))?.Data?.ToArray();
 
+        await Task.Delay(5000);
         if (newArticles?.Length > 0)
         {
             Items.AddRange(_mapper.Map<IEnumerable<FeedItemViewModel>>(newArticles));
