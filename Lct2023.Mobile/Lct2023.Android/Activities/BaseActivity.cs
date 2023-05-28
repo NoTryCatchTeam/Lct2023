@@ -76,6 +76,17 @@ public abstract class BaseActivity<TViewModel> : MvxActivity<TViewModel>
 
             toolbar.Title = ViewModel.UserContext.User?.FirstName;
 
+            toolbar.Toolbar.SetOnMenuItemClickListener(new DefaultMenuItemClickListener(
+                v =>
+                {
+                    if (v.ItemId == Resource.Id.rating)
+                    {
+                        ViewModel.RateAppCommand.ExecuteAsync();
+                    }
+
+                    return true;
+                }));
+
             Toolbar = toolbar;
         }
         else if (FindViewById<MaterialToolbar>(Resource.Id.toolbar_inner) is { } innerToolbarView)

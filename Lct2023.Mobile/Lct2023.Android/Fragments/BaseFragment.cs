@@ -1,4 +1,5 @@
 using System.Reactive.Disposables;
+using Android.Net;
 using Android.OS;
 using Android.Views;
 using Google.Android.Material.AppBar;
@@ -31,7 +32,7 @@ public abstract class BaseFragment<TViewModel> : MvxFragment<TViewModel>
             if (ViewModel.UserContext.User?.PhotoUrl is { } photoUrl)
             {
                 Picasso.Get()
-                    .Load(photoUrl)
+                    .Load(Uri.Parse(photoUrl))
                     .Placeholder(Resource.Drawable.ic_profile_circle)
                     .Error(Resource.Drawable.ic_profile_circle)
                     .Into(toolbar.Avatar);
@@ -42,6 +43,17 @@ public abstract class BaseFragment<TViewModel> : MvxFragment<TViewModel>
             }
 
             toolbar.Title = ViewModel.UserContext.User?.FirstName;
+            
+            toolbar.Toolbar.SetOnMenuItemClickListener(new DefaultMenuItemClickListener(
+                v =>
+                {
+                    if (v.ItemId == Resource.Id.rating)
+                    {
+                        ViewModel.RateAppCommand.ExecuteAsync();
+                    }
+
+                    return true;
+                }));
 
             Toolbar = toolbar;
         }

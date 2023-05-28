@@ -9,6 +9,7 @@ using Lct2023.Definitions.MvxIntercationResults;
 using Lct2023.Definitions.Types;
 using Lct2023.Services;
 using Lct2023.Services.Implementation;
+using Lct2023.ViewModels.Anonymous;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
@@ -163,7 +164,10 @@ public class AuthViewModel : BaseViewModel
 
     private async Task SignInAnonymousAsync()
     {
-        // await _dialogService.ShowDialogAsync(new DialogConfig());
+        if ((await NavigationService.Navigate<AnonymousWarningViewModel, AnonymousWarningViewModel.NavResult>())?.IsContinue != true)
+        {
+            return;
+        }
 
         await NavigationService.Navigate<MainTabbedViewModel>();
     }
