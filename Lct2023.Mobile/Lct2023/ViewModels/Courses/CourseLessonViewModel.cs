@@ -77,20 +77,8 @@ public class CourseLessonViewModel : BaseViewModel<CourseLessonViewModel.NavPara
         await RunSafeTaskAsync(
             async () =>
             {
-                await Task.Delay(1000);
-
                 // await uploadfile
-                var newConversationItem = new CourseLessonConversation
-                {
-                    // TODO Get user from usercontext
-                    Author = new ConversationAuthor
-                    {
-                        Name = "qwerty qweqwtr",
-                        AvatarUrl = "https://sm.ign.com/ign_ap/cover/a/avatar-gen/avatar-generations_hugw.jpg",
-                        IsStudent = true,
-                    },
-                    Text = AnswerComment ?? "Задание выполнено",
-                };
+                await Task.Delay(1000);
 
                 NavigationParameter.LessonItem.Status = CourseLessonStatus.WaitingForReview;
 
@@ -99,7 +87,19 @@ public class CourseLessonViewModel : BaseViewModel<CourseLessonViewModel.NavPara
                     NavigationParameter.LessonItem.Resolution = new CourseLessonResolution(_pickedMedia);
                 }
 
-                NavigationParameter.LessonItem.ConversationItems.Add(newConversationItem);
+                if (UserContext.IsAuthenticated)
+                {
+                    NavigationParameter.LessonItem.ConversationItems.Add(new CourseLessonConversation
+                    {
+                        Author = new ConversationAuthor
+                        {
+                            Name = UserContext.User?.FirstName,
+                            AvatarUrl = UserContext.User?.PhotoUrl,
+                            IsStudent = true,
+                        },
+                        Text = AnswerComment ?? "Задание выполнено",
+                    });
+                }
             });
 
         State &= ~CourseLessonViewState.SendingAnswer;
