@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   android:background="#99000000">
+
+    <com.google.android.material.card.MaterialCardView style="@style/AppTheme.MaterialCardView.White"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="wrap_content"
+                                                       app:layout_constraintBottom_toBottomOf="parent"
+                                                       app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                           android:layout_height="wrap_content"
+                                                           android:paddingHorizontal="16dp"
+                                                           android:paddingVertical="24dp">
+
+            <TextView android:id="@+id/anonymous_warning_title"
+                      style="@style/AppTheme.H4"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:gravity="center"
+                      android:text="Внимание"
+                      android:textAlignment="center"
+                      app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView android:id="@+id/anonymous_warning_subtitle"
+                      style="@style/AppTheme.Body"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="16dp"
+                      android:gravity="center"
+                      android:text="Вы вошли как анонимный пользователь. Вам доступен ограниченный функционал. Весь прогресс по пройденным курсам и заданиям не сохраняется"
+                      android:textAlignment="center"
+                      app:layout_constraintTop_toBottomOf="@id/anonymous_warning_title"/>
+
+            <com.google.android.material.button.MaterialButton android:id="@+id/anonymous_warning_close"
+                                                               style="@style/AppTheme.Button.Base"
+                                                               android:layout_width="match_parent"
+                                                               android:layout_height="wrap_content"
+                                                               android:layout_marginTop="24dp"
+                                                               android:text="Вернуться к авторизации"
+                                                               app:layout_constraintTop_toBottomOf="@id/anonymous_warning_subtitle"/>
+
+            <com.google.android.material.button.MaterialButton android:id="@+id/anonymous_warning_forward"
+                                                               style="@style/AppTheme.Button.Base"
+                                                               android:layout_width="match_parent"
+                                                               android:layout_height="wrap_content"
+                                                               android:layout_marginTop="8dp"
+                                                               android:text="Продолжить"
+                                                               android:textColor="@color/textSecondary"
+                                                               app:backgroundTint="@color/bgIsland"
+                                                               app:layout_constraintTop_toBottomOf="@id/anonymous_warning_close"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

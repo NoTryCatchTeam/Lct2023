@@ -104,6 +104,9 @@
         <Compile Include="Decorations\ItemSeparateDecoration.cs" />
         <Compile Include="Definitions\Extensions\DrawableExtensions.cs" />
         <Compile Include="Definitions\Extensions\ViewGroupExtensions.cs" />
+        <Compile Include="Fragments\Anonymous\AnonymousWarningFragment.cs" />
+        <Compile Include="Fragments\AppRate\AppRateFinishFragment.cs" />
+        <Compile Include="Fragments\AppRate\AppRateFragment.cs" />
         <Compile Include="Fragments\Auth\AuthSignInFragment.cs" />
         <Compile Include="Fragments\Auth\AuthSignUpFragment.cs" />
         <Compile Include="Fragments\BaseFragment.cs" />
@@ -196,6 +199,10 @@
           <Generator>MSBuild:UpdateGeneratedFiles</Generator>
         </AndroidResource>
         <AndroidResource Update="Resources\layout\ProfTestFinishFragment.xml">
+          <SubType>Designer</SubType>
+          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+        </AndroidResource>
+        <AndroidResource Update="Resources\layout\AppRateFinishFragment.xml">
           <SubType>Designer</SubType>
           <Generator>MSBuild:UpdateGeneratedFiles</Generator>
         </AndroidResource>

@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Lct2023.Services;
+using Lct2023.ViewModels.AppRate;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
 using MvvmCross.IoC;
@@ -19,6 +20,7 @@ public abstract class BaseViewModel : MvxNavigationViewModel
         : base(logFactory, navigationService)
     {
         NavigateBackCommand = new MvxAsyncCommand(NavigateBackAction);
+        RateAppCommand = new MvxAsyncCommand(() => NavigationService.Navigate<AppRateViewModel>());
 
         _cancellationTokenSource = new CancellationTokenSource();
     }
@@ -26,7 +28,9 @@ public abstract class BaseViewModel : MvxNavigationViewModel
     [MvxInject]
     public IUserContext UserContext { get; set; }
 
-    public MvxAsyncCommand NavigateBackCommand { get; }
+    public IMvxAsyncCommand NavigateBackCommand { get; }
+
+    public IMvxAsyncCommand RateAppCommand { get; }
 
     public CancellationToken CancellationToken => _cancellationTokenSource?.Token ?? CancellationToken.None;
 

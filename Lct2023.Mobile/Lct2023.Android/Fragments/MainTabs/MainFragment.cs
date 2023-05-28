@@ -30,8 +30,6 @@ public class MainFragment : BaseFragment<MainViewModel>
         var view = base.OnCreateView(inflater, container, savedInstanceState);
 
         var stories = view.FindViewById<MvxRecyclerView>(Resource.Id.main_stories);
-        var pointsTextView = view.FindViewById<TextView>(Resource.Id.main_points_text);
-        var rankingTextView = view.FindViewById<TextView>(Resource.Id.main_ranking_text);
         (ConstraintLayout Layout, MaterialButton Button) profTest = (
             view.FindViewById<ConstraintLayout>(Resource.Id.main_proftest_layout),
             view.FindViewById<MaterialButton>(Resource.Id.main_proftest_button));
