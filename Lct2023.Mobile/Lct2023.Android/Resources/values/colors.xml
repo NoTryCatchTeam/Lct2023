@@ -41,5 +41,11 @@
     
     
     <color name="default_pin_color">#8fb14c</color>
+
+    <color name="musicArtDirectionBgColor">#55d19eb5</color>
+    <color name="defaultArtDirectionBgColor">#55a3ce55</color>
+
+    <color name="musicArtDirectionTextColor">#C07290</color>
+    <color name="defaultArtDirectionTextColor">#8EB04D</color>
 </resources>
 
