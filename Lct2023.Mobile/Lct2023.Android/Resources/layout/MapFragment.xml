@@ -34,6 +34,7 @@
 
             <com.google.android.material.button.MaterialButton android:id="@+id/location_filters_button"
                                                                app:cornerRadius="8dp"
+                                                               app:rippleColor="?attr/colorControlHighlight"
                                                                app:layout_constraintLeft_toLeftOf="parent"
                                                                app:layout_constraintBottom_toBottomOf="parent"
                                                                style="@style/AppTheme.Button.Image"
@@ -42,6 +43,7 @@
 
             <com.google.android.material.button.MaterialButton android:id="@+id/gps_button"
                                                                app:cornerRadius="8dp"
+                                                               app:rippleColor="?attr/colorControlHighlight"
                                                                app:layout_constraintRight_toRightOf="parent"
                                                                app:layout_constraintBottom_toBottomOf="parent"
                                                                style="@style/AppTheme.Button.Image"
@@ -60,12 +62,14 @@
                                                                           app:layout_constraintRight_toRightOf="parent">
 
                 <com.google.android.material.button.MaterialButton android:id="@+id/zoom_in_button"
+                                                                   app:rippleColor="?attr/colorControlHighlight"
                                                                    app:cornerRadius="8dp"
                                                                    style="@style/AppTheme.Button.Image"
                                                                    android:layout_weight="1"
                                                                    app:icon="@drawable/ic_plus"/>
 
                 <com.google.android.material.button.MaterialButton android:id="@+id/zoom_out_button"
+                                                                   app:rippleColor="?attr/colorControlHighlight"
                                                                    app:cornerRadius="8dp"
                                                                    style="@style/AppTheme.Button.Image"
                                                                    android:layout_weight="1"
@@ -119,6 +123,7 @@
                                                                               app:singleSelection="true">
 
                     <com.google.android.material.button.MaterialButton android:id="@+id/msa_option"
+                                                                       app:rippleColor="?attr/colorControlHighlight"
                                                                        style="@style/AppTheme.Button.Image"
                                                                        android:layout_width="0dp"
                                                                        android:layout_height="28dp"
@@ -130,6 +135,7 @@
                                                                        android:backgroundTint="@drawable/button_toggle_group_background_tint"/>
 
                     <com.google.android.material.button.MaterialButton android:id="@+id/afisha_option"
+                                                                       app:rippleColor="?attr/colorControlHighlight"
                                                                        style="@style/AppTheme.Button.Image"
                                                                        android:layout_width="0dp"
                                                                        android:layout_height="28dp"
@@ -268,6 +274,7 @@
                                 app:layout_constraintTop_toBottomOf="@id/address_header_text_view"/>
 
                         <com.google.android.material.button.MaterialButton android:id="@+id/open_address_button"
+                                                                           app:rippleColor="?attr/colorControlHighlight"
                                                                            android:layout_width="wrap_content"
                                                                            android:layout_height="wrap_content"
                                                                            app:iconGravity="textEnd"
@@ -327,6 +334,7 @@
                                 app:layout_constraintRight_toLeftOf="@id/more_contacts_button"/>
 
                         <com.google.android.material.button.MaterialButton android:id="@+id/more_contacts_button"
+                                                                           app:rippleColor="?attr/colorControlHighlight"
                                                                            android:layout_width="wrap_content"
                                                                            android:layout_height="wrap_content"
                                                                            app:iconGravity="textEnd"
@@ -481,6 +489,7 @@
 
 
                     <com.google.android.material.button.MaterialButton android:id="@+id/action_button"
+                                                                       app:rippleColor="?attr/colorControlHighlight"
                                                                        android:layout_width="match_parent"
                                                                        android:layout_height="wrap_content"
                                                                        app:layout_constraintTop_toBottomOf="@id/afisha_layout"
@@ -570,16 +579,15 @@
                             android:id="@+id/map_filters_recycle"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:paddingHorizontal="16dp"
-                            android:clipToPadding="false"
                             android:layout_marginVertical="16dp"
                             android:scrollbars="none"/>
 
                     <com.google.android.material.button.MaterialButton android:id="@+id/map_apply_filters_button"
                                                                        android:layout_width="0dp"
+                                                                       app:rippleColor="?attr/colorControlHighlight"
                                                                        android:layout_height="wrap_content"
-                                                                       android:layout_marginVertical="16dp"
-                                                                       android:layout_marginTop="16dp"
+                                                                       android:layout_marginBottom="16dp"
+                                                                       android:layout_marginTop="32dp"
                                                                        android:layout_marginLeft="16dp"
                                                                        app:layout_constraintTop_toBottomOf="@id/map_filters_recycle"
                                                                        app:layout_constraintVertical_bias="1"
@@ -590,10 +598,11 @@
                                                                        style="@style/AppTheme.Button.Action.Primary"/>
 
                     <com.google.android.material.button.MaterialButton android:id="@+id/map_clear_filters_button"
+                                                                       app:rippleColor="?attr/colorControlHighlight"
                                                                        android:layout_width="0dp"
                                                                        android:layout_height="wrap_content"
-                                                                       android:layout_marginTop="16dp"
-                                                                       android:layout_marginVertical="16dp"
+                                                                       android:layout_marginTop="32dp"
+                                                                       android:layout_marginBottom="16dp"
                                                                        app:layout_constraintTop_toBottomOf="@id/map_filters_recycle"
                                                                        app:layout_constraintVertical_bias="1"
                                                                        app:layout_constraintBottom_toBottomOf="parent"

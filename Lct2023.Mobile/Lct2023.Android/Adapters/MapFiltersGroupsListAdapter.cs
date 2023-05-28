@@ -79,7 +79,7 @@ public class MapFiltersGroupsListAdapter : BaseRecyclerViewAdapter<MapFilterGrou
                 new ColoredDividerItemDecoration(_recyclerView.Context, LinearLayoutManager.Vertical)
                 {
                     Drawable = _recyclerView.Context.GetDrawable(Resource.Drawable.simple_list_item_decorator),
-                    Padding = new Rect(0, 0, 0, 0),
+                    Padding = new Rect(DimensUtils.DpToPx(_recyclerView.Context, 16), 0, DimensUtils.DpToPx(_recyclerView.Context, 16), 0),
                 });
 
             var set = CreateBindingSet();

@@ -61,6 +61,8 @@
         <Compile Include="Activities\MainTabbedActivity.cs" />
         <Compile Include="Activities\SplashActivity.cs" />
         <Compile Include="Activities\Tasks\TaskDetailsActivity.cs" />
+        <Compile Include="Adapters\FeedFiltersGroupsListAdapter.cs" />
+        <Compile Include="Adapters\FeedListAdapter.cs" />
         <Compile Include="Adapters\StreamsAdapter.cs" />
         <Compile Include="Adapters\AudioToPictureExerciseAnswersAdapter.cs" />
         <Compile Include="Adapters\AuthViewPagerAdapter.cs" />
@@ -78,7 +80,7 @@
         <Compile Include="Adapters\MainStoriesAdapter.cs" />
         <Compile Include="Adapters\MainViewPagerAdapter.cs" />
         <Compile Include="Adapters\MapFiltersGroupsListAdapter.cs" />
-        <Compile Include="Adapters\MapFiltersItemListAdapter.cs" />
+        <Compile Include="Adapters\FiltersItemListAdapter.cs" />
         <Compile Include="Adapters\MapFiltersSubGroupsListAdapter.cs" />
         <Compile Include="Adapters\MapSearchResultsAdapter.cs" />
         <Compile Include="Adapters\SocialLinksAdapter.cs" />
@@ -87,6 +89,7 @@
         <Compile Include="Adapters\TasksAdapter.cs" />
         <Compile Include="Adapters\TextExerciseAnswersAdapter.cs" />
         <Compile Include="Adapters\VideoToAudioExerciseAnswersAdapter.cs" />
+        <Compile Include="Bindings\ButtonBackgroundByHexBinding.cs" />
         <Compile Include="Bindings\ButtonIconResourceBinding.cs" />
         <Compile Include="Bindings\CardViewStrokeColorBinding.cs" />
         <Compile Include="Bindings\CardViewBackgroundColorByHexBinding.cs" />
@@ -100,6 +103,7 @@
         <Compile Include="Decorations\GridItemDecoration.cs" />
         <Compile Include="Decorations\ItemSeparateDecoration.cs" />
         <Compile Include="Definitions\Extensions\DrawableExtensions.cs" />
+        <Compile Include="Definitions\Extensions\ViewGroupExtensions.cs" />
         <Compile Include="Fragments\Auth\AuthSignInFragment.cs" />
         <Compile Include="Fragments\Auth\AuthSignUpFragment.cs" />
         <Compile Include="Fragments\BaseFragment.cs" />
@@ -128,6 +132,7 @@
         <Compile Include="Listeners\DefaultScrollListener.cs" />
         <Compile Include="Listeners\MediaPlayerCompletionListener.cs" />
         <Compile Include="Listeners\MediaPlayerPreparedListener.cs" />
+        <Compile Include="Listeners\RecyclerPaginationListener.cs" />
         <Compile Include="Presenters\ExtendedAndroidViewPresenter.cs" />
         <Compile Include="Presenters\MvxRootActivityPresentationAttribute.cs" />
         <Compile Include="Resources\Resource.designer.cs" />
@@ -138,6 +143,7 @@
         <Compile Include="Setup.cs" />
         <Compile Include="TemplateSelectors\MultipleTemplateSelector.cs" />
         <Compile Include="Views\ExtendedToolbar.cs" />
+        <Compile Include="Views\StateContainer.cs" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Properties\AndroidManifest.xml" />

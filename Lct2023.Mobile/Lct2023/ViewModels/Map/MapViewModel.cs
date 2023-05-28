@@ -17,6 +17,7 @@ using Lct2023.Business.RestServices.Map;
 using Lct2023.Business.Definitions;
 using Lct2023.Definitions.Enums;
 using Lct2023.Services;
+using Lct2023.ViewModels.Common;
 using Lct2023.ViewModels.Map.Filters;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
@@ -303,54 +304,58 @@ public class MapViewModel : BaseViewModel
             IEnumerable<CmsItemResponse<StreamResponse>> streams = null;
             
             
-            await Task.WhenAll(Task.Run(async () => districts = (await _mapRestService.LoadUntilEndAsync<CmsItemResponse<DistrictResponse>, IEnumerable<CmsItemResponse<DistrictResponse>>, IMapRestService>((rS, start) => rS.GetDistrictsPaginationAsync(start, PAGE_SIZE, CancellationToken))).ToArray()),
+            await Task.WhenAll(Task.Run(async () => districts = (await _mapRestService.LoadUntilEndAsync((rS, start) => rS.GetDistrictsPaginationAsync(start, PAGE_SIZE, CancellationToken))).ToArray()),
                 Task.Run(async () => streams = (await _artRestService.GetStreamsAsync(CancellationToken))?.ToArray()));
 
-            districts?.Where(d => d.Item?.AreaType != null).GroupBy(d => d.Item.AreaType, d => d.Item)
-                ?.Then(d => FilterGroups.Add(new MapFilterGroupItemViewModel
-                {
-                    FilterGroupType = MapFilterGroupType.District,
-                    Title = "Округа и районы",
-                    SubGroups = d.Select(g => new MapFilterSubGroupItemViewModel
+
+            await InvokeOnMainThreadAsync(() =>
+            {
+                districts?.Where(d => d.Item?.AreaType != null).GroupBy(d => d.Item.AreaType, d => d.Item)
+                    ?.Then(d => FilterGroups.Add(new MapFilterGroupItemViewModel
                     {
-                        Title = g.Key.GetEnumMemberValue(),
-                        Items = _mapper.Map<ObservableCollection<MapFilterItemViewModel>>(g)
-                    }).ToObservableCollection(),
-                }));
-                
-            streams?.Where(d => d.Item?.ArtCategory?.Data?.Item?.DisplayName != null).GroupBy(d => d.Item.ArtCategory.Data.Item.DisplayName, d => d.Item)
-                ?.Then(d => FilterGroups.Add(new MapFilterGroupItemViewModel
-                {
-                    FilterGroupType = MapFilterGroupType.Stream,
-                    Title = "Направления",
-                    SubGroups = d.Select(g => new MapFilterSubGroupItemViewModel
-                    {
-                        Title = g.Key,
-                        Items = _mapper.Map<ObservableCollection<MapFilterItemViewModel>>(g)
-                    }).ToObservableCollection(),
-                }));
-            
-            FilterGroups?.ForEach(fG =>
-                fG.SubGroups?.ForEach(fGs =>
-                {
-                    var updateBusy = false;
-                    fGs.WhenAnyValue(vm => vm.IsSelected)
-                        .Where(_ => fGs.IsSelected != fGs.Items?.Any(fGsi => fGsi.IsSelected))
-                        .Subscribe(_ =>
+                        FilterGroupType = MapFilterGroupType.District,
+                        Title = "Округа и районы",
+                        SubGroups = d.Select(g => new MapFilterSubGroupItemViewModel
                         {
-                            updateBusy = true;
-                            fGs.Items?.ForEach(item => item.IsSelected = fGs.IsSelected);
-                            updateBusy = false;
-                        });
-                    
-                    fGs.Items
-                        ?.ToObservableChangeSet()
-                        .AutoRefresh(vm => vm.IsSelected)
-                        .WhenAnyPropertyChanged()
-                        .Select(_ => fGs.Items?.Any(fGsi => fGsi.IsSelected) == true)
-                        .Where(isSelected => !updateBusy && fGs.IsSelected != isSelected)
-                        .Subscribe(isSelected => fGs.IsSelected = isSelected);
-                }));
+                            Title = g.Key.GetEnumMemberValue(),
+                            Items = _mapper.Map<ObservableCollection<FilterItemViewModel>>(g)
+                        }).ToObservableCollection(),
+                    }));
+                
+                streams?.Where(d => d.Item?.ArtCategory?.Data?.Item?.DisplayName != null).GroupBy(d => d.Item.ArtCategory.Data.Item.DisplayName, d => d.Item)
+                    ?.Then(d => FilterGroups.Add(new MapFilterGroupItemViewModel
+                    {
+                        FilterGroupType = MapFilterGroupType.Stream,
+                        Title = "Направления",
+                        SubGroups = d.Select(g => new MapFilterSubGroupItemViewModel
+                        {
+                            Title = g.Key,
+                            Items = _mapper.Map<ObservableCollection<FilterItemViewModel>>(g)
+                        }).ToObservableCollection(),
+                    }));
+            
+                FilterGroups?.ForEach(fG =>
+                    fG.SubGroups?.ForEach(fGs =>
+                    {
+                        var updateBusy = false;
+                        fGs.WhenAnyValue(vm => vm.IsSelected)
+                            .Where(_ => fGs.IsSelected != fGs.Items?.Any(fGsi => fGsi.IsSelected))
+                            .Subscribe(_ =>
+                            {
+                                updateBusy = true;
+                                fGs.Items?.ForEach(item => item.IsSelected = fGs.IsSelected);
+                                updateBusy = false;
+                            });
+                        
+                        fGs.Items
+                            ?.ToObservableChangeSet()
+                            .AutoRefresh(vm => vm.IsSelected)
+                            .WhenAnyPropertyChanged()
+                            .Select(_ => fGs.Items?.Any(fGsi => fGsi.IsSelected) == true)
+                            .Where(isSelected => !updateBusy && fGs.IsSelected != isSelected)
+                            .Subscribe(isSelected => fGs.IsSelected = isSelected);
+                    }));
+            });
         }));
 
         Task.WhenAny(schoolLocationTask, eventsTask, filtersTask);

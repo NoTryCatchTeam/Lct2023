@@ -1,20 +1,23 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using DataModel.Definitions.Enums;
 using DataModel.Requests.Auth;
 using DataModel.Responses.Art;
 using DataModel.Responses.BaseCms;
+using DataModel.Responses.Feed;
 using DataModel.Responses.Map;
 using DataModel.Responses.Users;
 using Lct2023.Definitions.Dtos;
 using Lct2023.Commons.Extensions;
-using Lct2023.Definitions.Enums;
+using Lct2023.Definitions.Constants;
 using Lct2023.Definitions.Internals;
 using Lct2023.ViewModels.Art;
+using Lct2023.ViewModels.Common;
+using Lct2023.ViewModels.Feed;
 using Lct2023.ViewModels.Map;
-using Lct2023.ViewModels.Map.Filters;
+using Microsoft.Extensions.Configuration;
+using MvvmCross;
 
 namespace Lct2023.Definitions;
 
@@ -121,14 +124,41 @@ public class AppMapperProfile : Profile
         CreateMap<SocialLinkResponse, SocialLinkItemViewModel>()
             .ValidateMemberList(MemberList.Source);
 
-        CreateMap<DistrictResponse, MapFilterItemViewModel>()
+        CreateMap<DistrictResponse, FilterItemViewModel>()
             .ForMember(x => x.Title, expr => expr.MapFrom(s => s.District))
             .ForMember(x => x.IsSelected, expr => expr.Ignore())
             ;
 
-        CreateMap<StreamResponse, MapFilterItemViewModel>()
+        CreateMap<StreamResponse, FilterItemViewModel>()
             .ForMember(x => x.Title, expr => expr.MapFrom(s => s.Name))
             .ForMember(x => x.IsSelected, expr => expr.Ignore())
+            ;
+
+        CreateMap<ArtCategoryResponse, FilterItemViewModel>()
+            .ForMember(x => x.Title, expr => expr.MapFrom(s => s.DisplayName))
+            .ForMember(x => x.IsSelected, expr => expr.Ignore())
+            ;
+
+        CreateMap<RubricResponse, FilterItemViewModel>()
+            .ForMember(x => x.Title, expr => expr.MapFrom(s => s.Name))
+            .ForMember(x => x.IsSelected, expr => expr.Ignore())
+            ;
+        
+        CreateMap<CmsItemResponse<ArticleResponse>, FeedItemViewModel>()
+            .ValidateMemberList(MemberList.None)
+            .AfterMap((s, d, c) => c.Mapper.Map(s.Item, d));
+
+
+        CreateMap<ArticleResponse, FeedItemViewModel>()
+            .ForMember(x => x.Id, expr => expr.Ignore())
+            .ForMember(x => x.ArtCategories, expr => expr.MapFrom((s, d, _) => s.ArtCategories?.Data?.Select(aC => aC.Item?.DisplayName)))
+            .ForMember(x => x.PublishedAt, expr => expr.MapFrom(s => s.PublishedAt.ToString("d MMMM yyyy HH:mm")))
+            .ForMember(x => x.ImageUrl, expr => expr.MapFrom((s, d, _) => s.Cover?.Data?.Item?.Url?.Then(url =>
+            {
+                var configuration = Mvx.IoCProvider.Resolve<IConfiguration>();
+                return $"{configuration.GetValue<string>(ConfigurationConstants.AppSettings.HOST)}{configuration.GetValue<string>(ConfigurationConstants.AppSettings.CMS_PATH)}{url}";
+            })))
+            .ForMember(x => x.ClickCommand, expr => expr.Ignore())
             ;
     }
 

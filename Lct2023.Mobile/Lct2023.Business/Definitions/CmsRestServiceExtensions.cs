@@ -10,8 +10,7 @@ namespace Lct2023.Business.Definitions;
 
 public static class CmsRestServiceExtensions
 {
-    public static async Task<IEnumerable<TItemResult>> LoadUntilEndAsync<TItemResult, TCollection, TRestService>(this TRestService restService, Func<TRestService, int, Task<CmsResponse<TCollection>>> factory)
-        where TCollection: IEnumerable<TItemResult>
+    public static async Task<IEnumerable<TItemResult>> LoadUntilEndAsync<TItemResult, TRestService>(this TRestService restService, Func<TRestService, int, Task<CmsResponse<IEnumerable<TItemResult>>>> factory)
         where TRestService : ICmsBaseRestService
     {
         var list = new List<TItemResult>();

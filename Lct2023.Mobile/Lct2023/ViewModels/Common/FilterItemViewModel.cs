@@ -1,8 +1,8 @@
 using MvvmCross.ViewModels;
 
-namespace Lct2023.ViewModels.Map.Filters;
+namespace Lct2023.ViewModels.Common;
 
-public class MapFilterItemViewModel : MvxNotifyPropertyChanged
+public class FilterItemViewModel : MvxNotifyPropertyChanged
 {
     public string Title { get; set; }
     
