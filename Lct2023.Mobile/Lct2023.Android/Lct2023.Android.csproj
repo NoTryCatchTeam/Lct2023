@@ -89,7 +89,7 @@
         <Compile Include="Adapters\TasksAdapter.cs" />
         <Compile Include="Adapters\TextExerciseAnswersAdapter.cs" />
         <Compile Include="Adapters\VideoToAudioExerciseAnswersAdapter.cs" />
-        <Compile Include="Bindings\ButtonBackgroundByHexBinding.cs" />
+        <Compile Include="Bindings\ButtonBackgroundByIdBinding.cs" />
         <Compile Include="Bindings\ButtonIconResourceBinding.cs" />
         <Compile Include="Bindings\CardViewStrokeColorBinding.cs" />
         <Compile Include="Bindings\CardViewBackgroundColorByHexBinding.cs" />

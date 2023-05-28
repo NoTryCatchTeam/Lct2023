@@ -8,5 +8,7 @@ public enum State
     
     MinorLoading,
     
-    Loading
+    Loading,
+    
+    NoData
 }

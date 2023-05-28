@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
@@ -19,10 +21,8 @@ using Lct2023.Definitions.Enums;
 using Lct2023.ViewModels.Feed;
 using MvvmCross.DroidX.RecyclerView;
 using MvvmCross.DroidX.RecyclerView.ItemTemplates;
-using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
-using Square.Picasso;
 
 namespace Lct2023.Android.Fragments.MainTabs;
 
@@ -37,6 +37,7 @@ public class FeedFragment : BaseFragment<FeedViewModel>, View.IOnClickListener
     public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         MvxRecyclerView feedRecycler = null;
+        TextView noDateText = null;
         
         var view = base.OnCreateView(inflater, container, savedInstanceState);
         
@@ -53,7 +54,8 @@ public class FeedFragment : BaseFragment<FeedViewModel>, View.IOnClickListener
 
         feedStateContainer.States = new Dictionary<State, Func<View>>
         {
-            [State.Default] = CreateFeedRecycler
+            [State.Default] = CreateFeedRecycler,
+            [State.NoData] = CreateNoDataState,
         };
         
         var vertical16dpItemSpacingDecoration = new ItemSeparateDecoration(DimensUtils.DpToPx(Activity, 16), LinearLayoutManager.Vertical);
@@ -83,7 +85,7 @@ public class FeedFragment : BaseFragment<FeedViewModel>, View.IOnClickListener
             .Bind(filtersButton)
             .For(nameof(ButtonIconResourceBinding))
             .To(vm => vm.SelectedFilters)
-            .WithConversion(new AnyExpressionConverter<object, int>(filters => filters == null ? Resource.Drawable.ic_filters : Resource.Drawable.ic_filters_selected));
+            .WithConversion(new AnyExpressionConverter<ObservableCollection<(FeedFilterGroupType FilterGroupType, string[] Items)>, int>(filters => filters?.Any() == true ?  Resource.Drawable.ic_filters_selected : Resource.Drawable.ic_filters));
 
         set
             .Bind(filtersRecycler)
@@ -165,6 +167,13 @@ public class FeedFragment : BaseFragment<FeedViewModel>, View.IOnClickListener
 
                 return feedRecycler;
             }
+        }
+
+        View CreateNoDataState()
+        {
+            return noDateText ??= CreateInnerNoDataState();
+            
+            TextView CreateInnerNoDataState() => LayoutInflater.Inflate(Resource.Layout.NoData, feedStateContainer, false) as TextView;
         }
     }
 
