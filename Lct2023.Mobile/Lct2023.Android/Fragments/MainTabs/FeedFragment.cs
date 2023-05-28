@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
@@ -10,7 +12,10 @@ using Lct2023.Android.Adapters;
 using Lct2023.Android.Bindings;
 using Lct2023.Android.Decorations;
 using Lct2023.Android.Helpers;
+using Lct2023.Android.Listeners;
+using Lct2023.Android.Views;
 using Lct2023.Converters;
+using Lct2023.Definitions.Enums;
 using Lct2023.ViewModels.Feed;
 using MvvmCross.DroidX.RecyclerView;
 using MvvmCross.DroidX.RecyclerView.ItemTemplates;
@@ -30,6 +35,8 @@ public class FeedFragment : BaseFragment<FeedViewModel>, View.IOnClickListener
 
     public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        MvxRecyclerView feedRecycler = null;
+        
         var view = base.OnCreateView(inflater, container, savedInstanceState);
         
         view.FindViewById<TextView>(Resource.Id.title).Text = "Лента";
@@ -38,11 +45,16 @@ public class FeedFragment : BaseFragment<FeedViewModel>, View.IOnClickListener
         var filtersButton = view.FindViewById<MaterialButton>(Resource.Id.feed_filters_button);
         _filtersBottomSheet = view.FindViewById<MaterialCardView>(Resource.Id.feed_filters_bottom_sheet);
         _filtersBottomSheetBehavior = BottomSheetBehavior.From(_filtersBottomSheet);
-        var feedRecycler = view.FindViewById<MvxRecyclerView>(Resource.Id.feed_recycler);
+        var feedStateContainer = view.FindViewById<StateContainer>(Resource.Id.feed_state_container);
         var filtersRecycler = view.FindViewById<MvxRecyclerView>(Resource.Id.feed_filters_recycle);
         var filtersCloseBsButton = view.FindViewById<MaterialButton>(Resource.Id.feed_filters_close_bs_button);
         var clearFiltersButton = view.FindViewById<MaterialButton>(Resource.Id.feed_clear_filters_button);
         var applyFiltersButton = view.FindViewById<MaterialButton>(Resource.Id.feed_apply_filters_button);
+
+        feedStateContainer.States = new Dictionary<State, Func<View>>
+        {
+            [State.Default] = CreateFeedRecycler
+        };
         
         var vertical16dpItemSpacingDecoration = new ItemSeparateDecoration(DimensUtils.DpToPx(Activity, 16), LinearLayoutManager.Vertical);
 
@@ -78,18 +90,76 @@ public class FeedFragment : BaseFragment<FeedViewModel>, View.IOnClickListener
             .WithConversion(new AnyExpressionConverter<object, int>(filters => filters == null ? Resource.Drawable.ic_filters : Resource.Drawable.ic_filters_selected));
 
         set
-            .Bind(feedRecycler)
-            .For(v => v.ItemsSource)
-            .To(vm => vm.Items);
-        
-        set
             .Bind(filtersRecycler)
             .For(v => v.ItemsSource)
             .To(vm => vm.FilterGroups);
         
+        set
+            .Bind(feedStateContainer)
+            .For(v => v.State)
+            .To(vm => vm.State);
+        
         set.Apply();
 
         return view;
+
+        View CreateFeedRecycler()
+        {
+            return feedRecycler ??= CreateInnerFeedRecycler();
+            
+            MvxRecyclerView CreateInnerFeedRecycler()
+            {
+                feedRecycler = new MvxRecyclerView(Context, null);
+                
+                var vertical8dpItemSpacingDecoration = new ItemSeparateDecoration(DimensUtils.DpToPx(Activity, 8), LinearLayoutManager.Vertical);
+
+                var feedAdapter = new FeedListAdapter((IMvxAndroidBindingContext)BindingContext)
+                {
+                    ItemTemplateSelector = new MvxDefaultTemplateSelector(Resource.Layout.FeedItemView),
+                };
+
+                var feedLayoutManager = new MvxGuardedLinearLayoutManager(Context) { Orientation = LinearLayoutManager.Vertical };
+                feedRecycler.SetLayoutManager(feedLayoutManager);
+                feedRecycler.SetAdapter(feedAdapter);
+                feedRecycler.AddItemDecoration(vertical8dpItemSpacingDecoration);
+                var feedScrollListener = new RecyclerPaginationListener(feedLayoutManager);
+                feedRecycler.AddOnScrollListener(feedScrollListener);
+                
+                var innerSet = CreateBindingSet();
+                
+                innerSet
+                    .Bind(feedRecycler)
+                    .For(v => v.ItemsSource)
+                    .To(vm => vm.Items);
+                
+                innerSet
+                    .Bind(feedAdapter)
+                    .For(v => v.Items)
+                    .To(vm => vm.Items);
+
+                innerSet
+                    .Bind(feedAdapter)
+                    .For(v => v.IsLoadingMore)
+                    .To(vm => vm.IsLoadingMore);
+
+                innerSet.Bind(feedScrollListener)
+                    .For(x => x.LoadMoreCommand)
+                    .To(vm => vm.LoadMoreCommand);
+
+                innerSet.Bind(feedScrollListener)
+                    .For(x => x.LoadingOffset)
+                    .To(vm => vm.LoadingOffset);
+
+                innerSet
+                    .Bind(feedScrollListener)
+                    .For(v => v.IsLoadingMore)
+                    .To(vm => vm.IsLoadingMore);
+
+                innerSet.Apply();
+
+                return feedRecycler;
+            }
+        }
     }
 
     public void OnClick(View view)

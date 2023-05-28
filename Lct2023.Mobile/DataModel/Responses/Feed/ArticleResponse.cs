@@ -21,7 +21,7 @@ public class ArticleResponse
     public CmsResponse<CmsItemResponse<RubricResponse>> Rubric { get; set; }
     
     [JsonProperty("art_categories")]
-    public CmsResponse<IEnumerable<CmsItemResponse<ArtCategoryResponse>>> ArtCategory { get; set; }
+    public CmsResponse<IEnumerable<CmsItemResponse<ArtCategoryResponse>>> ArtCategories { get; set; }
     
     public CmsResponse<CmsItemResponse<CommonMediaItem>> Cover { get; set; }
 }

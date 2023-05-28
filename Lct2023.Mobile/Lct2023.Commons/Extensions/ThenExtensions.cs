@@ -12,6 +12,11 @@ namespace Lct2023.Commons.Extensions
 
         public static void Then<TIn>(this TIn @in, Action<TIn> action)
             => action(@in);
+        
+        public static TOut ThenIfNotNullOrWhiteSpace<TOut>(this string @in, Func<string, TOut> action)
+        {
+            return string.IsNullOrWhiteSpace(@in) ? default : action(@in);
+        }
 
         public static TOut Then<TIn, TOut>(this TIn @in, Func<TIn, TOut> action)
             => action(@in);

@@ -1,25 +1,24 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using DataModel.Definitions.Enums;
 using DataModel.Responses.Art;
 using DataModel.Responses.BaseCms;
 using DataModel.Responses.Feed;
-using DataModel.Responses.Map;
 using DynamicData;
+using DynamicData.Binding;
 using Lct2023.Business.RestServices.Art;
 using Lct2023.Business.RestServices.Feed;
-using Lct2023.Business.RestServices.Map;
 using Lct2023.Commons.Extensions;
 using Lct2023.Definitions.Enums;
 using Lct2023.ViewModels.Common;
-using Lct2023.ViewModels.Map;
-using Lct2023.ViewModels.Map.Filters;
 using Microsoft.Extensions.Logging;
+using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using ReactiveUI;
 
@@ -32,6 +31,11 @@ public class FeedViewModel : BaseViewModel
     private readonly IArtRestService _artRestService;
     private readonly IMapper _mapper;
     private readonly IFeedRestService _feedRestService;
+    private CancellationTokenSource _feedCancellationTokenSource;
+    
+    public IMvxCommand LoadMoreCommand { get; }
+    
+    public IMvxCommand UpdateItemsCommand { get; }
 
     public FeedViewModel(
         ILoggerFactory logFactory,
@@ -45,20 +49,54 @@ public class FeedViewModel : BaseViewModel
         _artRestService = artRestService;
         _mapper = mapper;
         
+        UpdateItemsCommand = new MvxAsyncCommand(() => RunSafeTaskAsync(
+            UpdateItemsAsync,
+            _ =>
+            {
+                IsLoadMoreEnabled = false;
+                IsLoadingMore = false;
+                return Task.CompletedTask;
+            }));
+        
+        LoadMoreCommand = new MvxAsyncCommand(() => RunSafeTaskAsync(() =>
+        {
+            IsLoadingMore = true;
+            return LoadArticlesAsync();
+        },
+        _ =>
+        {
+            IsLoadMoreEnabled = false;
+            IsLoadingMore = false;
+            return Task.CompletedTask;
+        }),() => IsLoadMoreEnabled && !IsLoadingMore);
+        
         this.WhenAnyValue(vm => vm.SearchText, vm => vm.SelectedFilters)
             .Throttle(TimeSpan.FromMilliseconds(350), RxApp.MainThreadScheduler)
-            .Subscribe(_ => UpdateItems());
+            .InvokeCommand(UpdateItemsCommand);
+        
+        Items
+            .ObserveCollectionChanges()
+            .Subscribe(_ => LoadingOffset = Items.Count - 3);
     }
 
     public string Image { get; private set; } =
         "https://media.newyorker.com/photos/59095bb86552fa0be682d9d0/master/w_2560%2Cc_limit/Monkey-Selfie.jpg";
 
+    public State State { get; set; }
+    
     public string SearchText { get; set; }
     
     public ObservableCollection<FeedItemViewModel> Items { get; } = new ();
     
     public ObservableCollection<FeedFilterGroupItemViewModel> FilterGroups { get; } = new ();
     
+    
+    public bool IsLoadMoreEnabled { get; private set; }
+
+    public bool IsLoadingMore { get; private set; }
+
+    public int LoadingOffset { get; private set; }
+
     public ObservableCollection<(FeedFilterGroupType FilterGroupType, string[] Items)> SelectedFilters { get; private set; }
 
     public void ApplyFilters()
@@ -83,18 +121,6 @@ public class FeedViewModel : BaseViewModel
     public override void ViewCreated()
     {
         base.ViewCreated();
-
-        var feedTask = Task.Run(() => RunSafeTaskAsync(async () =>
-        {
-            var articles = (await _feedRestService.GetArticlesPaginationAsync(Items.Count, PAGE_SIZE, CancellationToken))?.Data?.ToArray();
-
-            if (articles?.Any() != true)
-            {
-                return;
-            }
-
-            UpdateItems();
-        }));
         
         var filtersTask = Task.Run(() => RunSafeTaskAsync(async () =>
         {
@@ -102,7 +128,8 @@ public class FeedViewModel : BaseViewModel
             IEnumerable<CmsItemResponse<ArtCategoryResponse>> artCategories = null;
             
             
-            await Task.WhenAll(Task.Run(async () => rubrics = (await _feedRestService.GetRubricsAsync(CancellationToken))?.ToArray()),
+            await Task.WhenAll(
+                Task.Run(async () => rubrics = (await _feedRestService.GetRubricsAsync(CancellationToken))?.ToArray()),
                 Task.Run(async () => artCategories = (await _artRestService.GetArtCategoriesAsync(CancellationToken))?.ToArray()));
 
             await InvokeOnMainThreadAsync(() =>
@@ -129,17 +156,52 @@ public class FeedViewModel : BaseViewModel
             });
         }));
 
-        Task.WhenAny(feedTask, filtersTask);
+        Task.WhenAny(UpdateItemsAsync(), filtersTask);
+    }
+    
+    public override void ViewDestroy(bool viewFinishing = true)
+    {
+        base.ViewDestroy(viewFinishing);
+
+        _feedCancellationTokenSource?.Cancel();
+        _feedCancellationTokenSource?.Dispose();
+        _feedCancellationTokenSource = null;
     }
 
-    private void UpdateItems()
+    private async Task UpdateItemsAsync()
     {
         Items.Clear();
+
+        State = State.MinorLoading;
+
+        await LoadArticlesAsync();
         
-        if (SelectedFilters?.Any() == true)
+        State = State.Default;
+    }
+    
+    private async Task LoadArticlesAsync()
+    {
+        _feedCancellationTokenSource?.Cancel();
+        _feedCancellationTokenSource?.Dispose();
+        _feedCancellationTokenSource = new CancellationTokenSource();
+        
+        var newArticles = (await _feedRestService.GetArticlesPaginationAsync(
+            Items.Count,
+            PAGE_SIZE,
+            SearchText,
+            SelectedFilters?.Select(f => f.FilterGroupType switch
+                {
+                    FeedFilterGroupType.Rubrics => ("[rubric][name]", f.Items),
+                    FeedFilterGroupType.ArtCategory => ("[art_categories][displayName]", f.Items),
+                }).ToArray(),
+            _feedCancellationTokenSource.Token))?.Data?.ToArray();
+
+        if (newArticles?.Length > 0)
         {
-            return;
+            Items.AddRange(_mapper.Map<IEnumerable<FeedItemViewModel>>(newArticles));
         }
 
+        IsLoadMoreEnabled = newArticles?.Length >= PAGE_SIZE;
+        IsLoadingMore = false;
     }
 }

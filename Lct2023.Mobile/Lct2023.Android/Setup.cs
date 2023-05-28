@@ -32,6 +32,10 @@ public class Setup : MvxAndroidSetup<App>
         base.FillTargetFactories(registry);
 
         registry.RegisterCustomBindingFactory<MaterialButton>(
+            nameof(ButtonBackgroundByHexBinding),
+            v => new ButtonBackgroundByHexBinding(v));
+
+        registry.RegisterCustomBindingFactory<MaterialButton>(
             nameof(ButtonIconResourceBinding),
             v => new ButtonIconResourceBinding(v));
 

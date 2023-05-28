@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using MvvmCross.Commands;
 using MvvmCross.ViewModels;
 
@@ -12,11 +12,13 @@ public class FeedItemViewModel : MvxNotifyPropertyChanged
     
     public string Description { get; set; }
     
-    public DateTime PublishedAt { get; set; }
+    public string PublishedAt { get; set; }
     
     public string Link { get; set; }
     
     public string ImageUrl { get; set; }
+    
+    public IEnumerable<string> ArtCategories { get; set; }
     
     public IMvxCommand ClickCommand { get; set; }
 }
