@@ -67,7 +67,12 @@ public abstract class BaseActivity<TViewModel> : MvxActivity<TViewModel>
                     .Load(Uri.Parse(photoUrl))
                     .Placeholder(Resource.Drawable.ic_profile_circle)
                     .Error(Resource.Drawable.ic_profile_circle)
-                    .Into(toolbar.Avatar);
+                    .Into(
+                        toolbar.Avatar,
+                        () => toolbar.Avatar.ImageTintList = null,
+                        _ =>
+                        {
+                        });
             }
             else
             {
