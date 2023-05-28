@@ -129,6 +129,7 @@
         <Compile Include="Helpers\PinUtils.cs" />
         <Compile Include="Helpers\ScrollWithSearchLayoutMediator.cs" />
         <Compile Include="Helpers\KeyboardUtils.cs" />
+        <Compile Include="LinkerPleaseInclude.cs" />
         <Compile Include="Listeners\DefaultClickListener.cs" />
         <Compile Include="Listeners\DefaultMenuItemClickListener.cs" />
         <Compile Include="Listeners\DefaultNavBarItemSelectedListener.cs" />
@@ -181,7 +182,7 @@
         <Folder Include="Resources\menu" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="AutoMapper" Version="12.0.1" />
+        <PackageReference Include="AutoMapper" Version="11.0.1" />
         <PackageReference Include="FluentValidation" Version="11.5.2" />
         <PackageReference Include="Fody" Version="6.7.0">
           <PrivateAssets>all</PrivateAssets>
