@@ -31,13 +31,13 @@ docker run --name api -d --restart always -p 8080:80 \
 Переменные и секреты  
 - DbConnectionString - Строка подключение к базе данных `User ID=root;Password=myPassword;Host=localhost;Port=5432;Database=myDataBase;`   
 - Jwt__AccessTokenExpiresInDays -  Сколько дней активен токен доступа мобильного приложения `30`  
-- Jwt__Audience - имя аудиенции jwt
-- Jwt__Issuer  
-- Jwt__RefreshTokenExpiresInDays  
-- Jwt__Secret  
-- Vk__ClientId  
-- Vk__ClientSecret  
-- Cms__ApiKey  
+- Jwt__Audience - имя аудиенции jwt  
+- Jwt__Issuer - имя издателя токена jwt  
+- Jwt__RefreshTokenExpiresInDays  -  Сколько дней активен токен обновления для мобильного приложения `60`  
+- Jwt__Secret - ключ для генерации токенов jwt  
+- Vk__ClientId - ID клиента для VK API  
+- Vk__ClientSecret - ключ клиента для VK API  
+- Cms__ApiKey - ключ для CMS API  
 - -p 8080:80 - внешний порт для API  
 
 После этого API будет доступна по порту 8080, а по ссылке /swagger/index.html будет доступна документация OpenAPI
@@ -73,9 +73,9 @@ docker run --name cms -d --restart always -p 80:1337 \
 Переменные и секреты  
 - -p 80:1337 - внешний порт для CMS  
 - -v /upload:/opt/app/public/uploads - локальный диск для хранения данных (если не используется внешнее хранилище, например S3)  
-- ADMIN_JWT_SECRET    
-- API_TOKEN_SALT -  Сид-фраза для генерации API ключей `123абв456`
-- APP_KEYS  
+- ADMIN_JWT_SECRET - ключ для генерации токенов jwt к админской панели    
+- API_TOKEN_SALT -  Сид-фраза для генерации API ключей `123абв456`  
+- APP_KEYS - ключ для генерации сессионных cookies  
 - DATABASE_CLIENT - тип СУБД `postgres`  
 - DATABASE_HOST - адрес сервера БД  
 - DATABASE_NAME - имя БД  
@@ -83,13 +83,15 @@ docker run --name cms -d --restart always -p 80:1337 \
 - DATABASE_PORT - порт БД  
 - DATABASE_USERNAME - логин пользователя БД  
 - FORCE_MIGRATION - удаляет таблицы БД для которых не созданы каталоги `false`  
-- JWT_SECRET  
+- JWT_SECRET - ключ для генерации токенов jwt  
 - SMTP_HOST - адрес сервера SMTP для почтовой рассылки   
 - SMTP_PASSWORD - пароль пользователя для почтовой рассылки  
 - SMTP_PORT - порт сервера SMTP для почтовой рассылки  
 - SMTP_USERNAME - логин пользователя для почтовой рассылки  
 
 После этого CMS будет доступна по порту 80 по ссылке /admin
+
+Полная документация CMS доступна [здесь](https://docs.strapi.io/)
 
 ## Развертывания сервиса презентаций PDF
 

@@ -172,64 +172,84 @@
             </com.google.android.material.card.MaterialCardView>
 
             <!-- Task of the day -->
-            <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/tasks_task_otd"
+            <com.google.android.material.card.MaterialCardView android:id="@+id/tasks_task_otd"
                                                                android:layout_width="match_parent"
                                                                android:layout_height="wrap_content"
                                                                android:layout_marginTop="8dp"
-                                                               android:background="@drawable/task_ofd_background"
-                                                               android:foreground="?attr/selectableItemBackground"
-                                                               android:clipToOutline="true"
+                                                               app:cardCornerRadius="@dimen/default_corner_radius"
+                                                               app:cardElevation="0dp"
                                                                app:layout_constraintTop_toBottomOf="@id/tasks_stats">
 
-                <TextView android:id="@+id/tasks_task_otd_title"
-                          style="@style/AppTheme.BodyMedium"
-                          android:layout_width="0dp"
-                          android:layout_height="wrap_content"
-                          android:layout_marginStart="16dp"
-                          android:layout_marginTop="16dp"
-                          android:maxLines="2"
-                          android:text="Каждый день новое задание!"
-                          android:textColor="@color/textLight"
-                          app:layout_constraintStart_toStartOf="parent"
-                          app:layout_constraintTop_toTopOf="parent"
-                          app:layout_constraintWidth_default="percent"
-                          app:layout_constraintWidth_percent=".5"/>
-
-                <com.google.android.material.card.MaterialCardView android:id="@+id/tasks_task_otd_cta"
-                                                                   android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
                                                                    android:layout_height="wrap_content"
-                                                                   android:layout_marginTop="16dp"
-                                                                   android:layout_marginBottom="16dp"
-                                                                   android:elevation="0dp"
-                                                                   app:cardBackgroundColor="#26000000"
-                                                                   app:cardCornerRadius="4dp"
-                                                                   app:cardElevation="0dp"
-                                                                   app:contentPaddingBottom="4dp"
-                                                                   app:contentPaddingLeft="8dp"
-                                                                   app:contentPaddingRight="8dp"
-                                                                   app:contentPaddingTop="4dp"
-                                                                   app:layout_constraintBottom_toBottomOf="parent"
-                                                                   app:layout_constraintStart_toStartOf="@id/tasks_task_otd_title"
-                                                                   app:layout_constraintTop_toBottomOf="@id/tasks_task_otd_title">
+                                                                   android:clipChildren="true"
+                                                                   android:clipToOutline="true">
 
-                    <TextView style="@style/AppTheme.BodyMedium.Small"
-                              android:layout_width="wrap_content"
+                    <ImageView android:layout_width="0dp"
+                               android:layout_height="0dp"
+                               android:foreground="#33000000"
+                               android:scaleType="centerCrop"
+                               android:src="@drawable/image_courses_banner"
+                               app:layout_constraintBottom_toBottomOf="parent"
+                               app:layout_constraintEnd_toEndOf="parent"
+                               app:layout_constraintStart_toStartOf="parent"
+                               app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TextView android:id="@+id/tasks_task_otd_title"
+                              style="@style/AppTheme.BodyMedium"
+                              android:layout_width="0dp"
                               android:layout_height="wrap_content"
-                              android:text="Пройти задание"
-                              android:textColor="@color/textLight"/>
+                              android:layout_marginStart="16dp"
+                              android:layout_marginTop="16dp"
+                              android:maxLines="2"
+                              android:text="Задание дня каждый день!"
+                              android:textColor="@color/textLight"
+                              android:textSize="18sp"
+                              app:layout_constraintStart_toStartOf="parent"
+                              app:layout_constraintTop_toTopOf="parent"
+                              app:layout_constraintWidth_default="percent"
+                              app:layout_constraintWidth_percent=".7"/>
 
-                </com.google.android.material.card.MaterialCardView>
+                    <TextView android:id="@+id/tasks_task_otd_subtitle"
+                              style="@style/AppTheme.BodyMedium.Small"
+                              android:layout_width="0dp"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="8dp"
+                              android:maxLines="2"
+                              android:text="За прохождение задания вам начисляются баллы в x2"
+                              android:textColor="@color/textLight"
+                              app:layout_constraintEnd_toEndOf="@id/tasks_task_otd_title"
+                              app:layout_constraintStart_toStartOf="@id/tasks_task_otd_title"
+                              app:layout_constraintTop_toBottomOf="@id/tasks_task_otd_title"/>
 
-                <ImageView android:layout_width="0dp"
-                           android:layout_height="0dp"
-                           android:scaleType="centerCrop"
-                           android:src="@drawable/image_girl_contrabass_totd"
-                           app:layout_constraintBottom_toBottomOf="parent"
-                           app:layout_constraintDimensionRatio="1:1"
-                           app:layout_constraintEnd_toEndOf="parent"
-                           app:layout_constraintTop_toTopOf="parent"/>
+                    <com.google.android.material.card.MaterialCardView android:id="@+id/tasks_task_otd_cta"
+                                                                       android:layout_width="wrap_content"
+                                                                       android:layout_height="wrap_content"
+                                                                       android:layout_marginTop="16dp"
+                                                                       android:layout_marginBottom="16dp"
+                                                                       android:elevation="0dp"
+                                                                       app:cardBackgroundColor="@color/accent"
+                                                                       app:cardCornerRadius="4dp"
+                                                                       app:cardElevation="0dp"
+                                                                       app:contentPaddingBottom="4dp"
+                                                                       app:contentPaddingLeft="8dp"
+                                                                       app:contentPaddingRight="8dp"
+                                                                       app:contentPaddingTop="4dp"
+                                                                       app:layout_constraintBottom_toBottomOf="parent"
+                                                                       app:layout_constraintStart_toStartOf="@id/tasks_task_otd_title"
+                                                                       app:layout_constraintTop_toBottomOf="@id/tasks_task_otd_subtitle">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                        <TextView style="@style/AppTheme.BodyMedium.Small"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:text="Пройти задание"
+                                  android:textColor="@color/textLight"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.progressindicator.CircularProgressIndicator android:id="@+id/tasks_task_otd_loader"
                                                                                      style="@style/AppTheme.Loader.Default"

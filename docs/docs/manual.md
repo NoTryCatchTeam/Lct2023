@@ -35,6 +35,12 @@
 ![](pictures/delete from item.png)    
 
 ## Добавление медиа-файлов
+Добавить медиа-файлы, например видео/аудио/картинки/презентации, можно в меню Медиа-библиотека  
+![](pictures/media library.png)    
+
+- Нажать на кнопку "Add new assets" и перетянуть файлы в открывшееся окно, либо выбрать через "Обзор файлов"  
+![](pictures/add assets.png)    
+
 
 # Типы коллекций
 ## Учебное заведение
@@ -54,61 +60,60 @@ streams: Направления обучения (программы)
 ## Мероприятие
 Коллекция "event"
 ![](pictures/event.png)    
-name:
-description:
-eventDate:
-cover:
-gallery:
-link:
-ticketLink:
-place:
-streams:
+name: Название события  
+description: Описание события  
+eventDate: Дата и время события  
+cover: Обложка события  
+gallery: Медиа галлерея события  
+link: Ссылка на событие  
+ticketLink: Ссылка на покупку билета  
+place: Место  
+streams: Направления искусств  
 
 ## Новость
 Коллекция "article"
 ![](pictures/article.png)  
 
-title:
-text:
-cover:
-art_categories:
-createDate:
-location:
-link:
-rubric:
+title: Заголовок  
+text: Текст новости  
+cover: Обложка  
+art_categories: Категории искусств  
+createDate: Дата создания новости  
+location: Релевантная школа искусств  
+link: Ссылка на внешнюю новость  
+rubric: Рубрика  
 
 ## Курс
 Коллекция "course"
 ![](pictures/course.png)  
 
-name:
-price:
-type:
-level:
-isOnline:
-location:
-description:
-streams:
-author:
-lessons:
+name: Название курса  
+price: Цена курса  
+type: Тип курса  
+level: Уровень необходимых навыков  
+isOnline: Курс онлайн  
+location: Место проведения обучения  
+description: Описание курса  
+streams: Направления искусств  
+author: Автор курса  
+lessons: Уроки, входящие в курс  
 ## Урок
 Коллекция "lesson"
 ![](pictures/lesson.png)  
 
-name:
-lessonNumber:
-description:
-additionalMaterial:
-content:
-homework:
-isLocked:
-lessonChapter:
-
+name: Название урока  
+lessonNumber: Порядковый номер урока  
+description: Описание урока  
+additionalMaterial: Дополнительный материал к уроку  
+content: Содержание урока (видео/презентация)  
+homework: Описание домашнего задания  
+isLocked: Урок закрыт (по-умолчанию)  
+lessonChapter: Глава урока(группировка внутри курса)    
 
 ## Автор
 Коллекция "author"
 ![](pictures/author.png)  
 
-name:
-description:
-avatar:
+name: Имя автора  
+description: Об авторе  
+avatar: Аватар
