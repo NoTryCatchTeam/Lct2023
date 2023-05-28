@@ -72,9 +72,9 @@ public class AuthService : IAuthService
         return _mapper.Map<UserDto>(await _signInManager.UserManager.FindByEmailAsync(dto.Email));
     }
 
-    public async Task<AuthSuccessDto> SignInAsync(string login, string password)
+    public async Task<AuthSuccessDto> SignInAsync(string email, string password)
     {
-        if (await _signInManager.UserManager.FindByNameAsync(login) is not { } user)
+        if (await _signInManager.UserManager.FindByEmailAsync(email) is not { } user)
         {
             throw new UserException(UserExceptionType.UserDoNotExists);
         }

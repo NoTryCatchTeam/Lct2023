@@ -8,7 +8,7 @@ public interface IAuthService
 
     Task<UserDto> SignUpViaSocialAsync(CreateUserViaSocialDto dto);
 
-    Task<AuthSuccessDto> SignInAsync(string login, string password);
+    Task<AuthSuccessDto> SignInAsync(string email, string password);
 
     Task<AuthSuccessDto> SignInViaSocialAsync(string login, string loginProvider);
 
