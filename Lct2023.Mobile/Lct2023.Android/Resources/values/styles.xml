@@ -79,36 +79,54 @@
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textColor">@color/textPrimary</item>
         <item name="android:textSize">@dimen/textSmall</item>
+        <item name="android:ellipsize">end</item>
+        <item name="maxLines">1</item>
+        <item name="android:maxLines">1</item>
     </style>
 
     <style name="AppTheme.Body" parent="AppTheme">
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textColor">@color/textPrimary</item>
         <item name="android:textSize">@dimen/text</item>
+        <item name="android:ellipsize">end</item>
+        <item name="maxLines">1</item>
+        <item name="android:maxLines">1</item>
     </style>
 
     <style name="AppTheme.BodyMedium.Small" parent="AppTheme">
         <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textColor">@color/textPrimary</item>
         <item name="android:textSize">@dimen/textSmall</item>
+        <item name="android:ellipsize">end</item>
+        <item name="maxLines">1</item>
+        <item name="android:maxLines">1</item>
     </style>
 
     <style name="AppTheme.BodyMedium" parent="AppTheme">
         <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textColor">@color/textPrimary</item>
         <item name="android:textSize">@dimen/text</item>
+        <item name="android:ellipsize">end</item>
+        <item name="maxLines">1</item>
+        <item name="android:maxLines">1</item>
     </style>
 
     <style name="AppTheme.BodyBold.Small" parent="AppTheme">
         <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textColor">@color/textPrimary</item>
         <item name="android:textSize">@dimen/textSmall</item>
+        <item name="android:ellipsize">end</item>
+        <item name="maxLines">1</item>
+        <item name="android:maxLines">1</item>
     </style>
 
     <style name="AppTheme.BodyBold" parent="AppTheme">
         <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textColor">@color/textPrimary</item>
         <item name="android:textSize">@dimen/text</item>
+        <item name="android:ellipsize">end</item>
+        <item name="maxLines">1</item>
+        <item name="android:maxLines">1</item>
     </style>
 
     <!-- Text styles: secondary -->
@@ -116,48 +134,72 @@
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textColor">@color/textSecondary</item>
         <item name="android:textSize">@dimen/textSmall</item>
+        <item name="android:ellipsize">end</item>
+        <item name="maxLines">1</item>
+        <item name="android:maxLines">1</item>
     </style>
 
     <style name="AppTheme.Secondary" parent="AppTheme">
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textColor">@color/textSecondary</item>
         <item name="android:textSize">@dimen/text</item>
+        <item name="android:ellipsize">end</item>
+        <item name="maxLines">1</item>
+        <item name="android:maxLines">1</item>
     </style>
 
     <style name="AppTheme.SecondaryMedium.Small" parent="AppTheme">
         <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textColor">@color/textSecondary</item>
         <item name="android:textSize">@dimen/textSmall</item>
+        <item name="android:ellipsize">end</item>
+        <item name="maxLines">1</item>
+        <item name="android:maxLines">1</item>
     </style>
 
     <style name="AppTheme.SecondaryMedium" parent="AppTheme">
         <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textColor">@color/textSecondary</item>
         <item name="android:textSize">@dimen/text</item>
+        <item name="android:ellipsize">end</item>
+        <item name="maxLines">1</item>
+        <item name="android:maxLines">1</item>
     </style>
 
     <style name="AppTheme.SecondaryBold.Small" parent="AppTheme">
         <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textColor">@color/textSecondary</item>
         <item name="android:textSize">@dimen/textSmall</item>
+        <item name="android:ellipsize">end</item>
+        <item name="maxLines">1</item>
+        <item name="android:maxLines">1</item>
     </style>
 
     <style name="AppTheme.SecondaryBold" parent="AppTheme">
         <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textColor">@color/textSecondary</item>
         <item name="android:textSize">@dimen/text</item>
+        <item name="android:ellipsize">end</item>
+        <item name="maxLines">1</item>
+        <item name="android:maxLines">1</item>
     </style>
 
     <style name="AppTheme.H3" parent="AppTheme">
         <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textColor">@color/textPrimary</item>
         <item name="android:textSize">24sp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="maxLines">1</item>
+        <item name="android:maxLines">1</item>
     </style>
 
     <style name="AppTheme.H4" parent="AppTheme">
         <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textColor">@color/textPrimary</item>
         <item name="android:textSize">20sp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="maxLines">1</item>
+        <item name="android:maxLines">1</item>
     </style>
 
     <style name="AppTheme.Tasks.Stats.Counter" parent="AppTheme">

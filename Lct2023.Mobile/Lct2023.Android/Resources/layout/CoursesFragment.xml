@@ -190,10 +190,10 @@
                                                                app:boxCornerRadiusTopStart="12dp"
                                                                app:boxStrokeWidth="0dp"
                                                                app:hintEnabled="false"
-                                                               app:layout_constraintBottom_toBottomOf="@id/courses_filters"
+                                                               app:layout_constraintBottom_toBottomOf="parent"
                                                                app:layout_constraintEnd_toStartOf="@id/courses_filters"
                                                                app:layout_constraintStart_toStartOf="parent"
-                                                               app:layout_constraintTop_toTopOf="@id/courses_filters">
+                                                               app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText android:id="@+id/courses_search_text_value"
                                                                      android:layout_width="match_parent"
@@ -208,6 +208,7 @@
 
         <com.google.android.material.button.MaterialButton android:id="@+id/courses_filters"
                                                            style="@style/AppTheme.Button.Image"
+                                                           android:layout_height="0dp"
                                                            android:layout_marginStart="12dp"
                                                            app:icon="@drawable/ic_filters"
                                                            app:layout_constraintBottom_toBottomOf="parent"
