@@ -3,8 +3,10 @@ using System.Linq;
 using Lct2023.Business.RestServices.Stories;
 using Lct2023.Definitions.Constants;
 using Lct2023.Services;
+using Lct2023.ViewModels.ProfTest;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using MvvmCross.Commands;
 using MvvmCross.Navigation;
 
 namespace Lct2023.ViewModels.Main;
@@ -23,7 +25,11 @@ public class MainViewModel : BaseViewModel
     {
         _configuration = configuration;
         _storiesRestService = storiesRestService;
+
+        StartProfTestCommand = new MvxAsyncCommand(() => NavigationService.Navigate<ProfTestStartViewModel>());
     }
+
+    public IMvxAsyncCommand StartProfTestCommand { get; }
 
     public IEnumerable<IStoryCardItemViewModel> StoryCards { get; private set; }
 

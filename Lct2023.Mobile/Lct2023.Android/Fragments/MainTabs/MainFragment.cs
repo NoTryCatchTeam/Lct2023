@@ -1,15 +1,22 @@
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+using AndroidX.ConstraintLayout.Widget;
 using AndroidX.RecyclerView.Widget;
+using Google.Android.Material.Button;
 using Lct2023.Android.Adapters;
 using Lct2023.Android.Decorations;
 using Lct2023.Android.Helpers;
 using Lct2023.ViewModels.Main;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using Lct2023.Commons.Extensions;
+using Lct2023.Converters;
+using Lct2023.Definitions.Internals;
+using Lct2023.Services;
+using MvvmCross.Binding.BindingContext;
 using MvvmCross.DroidX.RecyclerView;
 using MvvmCross.DroidX.RecyclerView.ItemTemplates;
+using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using Square.Picasso;
 
@@ -25,6 +32,9 @@ public class MainFragment : BaseFragment<MainViewModel>
         var stories = view.FindViewById<MvxRecyclerView>(Resource.Id.main_stories);
         var pointsTextView = view.FindViewById<TextView>(Resource.Id.main_points_text);
         var rankingTextView = view.FindViewById<TextView>(Resource.Id.main_ranking_text);
+        (ConstraintLayout Layout, MaterialButton Button) profTest = (
+            view.FindViewById<ConstraintLayout>(Resource.Id.main_proftest_layout),
+            view.FindViewById<MaterialButton>(Resource.Id.main_proftest_button));
 
         var storiesAdapter = new MainStoriesAdapter((IMvxAndroidBindingContext)BindingContext)
         {
@@ -35,17 +45,20 @@ public class MainFragment : BaseFragment<MainViewModel>
         stories.SetAdapter(storiesAdapter);
         stories.AddItemDecoration(new ItemSeparateDecoration(DimensUtils.DpToPx(Activity, 4), LinearLayoutManager.Horizontal));
 
-        var points = 724;
-        var position = 3;
-
-        pointsTextView.Text = $"{points} {points.FormatEnding("балл", "балла", "баллов")}";
-        rankingTextView.Text = $"{position} место";
-
         var set = CreateBindingSet();
 
         set.Bind(stories)
             .For(v => v.ItemsSource)
             .To(vm => vm.StoryCards);
+
+        set.Bind(profTest.Layout)
+            .For(x => x.BindVisible())
+            .To(vm => vm.UserContext.User)
+            .WithConversion(new AnyExpressionConverter<User, bool>(x => x?.IsProfTestFinished == false));
+
+        set.Bind(profTest.Button)
+            .For(x => x.BindClick())
+            .To(vm => vm.StartProfTestCommand);
 
         set.Apply();
 
