@@ -157,6 +157,7 @@
         <Compile Include="Setup.cs" />
         <Compile Include="TemplateSelectors\MultipleTemplateSelector.cs" />
         <Compile Include="Views\ExtendedToolbar.cs" />
+        <Compile Include="Views\MaskView.cs" />
         <Compile Include="Views\StateContainer.cs" />
     </ItemGroup>
     <ItemGroup>
