@@ -158,6 +158,9 @@
         <Compile Include="TemplateSelectors\MultipleTemplateSelector.cs" />
         <Compile Include="Views\ExtendedToolbar.cs" />
         <Compile Include="Views\StateContainer.cs" />
+        <Compile Include="Views\DimView.cs" />
+        <Compile Include="Listeners\DefaultOnTouchListener.cs" />
+        <Compile Include="Callbacks\DefaultBottomSheetCallback.cs" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Properties\AndroidManifest.xml" />

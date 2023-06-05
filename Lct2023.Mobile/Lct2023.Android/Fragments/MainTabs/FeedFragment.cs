@@ -12,6 +12,7 @@ using Google.Android.Material.Card;
 using Google.Android.Material.TextField;
 using Lct2023.Android.Adapters;
 using Lct2023.Android.Bindings;
+using Lct2023.Android.Callbacks;
 using Lct2023.Android.Decorations;
 using Lct2023.Android.Helpers;
 using Lct2023.Android.Listeners;
@@ -29,6 +30,8 @@ namespace Lct2023.Android.Fragments.MainTabs;
 [MvxFragmentPresentation]
 public class FeedFragment : BaseFragment<FeedViewModel>, View.IOnClickListener
 {
+    private const float MAX_DIM_ALPHA = 0.8f;
+
     private MaterialCardView _filtersBottomSheet;
     private BottomSheetBehavior _filtersBottomSheetBehavior;
     
@@ -46,6 +49,7 @@ public class FeedFragment : BaseFragment<FeedViewModel>, View.IOnClickListener
         var filtersButton = view.FindViewById<MaterialButton>(Resource.Id.feed_filters_button);
         _filtersBottomSheet = view.FindViewById<MaterialCardView>(Resource.Id.feed_filters_bottom_sheet);
         _filtersBottomSheetBehavior = BottomSheetBehavior.From(_filtersBottomSheet);
+        var dimView = view.FindViewById(Resource.Id.feed_dim);
         var feedStateContainer = view.FindViewById<StateContainer>(Resource.Id.feed_state_container);
         var filtersRecycler = view.FindViewById<MvxRecyclerView>(Resource.Id.feed_filters_recycle);
         var filtersCloseBsButton = view.FindViewById<MaterialButton>(Resource.Id.feed_filters_close_bs_button);
@@ -64,6 +68,29 @@ public class FeedFragment : BaseFragment<FeedViewModel>, View.IOnClickListener
         {
             ItemTemplateSelector = new MvxDefaultTemplateSelector(Resource.Layout.FeedFiltersGroupItemView),
         };
+
+        dimView.SetOnTouchListener(new DefaultOnTouchListener((v, e) =>
+        {
+            var notHidden = _filtersBottomSheetBehavior.State != BottomSheetBehavior.StateHidden;
+            if (notHidden)
+            {
+                _filtersBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
+            }
+
+            return notHidden;
+        }));
+
+        var bottomSheetCallback = new DefaultBottomSheetCallback(
+            (v, s) =>
+            {
+                dimView.Alpha = (s > MAX_DIM_ALPHA) switch
+                {
+                    true => MAX_DIM_ALPHA,
+                    _ => s,
+                };
+            });
+
+        _filtersBottomSheetBehavior.AddBottomSheetCallback(bottomSheetCallback);
 
         filtersRecycler.SetLayoutManager(new MvxGuardedLinearLayoutManager(Context) { Orientation = LinearLayoutManager.Vertical });
         filtersRecycler.SetAdapter(feedFiltersAdapter);

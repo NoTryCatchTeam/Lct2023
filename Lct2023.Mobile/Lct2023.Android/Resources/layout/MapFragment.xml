@@ -7,8 +7,12 @@
                                                    android:background="@color/background">
 
     <include app:layout_constraintTop_toTopOf="parent"
-            layout="@layout/Toolbar"
-            android:id="@+id/toolbar"/>
+            layout="@layout/Toolbar"/>
+
+    <Lct2023.Android.Views.DimView
+                              android:layout_width="match_parent"
+                              android:layout_height="match_parent"
+                              android:id="@+id/map_dim"/>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"

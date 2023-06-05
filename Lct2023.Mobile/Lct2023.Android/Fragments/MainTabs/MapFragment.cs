@@ -36,6 +36,9 @@ using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Binding.Views;
 using ReactiveUI;
+using Lct2023.Android.Listeners;
+using Java.Lang;
+using Lct2023.Android.Views;
 
 namespace Lct2023.Android.Fragments.MainTabs;
 
@@ -87,6 +90,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         var actionButton = view.FindViewById<MaterialButton>(Resource.Id.action_button);
         _filtersBottomSheet = view.FindViewById<MaterialCardView>(Resource.Id.filters_bottom_sheet);
         _filtersBottomSheetBehavior = BottomSheetBehavior.From(_filtersBottomSheet);
+        var dimView = view.FindViewById(Resource.Id.map_dim);
         var mapFiltersRecycle = view.FindViewById<MvxRecyclerView>(Resource.Id.map_filters_recycle);
         var filtersCloseBsButton = view.FindViewById<MaterialButton>(Resource.Id.map_filters_close_bs_button);
         var clearFiltersButton = view.FindViewById<MaterialButton>(Resource.Id.map_clear_filters_button);
@@ -147,7 +151,44 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         mapFiltersRecycle.SetLayoutManager(new MvxGuardedLinearLayoutManager(Context) { Orientation = LinearLayoutManager.Vertical });
         mapFiltersRecycle.SetAdapter(mapFiltersAdapter);
         mapFiltersRecycle.AddItemDecoration(vertical16dpItemSpacingDecoration);
-        
+
+        dimView.SetOnTouchListener(new DefaultOnTouchListener((v, e) =>
+        {
+            var notHidden = _filtersBottomSheetBehavior.State != BottomSheetBehavior.StateHidden || _locationDetailsBottomSheetBehavior.State != BottomSheetBehavior.StateHidden;
+            if (notHidden)
+            {
+                DeselectLocation();
+            }
+
+            return notHidden;
+        }));
+
+        _filtersBottomSheetBehavior.SetBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int)
+    {
+        when(newState) {
+            BottomSheetBehavior.STATE_COLLAPSED->
+                    {
+                if (!addRecordButton.isShown)
+                    addRecordButton.show()
+                    }
+            BottomSheetBehavior.STATE_DRAGGING-> {
+                if (addRecordButton.isShown)
+                    addRecordButton.hide()
+                    }
+        }
+    }
+
+    override fun onSlide(bottomSheet: View, slideOffset: Float)
+    {
+        dimView.alpha = when(slideOffset > MAX_DIM_ALPHA) {
+            true->MAX_DIM_ALPHA
+                    else ->slideOffset
+                }
+    }
+})
+
+
         searchAdapter.ItemClick = new MvxCommand<MapSearchResultItemViewModel>(
             item =>
             {
