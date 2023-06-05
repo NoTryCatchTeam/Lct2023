@@ -31,7 +31,7 @@ namespace Lct2023.Android.Fragments.MainTabs;
 [MvxFragmentPresentation]
 public class FeedFragment : BaseFragment<FeedViewModel>, View.IOnClickListener
 {
-    private const float MAX_DIM_ALPHA = 0.8f;
+    private const float MAX_DIM_ALPHA = 0.65f;
 
     private MaterialCardView _filtersBottomSheet;
     private BottomSheetBehavior _filtersBottomSheetBehavior;
@@ -72,13 +72,13 @@ public class FeedFragment : BaseFragment<FeedViewModel>, View.IOnClickListener
 
         dimView.SetOnTouchListener(new DefaultOnTouchListener((v, e) =>
         {
-            var notHidden = _filtersBottomSheetBehavior.State != BottomSheetBehavior.StateHidden;
-            if (notHidden)
+            var isExpanded = _filtersBottomSheetBehavior.State == BottomSheetBehavior.StateExpanded;
+            if (isExpanded)
             {
                 _filtersBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
             }
 
-            return notHidden;
+            return isExpanded;
         }));
 
         var bottomSheetCallback = new DefaultBottomSheetCallback(

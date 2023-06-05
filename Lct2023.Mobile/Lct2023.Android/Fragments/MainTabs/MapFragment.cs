@@ -39,13 +39,14 @@ using ReactiveUI;
 using Lct2023.Android.Listeners;
 using Lct2023.Android.Views;
 using Lct2023.Android.Callbacks;
+using AndroidX.CoordinatorLayout.Widget;
 
 namespace Lct2023.Android.Fragments.MainTabs;
 
 [MvxFragmentPresentation]
 public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View.IOnClickListener, GoogleMap.IOnMarkerClickListener, GoogleMap.IOnMapClickListener
 {
-    private const float MAX_DIM_ALPHA = 0.8f;
+    private const float MAX_DIM_ALPHA = 0.65f;
 
     private MapView _mapView;
 
@@ -55,7 +56,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
     private View _addressLayout;
     private MaterialCardView _filtersBottomSheet;
     private BottomSheetBehavior _filtersBottomSheetBehavior;
-    private ConstraintLayout _mapContainer;
+    private CoordinatorLayout _mapContainer;
 
     protected override int GetLayoutId() => Resource.Layout.MapFragment;
     
@@ -67,7 +68,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         
         _mapView = view.FindViewById<MapView>(Resource.Id.map_view);
         
-        _mapContainer = view.FindViewById<ConstraintLayout>(Resource.Id.map_container);
+        _mapContainer = view.FindViewById<CoordinatorLayout>(Resource.Id.map_container);
         var locationsSearchEditText = view.FindViewById<TextInputEditText>(Resource.Id.locations_search_value);
         var searchResultsList = view.FindViewById<MvxRecyclerView>(Resource.Id.map_search_results);
         var locationTypesGroup = view.FindViewById<MaterialButtonToggleGroup>(Resource.Id.location_types_group);
@@ -156,13 +157,13 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
 
         dimView.SetOnTouchListener(new DefaultOnTouchListener((v, e) =>
         {
-            var notHidden = _filtersBottomSheetBehavior.State != BottomSheetBehavior.StateHidden || _locationDetailsBottomSheetBehavior.State != BottomSheetBehavior.StateHidden;
-            if (notHidden)
+            var isExpanded = _filtersBottomSheetBehavior.State == BottomSheetBehavior.StateExpanded || _locationDetailsBottomSheetBehavior.State == BottomSheetBehavior.StateExpanded;
+            if (isExpanded || _locationDetailsBottomSheetBehavior.State == BottomSheetBehavior.StateCollapsed)
             {
                 DeselectLocation();
             }
 
-            return notHidden;
+            return isExpanded;
         }));
 
         var bottomSheetCallback = new DefaultBottomSheetCallback(
@@ -621,13 +622,14 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
 
     private void DeselectLocation()
     {
+        _filtersBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
+
         if (ViewModel.SelectedLocation == null)
         {
             return;
         }
         
         ViewModel.SelectedLocation = null;
-        _filtersBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
         _locationDetailsBottomSheetBehavior.PeekHeight = 0;
         _locationDetailsBottomSheetBehavior.Hideable = true;
         _locationDetailsBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
