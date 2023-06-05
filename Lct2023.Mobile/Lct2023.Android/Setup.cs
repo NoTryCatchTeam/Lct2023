@@ -58,6 +58,10 @@ public class Setup : MvxAndroidSetup<App>
         registry.RegisterCustomBindingFactory<TextView>(
             nameof(TextViewTextColorBinding),
             v => new TextViewTextColorBinding(v));
+
+        registry.RegisterCustomBindingFactory<TextView>(
+            nameof(TextViewMaxLinesBinding),
+            v => new TextViewMaxLinesBinding(v));
     }
 
     protected override IMvxAndroidViewPresenter CreateViewPresenter() =>

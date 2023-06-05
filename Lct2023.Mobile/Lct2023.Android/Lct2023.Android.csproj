@@ -161,6 +161,7 @@
         <Compile Include="Views\DimView.cs" />
         <Compile Include="Listeners\DefaultOnTouchListener.cs" />
         <Compile Include="Callbacks\DefaultBottomSheetCallback.cs" />
+        <Compile Include="Bindings\TextViewMaxLinesBinding.cs" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Properties\AndroidManifest.xml" />

@@ -37,14 +37,16 @@ using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Binding.Views;
 using ReactiveUI;
 using Lct2023.Android.Listeners;
-using Java.Lang;
 using Lct2023.Android.Views;
+using Lct2023.Android.Callbacks;
 
 namespace Lct2023.Android.Fragments.MainTabs;
 
 [MvxFragmentPresentation]
 public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View.IOnClickListener, GoogleMap.IOnMarkerClickListener, GoogleMap.IOnMapClickListener
 {
+    private const float MAX_DIM_ALPHA = 0.8f;
+
     private MapView _mapView;
 
     private GoogleMap _googleMap;
@@ -163,30 +165,19 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
             return notHidden;
         }));
 
-        _filtersBottomSheetBehavior.SetBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int)
-    {
-        when(newState) {
-            BottomSheetBehavior.STATE_COLLAPSED->
-                    {
-                if (!addRecordButton.isShown)
-                    addRecordButton.show()
-                    }
-            BottomSheetBehavior.STATE_DRAGGING-> {
-                if (addRecordButton.isShown)
-                    addRecordButton.hide()
-                    }
-        }
-    }
+        var bottomSheetCallback = new DefaultBottomSheetCallback(
+            (v, s) =>
+            {
+                dimView.Alpha = (s > MAX_DIM_ALPHA) switch
+                {
+                    true => MAX_DIM_ALPHA,
+                    _ => s,
+                };
+            });
 
-    override fun onSlide(bottomSheet: View, slideOffset: Float)
-    {
-        dimView.alpha = when(slideOffset > MAX_DIM_ALPHA) {
-            true->MAX_DIM_ALPHA
-                    else ->slideOffset
-                }
-    }
-})
+        _filtersBottomSheetBehavior.AddBottomSheetCallback(bottomSheetCallback);
+
+        _locationDetailsBottomSheetBehavior.AddBottomSheetCallback(bottomSheetCallback);
 
 
         searchAdapter.ItemClick = new MvxCommand<MapSearchResultItemViewModel>(

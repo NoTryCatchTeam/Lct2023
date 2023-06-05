@@ -5,6 +5,7 @@ using System.Linq;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+using AndroidX.CoordinatorLayout.Widget;
 using AndroidX.RecyclerView.Widget;
 using Google.Android.Material.BottomSheet;
 using Google.Android.Material.Button;
@@ -43,7 +44,7 @@ public class FeedFragment : BaseFragment<FeedViewModel>, View.IOnClickListener
         TextView noDateText = null;
         
         var view = base.OnCreateView(inflater, container, savedInstanceState);
-        
+
         view.FindViewById<TextView>(Resource.Id.toolbar_title).Text = "Лента";
         var feedSearchEditText = view.FindViewById<TextInputEditText>(Resource.Id.feed_search_edit_text);
         var filtersButton = view.FindViewById<MaterialButton>(Resource.Id.feed_filters_button);

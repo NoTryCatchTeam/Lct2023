@@ -17,6 +17,8 @@ public class FeedItemViewModel : MvxNotifyPropertyChanged
     public string Link { get; set; }
     
     public string ImageUrl { get; set; }
-    
+
+    public bool Expanded { get; set; }
+
     public IEnumerable<string> ArtCategories { get; set; }
 }
