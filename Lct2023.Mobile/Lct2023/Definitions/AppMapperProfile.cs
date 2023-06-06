@@ -139,6 +139,10 @@ public class AppMapperProfile : Profile
             .ForMember(x => x.IsSelected, expr => expr.Ignore())
             ;
 
+        CreateMap<ArtCategoryResponse, FeedArtDirectionItemViewModel>()
+            .ForMember(x => x.Title, expr => expr.MapFrom(s => s.DisplayName))
+            ;
+
         CreateMap<RubricResponse, FilterItemViewModel>()
             .ForMember(x => x.Title, expr => expr.MapFrom(s => s.Name))
             .ForMember(x => x.IsSelected, expr => expr.Ignore())

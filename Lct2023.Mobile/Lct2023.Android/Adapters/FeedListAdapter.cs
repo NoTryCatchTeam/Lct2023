@@ -11,27 +11,43 @@ using Android.Views;
 using Android.Widget;
 using AndroidX.Core.Content;
 using AndroidX.Core.Widget;
+using AndroidX.RecyclerView.Widget;
+using Com.Google.Android.Exoplayer2;
 using Google.Android.Material.Button;
 using Google.Android.Material.Card;
 using Lct2023.Android.Bindings;
+using Lct2023.Android.Decorations;
 using Lct2023.Android.Helpers;
 using Lct2023.Converters;
 using Lct2023.ViewModels.Feed;
 using Lct2023.ViewModels.Map;
 using MvvmCross.Binding.BindingContext;
+using MvvmCross.DroidX.RecyclerView;
+using MvvmCross.DroidX.RecyclerView.ItemTemplates;
+using MvvmCross.DroidX.RecyclerView.Model;
 using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
+using MvvmCross.ViewModels;
 using ReactiveUI;
 using Square.Picasso;
+using static Android.Icu.Text.CaseMap;
 using static Android.Util.EventLogTags;
+using static Com.Google.Android.Exoplayer2.UI.SubtitleView;
 
 namespace Lct2023.Android.Adapters;
 
-public class FeedListAdapter : BaseTemplatedRecyclerViewAdapter<FeedItemViewModel, FeedListAdapter.BaseFeedItemViewHolder>, INotifyPropertyChanged
+public class FeedListAdapter<TContextViewModel> : BaseTemplatedRecyclerViewAdapter<FeedItemViewModel, FeedListAdapter<TContextViewModel>.BaseFeedItemViewHolder>, INotifyPropertyChanged
+    where TContextViewModel: MvxViewModel
 {
-    public FeedListAdapter(IMvxAndroidBindingContext bindingContext)
+    private (Func<View> ViewCreator, Action<View, IMvxAndroidBindingContext, MvxFluentBindingDescriptionSet<FeedHeaderItemViewHolder, TContextViewModel>> ViewBinder)[] _headers;
+    private TContextViewModel _contextViewModel;
+
+    public FeedListAdapter(IMvxAndroidBindingContext bindingContext, TContextViewModel contextViewModel, params (Func<View> ViewCreator, Action<View, IMvxAndroidBindingContext, MvxFluentBindingDescriptionSet<FeedHeaderItemViewHolder, TContextViewModel>> ViewBinder)[] headers)
         : base(bindingContext)
     {
+        _headers = headers;
+        _contextViewModel = contextViewModel;
+
         this.WhenAnyValue(vm => vm.IsLoadingMore)
             .Skip(1)
             .Where(_ => Items != null)
@@ -50,23 +66,48 @@ public class FeedListAdapter : BaseTemplatedRecyclerViewAdapter<FeedItemViewMode
     }
 
     public ObservableCollection<FeedItemViewModel> Items { get; set; }
-    
-    public override int ItemCount => IsLoadingMore ? Items.Count + 1 : Items.Count;
+
+    public override int ItemCount => Items.Count switch
+    {
+        _ when IsLoadingMore => Items.Count + 1,
+        _ => Items.Count
+    };
 
     public bool IsLoadingMore { get; set; }
+
+    protected override View InflateViewForHolder(ViewGroup parent, int viewType, IMvxAndroidBindingContext bindingContext)
+    => viewType switch
+    {
+        Resource.Layout.FeedItemView or Resource.Layout.FeedLoadItemView => base.InflateViewForHolder(parent, viewType, bindingContext),
+
+        // header
+        _ => _headers.ElementAtOrDefault((viewType + 1) * (-1)).ViewCreator(),
+    };
+
+    public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
+    {
+        base.OnBindViewHolder(holder, position);
+        if (position < _headers.Length && holder is IMvxRecyclerViewHolder mvxRecyclerViewHolder)
+        {
+            mvxRecyclerViewHolder.DataContext = _contextViewModel;
+        }
+    }
 
     protected override Func<View, int, IMvxAndroidBindingContext, BaseFeedItemViewHolder> BindableTemplatedViewHolderCreator
     => (v, i, c) => i switch
     {
         Resource.Layout.FeedItemView => new FeedItemViewHolder(v, c),
         Resource.Layout.FeedLoadItemView => new FeedLoadingItemViewHolder(v, c),
+        _ => new FeedHeaderItemViewHolder(v, c, _headers.ElementAtOrDefault((i + 1) * (-1)).ViewBinder),
     };
     
     public override int GetItemViewType(int position) =>
-        (Items.Count == position) switch
+        position switch
         {
-            false => Resource.Layout.FeedItemView,
-            _ => Resource.Layout.FeedLoadItemView,
+            // header
+            _ when position < _headers.Length => ((position * (-1)) - 1),
+            _ when Items.Count == position => Resource.Layout.FeedLoadItemView,
+            _ => Resource.Layout.FeedItemView,
         };
 
     public abstract class BaseFeedItemViewHolder : BaseViewHolder
@@ -143,6 +184,9 @@ public class FeedListAdapter : BaseTemplatedRecyclerViewAdapter<FeedItemViewMode
                     .WithConversion(new AnyExpressionConverter<IEnumerable<string>, int>(items => items?.FirstOrDefault() switch
                     {
                         "Музыка" => Resource.Color.musicArtDirectionBgColor,
+                        "Хореография" => Resource.Color.horeoArtDirectionBgColor,
+                        "Рисование" => Resource.Color.drawArtDirectionBgColor,
+                        "Театр" or "Цирк" => Resource.Color.theatreArtDirectionBgColor,
                         _ => Resource.Color.defaultArtDirectionBgColor,
                     }));
                 
@@ -152,6 +196,9 @@ public class FeedListAdapter : BaseTemplatedRecyclerViewAdapter<FeedItemViewMode
                     .WithConversion(new AnyExpressionConverter<IEnumerable<string>, ColorStateList>(items => items?.FirstOrDefault() switch
                     {
                         "Музыка" => itemView.Context.Resources.GetColorStateList(Resource.Color.musicArtDirectionTextColor),
+                        "Хореография" => itemView.Context.Resources.GetColorStateList(Resource.Color.horeoArtDirectionTextColor),
+                        "Рисование" => itemView.Context.Resources.GetColorStateList(Resource.Color.drawArtDirectionTextColor),
+                        "Театр" or "Цирк" => itemView.Context.Resources.GetColorStateList(Resource.Color.theatreArtDirectionTextColor),
                         _ => itemView.Context.Resources.GetColorStateList(Resource.Color.defaultArtDirectionTextColor),
                     }));
 
@@ -236,6 +283,36 @@ public class FeedListAdapter : BaseTemplatedRecyclerViewAdapter<FeedItemViewMode
         public FeedLoadingItemViewHolder(View itemView, IMvxAndroidBindingContext context)
             : base(itemView, context)
         {
+        }
+    }
+
+    public class FeedHeaderItemViewHolder : BaseFeedItemViewHolder
+    {
+        private Action<View, IMvxAndroidBindingContext, MvxFluentBindingDescriptionSet<FeedHeaderItemViewHolder, TContextViewModel>> _viewBinder;
+        private bool _inited;
+
+        public FeedHeaderItemViewHolder(View itemView, IMvxAndroidBindingContext context, Action<View, IMvxAndroidBindingContext, MvxFluentBindingDescriptionSet<FeedHeaderItemViewHolder, TContextViewModel>> viewBinder)
+            : base(itemView, context)
+        {
+            _viewBinder = viewBinder;
+        }
+
+        public override void Bind()
+        {
+            base.Bind();
+
+            if (_inited)
+            {
+                return;
+            }
+
+            _inited = true;
+
+            var set = this.CreateBindingSet<FeedHeaderItemViewHolder, TContextViewModel>();
+
+            _viewBinder?.Invoke(ItemView, (IMvxAndroidBindingContext)BindingContext, set);
+
+            set.Apply();
         }
     }
 

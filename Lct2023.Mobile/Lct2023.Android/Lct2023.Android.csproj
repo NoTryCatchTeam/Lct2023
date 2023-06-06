@@ -162,6 +162,8 @@
         <Compile Include="Listeners\DefaultOnTouchListener.cs" />
         <Compile Include="Callbacks\DefaultBottomSheetCallback.cs" />
         <Compile Include="Bindings\TextViewMaxLinesBinding.cs" />
+        <Compile Include="Adapters\FeedArtDirectionsAdapter.cs" />
+        <Compile Include="Bindings\ImageViewByResIdBinding.cs" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Properties\AndroidManifest.xml" />
@@ -210,6 +212,30 @@
         <AndroidResource Update="Resources\layout\AppRateFinishFragment.xml">
           <SubType>Designer</SubType>
           <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+        </AndroidResource>
+        <AndroidResource Include="Resources\layout\FeedArtDirectionItemView.xml">
+          <SubType></SubType>
+          <Generator></Generator>
+        </AndroidResource>
+        <AndroidResource Include="Resources\drawable\image_draw_art_dir.png">
+          <SubType></SubType>
+          <Generator></Generator>
+        </AndroidResource>
+        <AndroidResource Include="Resources\drawable\image_horeo_art_dir.png">
+          <SubType></SubType>
+          <Generator></Generator>
+        </AndroidResource>
+        <AndroidResource Include="Resources\drawable\image_music_art_dir.png">
+          <SubType></SubType>
+          <Generator></Generator>
+        </AndroidResource>
+        <AndroidResource Include="Resources\drawable\image_theatre_art_dir.png">
+          <SubType></SubType>
+          <Generator></Generator>
+        </AndroidResource>
+        <AndroidResource Include="Resources\layout\FeedArtDirectionsHeaderItemView.xml">
+          <SubType></SubType>
+          <Generator></Generator>
         </AndroidResource>
     </ItemGroup>
     <ItemGroup>
