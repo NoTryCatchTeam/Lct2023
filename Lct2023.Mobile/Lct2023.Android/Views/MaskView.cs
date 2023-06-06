@@ -1,7 +1,9 @@
+using System;
 using System.Linq;
 using Android.Animation;
 using Android.Content;
 using Android.Graphics;
+using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Views.Animations;
@@ -15,6 +17,12 @@ public class MaskView : View, ValueAnimator.IAnimatorUpdateListener
     private float[] _radiuses;
     private Path _path;
     private Rect _maskedRect;
+
+    protected MaskView(IntPtr javaReference, JniHandleOwnership transfer)
+        : base(javaReference, transfer)
+    {
+        Init();
+    }
 
     public MaskView(Context context)
         : base(context)
@@ -34,10 +42,10 @@ public class MaskView : View, ValueAnimator.IAnimatorUpdateListener
         PostInvalidate();
     }
 
-    public void AnimateToRect(Rect newRect)
+    public void AnimateToRect(Rect newRect, long duration)
     {
         var animator = ValueAnimator.OfObject(new RectEvaluator(), _maskedRect, newRect);
-        animator.SetDuration(300);
+        animator.SetDuration(duration);
         animator.SetInterpolator(new LinearInterpolator());
         animator.AddUpdateListener(this);
 
@@ -80,8 +88,6 @@ public class MaskView : View, ValueAnimator.IAnimatorUpdateListener
 
     public void OnAnimationUpdate(ValueAnimator animator)
     {
-        Log.Info(nameof(MaskView), $"Animator {animator.AnimatedFraction}");
-
         _maskedRect = (Rect)animator.AnimatedValue;
 
         Invalidate();

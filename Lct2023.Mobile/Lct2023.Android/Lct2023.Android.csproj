@@ -208,6 +208,7 @@
           <SubType>Designer</SubType>
           <Generator>MSBuild:UpdateGeneratedFiles</Generator>
         </AndroidResource>
+        <AndroidResource Include="Resources\xml\main_tabbed_activity_scene.xml" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Assets" />

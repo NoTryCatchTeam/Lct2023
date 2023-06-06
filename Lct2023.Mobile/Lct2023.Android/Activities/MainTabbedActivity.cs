@@ -4,16 +4,22 @@ using Android.Content.PM;
 using Android.Graphics;
 using Android.OS;
 using Android.Views;
+using Android.Widget;
+using AndroidX.ConstraintLayout.Motion.Widget;
 using AndroidX.ConstraintLayout.Widget;
 using AndroidX.RecyclerView.Widget;
 using AndroidX.Transitions;
 using AndroidX.ViewPager2.Widget;
 using Google.Android.Material.BottomNavigation;
+using Google.Android.Material.Button;
+using Google.Android.Material.Card;
 using Lct2023.Android.Adapters;
+using Lct2023.Android.Helpers;
 using Lct2023.Android.Listeners;
 using Lct2023.Android.Presenters;
 using Lct2023.Android.Views;
 using Lct2023.ViewModels;
+using MvvmCross.Platforms.Android.Binding;
 
 namespace Lct2023.Android.Activities;
 
@@ -22,6 +28,8 @@ namespace Lct2023.Android.Activities;
 public class MainTabbedActivity : BaseActivity<MainTabbedViewModel>
 {
     private readonly Dictionary<int, int> _tabMenuActionsToFragmentPositionsMap;
+
+    private ConstraintLayout _parent;
 
     public MainTabbedActivity()
     {
@@ -40,10 +48,18 @@ public class MainTabbedActivity : BaseActivity<MainTabbedViewModel>
         base.OnCreate(bundle);
         SetContentView(Resource.Layout.MainTabbedActivity);
 
-        var parent = FindViewById<ConstraintLayout>(Resource.Id.main_view_layout);
+        _parent = FindViewById<ConstraintLayout>(Resource.Id.main_view_layout);
         var viewPager = FindViewById<ViewPager2>(Resource.Id.main_view_pager);
         var bottomNavigationView = FindViewById<BottomNavigationView>(Resource.Id.main_view_bottom_navigation);
-        var maskView = FindViewById<MaskView>(Resource.Id.main_view_mask);
+        var onboardingViews = new OnboardingViews(
+            FindViewById<MaskView>(Resource.Id.onboarding_mask),
+            FindViewById<MotionLayout>(Resource.Id.onboarding_motion_layout),
+            FindViewById<ImageView>(Resource.Id.onboarding_info_arrow),
+            FindViewById<MaterialCardView>(Resource.Id.onboarding_info),
+            FindViewById<TextView>(Resource.Id.onboarding_info_text),
+            FindViewById<MaterialButton>(Resource.Id.onboarding_info_next),
+            FindViewById<MaterialButton>(Resource.Id.onboarding_info_skip),
+            FindViewById<TextView>(Resource.Id.onboarding_info_counter));
 
         viewPager.UserInputEnabled = false;
         viewPager.Adapter = new MainViewPagerAdapter(this, 5);
@@ -57,42 +73,161 @@ public class MainTabbedActivity : BaseActivity<MainTabbedViewModel>
                 return true;
             }));
 
-        maskView.Clickable = true;
+        // Onboarding setup
+        onboardingViews.Mask.Clickable = true;
 
-        var maskViews = new View[8];
-
-        var i = 1;
-        maskView.SetOnClickListener(new DefaultClickListener(_ =>
+        var motionConstraintSets = new (int Id, ConstraintSet ConstraintSet)[]
         {
-            var nextMaskView = maskViews[i];
-            var nextMaskRect = new Rect();
-            nextMaskView.GetDrawingRect(nextMaskRect);
-            parent.OffsetDescendantRectToMyCoords(nextMaskView, nextMaskRect);
+            (Resource.Id.onboarding_scene_step_1, onboardingViews.MotionLayout.GetConstraintSet(Resource.Id.onboarding_scene_step_1)),
+            (Resource.Id.onboarding_scene_step_1, onboardingViews.MotionLayout.GetConstraintSet(Resource.Id.onboarding_scene_step_2)),
+            (Resource.Id.onboarding_scene_step_1, onboardingViews.MotionLayout.GetConstraintSet(Resource.Id.onboarding_scene_step_3)),
+            (Resource.Id.onboarding_scene_step_1, onboardingViews.MotionLayout.GetConstraintSet(Resource.Id.onboarding_scene_step_4)),
+            (Resource.Id.onboarding_scene_step_1, onboardingViews.MotionLayout.GetConstraintSet(Resource.Id.onboarding_scene_step_5)),
+            (Resource.Id.onboarding_scene_step_1, onboardingViews.MotionLayout.GetConstraintSet(Resource.Id.onboarding_scene_step_6)),
+            (Resource.Id.onboarding_scene_step_1, onboardingViews.MotionLayout.GetConstraintSet(Resource.Id.onboarding_scene_step_7)),
+            (Resource.Id.onboarding_scene_step_1, onboardingViews.MotionLayout.GetConstraintSet(Resource.Id.onboarding_scene_step_8)),
+        };
 
-            maskView.AnimateToRect(nextMaskRect);
+        var maskViews = new (View View, Rect Rect)[8];
 
-            i = i == 7 ? 0 : i + 1;
+        var stepCounter = 1;
+        onboardingViews.Next.SetOnClickListener(new DefaultClickListener(_ =>
+        {
+            if (stepCounter == 8)
+            {
+                // Finish onboarding
+                return;
+            }
+
+            onboardingViews.Mask.AnimateToRect(maskViews[stepCounter].Rect, 300);
+            onboardingViews.MotionLayout.TransitionToState(stepCounter switch
+            {
+                1 => Resource.Id.onboarding_scene_step_2,
+                2 => Resource.Id.onboarding_scene_step_3,
+                3 => Resource.Id.onboarding_scene_step_4,
+                4 => Resource.Id.onboarding_scene_step_5,
+                5 => Resource.Id.onboarding_scene_step_6,
+                6 => Resource.Id.onboarding_scene_step_7,
+                7 => Resource.Id.onboarding_scene_step_8,
+            });
+
+            onboardingViews.InfoText.Text = stepCounter switch
+            {
+                1 => "Полноценные видеокурсы для обучения по направлениям, форматам и стоимости, которые больше всего подходят для вас.",
+                2 => "Лента новостей, в которой вы сможете найти интересный и полезный контент из мира музыки, театра и хореографии.",
+                3 => "Проходите ежедневные тесты и зарабатывайте баллы рейтинга, чтобы обойти своих друзей в соревновании.",
+                4 => "Карта со школами МШИ и мероприятиями города Москва: театры, концерты, выставки.",
+                5 => "Ваш профиль, который доступен из любого раздела. В нем вы можете посмотреть статистику и рейтинг.",
+                6 => "Каждый день новые сторис на главной. Получайте полезную информацию, вовлекайтесь и проходите ежедневные задания.",
+                7 => "Карта со школами МШИ и мероприятиями города Москва: театры, концерты, выставки.",
+            };
+
+            onboardingViews.Counter.Text = $"{stepCounter + 1}/8";
+
+            stepCounter += 1;
+
+            if (stepCounter == 8)
+            {
+                onboardingViews.Next.Text = "Начать пользоваться!";
+                onboardingViews.Skip.Visibility = ViewStates.Gone;
+            }
         }));
 
-        parent.Post(() =>
+        _parent.Post(() =>
         {
             var viewPagerRecyclerViewLayoutManager = ((RecyclerView)viewPager.GetChildAt(0)).GetLayoutManager().FindViewByPosition(0);
 
-            maskViews[0] = FindViewById(Resource.Id.action_main);
-            maskViews[1] = FindViewById(Resource.Id.action_courses);
-            maskViews[2] = FindViewById(Resource.Id.action_feed);
-            maskViews[3] = FindViewById(Resource.Id.action_tasks);
-            maskViews[4] = FindViewById(Resource.Id.action_map);
-            maskViews[5] = viewPagerRecyclerViewLayoutManager.FindViewById(Resource.Id.toolbar_content);
-            maskViews[6] = viewPagerRecyclerViewLayoutManager.FindViewById(Resource.Id.main_stories);
-            maskViews[7] = viewPagerRecyclerViewLayoutManager.FindViewById(Resource.Id.main_statistics_frame);
+            maskViews[0] = GetViewInfo(FindViewById(Resource.Id.action_main));
+            maskViews[1] = GetViewInfo(FindViewById(Resource.Id.action_courses));
+            maskViews[2] = GetViewInfo(FindViewById(Resource.Id.action_feed));
+            maskViews[3] = GetViewInfo(FindViewById(Resource.Id.action_tasks));
+            maskViews[4] = GetViewInfo(FindViewById(Resource.Id.action_map));
+            maskViews[5] = GetViewInfo(viewPagerRecyclerViewLayoutManager.FindViewById(Resource.Id.toolbar_content));
+            maskViews[6] = GetViewInfo(viewPagerRecyclerViewLayoutManager.FindViewById(Resource.Id.main_stories));
+            maskViews[7] = GetViewInfo(viewPagerRecyclerViewLayoutManager.FindViewById(Resource.Id.main_statistics_frame));
 
-            var firstMaskView = maskViews[0];
-            var initMaskRect = new Rect();
-            firstMaskView.GetDrawingRect(initMaskRect);
-            parent.OffsetDescendantRectToMyCoords(firstMaskView, initMaskRect);
+            for (var i = 0; i < maskViews.Length; i++)
+            {
+                var maskView = maskViews[i];
 
-            maskView.SetInitialRect(initMaskRect);
+                if (i != 5)
+                {
+                    maskView.Rect.Inset(DimensUtils.DpToPx(this, 4), DimensUtils.DpToPx(this, 4));
+                }
+
+                var constraintSet = motionConstraintSets[i];
+
+                var translationY = i < 5 ?
+                    -1 * (_parent.Height - maskView.Rect.Top + DimensUtils.DpToPx(this, 12)) :
+                    maskView.Rect.Bottom + DimensUtils.DpToPx(this, 12);
+
+                constraintSet.ConstraintSet.SetTranslationY(Resource.Id.onboarding_info, translationY);
+                constraintSet.ConstraintSet.SetTranslationY(Resource.Id.onboarding_info_arrow, translationY);
+                constraintSet.ConstraintSet.SetMargin(Resource.Id.onboarding_info_arrow, ConstraintSet.Start, maskView.Rect.CenterX() - onboardingViews.Triangle.MeasuredWidth / 2);
+
+                onboardingViews.MotionLayout.UpdateState(constraintSet.Id, constraintSet.ConstraintSet);
+            }
+
+            onboardingViews.MotionLayout.SetTransition(Resource.Id.onboarding_scene_transition_1_2);
+            // onboardingViews.MotionLayout.RebuildScene();
+
+            onboardingViews.Mask.SetInitialRect(maskViews[0].Rect);
+
+            (View View, Rect Rect) GetViewInfo(View view)
+            {
+                var viewRect = new Rect();
+                view.GetDrawingRect(viewRect);
+                _parent.OffsetDescendantRectToMyCoords(view, viewRect);
+
+                return (view, viewRect);
+            }
         });
+
+        var set = CreateBindingSet();
+
+        set.Bind(onboardingViews.Skip)
+            .For(x => x.BindClick())
+            .To(vm => vm.SkipOnboardingCommand);
+
+        set.Apply();
+    }
+
+    private class OnboardingViews
+    {
+        public OnboardingViews(
+            MaskView mask,
+            MotionLayout motionLayout,
+            ImageView triangle,
+            MaterialCardView infoView,
+            TextView infoText,
+            MaterialButton next,
+            MaterialButton skip,
+            TextView counter)
+        {
+            Mask = mask;
+            MotionLayout = motionLayout;
+            Triangle = triangle;
+            InfoView = infoView;
+            InfoText = infoText;
+            Next = next;
+            Skip = skip;
+            Counter = counter;
+        }
+
+        public MaskView Mask { get; }
+
+        public MotionLayout MotionLayout { get; }
+
+        public ImageView Triangle { get; }
+
+        public MaterialCardView InfoView { get; }
+
+        public TextView InfoText { get; }
+
+        public MaterialButton Next { get; }
+
+        public MaterialButton Skip { get; }
+
+        public TextView Counter { get; }
     }
 }

@@ -23,9 +23,79 @@
                                                                        app:layout_constraintRight_toRightOf="parent"
                                                                        app:menu="@menu/main_bottom_menu"/>
 
-    <MaskView android:id="@+id/main_view_mask"
+    <MaskView android:id="@+id/onboarding_mask"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:elevation="10dp"/>
+              android:elevation="8dp"/>
+
+    <androidx.constraintlayout.motion.widget.MotionLayout android:id="@+id/onboarding_motion_layout"
+                                                          android:layout_width="match_parent"
+                                                          android:layout_height="match_parent"
+                                                          android:elevation="10dp"
+                                                          app:layoutDescription="@xml/main_tabbed_activity_scene">
+
+        <ImageView android:id="@+id/onboarding_info_arrow"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginStart="20dp"
+                   android:src="@drawable/ic_onboarding_info_triangle"
+                   app:layout_constraintStart_toStartOf="@id/onboarding_info"
+                   app:layout_constraintTop_toBottomOf="@id/onboarding_info"/>
+
+        <com.google.android.material.card.MaterialCardView android:id="@+id/onboarding_info"
+                                                           style="@style/AppTheme.MaterialCardView.White"
+                                                           android:layout_width="match_parent"
+                                                           android:layout_height="wrap_content"
+                                                           app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                               android:layout_height="match_parent"
+                                                               android:padding="16dp">
+
+                <TextView android:id="@+id/onboarding_info_text"
+                          style="@style/AppTheme.Body.Small"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:text="На главной странице мы собираем все важные данные: рейтинг, мероприятия и релевантные курсы."
+                          app:layout_constraintTop_toTopOf="parent"/>
+
+                <com.google.android.material.button.MaterialButton android:id="@+id/onboarding_info_next"
+                                                                   style="@style/AppTheme.Button.Base"
+                                                                   android:layout_width="wrap_content"
+                                                                   android:layout_height="wrap_content"
+                                                                   android:layout_marginTop="16dp"
+                                                                   android:paddingHorizontal="16dp"
+                                                                   android:paddingVertical="8dp"
+                                                                   android:text="Дальше"
+                                                                   app:layout_constraintStart_toStartOf="parent"
+                                                                   app:layout_constraintTop_toBottomOf="@id/onboarding_info_text"/>
+
+                <com.google.android.material.button.MaterialButton android:id="@+id/onboarding_info_skip"
+                                                                   style="@style/AppTheme.Button.Base"
+                                                                   android:layout_width="wrap_content"
+                                                                   android:layout_height="wrap_content"
+                                                                   android:paddingHorizontal="16dp"
+                                                                   android:paddingVertical="8dp"
+                                                                   android:text="Пропустить"
+                                                                   android:textColor="@color/textSecondary"
+                                                                   app:backgroundTint="@color/bgIsland"
+                                                                   app:layout_constraintStart_toEndOf="@id/onboarding_info_next"
+                                                                   app:layout_constraintTop_toTopOf="@id/onboarding_info_next"/>
+
+                <TextView android:id="@+id/onboarding_info_counter"
+                          android:layout_width="0dp"
+                          android:layout_height="wrap_content"
+                          android:gravity="end"
+                          android:text="1/8"
+                          app:layout_constraintBottom_toBottomOf="@id/onboarding_info_next"
+                          app:layout_constraintEnd_toEndOf="parent"
+                          app:layout_constraintStart_toEndOf="@id/onboarding_info_skip"
+                          app:layout_constraintTop_toTopOf="@id/onboarding_info_next"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
