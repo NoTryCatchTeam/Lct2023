@@ -120,7 +120,6 @@
         <Compile Include="Fragments\Exercises\VideoToAudioExerciseFragment.cs" />
         <Compile Include="Fragments\IPlayersFragment.cs" />
         <Compile Include="Fragments\MainTabs\CoursesFragment.cs" />
-        <Compile Include="Fragments\MainTabs\FeedFragment.cs" />
         <Compile Include="Fragments\MainTabs\MainFragment.cs" />
         <Compile Include="Fragments\MainTabs\MapFragment.cs" />
         <Compile Include="Fragments\MainTabs\TasksFragment.cs" />
@@ -160,6 +159,16 @@
         <Compile Include="Views\ExtendedToolbar.cs" />
         <Compile Include="Views\MaskView.cs" />
         <Compile Include="Views\StateContainer.cs" />
+        <Compile Include="Views\DimView.cs" />
+        <Compile Include="Listeners\DefaultOnTouchListener.cs" />
+        <Compile Include="Callbacks\DefaultBottomSheetCallback.cs" />
+        <Compile Include="Bindings\TextViewMaxLinesBinding.cs" />
+        <Compile Include="Adapters\FeedArtDirectionsAdapter.cs" />
+        <Compile Include="Bindings\ImageViewByResIdBinding.cs" />
+        <Compile Include="Fragments\Feed\ArtDirectionFeedFragment.cs" />
+        <Compile Include="Fragments\Feed\FeedFragment.cs" />
+        <Compile Include="Fragments\MainTabs\MainFeedFragment.cs" />
+        <Compile Include="Presenters\MvxFragmentAdapterChildItemPresentationAttribute.cs" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Properties\AndroidManifest.xml" />
@@ -209,12 +218,53 @@
           <SubType>Designer</SubType>
           <Generator>MSBuild:UpdateGeneratedFiles</Generator>
         </AndroidResource>
+        <AndroidResource Include="Resources\layout\FeedArtDirectionItemView.xml">
+          <SubType></SubType>
+          <Generator></Generator>
+        </AndroidResource>
+        <AndroidResource Include="Resources\drawable\image_draw_art_dir.png">
+          <SubType></SubType>
+          <Generator></Generator>
+        </AndroidResource>
+        <AndroidResource Include="Resources\drawable\image_horeo_art_dir.png">
+          <SubType></SubType>
+          <Generator></Generator>
+        </AndroidResource>
+        <AndroidResource Include="Resources\drawable\image_music_art_dir.png">
+          <SubType></SubType>
+          <Generator></Generator>
+        </AndroidResource>
+        <AndroidResource Include="Resources\drawable\image_theatre_art_dir.png">
+          <SubType></SubType>
+          <Generator></Generator>
+        </AndroidResource>
+        <AndroidResource Include="Resources\layout\FeedArtDirectionsHeaderItemView.xml">
+          <SubType></SubType>
+          <Generator></Generator>
+        </AndroidResource>
+        <AndroidResource Include="Resources\layout\ArtDirectionFeedFragment.xml">
+          <SubType></SubType>
+          <Generator></Generator>
+        </AndroidResource>
+        <AndroidResource Include="Resources\layout\FeedArtDirectionSchoolsItemView.xml">
+          <SubType></SubType>
+          <Generator></Generator>
+        </AndroidResource>
+        <AndroidResource Include="Resources\layout\FeedArtDirectionDescriptionItemView.xml">
+          <SubType></SubType>
+          <Generator></Generator>
+        </AndroidResource>
+        <AndroidResource Include="Resources\layout\MainFeedFragment.xml">
+          <SubType></SubType>
+          <Generator></Generator>
+        </AndroidResource>
         <AndroidResource Include="Resources\xml\main_tabbed_activity_scene.xml" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Assets" />
         <Folder Include="Resources\drawable\" />
         <Folder Include="Resources\menu" />
+        <Folder Include="Fragments\Feed\" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="11.0.1" />

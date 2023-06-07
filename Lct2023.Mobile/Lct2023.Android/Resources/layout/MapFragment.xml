@@ -1,620 +1,627 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   android:layout_width="match_parent"
-                                                   android:layout_height="match_parent"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                   android:id="@+id/map_container"
-                                                   android:background="@color/background">
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/map_container"
+        android:background="@color/backgroundDark">
 
-    <include app:layout_constraintTop_toTopOf="parent"
-            layout="@layout/Toolbar"
-            android:id="@+id/toolbar"/>
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:layout_constraintTop_toBottomOf="@id/toolbar">
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                    android:layout_height="match_parent">
+        <include
+            app:layout_constraintTop_toTopOf="parent"
+            layout="@layout/Toolbar"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
-                                                           android:layout_height="match_parent">
+                                                        android:layout_height="0dp"
+                                                        app:layout_constraintTop_toBottomOf="@id/toolbar"
+                                                        app:layout_constraintBottom_toBottomOf="parent"
+                                                        android:background="@color/bgIsland">
 
 
 
-            <com.google.android.gms.maps.MapView android:id="@+id/map_view"
-                                                 android:layout_width="match_parent"
-                                                 android:layout_height="0dp"
-                                                 app:layout_constraintBottom_toBottomOf="parent"
-                                                 app:layout_constraintTop_toTopOf="@id/header_island_layout"/>
+        <com.google.android.gms.maps.MapView android:id="@+id/map_view"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="0dp"
+                                                app:layout_constraintBottom_toBottomOf="parent"
+                                                app:layout_constraintTop_toTopOf="@id/header_island_layout"/>
 
 
-            <com.google.android.material.button.MaterialButton android:id="@+id/location_filters_button"
-                                                               app:cornerRadius="8dp"
-                                                               app:rippleColor="?attr/colorControlHighlight"
-                                                               app:layout_constraintLeft_toLeftOf="parent"
-                                                               app:layout_constraintBottom_toBottomOf="parent"
-                                                               style="@style/AppTheme.Button.Image"
-                                                               android:layout_marginLeft="16dp"
-                                                               android:layout_marginBottom="24dp"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/location_filters_button"
+                                                            app:cornerRadius="8dp"
+                                                            app:rippleColor="?attr/colorControlHighlight"
+                                                            app:layout_constraintLeft_toLeftOf="parent"
+                                                            app:layout_constraintBottom_toBottomOf="parent"
+                                                            style="@style/AppTheme.Button.Image"
+                                                            android:layout_marginLeft="16dp"
+                                                            android:layout_marginBottom="24dp"/>
 
-            <com.google.android.material.button.MaterialButton android:id="@+id/gps_button"
-                                                               app:cornerRadius="8dp"
-                                                               app:rippleColor="?attr/colorControlHighlight"
-                                                               app:layout_constraintRight_toRightOf="parent"
-                                                               app:layout_constraintBottom_toBottomOf="parent"
-                                                               style="@style/AppTheme.Button.Image"
-                                                               android:layout_marginRight="16dp"
-                                                               android:layout_marginBottom="24dp"
-                                                               app:icon="@drawable/ic_gps"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/gps_button"
+                                                            app:cornerRadius="8dp"
+                                                            app:rippleColor="?attr/colorControlHighlight"
+                                                            app:layout_constraintRight_toRightOf="parent"
+                                                            app:layout_constraintBottom_toBottomOf="parent"
+                                                            style="@style/AppTheme.Button.Image"
+                                                            android:layout_marginRight="16dp"
+                                                            android:layout_marginBottom="24dp"
+                                                            app:icon="@drawable/ic_gps"/>
 
-            <com.google.android.material.button.MaterialButtonToggleGroup android:id="@+id/zoom_buttons_group"
-                                                                          android:layout_width="wrap_content"
-                                                                          android:layout_height="wrap_content"
-                                                                          android:background="@android:color/transparent"
-                                                                          android:orientation="vertical"
-                                                                          android:layout_marginBottom="158dp"
-                                                                          android:layout_marginRight="16dp"
-                                                                          app:layout_constraintBottom_toTopOf="@id/gps_button"
-                                                                          app:layout_constraintRight_toRightOf="parent">
+        <com.google.android.material.button.MaterialButtonToggleGroup android:id="@+id/zoom_buttons_group"
+                                                                        android:layout_width="wrap_content"
+                                                                        android:layout_height="wrap_content"
+                                                                        android:background="@android:color/transparent"
+                                                                        android:orientation="vertical"
+                                                                        android:layout_marginBottom="158dp"
+                                                                        android:layout_marginRight="16dp"
+                                                                        app:layout_constraintBottom_toTopOf="@id/gps_button"
+                                                                        app:layout_constraintRight_toRightOf="parent">
 
-                <com.google.android.material.button.MaterialButton android:id="@+id/zoom_in_button"
-                                                                   app:rippleColor="?attr/colorControlHighlight"
-                                                                   app:cornerRadius="8dp"
-                                                                   style="@style/AppTheme.Button.Image"
-                                                                   android:layout_weight="1"
-                                                                   app:icon="@drawable/ic_plus"/>
+            <com.google.android.material.button.MaterialButton android:id="@+id/zoom_in_button"
+                                                                app:rippleColor="?attr/colorControlHighlight"
+                                                                app:cornerRadius="8dp"
+                                                                style="@style/AppTheme.Button.Image"
+                                                                android:layout_weight="1"
+                                                                app:icon="@drawable/ic_plus"/>
 
-                <com.google.android.material.button.MaterialButton android:id="@+id/zoom_out_button"
-                                                                   app:rippleColor="?attr/colorControlHighlight"
-                                                                   app:cornerRadius="8dp"
-                                                                   style="@style/AppTheme.Button.Image"
-                                                                   android:layout_weight="1"
-                                                                   app:icon="@drawable/ic_minus"/>
+            <com.google.android.material.button.MaterialButton android:id="@+id/zoom_out_button"
+                                                                app:rippleColor="?attr/colorControlHighlight"
+                                                                app:cornerRadius="8dp"
+                                                                style="@style/AppTheme.Button.Image"
+                                                                android:layout_weight="1"
+                                                                app:icon="@drawable/ic_minus"/>
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <com.google.android.material.textfield.TextInputLayout android:id="@+id/locations_search_layout"
+                                                                android:layout_width="match_parent"
+                                                                android:layout_height="wrap_content"
+                                                                android:theme="@style/ThemeOverlay.TextInputLayout"
+                                                                android:layout_marginHorizontal="16dp"
+                                                                app:layout_constraintTop_toTopOf="parent"
+                                                                android:backgroundTint="@android:color/darker_gray"
+                                                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                                                app:boxBackgroundColor="@color/bgIslandInner"
+                                                                app:boxCornerRadiusBottomEnd="12dp"
+                                                                app:boxCornerRadiusBottomStart="12dp"
+                                                                app:boxCornerRadiusTopEnd="12dp"
+                                                                app:boxCornerRadiusTopStart="12dp"
+                                                                app:boxStrokeWidth="0dp"
+                                                                app:hintEnabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText android:id="@+id/locations_search_value"
+                                                                        android:layout_width="match_parent"
+                                                                        android:layout_height="match_parent"
+                                                                        style="@style/AppTheme.Body.Small"
+                                                                        android:hint="Поиск"
+                                                                        android:padding="12dp"
+                                                                        android:textColorHint="@color/textSecondary"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.card.MaterialCardView style="@style/AppTheme.MaterialCardView.White"
+                                                            android:id="@+id/location_types_group_card"
+                                                            android:layout_width="match_parent"
+                                                            android:layout_height="wrap_content"
+                                                            app:contentPadding="2dp"
+                                                            app:cardCornerRadius="8dp"
+                                                            android:backgroundTint="@color/bgIslandInner"
+                                                            android:layout_marginHorizontal="16dp"
+                                                            android:layout_marginTop="16dp"
+                                                            app:layout_constraintTop_toBottomOf="@id/locations_search_layout">
+
+            <com.google.android.material.button.MaterialButtonToggleGroup android:id="@+id/location_types_group"
+                                                                            android:layout_width="match_parent"
+                                                                            android:layout_height="wrap_content"
+                                                                            android:background="@android:color/transparent"
+                                                                            app:checkedButton="@id/msa_option"
+                                                                            app:selectionRequired="true"
+                                                                            app:singleSelection="true">
+
+                <com.google.android.material.button.MaterialButton android:id="@+id/msa_option"
+                                                                    app:rippleColor="?attr/colorControlHighlight"
+                                                                    style="@style/AppTheme.Button.Image"
+                                                                    android:layout_width="0dp"
+                                                                    android:layout_height="28dp"
+                                                                    android:text="МШИ"
+                                                                    app:elevation="1dp"
+                                                                    android:textColor="@color/textPrimary"
+                                                                    android:layout_weight="1"
+                                                                    app:cornerRadius="7dp"
+                                                                    android:backgroundTint="@drawable/button_toggle_group_background_tint"/>
+
+                <com.google.android.material.button.MaterialButton android:id="@+id/afisha_option"
+                                                                    app:rippleColor="?attr/colorControlHighlight"
+                                                                    style="@style/AppTheme.Button.Image"
+                                                                    android:layout_width="0dp"
+                                                                    android:layout_height="28dp"
+                                                                    android:layout_weight="1"
+                                                                    app:cornerRadius="7dp"
+                                                                    app:elevation="1dp"
+                                                                    android:textColor="@color/textPrimary"
+                                                                    android:text="Мероприятия"
+                                                                    android:backgroundTint="@drawable/button_toggle_group_background_tint"/>
 
             </com.google.android.material.button.MaterialButtonToggleGroup>
+        </com.google.android.material.card.MaterialCardView>
 
-            <com.google.android.material.textfield.TextInputLayout android:id="@+id/locations_search_layout"
-                                                                   android:layout_width="match_parent"
-                                                                   android:layout_height="wrap_content"
-                                                                   android:theme="@style/ThemeOverlay.TextInputLayout"
-                                                                   android:layout_marginHorizontal="16dp"
-                                                                   app:layout_constraintTop_toTopOf="parent"
-                                                                   android:backgroundTint="@android:color/darker_gray"
-                                                                   style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                                                   app:boxBackgroundColor="@color/bgIslandInner"
-                                                                   app:boxCornerRadiusBottomEnd="12dp"
-                                                                   app:boxCornerRadiusBottomStart="12dp"
-                                                                   app:boxCornerRadiusTopEnd="12dp"
-                                                                   app:boxCornerRadiusTopStart="12dp"
-                                                                   app:boxStrokeWidth="0dp"
-                                                                   app:hintEnabled="false">
-
-                <com.google.android.material.textfield.TextInputEditText android:id="@+id/locations_search_value"
-                                                                         android:layout_width="match_parent"
-                                                                         android:layout_height="match_parent"
-                                                                         style="@style/AppTheme.Body.Small"
-                                                                         android:hint="Поиск"
-                                                                         android:padding="12dp"
-                                                                         android:textColorHint="@color/textSecondary"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.card.MaterialCardView style="@style/AppTheme.MaterialCardView.White"
-                                                               android:id="@+id/location_types_group_card"
-                                                               android:layout_width="match_parent"
-                                                               android:layout_height="wrap_content"
-                                                               app:contentPadding="2dp"
-                                                               app:cardCornerRadius="8dp"
-                                                               android:backgroundTint="@color/bgIslandInner"
-                                                               android:layout_marginHorizontal="16dp"
-                                                               android:layout_marginTop="16dp"
-                                                               app:layout_constraintTop_toBottomOf="@id/locations_search_layout">
-
-                <com.google.android.material.button.MaterialButtonToggleGroup android:id="@+id/location_types_group"
-                                                                              android:layout_width="match_parent"
-                                                                              android:layout_height="wrap_content"
-                                                                              android:background="@android:color/transparent"
-                                                                              app:checkedButton="@id/msa_option"
-                                                                              app:selectionRequired="true"
-                                                                              app:singleSelection="true">
-
-                    <com.google.android.material.button.MaterialButton android:id="@+id/msa_option"
-                                                                       app:rippleColor="?attr/colorControlHighlight"
-                                                                       style="@style/AppTheme.Button.Image"
-                                                                       android:layout_width="0dp"
-                                                                       android:layout_height="28dp"
-                                                                       android:text="МШИ"
-                                                                       app:elevation="1dp"
-                                                                       android:textColor="@color/textPrimary"
-                                                                       android:layout_weight="1"
-                                                                       app:cornerRadius="7dp"
-                                                                       android:backgroundTint="@drawable/button_toggle_group_background_tint"/>
-
-                    <com.google.android.material.button.MaterialButton android:id="@+id/afisha_option"
-                                                                       app:rippleColor="?attr/colorControlHighlight"
-                                                                       style="@style/AppTheme.Button.Image"
-                                                                       android:layout_width="0dp"
-                                                                       android:layout_height="28dp"
-                                                                       android:layout_weight="1"
-                                                                       app:cornerRadius="7dp"
-                                                                       app:elevation="1dp"
-                                                                       android:textColor="@color/textPrimary"
-                                                                       android:text="Мероприятия"
-                                                                       android:backgroundTint="@drawable/button_toggle_group_background_tint"/>
-
-                </com.google.android.material.button.MaterialButtonToggleGroup>
-            </com.google.android.material.card.MaterialCardView>
-
-            <mvvmcross.droidx.recyclerview.MvxRecyclerView android:id="@+id/map_search_results"
-                                                           android:layout_width="0dp"
-                                                           android:layout_height="0dp"
-                                                           android:elevation="10dp"
-                                                           android:background="@drawable/rounded_background_white"
-                                                           android:visibility="gone"
-                                                           android:clipChildren="true"
-                                                           app:layout_constraintLeft_toLeftOf="@id/locations_search_layout"
-                                                           app:layout_constraintRight_toRightOf="@id/locations_search_layout"
-                                                           app:layout_constraintHeight_percent=".5"
-                                                           app:layout_constraintTop_toBottomOf="@id/locations_search_layout"/>
-
-            <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/header_island_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="16dp"
-                    app:cardElevation="0dp"
-                    app:shapeAppearanceOverlay="@style/BottomRoundedShape"
-                    app:layout_constraintTop_toBottomOf="@id/location_types_group_card"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <mvvmcross.droidx.recyclerview.MvxRecyclerView android:id="@+id/map_search_results"
+                                                        android:layout_width="0dp"
+                                                        android:layout_height="0dp"
+                                                        android:elevation="10dp"
+                                                        android:background="@drawable/rounded_background_white"
+                                                        android:visibility="gone"
+                                                        android:clipChildren="true"
+                                                        app:layout_constraintLeft_toLeftOf="@id/locations_search_layout"
+                                                        app:layout_constraintRight_toRightOf="@id/locations_search_layout"
+                                                        app:layout_constraintHeight_percent=".5"
+                                                        app:layout_constraintTop_toBottomOf="@id/locations_search_layout"/>
 
         <com.google.android.material.card.MaterialCardView
-                android:id="@+id/location_info_bottom_sheet"
+                android:id="@+id/header_island_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardElevation="16dp"
-                app:shapeAppearanceOverlay="@style/TopRoundedShape"
-                android:layout_alignParentBottom="true"
-                app:behavior_hideable="false"
-                app:behavior_peekHeight="0dp"
-                app:layout_behavior="@string/bottom_sheet_behavior">
+                android:layout_height="16dp"
+                app:cardElevation="0dp"
+                app:shapeAppearanceOverlay="@style/BottomRoundedShape"
+                app:layout_constraintTop_toBottomOf="@id/location_types_group_card"/>
 
-            <androidx.core.widget.NestedScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fillViewport="true">
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
-                                                                   android:layout_height="match_parent">
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <View
-                            android:layout_marginTop="12dp"
-                            android:id="@+id/bs_header_line"
-                            android:layout_width="29dp"
-                            android:layout_height="2dp"
-                            android:layout_gravity="center_horizontal"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintRight_toRightOf="parent"
-                            android:background="@color/bgIslandInner"
-                            android:clickable="true"/>
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/location_title_layout"
-                            app:layout_constraintTop_toBottomOf="@id/bs_header_line"
+    <Lct2023.Android.Views.DimView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="16dp"
-                            android:layout_marginTop="12dp">
+                            android:layout_height="match_parent"
+                            android:id="@+id/map_dim"/>
 
-                        <TextView
-                                android:id="@+id/location_title"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                style="@style/AppTheme.BodyMedium"
-                                android:textSize="18sp"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintRight_toLeftOf="@id/close_bs_button"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"/>
+    <com.google.android.material.card.MaterialCardView
+            android:id="@+id/location_info_bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="16dp"
+            android:layout_marginTop="64dp"
+            app:shapeAppearanceOverlay="@style/TopRoundedShape"
+            android:layout_alignParentBottom="true"
+            app:behavior_hideable="false"
+            app:behavior_peekHeight="0dp"
+            app:layout_behavior="@string/bottom_sheet_behavior">
 
-                        <com.google.android.material.button.MaterialButton android:id="@+id/close_bs_button"
-                                                                           style="@style/AppTheme.Button.Image"
-                                                                           android:layout_width="32dp"
-                                                                           android:layout_height="32dp"
-                                                                           app:cornerRadius="30dp"
-                                                                           app:iconTint="@color/iconPrimary"
-                                                                           app:rippleColor="?attr/colorControlHighlight"
-                                                                           android:layout_marginLeft="14dp"
-                                                                           app:layout_constraintTop_toTopOf="@id/location_title"
-                                                                           app:layout_constraintLeft_toRightOf="@id/location_title"
-                                                                           app:layout_constraintRight_toRightOf="parent"
-                                                                           app:icon="@drawable/ic_close"/>
+        <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
 
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                                android:layout_height="match_parent">
+
+                <View
+                        android:layout_marginTop="12dp"
+                        android:id="@+id/bs_header_line"
+                        android:layout_width="29dp"
+                        android:layout_height="2dp"
+                        android:layout_gravity="center_horizontal"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:background="@color/bgIslandInner"
+                        android:clickable="true"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/location_title_layout"
+                        app:layout_constraintTop_toBottomOf="@id/bs_header_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="12dp">
 
                     <TextView
-                            android:id="@+id/location_description"
-                            android:layout_marginTop="8dp"
-                            android:layout_width="match_parent"
+                            android:id="@+id/location_title"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            style="@style/AppTheme.Body.Small"
-                            android:layout_marginHorizontal="16dp"
-                            app:layout_constraintTop_toBottomOf="@id/location_title_layout"/>
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/location_address_layout"
-                            app:layout_constraintTop_toBottomOf="@id/location_description"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="16dp"
-                            android:layout_marginVertical="24dp">
-
-                        <TextView
-                                android:id="@+id/address_header_text_view"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Адрес"
-                                style="@style/AppTheme.BodyBold"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"/>
-
-                        <TextView
-                                android:id="@+id/address_text_view"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                style="@style/AppTheme.BodyMedium.Small"
-                                android:layout_marginTop="8dp"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintRight_toLeftOf="@id/open_address_button"
-                                app:layout_constraintTop_toBottomOf="@id/address_header_text_view"/>
-
-                        <com.google.android.material.button.MaterialButton android:id="@+id/open_address_button"
-                                                                           app:rippleColor="?attr/colorControlHighlight"
-                                                                           android:layout_width="wrap_content"
-                                                                           android:layout_height="wrap_content"
-                                                                           app:iconGravity="textEnd"
-                                                                           app:iconPadding="4dp"
-                                                                           android:text="Маршрут"
-                                                                           app:cornerRadius="30dp"
-                                                                           android:layout_marginLeft="40dp"
-                                                                           app:layout_constraintRight_toRightOf="parent"
-                                                                           app:layout_constraintBaseline_toBaselineOf="@id/address_text_view"
-                                                                           app:layout_constraintLeft_toRightOf="@id/address_text_view"
-                                                                           style="@style/AppTheme.Button.Base"
-                                                                           android:paddingHorizontal="12dp"
-                                                                           android:paddingVertical="4dp"
-                                                                           android:textSize="14sp"
-                                                                           app:icon="@drawable/ic_export"
-                                                                           app:iconSize="16dp"
-                                                                           app:iconTint="@color/background"/>
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <View
-                            android:id="@+id/address_bottom_line"
-                            android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
-                            android:layout_marginTop="24dp"
-                            android:layout_marginHorizontal="16dp"
-                            android:layout_gravity="center_horizontal"
-                            app:layout_constraintTop_toBottomOf="@id/location_address_layout"
-                            android:background="@color/separatorColor"/>
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/contacts_layout"
-                            app:layout_constraintTop_toBottomOf="@id/address_bottom_line"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="16dp"
-                            android:layout_marginTop="16dp">
-
-                        <TextView
-                                android:id="@+id/contacts_header_text_view"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                style="@style/AppTheme.BodyBold"
-                                android:text="Контакты"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"/>
-
-                        <mvvmcross.platforms.android.binding.views.MvxLinearLayout
-                                android:orientation="vertical"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/contacts_items_layout"
-                                android:layout_marginTop="8dp"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/contacts_header_text_view"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintRight_toLeftOf="@id/more_contacts_button"/>
-
-                        <com.google.android.material.button.MaterialButton android:id="@+id/more_contacts_button"
-                                                                           app:rippleColor="?attr/colorControlHighlight"
-                                                                           android:layout_width="wrap_content"
-                                                                           android:layout_height="wrap_content"
-                                                                           app:iconGravity="textEnd"
-                                                                           android:textColor="@color/textPrimary"
-                                                                           app:cornerRadius="30dp"
-                                                                           android:layout_marginLeft="40dp"
-                                                                           app:layout_constraintRight_toRightOf="parent"
-                                                                           app:layout_constraintTop_toTopOf="@id/contacts_items_layout"
-                                                                           app:layout_constraintLeft_toRightOf="@id/contacts_items_layout"
-                                                                           style="@style/AppTheme.Button.Base"
-                                                                           android:backgroundTint="@color/bgIslandInner"
-                                                                           android:paddingHorizontal="12dp"
-                                                                           android:paddingVertical="4dp"
-                                                                           android:textSize="14sp"
-                                                                           app:icon="@drawable/ic_chevron_bottom"
-                                                                           app:iconSize="16dp"
-                                                                           app:iconTint="@color/iconPrimary"/>
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <View
-                            android:id="@+id/contacts_bottom_line"
-                            android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginHorizontal="16dp"
-                            android:layout_gravity="center_horizontal"
-                            app:layout_constraintTop_toBottomOf="@id/contacts_layout"
-                            android:background="@color/separatorColor"/>
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/mail_layout"
-                            app:layout_constraintTop_toBottomOf="@id/contacts_bottom_line"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="16dp"
-                            android:layout_marginTop="16dp">
-
-                        <TextView
-                                android:id="@+id/mail_header_text_view"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                style="@style/AppTheme.BodyBold"
-                                android:text="Почта"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"/>
-
-                        <TextView
-                                android:id="@+id/mail_text_view"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/lightPurple"
-                                style="@style/AppTheme.BodyMedium.Small"
-                                android:layout_marginTop="8dp"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/mail_header_text_view"/>
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <View
-                            android:id="@+id/mail_bottom_line"
-                            android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginHorizontal="16dp"
-                            android:layout_gravity="center_horizontal"
-                            app:layout_constraintTop_toBottomOf="@id/mail_layout"
-                            android:background="@color/separatorColor"/>
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/site_layout"
-                            app:layout_constraintTop_toBottomOf="@id/mail_bottom_line"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="16dp"
-                            android:layout_marginTop="16dp">
-
-                        <TextView
-                                android:id="@+id/site_header_text_view"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                style="@style/AppTheme.BodyBold"
-                                android:text="Сайт"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"/>
-
-                        <TextView
-                                android:id="@+id/site_text_view"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/lightPurple"
-                                style="@style/AppTheme.BodyMedium.Small"
-                                android:layout_marginTop="8dp"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/site_header_text_view"/>
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <View
-                            android:id="@+id/site_bottom_line"
-                            android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginHorizontal="16dp"
-                            android:layout_gravity="center_horizontal"
-                            app:layout_constraintTop_toBottomOf="@id/site_layout"
-                            android:background="@color/separatorColor"/>
-
-                    <mvvmcross.droidx.recyclerview.MvxRecyclerView
+                            style="@style/AppTheme.BodyMedium"
+                            android:textSize="18sp"
                             app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/site_bottom_line"
-                            android:orientation="horizontal"
+                            app:layout_constraintRight_toLeftOf="@id/close_bs_button"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+
+                    <com.google.android.material.button.MaterialButton android:id="@+id/close_bs_button"
+                                                                        style="@style/AppTheme.Button.Image"
+                                                                        android:layout_width="32dp"
+                                                                        android:layout_height="32dp"
+                                                                        app:cornerRadius="30dp"
+                                                                        app:iconTint="@color/iconPrimary"
+                                                                        app:rippleColor="?attr/colorControlHighlight"
+                                                                        android:layout_marginLeft="14dp"
+                                                                        app:layout_constraintTop_toTopOf="@id/location_title"
+                                                                        app:layout_constraintLeft_toRightOf="@id/location_title"
+                                                                        app:layout_constraintRight_toRightOf="parent"
+                                                                        app:icon="@drawable/ic_close"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                        android:id="@+id/location_description"
+                        android:layout_marginTop="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/AppTheme.Body.Small"
+                        android:layout_marginHorizontal="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/location_title_layout"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/location_address_layout"
+                        app:layout_constraintTop_toBottomOf="@id/location_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginVertical="24dp">
+
+                    <TextView
+                            android:id="@+id/address_header_text_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingHorizontal="16dp"
-                            android:clipToPadding="false"
-                            android:id="@+id/open_social_nets_items_layout"
-                            android:layout_marginTop="16dp"/>
-
-                    <mvvmcross.droidx.recyclerview.MvxRecyclerView
-                            android:layout_width="match_parent"
-                            android:id="@+id/art_directions_layout"
-                            android:layout_height="wrap_content"
+                            android:text="Адрес"
+                            style="@style/AppTheme.BodyBold"
                             app:layout_constraintLeft_toLeftOf="parent"
-                            android:orientation="horizontal"
-                            android:paddingHorizontal="16dp"
-                            android:clipToPadding="false"
-                            app:layout_constraintTop_toBottomOf="@id/open_social_nets_items_layout"
-                            android:layout_marginTop="32dp"
-                            android:scrollbars="none"/>
+                            app:layout_constraintTop_toTopOf="parent"/>
 
                     <TextView
-                            android:id="@+id/events_header_text_view"
+                            android:id="@+id/address_text_view"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            style="@style/AppTheme.BodyMedium.Small"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintRight_toLeftOf="@id/open_address_button"
+                            app:layout_constraintTop_toBottomOf="@id/address_header_text_view"/>
+
+                    <com.google.android.material.button.MaterialButton android:id="@+id/open_address_button"
+                                                                        app:rippleColor="?attr/colorControlHighlight"
+                                                                        android:layout_width="wrap_content"
+                                                                        android:layout_height="wrap_content"
+                                                                        app:iconGravity="textEnd"
+                                                                        app:iconPadding="4dp"
+                                                                        android:text="Маршрут"
+                                                                        app:cornerRadius="30dp"
+                                                                        android:layout_marginLeft="40dp"
+                                                                        app:layout_constraintRight_toRightOf="parent"
+                                                                        app:layout_constraintBaseline_toBaselineOf="@id/address_text_view"
+                                                                        app:layout_constraintLeft_toRightOf="@id/address_text_view"
+                                                                        style="@style/AppTheme.Button.Base"
+                                                                        android:paddingHorizontal="12dp"
+                                                                        android:paddingVertical="4dp"
+                                                                        android:textSize="14sp"
+                                                                        app:icon="@drawable/ic_export"
+                                                                        app:iconSize="16dp"
+                                                                        app:iconTint="@color/background"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                        android:id="@+id/address_bottom_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_gravity="center_horizontal"
+                        app:layout_constraintTop_toBottomOf="@id/location_address_layout"
+                        android:background="@color/separatorColor"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/contacts_layout"
+                        app:layout_constraintTop_toBottomOf="@id/address_bottom_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="16dp">
+
+                    <TextView
+                            android:id="@+id/contacts_header_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/AppTheme.BodyBold"
+                            android:text="Контакты"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"/>
+
+                    <mvvmcross.platforms.android.binding.views.MvxLinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/contacts_items_layout"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/contacts_header_text_view"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintRight_toLeftOf="@id/more_contacts_button"/>
+
+                    <com.google.android.material.button.MaterialButton android:id="@+id/more_contacts_button"
+                                                                        app:rippleColor="?attr/colorControlHighlight"
+                                                                        android:layout_width="wrap_content"
+                                                                        android:layout_height="wrap_content"
+                                                                        app:iconGravity="textEnd"
+                                                                        android:textColor="@color/textPrimary"
+                                                                        app:cornerRadius="30dp"
+                                                                        android:layout_marginLeft="40dp"
+                                                                        app:layout_constraintRight_toRightOf="parent"
+                                                                        app:layout_constraintTop_toTopOf="@id/contacts_items_layout"
+                                                                        app:layout_constraintLeft_toRightOf="@id/contacts_items_layout"
+                                                                        style="@style/AppTheme.Button.Base"
+                                                                        android:backgroundTint="@color/bgIslandInner"
+                                                                        android:paddingHorizontal="12dp"
+                                                                        android:paddingVertical="4dp"
+                                                                        android:textSize="14sp"
+                                                                        app:icon="@drawable/ic_chevron_bottom"
+                                                                        app:iconSize="16dp"
+                                                                        app:iconTint="@color/iconPrimary"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                        android:id="@+id/contacts_bottom_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_gravity="center_horizontal"
+                        app:layout_constraintTop_toBottomOf="@id/contacts_layout"
+                        android:background="@color/separatorColor"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/mail_layout"
+                        app:layout_constraintTop_toBottomOf="@id/contacts_bottom_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="16dp">
+
+                    <TextView
+                            android:id="@+id/mail_header_text_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             style="@style/AppTheme.BodyBold"
-                            android:layout_marginTop="32dp"
-                            android:text="Мероприятия"
-                            android:layout_marginHorizontal="16dp"
-                            app:layout_constraintTop_toBottomOf="@id/art_directions_layout"/>
-
-                    <mvvmcross.droidx.recyclerview.MvxRecyclerView
-                            android:layout_width="match_parent"
-                            android:orientation="horizontal"
-                            android:id="@+id/afisha_layout"
-                            android:layout_height="wrap_content"
-                            android:paddingHorizontal="16dp"
-                            android:clipToPadding="false"
-                            app:layout_constraintTop_toBottomOf="@id/events_header_text_view"
-                            android:layout_marginTop="8dp"
-                            android:scrollbars="none"/>
-
-
-                    <com.google.android.material.button.MaterialButton android:id="@+id/action_button"
-                                                                       app:rippleColor="?attr/colorControlHighlight"
-                                                                       android:layout_width="match_parent"
-                                                                       android:layout_height="wrap_content"
-                                                                       app:layout_constraintTop_toBottomOf="@id/afisha_layout"
-                                                                       app:layout_constraintBottom_toBottomOf="parent"
-                                                                       app:layout_constraintVertical_bias="1"
-                                                                       style="@style/AppTheme.Button.Action.Primary"
-                                                                       android:layout_marginTop="78dp"
-                                                                       android:layout_marginBottom="16dp"
-                                                                       android:layout_marginHorizontal="16dp"
-                                                                       android:backgroundTint="@color/lightPurple"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.core.widget.NestedScrollView>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-                android:id="@+id/filters_bottom_sheet"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardElevation="16dp"
-                app:shapeAppearanceOverlay="@style/TopRoundedShape"
-                android:layout_alignParentBottom="true"
-                app:behavior_hideable="true"
-                app:behavior_peekHeight="0dp"
-                app:layout_behavior="@string/bottom_sheet_behavior">
-
-            <androidx.core.widget.NestedScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fillViewport="true">
-
-                <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
-                                                                   android:layout_height="match_parent">
-
-                    <View
-                            android:layout_marginTop="12dp"
-                            android:id="@+id/map_filters_bs_header_line"
-                            android:layout_width="29dp"
-                            android:layout_height="2dp"
-                            android:layout_gravity="center_horizontal"
-                            app:layout_constraintTop_toTopOf="parent"
+                            android:text="Почта"
                             app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintRight_toRightOf="parent"
-                            android:background="@color/bgIslandInner"
-                            android:clickable="true"/>
+                            app:layout_constraintTop_toTopOf="parent"/>
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/map_filters_title_layout"
-                            app:layout_constraintTop_toBottomOf="@id/map_filters_bs_header_line"
+                    <TextView
+                            android:id="@+id/mail_text_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="16dp"
-                            android:layout_marginTop="12dp">
-
-                        <TextView
-                                android:id="@+id/map_filters_title"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                style="@style/AppTheme.BodyMedium"
-                                android:textSize="18sp"
-                                android:text="Фильтрация"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintRight_toLeftOf="@id/map_filters_close_bs_button"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"/>
-
-                        <com.google.android.material.button.MaterialButton android:id="@+id/map_filters_close_bs_button"
-                                                                           android:layout_width="32dp"
-                                                                           android:layout_height="32dp"
-                                                                           style="@style/AppTheme.Button.Image"
-                                                                           app:cornerRadius="30dp"
-                                                                           app:iconTint="@color/iconPrimary"
-                                                                           app:rippleColor="?attr/colorControlHighlight"
-                                                                           android:layout_marginLeft="14dp"
-                                                                           app:layout_constraintTop_toTopOf="@id/map_filters_title"
-                                                                           app:layout_constraintLeft_toRightOf="@id/map_filters_title"
-                                                                           app:layout_constraintRight_toRightOf="parent"
-                                                                           app:icon="@drawable/ic_close"/>
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <mvvmcross.droidx.recyclerview.MvxRecyclerView
-                            android:layout_width="match_parent"
-                            app:layout_constraintTop_toBottomOf="@id/map_filters_title_layout"
-                            android:id="@+id/map_filters_recycle"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_marginVertical="16dp"
-                            android:scrollbars="none"/>
-
-                    <com.google.android.material.button.MaterialButton android:id="@+id/map_apply_filters_button"
-                                                                       android:layout_width="0dp"
-                                                                       app:rippleColor="?attr/colorControlHighlight"
-                                                                       android:layout_height="wrap_content"
-                                                                       android:layout_marginBottom="16dp"
-                                                                       android:layout_marginTop="32dp"
-                                                                       android:layout_marginLeft="16dp"
-                                                                       app:layout_constraintTop_toBottomOf="@id/map_filters_recycle"
-                                                                       app:layout_constraintVertical_bias="1"
-                                                                       app:layout_constraintBottom_toBottomOf="parent"
-                                                                       app:layout_constraintStart_toStartOf="parent"
-                                                                       app:layout_constraintEnd_toStartOf="@id/map_clear_filters_button"
-                                                                       android:text="Применить"
-                                                                       style="@style/AppTheme.Button.Action.Primary"/>
-
-                    <com.google.android.material.button.MaterialButton android:id="@+id/map_clear_filters_button"
-                                                                       app:rippleColor="?attr/colorControlHighlight"
-                                                                       android:layout_width="0dp"
-                                                                       android:layout_height="wrap_content"
-                                                                       android:layout_marginTop="32dp"
-                                                                       android:layout_marginBottom="16dp"
-                                                                       app:layout_constraintTop_toBottomOf="@id/map_filters_recycle"
-                                                                       app:layout_constraintVertical_bias="1"
-                                                                       app:layout_constraintBottom_toBottomOf="parent"
-                                                                       app:layout_constraintStart_toEndOf="@id/map_apply_filters_button"
-                                                                       app:layout_constraintEnd_toEndOf="parent"
-                                                                       android:text="Сбросить"
-                                                                       style="@style/AppTheme.Button.Action.Secondary"
-                                                                       android:layout_marginHorizontal="16dp"/>
+                            android:textColor="@color/lightPurple"
+                            style="@style/AppTheme.BodyMedium.Small"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/mail_header_text_view"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </androidx.core.widget.NestedScrollView>
+                <View
+                        android:id="@+id/mail_bottom_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_gravity="center_horizontal"
+                        app:layout_constraintTop_toBottomOf="@id/mail_layout"
+                        android:background="@color/separatorColor"/>
 
-        </com.google.android.material.card.MaterialCardView>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/site_layout"
+                        app:layout_constraintTop_toBottomOf="@id/mail_bottom_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="16dp">
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+                    <TextView
+                            android:id="@+id/site_header_text_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/AppTheme.BodyBold"
+                            android:text="Сайт"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                            android:id="@+id/site_text_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/lightPurple"
+                            style="@style/AppTheme.BodyMedium.Small"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/site_header_text_view"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                        android:id="@+id/site_bottom_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_gravity="center_horizontal"
+                        app:layout_constraintTop_toBottomOf="@id/site_layout"
+                        android:background="@color/separatorColor"/>
+
+                <mvvmcross.droidx.recyclerview.MvxRecyclerView
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/site_bottom_line"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="16dp"
+                        android:clipToPadding="false"
+                        android:id="@+id/open_social_nets_items_layout"
+                        android:layout_marginTop="16dp"/>
+
+                <mvvmcross.droidx.recyclerview.MvxRecyclerView
+                        android:layout_width="match_parent"
+                        android:id="@+id/art_directions_layout"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="16dp"
+                        android:clipToPadding="false"
+                        app:layout_constraintTop_toBottomOf="@id/open_social_nets_items_layout"
+                        android:layout_marginTop="32dp"
+                        android:scrollbars="none"/>
+
+                <TextView
+                        android:id="@+id/events_header_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/AppTheme.BodyBold"
+                        android:layout_marginTop="32dp"
+                        android:text="Мероприятия"
+                        android:layout_marginHorizontal="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/art_directions_layout"/>
+
+                <mvvmcross.droidx.recyclerview.MvxRecyclerView
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:id="@+id/afisha_layout"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="16dp"
+                        android:clipToPadding="false"
+                        app:layout_constraintTop_toBottomOf="@id/events_header_text_view"
+                        android:layout_marginTop="8dp"
+                        android:scrollbars="none"/>
+
+
+                <com.google.android.material.button.MaterialButton android:id="@+id/action_button"
+                                                                    app:rippleColor="?attr/colorControlHighlight"
+                                                                    android:layout_width="match_parent"
+                                                                    android:layout_height="wrap_content"
+                                                                    app:layout_constraintTop_toBottomOf="@id/afisha_layout"
+                                                                    app:layout_constraintBottom_toBottomOf="parent"
+                                                                    app:layout_constraintVertical_bias="1"
+                                                                    style="@style/AppTheme.Button.Action.Primary"
+                                                                    android:layout_marginTop="78dp"
+                                                                    android:layout_marginBottom="16dp"
+                                                                    android:layout_marginHorizontal="16dp"
+                                                                    android:backgroundTint="@color/lightPurple"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+            android:id="@+id/filters_bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="16dp"
+            android:layout_marginTop="64dp"
+            app:shapeAppearanceOverlay="@style/TopRoundedShape"
+            android:layout_alignParentBottom="true"
+            app:behavior_hideable="true"
+            app:behavior_peekHeight="0dp"
+            app:layout_behavior="@string/bottom_sheet_behavior">
+
+        <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                                android:layout_height="match_parent">
+
+                <View
+                        android:layout_marginTop="12dp"
+                        android:id="@+id/map_filters_bs_header_line"
+                        android:layout_width="29dp"
+                        android:layout_height="2dp"
+                        android:layout_gravity="center_horizontal"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        android:background="@color/bgIslandInner"
+                        android:clickable="true"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/map_filters_title_layout"
+                        app:layout_constraintTop_toBottomOf="@id/map_filters_bs_header_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="12dp">
+
+                    <TextView
+                            android:id="@+id/map_filters_title"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            style="@style/AppTheme.BodyMedium"
+                            android:textSize="18sp"
+                            android:text="Фильтрация"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toLeftOf="@id/map_filters_close_bs_button"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+
+                    <com.google.android.material.button.MaterialButton android:id="@+id/map_filters_close_bs_button"
+                                                                        android:layout_width="32dp"
+                                                                        android:layout_height="32dp"
+                                                                        style="@style/AppTheme.Button.Image"
+                                                                        app:cornerRadius="30dp"
+                                                                        app:iconTint="@color/iconPrimary"
+                                                                        app:rippleColor="?attr/colorControlHighlight"
+                                                                        android:layout_marginLeft="14dp"
+                                                                        app:layout_constraintTop_toTopOf="@id/map_filters_title"
+                                                                        app:layout_constraintLeft_toRightOf="@id/map_filters_title"
+                                                                        app:layout_constraintRight_toRightOf="parent"
+                                                                        app:icon="@drawable/ic_close"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <mvvmcross.droidx.recyclerview.MvxRecyclerView
+                        android:layout_width="match_parent"
+                        app:layout_constraintTop_toBottomOf="@id/map_filters_title_layout"
+                        android:id="@+id/map_filters_recycle"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginVertical="16dp"
+                        android:scrollbars="none"/>
+
+                <com.google.android.material.button.MaterialButton android:id="@+id/map_apply_filters_button"
+                                                                    android:layout_width="0dp"
+                                                                    app:rippleColor="?attr/colorControlHighlight"
+                                                                    android:layout_height="wrap_content"
+                                                                    android:layout_marginBottom="16dp"
+                                                                    android:layout_marginTop="32dp"
+                                                                    android:layout_marginLeft="16dp"
+                                                                    app:layout_constraintTop_toBottomOf="@id/map_filters_recycle"
+                                                                    app:layout_constraintVertical_bias="1"
+                                                                    app:layout_constraintBottom_toBottomOf="parent"
+                                                                    app:layout_constraintStart_toStartOf="parent"
+                                                                    app:layout_constraintEnd_toStartOf="@id/map_clear_filters_button"
+                                                                    android:text="Применить"
+                                                                    style="@style/AppTheme.Button.Action.Primary"/>
+
+                <com.google.android.material.button.MaterialButton android:id="@+id/map_clear_filters_button"
+                                                                    app:rippleColor="?attr/colorControlHighlight"
+                                                                    android:layout_width="0dp"
+                                                                    android:layout_height="wrap_content"
+                                                                    android:layout_marginTop="32dp"
+                                                                    android:layout_marginBottom="16dp"
+                                                                    app:layout_constraintTop_toBottomOf="@id/map_filters_recycle"
+                                                                    app:layout_constraintVertical_bias="1"
+                                                                    app:layout_constraintBottom_toBottomOf="parent"
+                                                                    app:layout_constraintStart_toEndOf="@id/map_apply_filters_button"
+                                                                    app:layout_constraintEnd_toEndOf="parent"
+                                                                    android:text="Сбросить"
+                                                                    style="@style/AppTheme.Button.Action.Secondary"
+                                                                    android:layout_marginHorizontal="16dp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

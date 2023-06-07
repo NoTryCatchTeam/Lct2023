@@ -23,7 +23,7 @@ public class RecyclerPaginationListener: RecyclerView.OnScrollListener, INotifyP
     {
         base.OnScrolled(recyclerView, dx, dy);
 
-        if (_layoutManager.FindLastVisibleItemPosition() < (IsLoadingMore ? LoadingOffset - 1 : LoadingOffset))
+        if (_layoutManager.FindLastVisibleItemPosition() < (IsLoadingMore ? LoadingOffset + 1 : LoadingOffset))
         {
             return;
         }

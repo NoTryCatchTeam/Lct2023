@@ -30,4 +30,10 @@
     <ProjectReference Include="..\Lct2023.Business\Lct2023.Business.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Definitions\VmLinks\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Definitions\VmLinks\" />
+  </ItemGroup>
 </Project>
