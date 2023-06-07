@@ -7,10 +7,18 @@ namespace Lct2023.ViewModels;
 
 public class MainTabbedViewModel : BaseViewModel
 {
+    private IMvxAsyncCommand _finishOnboardingCommand;
+
     public MainTabbedViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService)
         : base(logFactory, navigationService)
     {
         SkipOnboardingCommand = new MvxAsyncCommand(SkipOnboardingAsync);
+        FinishOnboardingCommand = new MvxAsyncCommand(FinishOnboardingAsync);
+    }
+
+    private Task FinishOnboardingAsync()
+    {
+        return NavigationService.Navigate<>();
     }
 
     private Task SkipOnboardingAsync()
@@ -19,4 +27,6 @@ public class MainTabbedViewModel : BaseViewModel
     }
 
     public IMvxAsyncCommand SkipOnboardingCommand { get; }
+
+    public IMvxAsyncCommand FinishOnboardingCommand { get; }
 }

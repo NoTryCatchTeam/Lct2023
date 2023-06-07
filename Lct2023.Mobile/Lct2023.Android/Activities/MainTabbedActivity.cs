@@ -73,7 +73,16 @@ public class MainTabbedActivity : BaseActivity<MainTabbedViewModel>
                 return true;
             }));
 
+        onboardingViews.Mask.Visibility = ViewStates.Gone;
+        onboardingViews.MotionLayout.Visibility = ViewStates.Gone;
+
+        // TODO Check for first app launch
+        // if ()
+
         // Onboarding setup
+        onboardingViews.Mask.Visibility = ViewStates.Visible;
+        onboardingViews.MotionLayout.Visibility = ViewStates.Visible;
+
         onboardingViews.Mask.Clickable = true;
 
         var motionConstraintSets = new (int Id, ConstraintSet ConstraintSet)[]
@@ -91,47 +100,66 @@ public class MainTabbedActivity : BaseActivity<MainTabbedViewModel>
         var maskViews = new (View View, Rect Rect)[8];
 
         var stepCounter = 1;
-        onboardingViews.Next.SetOnClickListener(new DefaultClickListener(_ =>
+        var clickListener = new DefaultClickListener(v =>
         {
-            if (stepCounter == 8)
+            switch (v.Id)
             {
-                // Finish onboarding
-                return;
+                case Resource.Id.onboarding_info_next:
+
+                    if (stepCounter == 8)
+                    {
+                        // Finish onboarding
+                        onboardingViews.Mask.Visibility = ViewStates.Gone;
+                        onboardingViews.MotionLayout.Visibility = ViewStates.Gone;
+                        ViewModel.FinishOnboardingCommand.ExecuteAsync();
+                        
+                        return;
+                    }
+
+                    onboardingViews.Mask.AnimateToRect(maskViews[stepCounter].Rect, 300);
+                    onboardingViews.MotionLayout.TransitionToState(stepCounter switch
+                    {
+                        1 => Resource.Id.onboarding_scene_step_2,
+                        2 => Resource.Id.onboarding_scene_step_3,
+                        3 => Resource.Id.onboarding_scene_step_4,
+                        4 => Resource.Id.onboarding_scene_step_5,
+                        5 => Resource.Id.onboarding_scene_step_6,
+                        6 => Resource.Id.onboarding_scene_step_7,
+                        7 => Resource.Id.onboarding_scene_step_8,
+                    });
+
+                    onboardingViews.InfoText.Text = stepCounter switch
+                    {
+                        1 => "Полноценные видеокурсы для обучения по направлениям, форматам и стоимости, которые больше всего подходят для вас.",
+                        2 => "Лента новостей, в которой вы сможете найти интересный и полезный контент из мира музыки, театра и хореографии.",
+                        3 => "Проходите ежедневные тесты и зарабатывайте баллы рейтинга, чтобы обойти своих друзей в соревновании.",
+                        4 => "Карта со школами МШИ и мероприятиями города Москва: театры, концерты, выставки.",
+                        5 => "Ваш профиль, который доступен из любого раздела. В нем вы можете посмотреть статистику и рейтинг.",
+                        6 => "Каждый день новые сторис на главной. Получайте полезную информацию, вовлекайтесь и проходите ежедневные задания.",
+                        7 => "Карта со школами МШИ и мероприятиями города Москва: театры, концерты, выставки.",
+                    };
+
+                    onboardingViews.Counter.Text = $"{stepCounter + 1}/8";
+
+                    stepCounter += 1;
+
+                    if (stepCounter == 8)
+                    {
+                        onboardingViews.Next.Text = "Начать пользоваться!";
+                        onboardingViews.Skip.Visibility = ViewStates.Gone;
+                    }
+
+                    break;
+                case Resource.Id.onboarding_info_skip:
+                    onboardingViews.Mask.Visibility = ViewStates.Gone;
+                    onboardingViews.MotionLayout.Visibility = ViewStates.Gone;
+
+                    break;
             }
+        });
 
-            onboardingViews.Mask.AnimateToRect(maskViews[stepCounter].Rect, 300);
-            onboardingViews.MotionLayout.TransitionToState(stepCounter switch
-            {
-                1 => Resource.Id.onboarding_scene_step_2,
-                2 => Resource.Id.onboarding_scene_step_3,
-                3 => Resource.Id.onboarding_scene_step_4,
-                4 => Resource.Id.onboarding_scene_step_5,
-                5 => Resource.Id.onboarding_scene_step_6,
-                6 => Resource.Id.onboarding_scene_step_7,
-                7 => Resource.Id.onboarding_scene_step_8,
-            });
-
-            onboardingViews.InfoText.Text = stepCounter switch
-            {
-                1 => "Полноценные видеокурсы для обучения по направлениям, форматам и стоимости, которые больше всего подходят для вас.",
-                2 => "Лента новостей, в которой вы сможете найти интересный и полезный контент из мира музыки, театра и хореографии.",
-                3 => "Проходите ежедневные тесты и зарабатывайте баллы рейтинга, чтобы обойти своих друзей в соревновании.",
-                4 => "Карта со школами МШИ и мероприятиями города Москва: театры, концерты, выставки.",
-                5 => "Ваш профиль, который доступен из любого раздела. В нем вы можете посмотреть статистику и рейтинг.",
-                6 => "Каждый день новые сторис на главной. Получайте полезную информацию, вовлекайтесь и проходите ежедневные задания.",
-                7 => "Карта со школами МШИ и мероприятиями города Москва: театры, концерты, выставки.",
-            };
-
-            onboardingViews.Counter.Text = $"{stepCounter + 1}/8";
-
-            stepCounter += 1;
-
-            if (stepCounter == 8)
-            {
-                onboardingViews.Next.Text = "Начать пользоваться!";
-                onboardingViews.Skip.Visibility = ViewStates.Gone;
-            }
-        }));
+        onboardingViews.Next.SetOnClickListener(clickListener);
+        onboardingViews.Skip.SetOnClickListener(clickListener);
 
         _parent.Post(() =>
         {
@@ -158,17 +186,27 @@ public class MainTabbedActivity : BaseActivity<MainTabbedViewModel>
                 var constraintSet = motionConstraintSets[i];
 
                 var translationY = i < 5 ?
-                    -1 * (_parent.Height - maskView.Rect.Top + DimensUtils.DpToPx(this, 12)) :
+                    -1 * (_parent.MeasuredHeight - maskView.Rect.Top + DimensUtils.DpToPx(this, 12)) :
                     maskView.Rect.Bottom + DimensUtils.DpToPx(this, 12);
+
+                var arrowMargin = maskView.Rect.CenterX() - onboardingViews.Triangle.MeasuredWidth / 2;
 
                 constraintSet.ConstraintSet.SetTranslationY(Resource.Id.onboarding_info, translationY);
                 constraintSet.ConstraintSet.SetTranslationY(Resource.Id.onboarding_info_arrow, translationY);
-                constraintSet.ConstraintSet.SetMargin(Resource.Id.onboarding_info_arrow, ConstraintSet.Start, maskView.Rect.CenterX() - onboardingViews.Triangle.MeasuredWidth / 2);
+                constraintSet.ConstraintSet.SetMargin(Resource.Id.onboarding_info_arrow, ConstraintSet.Start, arrowMargin);
 
                 onboardingViews.MotionLayout.UpdateState(constraintSet.Id, constraintSet.ConstraintSet);
+
+                if (i == 0)
+                {
+                    onboardingViews.InfoView.TranslationY = translationY;
+                    onboardingViews.Triangle.TranslationY = translationY;
+
+                    var triangleLayoutParameters = (ConstraintLayout.LayoutParams)onboardingViews.Triangle.LayoutParameters;
+                    triangleLayoutParameters.MarginStart = arrowMargin;
+                }
             }
 
-            onboardingViews.MotionLayout.SetTransition(Resource.Id.onboarding_scene_transition_1_2);
             // onboardingViews.MotionLayout.RebuildScene();
 
             onboardingViews.Mask.SetInitialRect(maskViews[0].Rect);
@@ -183,13 +221,13 @@ public class MainTabbedActivity : BaseActivity<MainTabbedViewModel>
             }
         });
 
-        var set = CreateBindingSet();
-
-        set.Bind(onboardingViews.Skip)
-            .For(x => x.BindClick())
-            .To(vm => vm.SkipOnboardingCommand);
-
-        set.Apply();
+        // var set = CreateBindingSet();
+        //
+        // set.Bind(onboardingViews.Skip)
+        //     .For(x => x.BindClick())
+        //     .To(vm => vm.SkipOnboardingCommand);
+        //
+        // set.Apply();
     }
 
     private class OnboardingViews

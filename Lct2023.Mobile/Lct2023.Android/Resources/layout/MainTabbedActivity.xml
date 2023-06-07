@@ -67,6 +67,8 @@
                                                                    android:paddingHorizontal="16dp"
                                                                    android:paddingVertical="8dp"
                                                                    android:text="Дальше"
+                                                                   android:textSize="14sp"
+                                                                   app:backgroundTint="@color/accent"
                                                                    app:layout_constraintStart_toStartOf="parent"
                                                                    app:layout_constraintTop_toBottomOf="@id/onboarding_info_text"/>
 
@@ -78,6 +80,7 @@
                                                                    android:paddingVertical="8dp"
                                                                    android:text="Пропустить"
                                                                    android:textColor="@color/textSecondary"
+                                                                   android:textSize="14sp"
                                                                    app:backgroundTint="@color/bgIsland"
                                                                    app:layout_constraintStart_toEndOf="@id/onboarding_info_next"
                                                                    app:layout_constraintTop_toTopOf="@id/onboarding_info_next"/>
