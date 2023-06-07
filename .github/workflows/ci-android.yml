@@ -20,8 +20,10 @@ jobs:
 
     - name: Install dependencies
       run: nuget restore Lct2023.Mobile/Lct2023.Mobile.sln
+
     - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1.0.0
+      uses: microsoft/setup-msbuild@v1.3.1
+
     - name: Build
       run: msbuild Lct2023.Mobile/Lct2023.Android/Lct2023.Android.csproj /t:PackageForAndroid /p:Configuration=Release
 
