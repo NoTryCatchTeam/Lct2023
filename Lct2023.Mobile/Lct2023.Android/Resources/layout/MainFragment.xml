@@ -17,7 +17,7 @@
 
             <mvvmcross.droidx.recyclerview.MvxRecyclerView android:id="@+id/main_stories"
                                                            android:layout_width="match_parent"
-                                                           android:layout_height="wrap_content"
+                                                           android:layout_height="130dp"
                                                            android:background="@drawable/top_view_island_background"
                                                            android:clipToPadding="false"
                                                            android:orientation="horizontal"
@@ -521,5 +521,5 @@
 
     <include layout="@layout/Toolbar"
              app:layout_constraintTop_toTopOf="parent"/>
-    
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -123,6 +123,7 @@
         <Compile Include="Fragments\MainTabs\MainFragment.cs" />
         <Compile Include="Fragments\MainTabs\MapFragment.cs" />
         <Compile Include="Fragments\MainTabs\TasksFragment.cs" />
+        <Compile Include="Fragments\Onboarding\OnboardingFinishFragment.cs" />
         <Compile Include="Fragments\ProfTest\ProfTestFinishFragment.cs" />
         <Compile Include="Fragments\ProfTest\ProfTestStartFragment.cs" />
         <Compile Include="Fragments\ProfTest\ProfTestStep1Fragment.cs" />
@@ -156,6 +157,7 @@
         <Compile Include="Setup.cs" />
         <Compile Include="TemplateSelectors\MultipleTemplateSelector.cs" />
         <Compile Include="Views\ExtendedToolbar.cs" />
+        <Compile Include="Views\MaskView.cs" />
         <Compile Include="Views\StateContainer.cs" />
         <Compile Include="Views\DimView.cs" />
         <Compile Include="Listeners\DefaultOnTouchListener.cs" />
@@ -256,6 +258,7 @@
           <SubType></SubType>
           <Generator></Generator>
         </AndroidResource>
+        <AndroidResource Include="Resources\xml\main_tabbed_activity_scene.xml" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Assets" />
