@@ -20,6 +20,9 @@ jobs:
 
     - name: Install dependencies
       run: nuget restore Lct2023.Mobile/Lct2023.Mobile.sln
+    
+    - name: Build dependencies
+      run: dotnet build Lct2023.Mobile/Lct2023.Mobile.sln
 
     - name: Build
       run: msbuild Lct2023.Mobile/Lct2023.Android/Lct2023.Android.csproj /t:PackageForAndroid /p:Configuration=Release
