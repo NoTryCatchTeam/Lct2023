@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using Android.Content;
 using Android.Gms.Maps;
@@ -9,6 +10,8 @@ using Android.Graphics;
 using DataModel.Definitions.Enums;
 using Lct2023.Android.Definitions.Extensions;
 using Lct2023.Android.Helpers;
+using System.Collections.Generic;
+using DynamicData;
 
 namespace Lct2023.Android.Definitions.Models.Map
 {
@@ -27,10 +30,38 @@ namespace Lct2023.Android.Definitions.Models.Map
 
         protected override void OnBeforeClusterRendered(ICluster cluster, MarkerOptions markerOptions)
         {
+            if (cluster.Items.Count <= 0)
+            {
+                return;
+            }
+
+            LocationType locationType = LocationType.School;
+            var colors = new List<string>();
+
+
+            foreach (MapClusterItem clusterItem in cluster.Items)
+            {
+                locationType = clusterItem.LocationType;
+                if (locationType == LocationType.Event)
+                {
+                    break;
+                }
+                colors.Add(clusterItem.HexColor);
+            }
+
             var textSize = DimensUtils.DpToPx(_context, 14);
             var diameter = DimensUtils.DpToPx(_context, 32);
-            var bitmap = PinUtils.CreateBitmapWithText(diameter, $"{cluster.Size}", _defaultColor, textSize, DrawableUtils.CreateCircleDrawable(diameter, DimensUtils.DpToPx(_context, 4), _defaultColor, Color.White));
-            markerOptions.SetIcon(BitmapDescriptorFactory.FromBitmap(bitmap));
+
+            switch (locationType)
+            {
+                case LocationType.Event:
+                    markerOptions.SetIcon(BitmapDescriptorFactory.FromBitmap(PinUtils.CreateBitmapWithText(diameter, $"{cluster.Size}", _defaultColor, textSize, DrawableUtils.CreateCircleDrawable(diameter, DimensUtils.DpToPx(_context, 4), _defaultColor, Color.White))));
+                    break;
+                case LocationType.School:
+                    markerOptions.SetIcon(BitmapDescriptorFactory.FromBitmap(PinUtils.CreateBitmapWithText(diameter, $"{cluster.Size}", Color.White, textSize, DrawableUtils.CreateCircleDrawable(diameter, DimensUtils.DpToPx(_context, 4), Color.White, Color.ParseColor(colors.GroupBy(c => c).OrderByDescending(g => g.Count()).First().Key)))));
+                    break;
+            }
+            
         }
 
         protected override void OnBeforeClusterItemRendered(Java.Lang.Object item, MarkerOptions markerOptions)
