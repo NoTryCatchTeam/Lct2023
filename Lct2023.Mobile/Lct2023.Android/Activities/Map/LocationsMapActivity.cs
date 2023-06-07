@@ -7,6 +7,7 @@ using Android.App;
 using Android.Content.PM;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
+using Android.Gms.Maps.Utils.Clustering;
 using Android.Graphics;
 using Android.OS;
 using Android.Views;
@@ -23,6 +24,7 @@ using Lct2023.Android.Adapters;
 using Lct2023.Android.Callbacks;
 using Lct2023.Android.Decorations;
 using Lct2023.Android.Definitions.Extensions;
+using Lct2023.Android.Definitions.Models.Map;
 using Lct2023.Android.Helpers;
 using Lct2023.Android.Listeners;
 using Lct2023.Converters;
@@ -40,13 +42,14 @@ namespace Lct2023.Android.Activities.Map
 {
     [MvxActivityPresentation]
     [Activity(ScreenOrientation = ScreenOrientation.Portrait)]
-    public class LocationsMapActivity : BaseActivity<LocationsMapViewModel>, IOnMapReadyCallback, View.IOnClickListener, GoogleMap.IOnMarkerClickListener, GoogleMap.IOnMapClickListener
+    public class LocationsMapActivity : BaseActivity<LocationsMapViewModel>, IOnMapReadyCallback, View.IOnClickListener, GoogleMap.IOnMarkerClickListener, GoogleMap.IOnMapClickListener, ClusterManager.IOnClusterItemClickListener
     {
         private const float MAX_DIM_ALPHA = 0.5f;
 
         private MapView _mapView;
 
         private GoogleMap _googleMap;
+        private ClusterManager _clusterManager;
         private BottomSheetBehavior _locationDetailsBottomSheetBehavior;
         private MaterialCardView _locationDetailsBottomSheet;
         private View _addressLayout;
@@ -385,6 +388,9 @@ namespace Lct2023.Android.Activities.Map
         {
             _googleMap = googleMap;
 
+            _clusterManager = new ClusterManager(this, googleMap);
+            _clusterManager.Renderer = new MapClusterRenderer(this, googleMap, _clusterManager);
+
             var set = CreateBindingSet();
 
             set.Bind(_googleMap)
@@ -393,8 +399,10 @@ namespace Lct2023.Android.Activities.Map
 
             set.Apply();
 
+            _googleMap.SetOnCameraIdleListener(_clusterManager);
             _googleMap.SetOnMarkerClickListener(this);
             _googleMap.SetOnMapClickListener(this);
+            _clusterManager.SetOnClusterItemClickListener(this);
 
             _googleMap.MapType = GoogleMap.MapTypeNormal;
             _googleMap.MoveCamera(CameraUpdateFactory.NewLatLngZoom(new LatLng(55.7499931, 37.624216), 9));
@@ -416,37 +424,16 @@ namespace Lct2023.Android.Activities.Map
                 return;
             }
 
-            _googleMap.Clear();
+            _clusterManager.ClearItems();
+
 
             foreach (var place in ViewModel.Places)
             {
-                Bitmap bitmap = null;
-
-                switch (place.LocationType)
-                {
-                    case LocationType.Event:
-                        {
-                            var diameter = DimensUtils.DpToPx(this, 32);
-                            bitmap = PinUtils.CreateBitmap(diameter, DrawableUtils.CreateCircleDrawable(diameter, DimensUtils.DpToPx(this, 4), Color.ParseColor(place.HexColor), Color.White));
-
-                            break;
-                        }
-                    case LocationType.School:
-                        {
-                            var drawable = Resource.Drawable.ic_pin.GetDrawable(this);
-                            var diameter = Math.Min(drawable.IntrinsicWidth, drawable.IntrinsicHeight);
-                            bitmap = PinUtils.CreateBitmap(diameter, DrawableUtils.CreateCircleDrawable(diameter, DimensUtils.DpToPx(this, 4), Color.White, Color.ParseColor(place.HexColor)), drawable);
-
-                            break;
-                        }
-                }
-
-                _googleMap.AddMarker(new MarkerOptions()
-                    .SetIcon(BitmapDescriptorFactory.FromBitmap(bitmap))
-                    .SetSnippet(place.Id)
-                    .SetPosition(new LatLng(place.Latitude, place.Longitude))
-                    .SetTitle(place.Title));
+                _clusterManager.AddItem(new MapClusterItem(place));
             }
+
+
+            _clusterManager.Cluster();
         }
 
         public void OnClick(View view)
@@ -492,9 +479,20 @@ namespace Lct2023.Android.Activities.Map
             _locationDetailsBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
         }
 
+        public bool OnClusterItemClick(Java.Lang.Object item)
+        {
+            if (item is MapClusterItem clusterItem)
+            {
+                SelectLocation(clusterItem.Snippet);
+            }
+
+            return false;
+        }
+
         public bool OnMarkerClick(Marker marker)
         {
             SelectLocation(marker.Snippet);
+
             return true;
         }
 

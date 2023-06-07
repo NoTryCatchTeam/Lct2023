@@ -41,17 +41,21 @@ using Lct2023.Android.Views;
 using Lct2023.Android.Callbacks;
 using AndroidX.CoordinatorLayout.Widget;
 using MvvmCross.Platforms.Android.Presenters;
+using Lct2023.Android.Definitions.Models.Map;
+using Android.Gms.Maps.Utils.Clustering;
+using static Android.Gms.Maps.Utils.Clustering.ClusterManager;
 
 namespace Lct2023.Android.Fragments.MainTabs;
 
 [MvxFragmentPresentation]
-public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View.IOnClickListener, GoogleMap.IOnMarkerClickListener, GoogleMap.IOnMapClickListener
+public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View.IOnClickListener, GoogleMap.IOnMapClickListener, GoogleMap.IOnMarkerClickListener, ClusterManager.IOnClusterItemClickListener
 {
     private const float MAX_DIM_ALPHA = 0.5f;
 
     private MapView _mapView;
 
     private GoogleMap _googleMap;
+    private ClusterManager _clusterManager;
     private BottomSheetBehavior _locationDetailsBottomSheetBehavior;
     private MaterialCardView _locationDetailsBottomSheet;
     private View _addressLayout;
@@ -167,14 +171,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         }));
 
         var bottomSheetCallback = new DefaultBottomSheetCallback(
-            (v, s) =>
-            {
-                dimView.Alpha = (s > MAX_DIM_ALPHA) switch
-                {
-                    true => MAX_DIM_ALPHA,
-                    _ => s,
-                };
-            });
+            (v, s) => dimView.Alpha = Math.Min(s, MAX_DIM_ALPHA));
 
         _filtersBottomSheetBehavior.AddBottomSheetCallback(bottomSheetCallback);
 
@@ -511,7 +508,10 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
     public void OnMapReady(GoogleMap googleMap)
     {
         _googleMap = googleMap;
-        
+
+        _clusterManager = new ClusterManager(Context, googleMap);
+        _clusterManager.Renderer = new MapClusterRenderer(Context, googleMap, _clusterManager);
+
         var set = CreateBindingSet();
 
         set.Bind(_googleMap)
@@ -520,9 +520,11 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
 
         set.Apply();
         
+        _googleMap.SetOnCameraIdleListener(_clusterManager);
         _googleMap.SetOnMarkerClickListener(this);
         _googleMap.SetOnMapClickListener(this);
-        
+        _clusterManager.SetOnClusterItemClickListener(this);
+
         _googleMap.MapType = GoogleMap.MapTypeNormal;
         _googleMap.MoveCamera(CameraUpdateFactory.NewLatLngZoom(new LatLng(55.7499931, 37.624216), 9));
 
@@ -542,38 +544,17 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         {
             return;
         }
-        
-        _googleMap.Clear();
-            
+
+        _clusterManager.ClearItems();
+
+
         foreach (var place in ViewModel.Places)
         {
-            Bitmap bitmap = null;
-
-            switch (place.LocationType)
-            {
-                case LocationType.Event:
-                {
-                    var diameter = DimensUtils.DpToPx(Context, 32);
-                    bitmap = PinUtils.CreateBitmap(diameter, DrawableUtils.CreateCircleDrawable(diameter, DimensUtils.DpToPx(Context, 4), Color.ParseColor(place.HexColor), Color.White));
-                    
-                    break;
-                }
-                case LocationType.School:
-                {
-                    var drawable = Resource.Drawable.ic_pin.GetDrawable(Context);
-                    var diameter = Math.Min(drawable.IntrinsicWidth, drawable.IntrinsicHeight);
-                    bitmap = PinUtils.CreateBitmap(diameter, DrawableUtils.CreateCircleDrawable(diameter, DimensUtils.DpToPx(Context, 4), Color.White, Color.ParseColor(place.HexColor)), drawable);
-                    
-                    break;
-                }
-            }
-            
-            _googleMap.AddMarker(new MarkerOptions()
-                .SetIcon(BitmapDescriptorFactory.FromBitmap(bitmap))
-                .SetSnippet(place.Id)
-                .SetPosition(new LatLng(place.Latitude, place.Longitude))
-                .SetTitle(place.Title));
+            _clusterManager.AddItem(new MapClusterItem(place));
         }
+
+
+        _clusterManager.Cluster();
     }
 
     public void OnClick(View view)
@@ -635,12 +616,6 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         _locationDetailsBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
     }
 
-    public bool OnMarkerClick(Marker marker)
-    {
-        SelectLocation(marker.Snippet);
-        return true;
-    }
-
     private void SelectLocation(string id)
     {
         ViewModel.SelectedLocation = ViewModel.Places?.FirstOrDefault(place => place.Id == id);
@@ -663,4 +638,21 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
     }
 
     public void OnMapClick(LatLng point) => DeselectLocation();
+
+    public bool OnClusterItemClick(Java.Lang.Object item)
+    {
+        if (item is MapClusterItem clusterItem)
+        {
+            SelectLocation(clusterItem.Snippet);
+        }
+        
+        return false;
+    }
+
+    public bool OnMarkerClick(Marker marker)
+    {
+        SelectLocation(marker.Snippet);
+
+        return true;
+    }
 }
