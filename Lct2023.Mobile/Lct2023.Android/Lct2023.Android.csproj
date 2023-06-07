@@ -169,6 +169,7 @@
         <Compile Include="Fragments\Feed\FeedFragment.cs" />
         <Compile Include="Fragments\MainTabs\MainFeedFragment.cs" />
         <Compile Include="Presenters\MvxFragmentAdapterChildItemPresentationAttribute.cs" />
+        <Compile Include="Activities\Map\LocationsMapActivity.cs" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Properties\AndroidManifest.xml" />
@@ -259,12 +260,17 @@
           <Generator></Generator>
         </AndroidResource>
         <AndroidResource Include="Resources\xml\main_tabbed_activity_scene.xml" />
+        <AndroidResource Include="Resources\layout\LocationsMapActivity.xml">
+          <SubType></SubType>
+          <Generator></Generator>
+        </AndroidResource>
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Assets" />
         <Folder Include="Resources\drawable\" />
         <Folder Include="Resources\menu" />
         <Folder Include="Fragments\Feed\" />
+        <Folder Include="Activities\Map\" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="11.0.1" />

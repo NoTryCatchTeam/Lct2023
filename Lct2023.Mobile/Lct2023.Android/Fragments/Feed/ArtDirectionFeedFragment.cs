@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Android.App;
+using Android.Content;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+using AndroidX.Activity;
 using AndroidX.CoordinatorLayout.Widget;
+using AndroidX.Lifecycle;
 using AndroidX.RecyclerView.Widget;
+using AndroidX.ViewPager.Widget;
 using Google.Android.Material.BottomSheet;
 using Google.Android.Material.Button;
 using Google.Android.Material.Card;
@@ -20,6 +25,7 @@ using Lct2023.Android.Helpers;
 using Lct2023.Android.Listeners;
 using Lct2023.Android.Presenters;
 using Lct2023.Android.Views;
+using Lct2023.Commons.Extensions;
 using Lct2023.Converters;
 using Lct2023.Definitions.Enums;
 using Lct2023.ViewModels.Feed;
@@ -44,6 +50,18 @@ namespace Lct2023.Android.Fragments.Feed
 
         private MaterialCardView _filtersBottomSheet;
         private BottomSheetBehavior _filtersBottomSheetBehavior;
+        private DefaultBackPressedCallback _backPressedCallback;
+
+        public override void OnAttach(Context context)
+        {
+            base.OnAttach(context);
+            _backPressedCallback?.Then(c => c.Enabled = false);
+            _backPressedCallback = new DefaultBackPressedCallback(
+                true,
+                callback => ViewModel.NavigateBackCommand.Execute(null));
+
+            RequireActivity().OnBackPressedDispatcher.AddCallback(_backPressedCallback);
+        }
 
         protected override int GetLayoutId() => Resource.Layout.ArtDirectionFeedFragment;
 
@@ -232,6 +250,18 @@ namespace Lct2023.Android.Fragments.Feed
                         _ => "#a4cf57",
                     }));
             }
+        }
+
+        public override void OnResume()
+        {
+            base.OnResume();
+            _backPressedCallback.Enabled = true;
+        }
+
+        public override void OnPause()
+        {
+            base.OnPause();
+            _backPressedCallback.Enabled = false;
         }
 
         public void OnClick(View view)

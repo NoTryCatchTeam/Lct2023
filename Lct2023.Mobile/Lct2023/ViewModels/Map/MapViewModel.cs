@@ -271,8 +271,8 @@ public class MapViewModel : BaseViewModel
 
         var schoolLocationTask = Task.Run(() => RunSafeTaskAsync(async () =>
         {
-            _schoolLocations = (await _mapRestService.GetSchoolsLocationAsync(CancellationToken))?.ToArray();
-
+            _schoolLocations = (await _mapRestService.LoadUntilEndAsync((rS, start) => rS.GetSchoolsLocationPaginationAsync(start, PAGE_SIZE, CancellationToken)))?.ToArray();
+            
             if (_schoolLocations?.Any() != true
                 || LocationType == LocationType.Event)
             {
@@ -284,7 +284,7 @@ public class MapViewModel : BaseViewModel
         
         var eventsTask = Task.Run(() => RunSafeTaskAsync(async () =>
         {
-            _events = (await _mapRestService.GetEventsAsync(CancellationToken))?.ToArray();
+            _events = (await _mapRestService.LoadUntilEndAsync((rS, start) => rS.GetEventsPaginationAsync(start, PAGE_SIZE, CancellationToken)))?.ToArray();
 
             if (_events?.Any() != true
                 || LocationType == LocationType.School)

@@ -45,6 +45,21 @@ public class ExtendedAndroidViewPresenter : MvxAndroidViewPresenter
 
                 return Task.FromResult(result: true);
             },
-            CloseFragment);
+            (vm, presentation) =>
+            {
+                Fragment fragmentByViewType = CurrentFragmentManager.Fragments?.ElementAtOrDefault(presentation.RootPosition);
+                if (fragmentByViewType == null
+                    || fragmentByViewType.GetType() != presentation.FragmentHostViewType)
+                {
+                    throw new InvalidOperationException("Fragment host not found when trying to show View " + presentation.FragmentHostViewType.Name + " as Nested Fragment");
+                }
+
+                if (fragmentByViewType != null && TryPerformCloseFragmentTransaction(fragmentByViewType.ChildFragmentManager, presentation))
+                {
+                    return Task.FromResult(result: true);
+                }
+
+                return Task.FromResult(result: false);
+            });
     }
 }
