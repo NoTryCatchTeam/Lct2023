@@ -40,13 +40,14 @@ using Lct2023.Android.Listeners;
 using Lct2023.Android.Views;
 using Lct2023.Android.Callbacks;
 using AndroidX.CoordinatorLayout.Widget;
+using MvvmCross.Platforms.Android.Presenters;
 
 namespace Lct2023.Android.Fragments.MainTabs;
 
 [MvxFragmentPresentation]
 public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View.IOnClickListener, GoogleMap.IOnMarkerClickListener, GoogleMap.IOnMapClickListener
 {
-    private const float MAX_DIM_ALPHA = 0.65f;
+    private const float MAX_DIM_ALPHA = 0.5f;
 
     private MapView _mapView;
 
@@ -67,7 +68,6 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         Toolbar.Title = "Карта";
         
         _mapView = view.FindViewById<MapView>(Resource.Id.map_view);
-        
         _mapContainer = view.FindViewById<CoordinatorLayout>(Resource.Id.map_container);
         var locationsSearchEditText = view.FindViewById<TextInputEditText>(Resource.Id.locations_search_value);
         var searchResultsList = view.FindViewById<MvxRecyclerView>(Resource.Id.map_search_results);

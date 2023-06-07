@@ -17,6 +17,7 @@ using Lct2023.Android.Callbacks;
 using Lct2023.Android.Decorations;
 using Lct2023.Android.Helpers;
 using Lct2023.Android.Listeners;
+using Lct2023.Android.Presenters;
 using Lct2023.Android.Views;
 using Lct2023.Converters;
 using Lct2023.Definitions.Enums;
@@ -30,10 +31,14 @@ using MvvmCross.Platforms.Android.Presenters.Attributes;
 
 namespace Lct2023.Android.Fragments.MainTabs;
 
-[MvxFragmentPresentation]
+[MvxFragmentAdapterChildItemPresentationAttribute(
+    RootPosition = 2,
+    FragmentHostViewType = typeof(MainFeedFragment),
+    FragmentContentId = Resource.Id.main_feed_container,
+    AddToBackStack = true)]
 public class FeedFragment : BaseFragment<FeedViewModel>, View.IOnClickListener
 {
-    private const float MAX_DIM_ALPHA = 0.65f;
+    private const float MAX_DIM_ALPHA = 0.5f;
 
     private MaterialCardView _filtersBottomSheet;
     private BottomSheetBehavior _filtersBottomSheetBehavior;
@@ -139,16 +144,6 @@ public class FeedFragment : BaseFragment<FeedViewModel>, View.IOnClickListener
             .Bind(filtersRecycler)
             .For(v => v.ItemsSource)
             .To(vm => vm.FilterGroups);
-
-        set
-            .Bind(feedRecycler)
-            .For(v => v.ItemClick)
-            .To(vm => vm.ItemClickCommand);
-
-        set
-            .Bind(feedRecycler)
-            .For(v => v.ItemLongClick)
-            .To(vm => vm.ItemClickCommand);
 
         set
             .Bind(feedRecycler)

@@ -156,6 +156,8 @@ public class AppMapperProfile : Profile
         CreateMap<ArticleResponse, FeedItemViewModel>()
             .ForMember(x => x.Id, expr => expr.Ignore())
             .ForMember(x => x.Expanded, expr => expr.Ignore())
+            .ForMember(x => x.ItemClickCommand, expr => expr.Ignore())
+            .ForMember(x => x.ExpandCommand, expr => expr.Ignore())
             .ForMember(x => x.ArtCategories, expr => expr.MapFrom((s, d, _) => s.ArtCategories?.Data?.Select(aC => aC.Item?.DisplayName)))
             .ForMember(x => x.PublishedAt, expr => expr.MapFrom(s => s.PublishedAt.ToString("d MMMM yyyy HH:mm")))
             .ForMember(x => x.ImageUrl, expr => expr.MapFrom((s, d, _) => s.Cover?.Data?.Item?.Url?.Then(url =>

@@ -21,4 +21,8 @@ public class FeedItemViewModel : MvxNotifyPropertyChanged
     public bool Expanded { get; set; }
 
     public IEnumerable<string> ArtCategories { get; set; }
+
+    public IMvxCommand ItemClickCommand { get; set; }
+
+    public IMvxCommand ExpandCommand { get; set; }
 }

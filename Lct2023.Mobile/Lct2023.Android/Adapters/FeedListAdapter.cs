@@ -22,6 +22,7 @@ using Lct2023.Converters;
 using Lct2023.ViewModels.Feed;
 using Lct2023.ViewModels.Map;
 using MvvmCross.Binding.BindingContext;
+using MvvmCross.Binding.ValueConverters;
 using MvvmCross.DroidX.RecyclerView;
 using MvvmCross.DroidX.RecyclerView.ItemTemplates;
 using MvvmCross.DroidX.RecyclerView.Model;
@@ -137,6 +138,7 @@ public class FeedListAdapter<TContextViewModel> : BaseTemplatedRecyclerViewAdapt
             _image = itemView.FindViewById<ImageView>(Resource.Id.feed_item_image);
             var likeButton = itemView.FindViewById<MaterialButton>(Resource.Id.feed_item_like_button);
             var topArtCategoryButton = itemView.FindViewById<MaterialButton>(Resource.Id.feed_item_top_art_category_button);
+            var container = itemView.FindViewById<MaterialCardView>(Resource.Id.feed_item_container);
             
             this.DelayBind(() =>
             {
@@ -202,6 +204,24 @@ public class FeedListAdapter<TContextViewModel> : BaseTemplatedRecyclerViewAdapt
                         _ => itemView.Context.Resources.GetColorStateList(Resource.Color.defaultArtDirectionTextColor),
                     }));
 
+                set
+                    .Bind(container)
+                    .For(v => v.BindClick())
+                    .To(vm => vm.ItemClickCommand)
+                    .WithConversion<MvxCommandParameterValueConverter>(ViewModel);
+
+                set
+                    .Bind(container)
+                    .For(v => v.BindLongClick())
+                    .To(vm => vm.ItemClickCommand)
+                    .WithConversion<MvxCommandParameterValueConverter>(ViewModel);
+
+                set
+                    .Bind(_moreDescriptionButton)
+                    .For(v => v.BindClick())
+                    .To(vm => vm.ExpandCommand)
+                    .WithConversion<MvxCommandParameterValueConverter>(ViewModel);
+
 
                 set.Apply();
             });
@@ -231,12 +251,11 @@ public class FeedListAdapter<TContextViewModel> : BaseTemplatedRecyclerViewAdapt
                 if (height < 150)
                 {
                     alphaAnimator.Start();
+                    _moreDescriptionButton.Visibility = ViewStates.Gone;
                     return;
                 }
 
                 _moreDescriptionButton.Visibility = ViewStates.Visible;
-
-                _moreDescriptionButton.Click += MoreDescriptionButtonClick;
 
                 var set = CreateBindingSet();
 
@@ -263,18 +282,6 @@ public class FeedListAdapter<TContextViewModel> : BaseTemplatedRecyclerViewAdapt
 
                 alphaAnimator.Start();
             });
-        }
-
-        private void MoreDescriptionButtonClick(object sender, EventArgs e) => ViewModel.Expanded = !ViewModel.Expanded;
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _moreDescriptionButton.Click -= MoreDescriptionButtonClick;
-            }
-
-            base.Dispose(disposing);
         }
     }
 

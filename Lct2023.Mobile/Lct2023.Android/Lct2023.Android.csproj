@@ -120,7 +120,6 @@
         <Compile Include="Fragments\Exercises\VideoToAudioExerciseFragment.cs" />
         <Compile Include="Fragments\IPlayersFragment.cs" />
         <Compile Include="Fragments\MainTabs\CoursesFragment.cs" />
-        <Compile Include="Fragments\MainTabs\FeedFragment.cs" />
         <Compile Include="Fragments\MainTabs\MainFragment.cs" />
         <Compile Include="Fragments\MainTabs\MapFragment.cs" />
         <Compile Include="Fragments\MainTabs\TasksFragment.cs" />
@@ -164,6 +163,10 @@
         <Compile Include="Bindings\TextViewMaxLinesBinding.cs" />
         <Compile Include="Adapters\FeedArtDirectionsAdapter.cs" />
         <Compile Include="Bindings\ImageViewByResIdBinding.cs" />
+        <Compile Include="Fragments\Feed\ArtDirectionFeedFragment.cs" />
+        <Compile Include="Fragments\Feed\FeedFragment.cs" />
+        <Compile Include="Fragments\MainTabs\MainFeedFragment.cs" />
+        <Compile Include="Presenters\MvxFragmentAdapterChildItemPresentationAttribute.cs" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Properties\AndroidManifest.xml" />
@@ -237,11 +240,28 @@
           <SubType></SubType>
           <Generator></Generator>
         </AndroidResource>
+        <AndroidResource Include="Resources\layout\ArtDirectionFeedFragment.xml">
+          <SubType></SubType>
+          <Generator></Generator>
+        </AndroidResource>
+        <AndroidResource Include="Resources\layout\FeedArtDirectionSchoolsItemView.xml">
+          <SubType></SubType>
+          <Generator></Generator>
+        </AndroidResource>
+        <AndroidResource Include="Resources\layout\FeedArtDirectionDescriptionItemView.xml">
+          <SubType></SubType>
+          <Generator></Generator>
+        </AndroidResource>
+        <AndroidResource Include="Resources\layout\MainFeedFragment.xml">
+          <SubType></SubType>
+          <Generator></Generator>
+        </AndroidResource>
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Assets" />
         <Folder Include="Resources\drawable\" />
         <Folder Include="Resources\menu" />
+        <Folder Include="Fragments\Feed\" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="11.0.1" />

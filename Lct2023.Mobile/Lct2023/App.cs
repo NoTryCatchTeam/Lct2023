@@ -42,7 +42,7 @@ public class App : MvxApplication
 
         Mvx.IoCProvider.RegisterType<MainViewModel>();
         Mvx.IoCProvider.RegisterType<CoursesViewModel>();
-        Mvx.IoCProvider.RegisterType<FeedViewModel>();
+        Mvx.IoCProvider.RegisterType<MainFeedViewModel>();
         Mvx.IoCProvider.RegisterType<TasksViewModel>();
         Mvx.IoCProvider.RegisterType<MapViewModel>();
 

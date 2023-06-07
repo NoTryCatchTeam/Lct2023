@@ -15,6 +15,7 @@ using Lct2023.Business.RestServices.Art;
 using Lct2023.Business.RestServices.Feed;
 using Lct2023.Commons.Extensions;
 using Lct2023.Definitions.Enums;
+using Lct2023.Definitions.VmLinks;
 using Lct2023.ViewModels.Common;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
@@ -32,13 +33,17 @@ public class FeedViewModel : BaseViewModel
     private readonly IArtRestService _artRestService;
     private readonly IMapper _mapper;
     private readonly IFeedRestService _feedRestService;
+    private readonly IMvxCommand _itemClickCommand;
+    private readonly IMvxCommand _itemExpandCommand;
+
     private CancellationTokenSource _feedCancellationTokenSource;
-    
+
+
+    private IEnumerable<CmsItemResponse<RubricResponse>> _rubrics;
+
     public IMvxCommand LoadMoreCommand { get; }
     
     public IMvxCommand UpdateItemsCommand { get; }
-    
-    public IMvxCommand ItemClickCommand { get; }
 
     public IMvxCommand ArtDirectionClickCommand { get; }
 
@@ -54,7 +59,7 @@ public class FeedViewModel : BaseViewModel
         _artRestService = artRestService;
         _mapper = mapper;
         
-        ItemClickCommand = new MvxAsyncCommand<FeedItemViewModel>(vm =>
+        _itemClickCommand = new MvxAsyncCommand<FeedItemViewModel>(vm =>
         {
             if (string.IsNullOrEmpty(vm.Link))
             {
@@ -64,10 +69,13 @@ public class FeedViewModel : BaseViewModel
             return RunSafeTaskAsync(() => Browser.OpenAsync(vm.Link, BrowserLaunchMode.SystemPreferred));
         });
 
-        ArtDirectionClickCommand = new MvxAsyncCommand<FeedArtDirectionItemViewModel>(async vm =>
+        _itemExpandCommand = new MvxCommand<FeedItemViewModel>(vm => vm.Expanded = !vm.Expanded);
+
+        ArtDirectionClickCommand = new MvxAsyncCommand<FeedArtDirectionItemViewModel>(vm => NavigationService.Navigate<ArtDirectionFeedViewModel, ArtDirectionFeedVmLink>(new ArtDirectionFeedVmLink
         {
-            
-        });
+            ArtDirection = vm.Title,
+            Rubrics = _rubrics,
+        }));
         
         UpdateItemsCommand = new MvxAsyncCommand(() => RunSafeTaskAsync(
             UpdateItemsAsync,
@@ -145,12 +153,11 @@ public class FeedViewModel : BaseViewModel
         
         var filtersTask = Task.Run(() => RunSafeTaskAsync(async () =>
         {
-            IEnumerable<CmsItemResponse<RubricResponse>> rubrics = null;
             IEnumerable<CmsItemResponse<ArtCategoryResponse>> artCategories = null;
             
             
             await Task.WhenAll(
-                Task.Run(async () => rubrics = (await _feedRestService.GetRubricsAsync(CancellationToken))?.ToArray()),
+                Task.Run(async () => _rubrics = (await _feedRestService.GetRubricsAsync(CancellationToken))?.ToArray()),
                 Task.Run(async () => artCategories = (await _artRestService.GetArtCategoriesAsync(CancellationToken))?.ToArray()));
 
             await InvokeOnMainThreadAsync(() =>
@@ -170,7 +177,7 @@ public class FeedViewModel : BaseViewModel
                         ArtDirections.AddRange(_mapper.Map<IEnumerable<FeedArtDirectionItemViewModel>>(aC));
                     });
                 
-                rubrics
+                _rubrics
                     ?.Where(r => r?.Item?.Name != null)
                     .Select(r => r.Item)
                     .Then(r => FilterGroups.Add(new FeedFilterGroupItemViewModel
@@ -234,7 +241,8 @@ public class FeedViewModel : BaseViewModel
 
         if (newArticles?.Length > 0)
         {
-            Items.AddRange(_mapper.Map<IEnumerable<FeedItemViewModel>>(newArticles));
+            Items.AddRange(_mapper.Map<IEnumerable<FeedItemViewModel>>(newArticles, opts => opts.AfterMap((s, d) =>
+                d.ForEach(vm => (vm.ExpandCommand, vm.ItemClickCommand) = (_itemExpandCommand, _itemClickCommand)))));
         }
 
         IsLoadMoreEnabled = newArticles?.Length >= PAGE_SIZE;

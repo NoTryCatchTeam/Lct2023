@@ -4,6 +4,7 @@
                                                    style="@style/AppTheme.MaterialCardView.White"
                                                    app:contentPaddingBottom="16dp"
                                                    app:contentPaddingTop="16dp"
+                                                   android:id="@+id/feed_item_container"       
                                                    android:layout_width="match_parent"
                                                    android:layout_height="wrap_content"
                                                    app:rippleColor="?attr/colorControlHighlight"
