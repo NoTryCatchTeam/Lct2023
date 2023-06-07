@@ -19,10 +19,10 @@ jobs:
         dotnet-version: '7.0.x'
 
     - name: Install dependencies
-      run: nuget restore /Lct2023.Mobile/Lct2023.Mobile.sln
+      run: nuget restore Lct2023.Mobile/Lct2023.Mobile.sln
 
     - name: Build
-      run: msbuild /Lct2023.Mobile/Lct2023.Android.csproj /t:PackageForAndroid /p:Configuration=Debug
+      run: msbuild Lct2023.Mobile/Lct2023.Android.csproj /t:PackageForAndroid /p:Configuration=Debug
 
     - name: Artifacts
       run: |
