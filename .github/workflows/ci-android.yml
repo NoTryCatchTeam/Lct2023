@@ -1,0 +1,36 @@
+name: Build Xamarin.Android
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set default Xamarin SDK versions
+      run: |
+        $VM_ASSETS/select-xamarin-sdk-v2.sh --mono=6.10 --android=13
+
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '7.0.x'
+
+    - name: Install dependencies
+      run: nuget restore /Lct2023.Mobile/Lct2023.Mobile.sln
+
+    - name: Build
+      run: msbuild /Lct2023.Mobile/Lct2023.Android.csproj /t:PackageForAndroid /p:Configuration=Debug
+
+    - name: Artifacts
+      run: |
+        mkdir -p apks
+        cp Lct2023.Mobile/Lct2023.Android/bin/Debug/*.apk apks
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: apks
+        path: apks
