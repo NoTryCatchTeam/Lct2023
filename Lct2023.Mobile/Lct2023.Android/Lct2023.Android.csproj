@@ -124,6 +124,7 @@
         <Compile Include="Fragments\MainTabs\MainFragment.cs" />
         <Compile Include="Fragments\MainTabs\MapFragment.cs" />
         <Compile Include="Fragments\MainTabs\TasksFragment.cs" />
+        <Compile Include="Fragments\Onboarding\OnboardingFinishFragment.cs" />
         <Compile Include="Fragments\ProfTest\ProfTestFinishFragment.cs" />
         <Compile Include="Fragments\ProfTest\ProfTestStartFragment.cs" />
         <Compile Include="Fragments\ProfTest\ProfTestStep1Fragment.cs" />

@@ -8,7 +8,6 @@ using Android.Widget;
 using AndroidX.ConstraintLayout.Motion.Widget;
 using AndroidX.ConstraintLayout.Widget;
 using AndroidX.RecyclerView.Widget;
-using AndroidX.Transitions;
 using AndroidX.ViewPager2.Widget;
 using Google.Android.Material.BottomNavigation;
 using Google.Android.Material.Button;
@@ -76,8 +75,10 @@ public class MainTabbedActivity : BaseActivity<MainTabbedViewModel>
         onboardingViews.Mask.Visibility = ViewStates.Gone;
         onboardingViews.MotionLayout.Visibility = ViewStates.Gone;
 
-        // TODO Check for first app launch
-        // if ()
+        if (!Xamarin.Essentials.VersionTracking.IsFirstLaunchEver)
+        {
+            return;
+        }
 
         // Onboarding setup
         onboardingViews.Mask.Visibility = ViewStates.Visible;
@@ -88,13 +89,13 @@ public class MainTabbedActivity : BaseActivity<MainTabbedViewModel>
         var motionConstraintSets = new (int Id, ConstraintSet ConstraintSet)[]
         {
             (Resource.Id.onboarding_scene_step_1, onboardingViews.MotionLayout.GetConstraintSet(Resource.Id.onboarding_scene_step_1)),
-            (Resource.Id.onboarding_scene_step_1, onboardingViews.MotionLayout.GetConstraintSet(Resource.Id.onboarding_scene_step_2)),
-            (Resource.Id.onboarding_scene_step_1, onboardingViews.MotionLayout.GetConstraintSet(Resource.Id.onboarding_scene_step_3)),
-            (Resource.Id.onboarding_scene_step_1, onboardingViews.MotionLayout.GetConstraintSet(Resource.Id.onboarding_scene_step_4)),
-            (Resource.Id.onboarding_scene_step_1, onboardingViews.MotionLayout.GetConstraintSet(Resource.Id.onboarding_scene_step_5)),
-            (Resource.Id.onboarding_scene_step_1, onboardingViews.MotionLayout.GetConstraintSet(Resource.Id.onboarding_scene_step_6)),
-            (Resource.Id.onboarding_scene_step_1, onboardingViews.MotionLayout.GetConstraintSet(Resource.Id.onboarding_scene_step_7)),
-            (Resource.Id.onboarding_scene_step_1, onboardingViews.MotionLayout.GetConstraintSet(Resource.Id.onboarding_scene_step_8)),
+            (Resource.Id.onboarding_scene_step_2, onboardingViews.MotionLayout.GetConstraintSet(Resource.Id.onboarding_scene_step_2)),
+            (Resource.Id.onboarding_scene_step_3, onboardingViews.MotionLayout.GetConstraintSet(Resource.Id.onboarding_scene_step_3)),
+            (Resource.Id.onboarding_scene_step_4, onboardingViews.MotionLayout.GetConstraintSet(Resource.Id.onboarding_scene_step_4)),
+            (Resource.Id.onboarding_scene_step_5, onboardingViews.MotionLayout.GetConstraintSet(Resource.Id.onboarding_scene_step_5)),
+            (Resource.Id.onboarding_scene_step_6, onboardingViews.MotionLayout.GetConstraintSet(Resource.Id.onboarding_scene_step_6)),
+            (Resource.Id.onboarding_scene_step_7, onboardingViews.MotionLayout.GetConstraintSet(Resource.Id.onboarding_scene_step_7)),
+            (Resource.Id.onboarding_scene_step_8, onboardingViews.MotionLayout.GetConstraintSet(Resource.Id.onboarding_scene_step_8)),
         };
 
         var maskViews = new (View View, Rect Rect)[8];
@@ -111,8 +112,9 @@ public class MainTabbedActivity : BaseActivity<MainTabbedViewModel>
                         // Finish onboarding
                         onboardingViews.Mask.Visibility = ViewStates.Gone;
                         onboardingViews.MotionLayout.Visibility = ViewStates.Gone;
+
                         ViewModel.FinishOnboardingCommand.ExecuteAsync();
-                        
+
                         return;
                     }
 
@@ -196,18 +198,9 @@ public class MainTabbedActivity : BaseActivity<MainTabbedViewModel>
                 constraintSet.ConstraintSet.SetMargin(Resource.Id.onboarding_info_arrow, ConstraintSet.Start, arrowMargin);
 
                 onboardingViews.MotionLayout.UpdateState(constraintSet.Id, constraintSet.ConstraintSet);
-
-                if (i == 0)
-                {
-                    onboardingViews.InfoView.TranslationY = translationY;
-                    onboardingViews.Triangle.TranslationY = translationY;
-
-                    var triangleLayoutParameters = (ConstraintLayout.LayoutParams)onboardingViews.Triangle.LayoutParameters;
-                    triangleLayoutParameters.MarginStart = arrowMargin;
-                }
             }
 
-            // onboardingViews.MotionLayout.RebuildScene();
+            onboardingViews.MotionLayout.RebuildScene();
 
             onboardingViews.Mask.SetInitialRect(maskViews[0].Rect);
 
@@ -220,14 +213,6 @@ public class MainTabbedActivity : BaseActivity<MainTabbedViewModel>
                 return (view, viewRect);
             }
         });
-
-        // var set = CreateBindingSet();
-        //
-        // set.Bind(onboardingViews.Skip)
-        //     .For(x => x.BindClick())
-        //     .To(vm => vm.SkipOnboardingCommand);
-        //
-        // set.Apply();
     }
 
     private class OnboardingViews

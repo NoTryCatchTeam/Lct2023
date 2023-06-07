@@ -26,12 +26,12 @@
     <MaskView android:id="@+id/onboarding_mask"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:elevation="8dp"/>
+              android:elevation="10dp"/>
 
     <androidx.constraintlayout.motion.widget.MotionLayout android:id="@+id/onboarding_motion_layout"
                                                           android:layout_width="match_parent"
                                                           android:layout_height="match_parent"
-                                                          android:elevation="10dp"
+                                                          android:elevation="11dp"
                                                           app:layoutDescription="@xml/main_tabbed_activity_scene">
 
         <ImageView android:id="@+id/onboarding_info_arrow"

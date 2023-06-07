@@ -128,27 +128,32 @@
     <Transition android:id="@+id/onboarding_scene_transition_1_2"
                 app:constraintSetEnd="@id/onboarding_scene_step_2"
                 app:constraintSetStart="@+id/onboarding_scene_step_1"
-                app:duration="300"/>
+                app:duration="300"
+                app:motionInterpolator="linear"/>
 
     <Transition android:id="@+id/onboarding_scene_transition_2_3"
                 app:constraintSetEnd="@id/onboarding_scene_step_3"
                 app:constraintSetStart="@id/onboarding_scene_step_2"
-                app:duration="300"/>
+                app:duration="300"
+                app:motionInterpolator="linear"/>
 
     <Transition android:id="@+id/onboarding_scene_transition_3_4"
                 app:constraintSetEnd="@id/onboarding_scene_step_4"
                 app:constraintSetStart="@+id/onboarding_scene_step_3"
-                app:duration="300"/>
+                app:duration="300"
+                app:motionInterpolator="linear"/>
 
     <Transition android:id="@+id/onboarding_scene_transition_4_5"
                 app:constraintSetEnd="@id/onboarding_scene_step_5"
                 app:constraintSetStart="@+id/onboarding_scene_step_4"
-                app:duration="300"/>
+                app:duration="300"
+                app:motionInterpolator="linear"/>
 
     <Transition android:id="@+id/onboarding_scene_transition_5_6"
                 app:constraintSetEnd="@id/onboarding_scene_step_6"
                 app:constraintSetStart="@+id/onboarding_scene_step_5"
-                app:duration="300">
+                app:duration="300"
+                app:motionInterpolator="linear">
         <KeyFrameSet>
             <KeyAttribute android:alpha="0"
                           app:framePosition="5"
@@ -162,10 +167,12 @@
     <Transition android:id="@+id/onboarding_scene_transition_6_7"
                 app:constraintSetEnd="@id/onboarding_scene_step_7"
                 app:constraintSetStart="@+id/onboarding_scene_step_6"
-                app:duration="300"/>
+                app:duration="300"
+                app:motionInterpolator="linear"/>
 
     <Transition android:id="@+id/onboarding_scene_transition_7_8"
                 app:constraintSetEnd="@id/onboarding_scene_step_8"
                 app:constraintSetStart="@+id/onboarding_scene_step_7"
-                app:duration="300"/>
+                app:duration="300"
+                app:motionInterpolator="linear"/>
 </MotionScene>
