@@ -646,7 +646,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
             SelectLocation(clusterItem.Snippet);
         }
         
-        return false;
+        return true;
     }
 
     public bool OnMarkerClick(Marker marker)

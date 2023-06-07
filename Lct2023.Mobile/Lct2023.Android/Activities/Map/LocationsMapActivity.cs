@@ -486,7 +486,7 @@ namespace Lct2023.Android.Activities.Map
                 SelectLocation(clusterItem.Snippet);
             }
 
-            return false;
+            return true;
         }
 
         public bool OnMarkerClick(Marker marker)

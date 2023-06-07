@@ -27,8 +27,9 @@ namespace Lct2023.Android.Definitions.Models.Map
 
         protected override void OnBeforeClusterRendered(ICluster cluster, MarkerOptions markerOptions)
         {
+            var textSize = DimensUtils.DpToPx(_context, 14);
             var diameter = DimensUtils.DpToPx(_context, 32);
-            var bitmap = PinUtils.CreateBitmapWithText(diameter, $"{cluster.Size}", _defaultColor, 14f, DrawableUtils.CreateCircleDrawable(diameter, DimensUtils.DpToPx(_context, 4), _defaultColor, Color.White));
+            var bitmap = PinUtils.CreateBitmapWithText(diameter, $"{cluster.Size}", _defaultColor, textSize, DrawableUtils.CreateCircleDrawable(diameter, DimensUtils.DpToPx(_context, 4), _defaultColor, Color.White));
             markerOptions.SetIcon(BitmapDescriptorFactory.FromBitmap(bitmap));
         }
 
