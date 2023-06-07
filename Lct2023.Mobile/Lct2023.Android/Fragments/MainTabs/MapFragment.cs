@@ -36,12 +36,19 @@ using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Binding.Views;
 using ReactiveUI;
+using Lct2023.Android.Listeners;
+using Lct2023.Android.Views;
+using Lct2023.Android.Callbacks;
+using AndroidX.CoordinatorLayout.Widget;
+using MvvmCross.Platforms.Android.Presenters;
 
 namespace Lct2023.Android.Fragments.MainTabs;
 
 [MvxFragmentPresentation]
 public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View.IOnClickListener, GoogleMap.IOnMarkerClickListener, GoogleMap.IOnMapClickListener
 {
+    private const float MAX_DIM_ALPHA = 0.5f;
+
     private MapView _mapView;
 
     private GoogleMap _googleMap;
@@ -50,7 +57,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
     private View _addressLayout;
     private MaterialCardView _filtersBottomSheet;
     private BottomSheetBehavior _filtersBottomSheetBehavior;
-    private ConstraintLayout _mapContainer;
+    private CoordinatorLayout _mapContainer;
 
     protected override int GetLayoutId() => Resource.Layout.MapFragment;
     
@@ -61,8 +68,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         Toolbar.Title = "Карта";
         
         _mapView = view.FindViewById<MapView>(Resource.Id.map_view);
-        
-        _mapContainer = view.FindViewById<ConstraintLayout>(Resource.Id.map_container);
+        _mapContainer = view.FindViewById<CoordinatorLayout>(Resource.Id.map_container);
         var locationsSearchEditText = view.FindViewById<TextInputEditText>(Resource.Id.locations_search_value);
         var searchResultsList = view.FindViewById<MvxRecyclerView>(Resource.Id.map_search_results);
         var locationTypesGroup = view.FindViewById<MaterialButtonToggleGroup>(Resource.Id.location_types_group);
@@ -87,6 +93,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         var actionButton = view.FindViewById<MaterialButton>(Resource.Id.action_button);
         _filtersBottomSheet = view.FindViewById<MaterialCardView>(Resource.Id.filters_bottom_sheet);
         _filtersBottomSheetBehavior = BottomSheetBehavior.From(_filtersBottomSheet);
+        var dimView = view.FindViewById(Resource.Id.map_dim);
         var mapFiltersRecycle = view.FindViewById<MvxRecyclerView>(Resource.Id.map_filters_recycle);
         var filtersCloseBsButton = view.FindViewById<MaterialButton>(Resource.Id.map_filters_close_bs_button);
         var clearFiltersButton = view.FindViewById<MaterialButton>(Resource.Id.map_clear_filters_button);
@@ -147,7 +154,33 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         mapFiltersRecycle.SetLayoutManager(new MvxGuardedLinearLayoutManager(Context) { Orientation = LinearLayoutManager.Vertical });
         mapFiltersRecycle.SetAdapter(mapFiltersAdapter);
         mapFiltersRecycle.AddItemDecoration(vertical16dpItemSpacingDecoration);
-        
+
+        dimView.SetOnTouchListener(new DefaultOnTouchListener((v, e) =>
+        {
+            var isExpanded = _filtersBottomSheetBehavior.State == BottomSheetBehavior.StateExpanded || _locationDetailsBottomSheetBehavior.State == BottomSheetBehavior.StateExpanded;
+            if (isExpanded || _locationDetailsBottomSheetBehavior.State == BottomSheetBehavior.StateCollapsed)
+            {
+                DeselectLocation();
+            }
+
+            return isExpanded;
+        }));
+
+        var bottomSheetCallback = new DefaultBottomSheetCallback(
+            (v, s) =>
+            {
+                dimView.Alpha = (s > MAX_DIM_ALPHA) switch
+                {
+                    true => MAX_DIM_ALPHA,
+                    _ => s,
+                };
+            });
+
+        _filtersBottomSheetBehavior.AddBottomSheetCallback(bottomSheetCallback);
+
+        _locationDetailsBottomSheetBehavior.AddBottomSheetCallback(bottomSheetCallback);
+
+
         searchAdapter.ItemClick = new MvxCommand<MapSearchResultItemViewModel>(
             item =>
             {
@@ -589,13 +622,14 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
 
     private void DeselectLocation()
     {
+        _filtersBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
+
         if (ViewModel.SelectedLocation == null)
         {
             return;
         }
         
         ViewModel.SelectedLocation = null;
-        _filtersBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
         _locationDetailsBottomSheetBehavior.PeekHeight = 0;
         _locationDetailsBottomSheetBehavior.Hideable = true;
         _locationDetailsBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;

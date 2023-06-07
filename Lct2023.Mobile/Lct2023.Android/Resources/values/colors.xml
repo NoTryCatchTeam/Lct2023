@@ -42,10 +42,16 @@
     
     <color name="default_pin_color">#8fb14c</color>
 
-    <color name="musicArtDirectionBgColor">#55d19eb5</color>
+    <color name="musicArtDirectionBgColor">#55a3ce55</color>
+    <color name="horeoArtDirectionBgColor">#55F6F4BF</color>
+    <color name="drawArtDirectionBgColor">#55AAC5D2</color>
+    <color name="theatreArtDirectionBgColor">#55d19eb5</color>
     <color name="defaultArtDirectionBgColor">#55a3ce55</color>
 
-    <color name="musicArtDirectionTextColor">#C07290</color>
-    <color name="defaultArtDirectionTextColor">#8EB04D</color>
+    <color name="musicArtDirectionTextColor">#a4cf57</color>
+    <color name="horeoArtDirectionTextColor">#F6F4BF</color>
+    <color name="drawArtDirectionTextColor">#AAC5D2</color>
+    <color name="theatreArtDirectionTextColor">#D09EB5</color>
+    <color name="defaultArtDirectionTextColor">#a4cf57</color>
 </resources>
 

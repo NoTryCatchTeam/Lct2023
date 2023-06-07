@@ -19,6 +19,7 @@ using Lct2023.ViewModels.Courses;
 using MvvmCross.DroidX.RecyclerView;
 using MvvmCross.DroidX.RecyclerView.ItemTemplates;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
+using MvvmCross.Platforms.Android.Presenters;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 
 namespace Lct2023.Android.Fragments.MainTabs;

@@ -22,7 +22,7 @@ public class MainViewPagerAdapter : FragmentStateAdapter
         {
             new MainFragment { ViewModel = Mvx.IoCProvider.Resolve<MainViewModel>() },
             new CoursesFragment { ViewModel = Mvx.IoCProvider.Resolve<CoursesViewModel>() },
-            new FeedFragment { ViewModel = Mvx.IoCProvider.Resolve<FeedViewModel>() },
+            new MainFeedFragment { ViewModel = Mvx.IoCProvider.Resolve<MainFeedViewModel>() },
             new TasksFragment { ViewModel = Mvx.IoCProvider.Resolve<TasksViewModel>() },
             new MapFragment { ViewModel = Mvx.IoCProvider.Resolve<MapViewModel>() },
         };
