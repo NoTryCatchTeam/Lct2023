@@ -12,7 +12,7 @@ using Lct2023.Android.Helpers;
 
 namespace Lct2023.Android.Definitions.Models.Map
 {
-	public class MapClusterRenderer : DefaultClusterRenderer
+    public class MapClusterRenderer : DefaultClusterRenderer
     {
         private const string DEFAULT_PIN_HEX_COLOR = "#8fb14c";
 
@@ -20,24 +20,42 @@ namespace Lct2023.Android.Definitions.Models.Map
         private readonly Context _context;
 
         public MapClusterRenderer(Context context, GoogleMap map, ClusterManager clusterManager)
-			: base(context, map, clusterManager)
-		{
+            : base(context, map, clusterManager)
+        {
             _context = context;
         }
 
         protected override void OnBeforeClusterRendered(ICluster cluster, MarkerOptions markerOptions)
         {
+            base.OnBeforeClusterRendered(cluster, markerOptions);
+
             var textSize = DimensUtils.DpToPx(_context, 14);
             var diameter = DimensUtils.DpToPx(_context, 32);
-            var bitmap = PinUtils.CreateBitmapWithText(diameter, $"{cluster.Size}", _defaultColor, textSize, DrawableUtils.CreateCircleDrawable(diameter, DimensUtils.DpToPx(_context, 4), _defaultColor, Color.White));
+            var bitmap = PinUtils.CreateBitmapWithText(diameter, $"{cluster.Size}", _defaultColor, textSize,
+                DrawableUtils.CreateCircleDrawable(diameter, DimensUtils.DpToPx(_context, 4), _defaultColor, Color.White));
+
             markerOptions.SetIcon(BitmapDescriptorFactory.FromBitmap(bitmap));
+        }
+
+        protected override void OnClusterRendered(ICluster cluster, Marker marker)
+        {
+            base.OnClusterRendered(cluster, marker);
+
+            var textSize = DimensUtils.DpToPx(_context, 14);
+            var diameter = DimensUtils.DpToPx(_context, 32);
+            var bitmap = PinUtils.CreateBitmapWithText(diameter, $"{cluster.Size}", _defaultColor, textSize,
+                DrawableUtils.CreateCircleDrawable(diameter, DimensUtils.DpToPx(_context, 4), _defaultColor, Color.White));
+
+            marker.SetIcon(BitmapDescriptorFactory.FromBitmap(bitmap));
         }
 
         protected override void OnBeforeClusterItemRendered(Java.Lang.Object item, MarkerOptions markerOptions)
         {
+            base.OnBeforeClusterItemRendered(item, markerOptions);
+
+            // Its always MapClusterItem, but need to cast anyway
             if (item is not MapClusterItem clusterItem)
             {
-                base.OnBeforeClusterItemRendered(item, markerOptions);
                 return;
             }
 
@@ -46,24 +64,24 @@ namespace Lct2023.Android.Definitions.Models.Map
             switch (clusterItem.LocationType)
             {
                 case LocationType.Event:
-                    {
-                        var diameter = DimensUtils.DpToPx(_context, 32);
-                        bitmap = PinUtils.CreateBitmap(diameter, DrawableUtils.CreateCircleDrawable(diameter, DimensUtils.DpToPx(_context, 4), Color.ParseColor(clusterItem.HexColor), Color.White));
+                {
+                    var diameter = DimensUtils.DpToPx(_context, 32);
+                    bitmap = PinUtils.CreateBitmap(diameter, DrawableUtils.CreateCircleDrawable(diameter, DimensUtils.DpToPx(_context, 4), Color.ParseColor(clusterItem.HexColor), Color.White));
 
-                        break;
-                    }
+                    break;
+                }
                 case LocationType.School:
-                    {
-                        var drawable = Resource.Drawable.ic_pin.GetDrawable(_context);
-                        var diameter = Math.Min(drawable.IntrinsicWidth, drawable.IntrinsicHeight);
-                        bitmap = PinUtils.CreateBitmap(diameter, DrawableUtils.CreateCircleDrawable(diameter, DimensUtils.DpToPx(_context, 4), Color.White, Color.ParseColor(clusterItem.HexColor)), drawable);
+                {
+                    var drawable = Resource.Drawable.ic_pin.GetDrawable(_context);
+                    var diameter = Math.Min(drawable.IntrinsicWidth, drawable.IntrinsicHeight);
+                    bitmap = PinUtils.CreateBitmap(diameter, DrawableUtils.CreateCircleDrawable(diameter, DimensUtils.DpToPx(_context, 4), Color.White, Color.ParseColor(clusterItem.HexColor)),
+                        drawable);
 
-                        break;
-                    }
+                    break;
+                }
             }
 
             markerOptions.SetIcon(BitmapDescriptorFactory.FromBitmap(bitmap));
         }
     }
 }
-

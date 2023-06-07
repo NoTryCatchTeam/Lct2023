@@ -389,7 +389,10 @@ namespace Lct2023.Android.Activities.Map
             _googleMap = googleMap;
 
             _clusterManager = new ClusterManager(this, googleMap);
-            _clusterManager.Renderer = new MapClusterRenderer(this, googleMap, _clusterManager);
+            _clusterManager.Renderer = new MapClusterRenderer(this, googleMap, _clusterManager)
+            {
+                MinClusterSize = 2,
+            };
 
             var set = CreateBindingSet();
 
@@ -400,7 +403,7 @@ namespace Lct2023.Android.Activities.Map
             set.Apply();
 
             _googleMap.SetOnCameraIdleListener(_clusterManager);
-            _googleMap.SetOnMarkerClickListener(this);
+            _googleMap.SetOnMarkerClickListener(_clusterManager);
             _googleMap.SetOnMapClickListener(this);
             _clusterManager.SetOnClusterItemClickListener(this);
 
