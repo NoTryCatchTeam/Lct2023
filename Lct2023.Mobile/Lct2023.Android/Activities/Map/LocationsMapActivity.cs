@@ -42,7 +42,7 @@ namespace Lct2023.Android.Activities.Map
 {
     [MvxActivityPresentation]
     [Activity(ScreenOrientation = ScreenOrientation.Portrait)]
-    public class LocationsMapActivity : BaseActivity<LocationsMapViewModel>, IOnMapReadyCallback, View.IOnClickListener, GoogleMap.IOnMarkerClickListener, GoogleMap.IOnMapClickListener, ClusterManager.IOnClusterItemClickListener
+    public class LocationsMapActivity : BaseActivity<LocationsMapViewModel>, IOnMapReadyCallback, View.IOnClickListener, GoogleMap.IOnMapClickListener, ClusterManager.IOnClusterItemClickListener
     {
         private const float MAX_DIM_ALPHA = 0.5f;
 
@@ -389,7 +389,10 @@ namespace Lct2023.Android.Activities.Map
             _googleMap = googleMap;
 
             _clusterManager = new ClusterManager(this, googleMap);
-            _clusterManager.Renderer = new MapClusterRenderer(this, googleMap, _clusterManager);
+            _clusterManager.Renderer = new MapClusterRenderer(this, googleMap, _clusterManager)
+            {
+                MinClusterSize = 2,
+            };
 
             var set = CreateBindingSet();
 
@@ -400,7 +403,7 @@ namespace Lct2023.Android.Activities.Map
             set.Apply();
 
             _googleMap.SetOnCameraIdleListener(_clusterManager);
-            _googleMap.SetOnMarkerClickListener(this);
+            _googleMap.SetOnMarkerClickListener(_clusterManager);
             _googleMap.SetOnMapClickListener(this);
             _clusterManager.SetOnClusterItemClickListener(this);
 
@@ -485,13 +488,6 @@ namespace Lct2023.Android.Activities.Map
             {
                 SelectLocation(clusterItem.Snippet);
             }
-
-            return true;
-        }
-
-        public bool OnMarkerClick(Marker marker)
-        {
-            SelectLocation(marker.Snippet);
 
             return true;
         }

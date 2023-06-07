@@ -48,7 +48,7 @@ using static Android.Gms.Maps.Utils.Clustering.ClusterManager;
 namespace Lct2023.Android.Fragments.MainTabs;
 
 [MvxFragmentPresentation]
-public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View.IOnClickListener, GoogleMap.IOnMapClickListener, GoogleMap.IOnMarkerClickListener, ClusterManager.IOnClusterItemClickListener
+public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View.IOnClickListener, GoogleMap.IOnMapClickListener, ClusterManager.IOnClusterItemClickListener
 {
     private const float MAX_DIM_ALPHA = 0.5f;
 
@@ -510,7 +510,10 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         _googleMap = googleMap;
 
         _clusterManager = new ClusterManager(Context, googleMap);
-        _clusterManager.Renderer = new MapClusterRenderer(Context, googleMap, _clusterManager);
+        _clusterManager.Renderer = new MapClusterRenderer(Context, googleMap, _clusterManager)
+        {
+            MinClusterSize = 2,
+        };
 
         var set = CreateBindingSet();
 
@@ -521,7 +524,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         set.Apply();
         
         _googleMap.SetOnCameraIdleListener(_clusterManager);
-        _googleMap.SetOnMarkerClickListener(this);
+        _googleMap.SetOnMarkerClickListener(_clusterManager);
         _googleMap.SetOnMapClickListener(this);
         _clusterManager.SetOnClusterItemClickListener(this);
 
@@ -646,13 +649,6 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
             SelectLocation(clusterItem.Snippet);
         }
         
-        return true;
-    }
-
-    public bool OnMarkerClick(Marker marker)
-    {
-        SelectLocation(marker.Snippet);
-
         return true;
     }
 }
