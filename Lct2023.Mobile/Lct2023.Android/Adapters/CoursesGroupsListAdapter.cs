@@ -135,5 +135,16 @@ public class CoursesGroupsListAdapter : BaseRecyclerViewAdapter<CourseGroupItem,
             _coursesList.Visibility = shouldOpen ? ViewStates.Visible : ViewStates.Gone;
             _chevron.Rotation = shouldOpen ? 90 : 0;
         }
+
+        public void Open()
+        {
+            if (_coursesList.Visibility == ViewStates.Visible)
+            {
+                return;
+            }
+
+            _coursesList.Visibility = ViewStates.Visible;
+            _chevron.Rotation = 90;
+        }
     }
 }

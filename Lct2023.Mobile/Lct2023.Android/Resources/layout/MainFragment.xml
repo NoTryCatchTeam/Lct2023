@@ -239,7 +239,7 @@
                                       style="@style/AppTheme.Secondary.Small"
                                       android:layout_width="0dp"
                                       android:layout_height="wrap_content"
-                                      android:text="Доступно 4 курса"
+                                      android:text="Доступно 2 курса"
                                       app:layout_constraintBottom_toBottomOf="@id/main_course_1_image"
                                       app:layout_constraintEnd_toEndOf="@id/main_course_1_title"
                                       app:layout_constraintStart_toStartOf="@id/main_course_1_title"
