@@ -3,6 +3,7 @@ using System.Linq;
 using Android.App;
 using Android.Content.PM;
 using Android.Graphics;
+using Android.Media;
 using Android.OS;
 using Android.Text;
 using Android.Text.Style;
@@ -99,7 +100,7 @@ public class MainTabbedActivity : BaseActivity<MainTabbedViewModel>
 
         onboardingViews.Mask.Clickable = true;
 
-        onboardingViews.Counter.TextFormatted = GetCounterString(1);
+        onboardingViews.Counter.TextFormatted = GetCounterString(0);
 
         var motionConstraintSets = new (int Id, ConstraintSet ConstraintSet)[]
         {
