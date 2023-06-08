@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
+using Android.Graphics;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
@@ -31,18 +33,16 @@ using MvvmCross.Platforms.Android.Presenters.Attributes;
 
 namespace Lct2023.Android.Fragments.MainTabs;
 
-[MvxFragmentAdapterChildItemPresentationAttribute(
-    RootPosition = 2,
-    FragmentHostViewType = typeof(MainFeedFragment),
-    FragmentContentId = Resource.Id.main_feed_container,
-    AddToBackStack = true)]
+[MvxFragmentPresentation]
 public class FeedFragment : BaseFragment<FeedViewModel>, View.IOnClickListener
 {
     private const float MAX_DIM_ALPHA = 0.5f;
 
     private MaterialCardView _filtersBottomSheet;
     private BottomSheetBehavior _filtersBottomSheetBehavior;
-    
+    private MvxRecyclerView _feedRecycler;
+    private View _parent;
+
     protected override int GetLayoutId() => Resource.Layout.FeedFragment;
 
     public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -50,12 +50,13 @@ public class FeedFragment : BaseFragment<FeedViewModel>, View.IOnClickListener
         var view = base.OnCreateView(inflater, container, savedInstanceState);
 
         Toolbar.Title = "Лента";
+        _parent = view.FindViewById(Resource.Id.feed_container);
         var feedSearchEditText = view.FindViewById<TextInputEditText>(Resource.Id.feed_search_edit_text);
         var filtersButton = view.FindViewById<MaterialButton>(Resource.Id.feed_filters_button);
         _filtersBottomSheet = view.FindViewById<MaterialCardView>(Resource.Id.feed_filters_bottom_sheet);
         _filtersBottomSheetBehavior = BottomSheetBehavior.From(_filtersBottomSheet);
         var dimView = view.FindViewById(Resource.Id.feed_dim);
-        var feedRecycler = view.FindViewById<MvxRecyclerView>(Resource.Id.feed_recycle);
+        _feedRecycler = view.FindViewById<MvxRecyclerView>(Resource.Id.feed_recycle);
         var filtersRecycler = view.FindViewById<MvxRecyclerView>(Resource.Id.feed_filters_recycle);
         var filtersCloseBsButton = view.FindViewById<MaterialButton>(Resource.Id.feed_filters_close_bs_button);
         var clearFiltersButton = view.FindViewById<MaterialButton>(Resource.Id.feed_clear_filters_button);
@@ -80,14 +81,7 @@ public class FeedFragment : BaseFragment<FeedViewModel>, View.IOnClickListener
         }));
 
         var bottomSheetCallback = new DefaultBottomSheetCallback(
-            (v, s) =>
-            {
-                dimView.Alpha = (s > MAX_DIM_ALPHA) switch
-                {
-                    true => MAX_DIM_ALPHA,
-                    _ => s,
-                };
-            });
+            (v, s) => dimView.Alpha = Math.Min(s, MAX_DIM_ALPHA));
 
         _filtersBottomSheetBehavior.AddBottomSheetCallback(bottomSheetCallback);
 
@@ -98,17 +92,17 @@ public class FeedFragment : BaseFragment<FeedViewModel>, View.IOnClickListener
 
         var vertical8dpItemSpacingDecoration = new ItemSeparateDecoration(DimensUtils.DpToPx(Activity, 8), LinearLayoutManager.Vertical);
 
-        var feedAdapter = new FeedListAdapter<FeedViewModel>((IMvxAndroidBindingContext)BindingContext, ViewModel, (CreateFeedRecyclerHeader, BindFeedRecyclerHeader))
+        var feedAdapter = new FeedListAdapter<FeedViewModel>((IMvxAndroidBindingContext)BindingContext, ViewModel, FocusOnFeedItem, (CreateFeedRecyclerHeader, BindFeedRecyclerHeader))
         {
             ItemTemplateSelector = new MvxDefaultTemplateSelector(Resource.Layout.FeedItemView),
         };
 
         var feedLayoutManager = new MvxGuardedLinearLayoutManager(Context) { Orientation = LinearLayoutManager.Vertical };
-        feedRecycler.SetLayoutManager(feedLayoutManager);
-        feedRecycler.SetAdapter(feedAdapter);
-        feedRecycler.AddItemDecoration(vertical8dpItemSpacingDecoration);
+        _feedRecycler.SetLayoutManager(feedLayoutManager);
+        _feedRecycler.SetAdapter(feedAdapter);
+        _feedRecycler.AddItemDecoration(vertical8dpItemSpacingDecoration);
         var feedScrollListener = new RecyclerPaginationListener(feedLayoutManager);
-        feedRecycler.AddOnScrollListener(feedScrollListener);
+        _feedRecycler.AddOnScrollListener(feedScrollListener);
 
         foreach (var button in new [] { filtersButton, filtersCloseBsButton, applyFiltersButton, clearFiltersButton })
         {
@@ -146,7 +140,7 @@ public class FeedFragment : BaseFragment<FeedViewModel>, View.IOnClickListener
             .To(vm => vm.FilterGroups);
 
         set
-            .Bind(feedRecycler)
+            .Bind(_feedRecycler)
             .For(v => v.ItemsSource)
             .To(vm => vm.Items);
 
@@ -230,5 +224,18 @@ public class FeedFragment : BaseFragment<FeedViewModel>, View.IOnClickListener
                 _filtersBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
                 break;
         }
+    }
+
+    private void FocusOnFeedItem(FeedListAdapter<FeedViewModel>.BaseFeedItemViewHolder viewHolder)
+    {
+        Task.Delay(100)
+            .ContinueWith(_ =>
+            {
+                var rect = new Rect();
+                viewHolder.ItemView.GetDrawingRect(rect);
+                _feedRecycler.OffsetDescendantRectToMyCoords(viewHolder.ItemView, rect);
+
+                Activity.RunOnUiThread(() => _feedRecycler.SmoothScrollBy(0, rect.Top - _parent.MeasuredHeight / 3));
+            });
     }
 }

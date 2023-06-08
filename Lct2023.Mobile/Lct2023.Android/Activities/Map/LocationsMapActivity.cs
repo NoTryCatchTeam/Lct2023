@@ -37,14 +37,16 @@ using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Binding.Views;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
 using ReactiveUI;
+using static Android.Gms.Maps.Utils.Clustering.ClusterManager;
 
 namespace Lct2023.Android.Activities.Map
 {
     [MvxActivityPresentation]
     [Activity(ScreenOrientation = ScreenOrientation.Portrait)]
-    public class LocationsMapActivity : BaseActivity<LocationsMapViewModel>, IOnMapReadyCallback, View.IOnClickListener, GoogleMap.IOnMapClickListener, ClusterManager.IOnClusterItemClickListener
+    public class LocationsMapActivity : BaseActivity<LocationsMapViewModel>, IOnMapReadyCallback, View.IOnClickListener, GoogleMap.IOnMapClickListener, ClusterManager.IOnClusterItemClickListener, IOnClusterClickListener
     {
         private const float MAX_DIM_ALPHA = 0.5f;
+        private const int LAT_LNG_BOUNDS_PADDING = 100;
 
         private MapView _mapView;
 
@@ -408,6 +410,7 @@ namespace Lct2023.Android.Activities.Map
             _googleMap.SetOnMarkerClickListener(_clusterManager);
             _googleMap.SetOnMapClickListener(this);
             _clusterManager.SetOnClusterItemClickListener(this);
+            _clusterManager.SetOnClusterClickListener(this);
 
             _googleMap.MapType = GoogleMap.MapTypeNormal;
             _googleMap.MoveCamera(CameraUpdateFactory.NewLatLngZoom(new LatLng(55.7499931, 37.624216), 9));
@@ -520,6 +523,18 @@ namespace Lct2023.Android.Activities.Map
         }
 
         public void OnMapClick(LatLng point) => DeselectLocation();
+
+        public bool OnClusterClick(ICluster cluster)
+        {
+            var builder = new LatLngBounds.Builder();
+            foreach (IClusterItem item in cluster.Items)
+            {
+                builder.Include(item.Position);
+            }
+            _googleMap.AnimateCamera(CameraUpdateFactory.NewLatLngBounds(builder.Build(), LAT_LNG_BOUNDS_PADDING));
+
+            return true;
+        }
     }
 }
 

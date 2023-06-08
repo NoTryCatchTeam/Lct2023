@@ -380,8 +380,8 @@ public class MapViewModel : BaseViewModel
                     _schoolLocations?.Where(sL =>
                         SelectedFilters.All(selectedFilter => selectedFilter.FilterGroupType switch
                         {
-                            MapFilterGroupType.District => selectedFilter.Items.Contains(sL.Item.District.Data.Item.District),
-                            MapFilterGroupType.Stream => selectedFilter.Items.Intersect(sL.Item.Streams.Data.Select(stream => stream.Item.Name)).Any(),
+                            MapFilterGroupType.District => selectedFilter.Items.Contains(sL.Item?.District?.Data?.Item?.District),
+                            MapFilterGroupType.Stream => selectedFilter.Items.Intersect(sL.Item?.Streams?.Data.Select(stream => stream?.Item?.Name)).Any(),
                         })).Then(sLs => Places.AddRange(_mapper.Map<IEnumerable<PlaceItemViewModel>>(sLs)));
                     break;
                 case LocationType.School:

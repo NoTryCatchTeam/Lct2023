@@ -147,8 +147,10 @@ public class FeedViewModel : BaseViewModel
         SelectedFilters = null;
     }
 
-    public override Task Initialize()
+    public override void ViewCreated()
     {
+        base.ViewCreated();
+
         var filtersTask = Task.Run(() => RunSafeTaskAsync(async () =>
         {
             IEnumerable<CmsItemResponse<ArtCategoryResponse>> artCategories = null;
@@ -187,7 +189,7 @@ public class FeedViewModel : BaseViewModel
             });
         }));
 
-        return Task.WhenAny(RunSafeTaskAsync(UpdateItemsAsync,
+        Task.WhenAny(RunSafeTaskAsync(UpdateItemsAsync,
             _ =>
             {
                 SetState();
@@ -195,8 +197,7 @@ public class FeedViewModel : BaseViewModel
                 IsLoadingMore = false;
                 return Task.CompletedTask;
             }),
-            filtersTask,
-            base.Initialize());
+            filtersTask);
     }
 
     public override void ViewDestroy(bool viewFinishing = true)

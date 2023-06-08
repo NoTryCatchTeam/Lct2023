@@ -165,13 +165,11 @@
         <Compile Include="Bindings\TextViewMaxLinesBinding.cs" />
         <Compile Include="Adapters\FeedArtDirectionsAdapter.cs" />
         <Compile Include="Bindings\ImageViewByResIdBinding.cs" />
-        <Compile Include="Fragments\Feed\ArtDirectionFeedFragment.cs" />
-        <Compile Include="Fragments\Feed\FeedFragment.cs" />
-        <Compile Include="Fragments\MainTabs\MainFeedFragment.cs" />
-        <Compile Include="Presenters\MvxFragmentAdapterChildItemPresentationAttribute.cs" />
         <Compile Include="Activities\Map\LocationsMapActivity.cs" />
         <Compile Include="Definitions\Models\Map\MapClusterItem.cs" />
         <Compile Include="Definitions\Models\Map\MapClusterRenderer.cs" />
+        <Compile Include="Fragments\MainTabs\FeedFragment.cs" />
+        <Compile Include="Activities\Feed\ArtDirectionFeedActivity.cs" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Properties\AndroidManifest.xml" />
@@ -217,6 +215,10 @@
           <SubType>Designer</SubType>
           <Generator>MSBuild:UpdateGeneratedFiles</Generator>
         </AndroidResource>
+        <AndroidResource Update="Resources\layout\FeedFragment.xml">
+          <SubType>Designer</SubType>
+          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+        </AndroidResource>
         <AndroidResource Update="Resources\layout\ProfTestFinishFragment.xml">
           <SubType>Designer</SubType>
           <Generator>MSBuild:UpdateGeneratedFiles</Generator>
@@ -249,19 +251,11 @@
           <SubType></SubType>
           <Generator></Generator>
         </AndroidResource>
-        <AndroidResource Include="Resources\layout\ArtDirectionFeedFragment.xml">
-          <SubType></SubType>
-          <Generator></Generator>
-        </AndroidResource>
         <AndroidResource Include="Resources\layout\FeedArtDirectionSchoolsItemView.xml">
           <SubType></SubType>
           <Generator></Generator>
         </AndroidResource>
         <AndroidResource Include="Resources\layout\FeedArtDirectionDescriptionItemView.xml">
-          <SubType></SubType>
-          <Generator></Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\layout\MainFeedFragment.xml">
           <SubType></SubType>
           <Generator></Generator>
         </AndroidResource>
@@ -275,7 +269,6 @@
         <Folder Include="Assets" />
         <Folder Include="Resources\drawable\" />
         <Folder Include="Resources\menu" />
-        <Folder Include="Fragments\Feed\" />
         <Folder Include="Activities\Map\" />
         <Folder Include="Definitions\Models\" />
         <Folder Include="Definitions\Models\Map\" />

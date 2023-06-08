@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
+using Android.Graphics;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
@@ -16,6 +19,7 @@ using Google.Android.Material.BottomSheet;
 using Google.Android.Material.Button;
 using Google.Android.Material.Card;
 using Google.Android.Material.TextField;
+using Lct2023.Android.Activities;
 using Lct2023.Android.Adapters;
 using Lct2023.Android.Bindings;
 using Lct2023.Android.Callbacks;
@@ -39,49 +43,37 @@ using static Lct2023.Android.Adapters.FeedArtDirectionsAdapter;
 
 namespace Lct2023.Android.Fragments.Feed
 {
-    [MvxFragmentAdapterChildItemPresentationAttribute(
-        RootPosition = 2,
-        FragmentHostViewType = typeof(MainFeedFragment),
-        FragmentContentId = Resource.Id.main_feed_container,
-        AddToBackStack = true)]
-    public class ArtDirectionFeedFragment : BaseFragment<ArtDirectionFeedViewModel>, View.IOnClickListener
+    [MvxActivityPresentation]
+    [Activity(ScreenOrientation = ScreenOrientation.Portrait)]
+    public class ArtDirectionFeedActivity : BaseActivity<ArtDirectionFeedViewModel>, View.IOnClickListener
     {
         private const float MAX_DIM_ALPHA = 0.5f;
 
         private MaterialCardView _filtersBottomSheet;
         private BottomSheetBehavior _filtersBottomSheetBehavior;
-        private DefaultBackPressedCallback _backPressedCallback;
+        private MvxRecyclerView _feedRecycler;
+        private View _parent;
 
-        public override void OnAttach(Context context)
+        protected override void OnCreate(Bundle bundle)
         {
-            base.OnAttach(context);
-            _backPressedCallback?.Then(c => c.Enabled = false);
-            _backPressedCallback = new DefaultBackPressedCallback(
-                true,
-                callback => ViewModel.NavigateBackCommand.Execute(null));
-
-            RequireActivity().OnBackPressedDispatcher.AddCallback(_backPressedCallback);
-        }
-
-        protected override int GetLayoutId() => Resource.Layout.ArtDirectionFeedFragment;
-
-        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-        {
-            var view = base.OnCreateView(inflater, container, savedInstanceState);
+            base.OnCreate(bundle);
+            SetContentView(Resource.Layout.ArtDirectionFeedActivity);
 
             Toolbar.Title = "Лента";
-            var feedSearchEditText = view.FindViewById<TextInputEditText>(Resource.Id.art_dir_feed_search_edit_text);
-            var filtersButton = view.FindViewById<MaterialButton>(Resource.Id.art_dir_feed_filters_button);
-            _filtersBottomSheet = view.FindViewById<MaterialCardView>(Resource.Id.art_dir_feed_filters_bottom_sheet);
-            _filtersBottomSheetBehavior = BottomSheetBehavior.From(_filtersBottomSheet);
-            var dimView = view.FindViewById(Resource.Id.art_dir_feed_dim);
-            var feedRecycler = view.FindViewById<MvxRecyclerView>(Resource.Id.art_dir_feed_recycle);
-            var filtersRecycler = view.FindViewById<MvxRecyclerView>(Resource.Id.art_dir_feed_filters_recycle);
-            var filtersCloseBsButton = view.FindViewById<MaterialButton>(Resource.Id.art_dir_feed_filters_close_bs_button);
-            var clearFiltersButton = view.FindViewById<MaterialButton>(Resource.Id.art_dir_feed_clear_filters_button);
-            var applyFiltersButton = view.FindViewById<MaterialButton>(Resource.Id.art_dir_feed_apply_filters_button);
 
-            var vertical16dpItemSpacingDecoration = new ItemSeparateDecoration(DimensUtils.DpToPx(Activity, 16), LinearLayoutManager.Vertical);
+            _parent = FindViewById(Resource.Id.art_dir_container);
+            var feedSearchEditText = FindViewById<TextInputEditText>(Resource.Id.art_dir_feed_search_edit_text);
+            var filtersButton = FindViewById<MaterialButton>(Resource.Id.art_dir_feed_filters_button);
+            _filtersBottomSheet = FindViewById<MaterialCardView>(Resource.Id.art_dir_feed_filters_bottom_sheet);
+            _filtersBottomSheetBehavior = BottomSheetBehavior.From(_filtersBottomSheet);
+            var dimView = FindViewById(Resource.Id.art_dir_feed_dim);
+            _feedRecycler = FindViewById<MvxRecyclerView>(Resource.Id.art_dir_feed_recycle);
+            var filtersRecycler = FindViewById<MvxRecyclerView>(Resource.Id.art_dir_feed_filters_recycle);
+            var filtersCloseBsButton = FindViewById<MaterialButton>(Resource.Id.art_dir_feed_filters_close_bs_button);
+            var clearFiltersButton = FindViewById<MaterialButton>(Resource.Id.art_dir_feed_clear_filters_button);
+            var applyFiltersButton = FindViewById<MaterialButton>(Resource.Id.art_dir_feed_apply_filters_button);
+
+            var vertical16dpItemSpacingDecoration = new ItemSeparateDecoration(DimensUtils.DpToPx(this, 16), LinearLayoutManager.Vertical);
 
             var feedFiltersAdapter = new FeedFiltersGroupsListAdapter((IMvxAndroidBindingContext)BindingContext)
             {
@@ -100,39 +92,33 @@ namespace Lct2023.Android.Fragments.Feed
             }));
 
             var bottomSheetCallback = new DefaultBottomSheetCallback(
-                (v, s) =>
-                {
-                    dimView.Alpha = (s > MAX_DIM_ALPHA) switch
-                    {
-                        true => MAX_DIM_ALPHA,
-                        _ => s,
-                    };
-                });
+                (v, s) => dimView.Alpha = Math.Min(s, MAX_DIM_ALPHA));
 
             _filtersBottomSheetBehavior.AddBottomSheetCallback(bottomSheetCallback);
 
 
-            filtersRecycler.SetLayoutManager(new MvxGuardedLinearLayoutManager(Context) { Orientation = LinearLayoutManager.Vertical });
+            filtersRecycler.SetLayoutManager(new MvxGuardedLinearLayoutManager(this) { Orientation = LinearLayoutManager.Vertical });
             filtersRecycler.SetAdapter(feedFiltersAdapter);
             filtersRecycler.AddItemDecoration(vertical16dpItemSpacingDecoration);
 
-            var vertical8dpItemSpacingDecoration = new ItemSeparateDecoration(DimensUtils.DpToPx(Activity, 8), LinearLayoutManager.Vertical);
+            var vertical8dpItemSpacingDecoration = new ItemSeparateDecoration(DimensUtils.DpToPx(this, 8), LinearLayoutManager.Vertical);
 
             var feedAdapter = new FeedListAdapter<ArtDirectionFeedViewModel>(
                 (IMvxAndroidBindingContext)BindingContext,
                 ViewModel,
+                FocusOnFeedItem,
                 (CreateFeedArtDirectionDescriptionHeader, BindFeedArtDirectionDescriptionHeader),
                 (CreateFeedArtDirectionSchoolsHeader, BindFeedArtDirectionSchoolsHeader))
             {
                 ItemTemplateSelector = new MvxDefaultTemplateSelector(Resource.Layout.FeedItemView),
             };
 
-            var feedLayoutManager = new MvxGuardedLinearLayoutManager(Context) { Orientation = LinearLayoutManager.Vertical };
-            feedRecycler.SetLayoutManager(feedLayoutManager);
-            feedRecycler.SetAdapter(feedAdapter);
-            feedRecycler.AddItemDecoration(vertical8dpItemSpacingDecoration);
+            var feedLayoutManager = new MvxGuardedLinearLayoutManager(this) { Orientation = LinearLayoutManager.Vertical };
+            _feedRecycler.SetLayoutManager(feedLayoutManager);
+            _feedRecycler.SetAdapter(feedAdapter);
+            _feedRecycler.AddItemDecoration(vertical8dpItemSpacingDecoration);
             var feedScrollListener = new RecyclerPaginationListener(feedLayoutManager);
-            feedRecycler.AddOnScrollListener(feedScrollListener);
+            _feedRecycler.AddOnScrollListener(feedScrollListener);
 
             foreach (var button in new[] { filtersButton, filtersCloseBsButton, applyFiltersButton, clearFiltersButton })
             {
@@ -153,13 +139,13 @@ namespace Lct2023.Android.Fragments.Feed
                 .WithConversion(new AnyExpressionConverter<ObservableCollection<(FeedFilterGroupType FilterGroupType, string[] Items)>, int>(filters => filters?.Any() == true ? Resource.Drawable.ic_filters_selected : Resource.Drawable.ic_filters));
 
             set
-                .Bind(view.FindViewById(Resource.Id.art_dir_feed_loading))
+                .Bind(FindViewById(Resource.Id.art_dir_feed_loading))
                 .For(v => v.BindVisible())
                 .To(vm => vm.State)
                 .WithConversion(new AnyExpressionConverter<State, bool>(state => state is State.Loading or State.MinorLoading));
 
             set
-                .Bind(view.FindViewById(Resource.Id.art_dir_feed_no_data))
+                .Bind(FindViewById(Resource.Id.art_dir_feed_no_data))
                 .For(v => v.BindVisible())
                 .To(vm => vm.State)
                 .WithConversion(new AnyExpressionConverter<State, bool>(state => state == State.NoData));
@@ -170,7 +156,7 @@ namespace Lct2023.Android.Fragments.Feed
                 .To(vm => vm.FilterGroups);
 
             set
-                .Bind(feedRecycler)
+                .Bind(_feedRecycler)
                 .For(v => v.ItemsSource)
                 .To(vm => vm.Items);
 
@@ -199,9 +185,7 @@ namespace Lct2023.Android.Fragments.Feed
 
             set.Apply();
 
-            return view;
-
-            View CreateFeedArtDirectionSchoolsHeader() => LayoutInflater.Inflate(Resource.Layout.FeedArtDirectionSchoolsItemView, feedRecycler, false);
+            View CreateFeedArtDirectionSchoolsHeader() => LayoutInflater.Inflate(Resource.Layout.FeedArtDirectionSchoolsItemView, _feedRecycler, false);
 
             static void BindFeedArtDirectionSchoolsHeader(View view, IMvxAndroidBindingContext bindingContext, MvxFluentBindingDescriptionSet<FeedListAdapter<ArtDirectionFeedViewModel>.FeedHeaderItemViewHolder, ArtDirectionFeedViewModel> set)
             {
@@ -211,7 +195,7 @@ namespace Lct2023.Android.Fragments.Feed
                     .To(vm => vm.OpenMapCommand);
             }
 
-            View CreateFeedArtDirectionDescriptionHeader() => LayoutInflater.Inflate(Resource.Layout.FeedArtDirectionDescriptionItemView, feedRecycler, false);
+            View CreateFeedArtDirectionDescriptionHeader() => LayoutInflater.Inflate(Resource.Layout.FeedArtDirectionDescriptionItemView, _feedRecycler, false);
 
             static void BindFeedArtDirectionDescriptionHeader(View view, IMvxAndroidBindingContext bindingContext, MvxFluentBindingDescriptionSet<FeedListAdapter<ArtDirectionFeedViewModel>.FeedHeaderItemViewHolder, ArtDirectionFeedViewModel> set)
             {
@@ -252,18 +236,6 @@ namespace Lct2023.Android.Fragments.Feed
             }
         }
 
-        public override void OnResume()
-        {
-            base.OnResume();
-            _backPressedCallback.Enabled = true;
-        }
-
-        public override void OnPause()
-        {
-            base.OnPause();
-            _backPressedCallback.Enabled = false;
-        }
-
         public void OnClick(View view)
         {
             switch (view.Id)
@@ -283,6 +255,21 @@ namespace Lct2023.Android.Fragments.Feed
                     _filtersBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
                     break;
             }
+        }
+
+
+
+        private void FocusOnFeedItem(FeedListAdapter<ArtDirectionFeedViewModel>.BaseFeedItemViewHolder viewHolder)
+        {
+            Task.Delay(100)
+                .ContinueWith(_ =>
+                {
+                    var rect = new Rect();
+                    viewHolder.ItemView.GetDrawingRect(rect);
+                    _feedRecycler.OffsetDescendantRectToMyCoords(viewHolder.ItemView, rect);
+
+                    RunOnUiThread(() => _feedRecycler.SmoothScrollBy(0, rect.Top - _parent.MeasuredHeight / 3));
+                });
         }
     }
 }
