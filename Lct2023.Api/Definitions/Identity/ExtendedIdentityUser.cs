@@ -22,4 +22,6 @@ public class ExtendedIdentityUser : IdentityUser<int>
     public DateTimeOffset? UpdatedAt { get; set; }
 
     public IEnumerable<UserRefreshToken> RefreshTokens { get; set; }
+
+    public UserInfo UserInfo { get; set; }
 }

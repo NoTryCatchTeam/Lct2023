@@ -117,6 +117,7 @@ builder.Services.AddAutoMapper(x => x.AddProfile<ApiMapperProfile>());
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IAuthTokensService, AuthTokensService>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IRatingService, RatingService>();
 builder.Services.AddHttpClient(
     "CMS",
     client =>

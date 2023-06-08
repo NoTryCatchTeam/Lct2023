@@ -13,14 +13,16 @@ namespace Lct2023.Api.Controllers;
 public class UsersController : ControllerBase
 {
     private readonly IUserService _userService;
+    private readonly IRatingService _ratingService;
     private readonly IMapper _mapper;
     private readonly ILogger<UsersController> _logger;
 
-    public UsersController(IUserService userService, IMapper mapper, ILogger<UsersController> logger)
+    public UsersController(IUserService userService, IMapper mapper, ILogger<UsersController> logger, IRatingService ratingService)
     {
         _userService = userService;
         _mapper = mapper;
         _logger = logger;
+        _ratingService = ratingService;
     }
 
     [HttpGet]
@@ -43,6 +45,46 @@ public class UsersController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Couldn't get user");
+        }
+
+        return BadRequest();
+    }
+
+    [HttpPost]
+    [Route("rating")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(401)]
+    public async Task<IActionResult> AddRatingAsync(int increment)
+    {
+        try
+        {
+            await _ratingService.AddRatingAsync(User.GetId(), increment);
+
+            return Ok(await _ratingService.GetRatingAsync(User.GetId()));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Couldn't add rating");
+        }
+
+        return BadRequest();
+    }
+
+    [HttpGet]
+    [Route("rating")]
+    [ProducesResponseType(typeof(int), 200)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(401)]
+    public async Task<IActionResult> GetRatingAsync()
+    {
+        try
+        {
+            return Ok(await _ratingService.GetRatingAsync(User.GetId()));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Couldn't get rating");
         }
 
         return BadRequest();
