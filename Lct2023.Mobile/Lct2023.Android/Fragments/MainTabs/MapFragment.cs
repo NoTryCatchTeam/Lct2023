@@ -78,7 +78,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         _mapContainer = view.FindViewById<CoordinatorLayout>(Resource.Id.map_container);
         var locationsSearchEditText = view.FindViewById<TextInputEditText>(Resource.Id.locations_search_value);
         var searchResultsList = view.FindViewById<MvxRecyclerView>(Resource.Id.map_search_results);
-        var locationTypesGroup = view.FindViewById<MaterialButtonToggleGroup>(Resource.Id.location_types_group);
+        var locationTypesGroup = view.FindViewById<SegmentedControl>(Resource.Id.location_types_group);
         var filtersButton = view.FindViewById<MaterialButton>(Resource.Id.location_filters_button);
         var zoomInButton = view.FindViewById<MaterialButton>(Resource.Id.zoom_in_button);
         var zoomOutButton = view.FindViewById<MaterialButton>(Resource.Id.zoom_out_button);
@@ -401,27 +401,10 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
 
         set
             .Bind(locationTypesGroup)
-            .For(v => v.CheckedButtonId)
+            .For(v => v.SelectedSegment)
             .To(vm => vm.LocationType)
-            .WithConversion(new AnyExpressionConverter<LocationType, int>(
-                locationType => locationType switch
-                {
-                    LocationType.School => Resource.Id.msa_option,
-                    LocationType.Event => Resource.Id.afisha_option,
-                }));
+            .WithConversion(new AnyExpressionConverter<LocationType, int>(locationType => (int)locationType, selectedSegment => (LocationType)selectedSegment));
         
-        Observable.FromEventPattern<EventHandler<MaterialButtonToggleGroup.ButtonCheckedEventArgs>, MaterialButtonToggleGroup.ButtonCheckedEventArgs>(
-                h => locationTypesGroup.ButtonChecked += h,
-                h => locationTypesGroup.ButtonChecked -= h)
-            .Where(_ => locationTypesGroup.CheckedButtonId != -1)
-            .Select(_ => locationTypesGroup.CheckedButtonId)
-            .Subscribe(buttonId => ViewModel.LocationType = buttonId switch
-            {
-                Resource.Id.msa_option => LocationType.School,
-                Resource.Id.afisha_option => LocationType.Event,
-            })
-            .DisposeWith(CompositeDisposable);
-
         set
             .Bind(moreContactsButton)
             .For(v => v.BindClick())

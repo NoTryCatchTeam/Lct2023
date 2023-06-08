@@ -170,6 +170,7 @@
         <Compile Include="Definitions\Models\Map\MapClusterRenderer.cs" />
         <Compile Include="Fragments\MainTabs\FeedFragment.cs" />
         <Compile Include="Activities\Feed\ArtDirectionFeedActivity.cs" />
+        <Compile Include="Views\SegmentedControl.cs" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Properties\AndroidManifest.xml" />
