@@ -86,10 +86,12 @@
                                                                    app:layout_constraintTop_toTopOf="@id/onboarding_info_next"/>
 
                 <TextView android:id="@+id/onboarding_info_counter"
+                          style="@style/AppTheme.BodyMedium.Small"
                           android:layout_width="0dp"
                           android:layout_height="wrap_content"
                           android:gravity="end"
                           android:text="1/8"
+                          android:textColor="@color/textSecondary"
                           app:layout_constraintBottom_toBottomOf="@id/onboarding_info_next"
                           app:layout_constraintEnd_toEndOf="parent"
                           app:layout_constraintStart_toEndOf="@id/onboarding_info_skip"

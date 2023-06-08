@@ -1,6 +1,8 @@
 using System;
+using System.Globalization;
 using Android.Views;
 using Android.Widget;
+using Lct2023.Converters;
 using Lct2023.ViewModels.Map;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
@@ -27,6 +29,7 @@ public class MainEventsAdapter : BaseRecyclerViewAdapter<EventItemViewModel, Mai
             : base(itemView, context)
         {
             var title = itemView.FindViewById<TextView>(Resource.Id.main_events_list_item_title);
+            var subtitle = itemView.FindViewById<TextView>(Resource.Id.main_events_list_item_subtitle);
             _image = itemView.FindViewById<ImageView>(Resource.Id.main_events_list_item_image);
 
             this.DelayBind(() =>
@@ -36,6 +39,12 @@ public class MainEventsAdapter : BaseRecyclerViewAdapter<EventItemViewModel, Mai
                 set.Bind(title)
                     .For(x => x.Text)
                     .To(vm => vm.Title);
+
+                set.Bind(subtitle)
+                    .For(x => x.Text)
+                    .To(vm => vm.EventDate)
+                    .WithConversion(new AnyExpressionConverter<DateTime, string>(x =>
+                        $"{x.Day} {new CultureInfo("ru-RU").DateTimeFormat.MonthGenitiveNames[x.Month - 1]}, {x:HH:mm}"));
 
                 set.Apply();
             });
