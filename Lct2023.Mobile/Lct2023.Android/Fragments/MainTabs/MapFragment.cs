@@ -154,7 +154,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
 
         searchResultsList.SetAdapter(searchAdapter);
         
-        var mapFiltersAdapter = new MapFiltersGroupsListAdapter((IMvxAndroidBindingContext)BindingContext)
+        var mapFiltersAdapter = new MapFiltersGroupsListAdapter((IMvxAndroidBindingContext)BindingContext, () => _filtersBottomSheetBehavior.State = BottomSheetBehavior.StateExpanded)
         {
             ItemTemplateSelector = new MvxDefaultTemplateSelector(Resource.Layout.MapFiltersGroupItemView),
         };

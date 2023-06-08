@@ -16,22 +16,28 @@ namespace Lct2023.Android.Adapters;
 
 public class MapFiltersSubGroupsListAdapter : BaseRecyclerViewAdapter<MapFilterSubGroupItemViewModel, MapFiltersSubGroupsListAdapter.MapFilterSubGroupViewHolder>
 {
-    public MapFiltersSubGroupsListAdapter(IMvxAndroidBindingContext bindingContext)
+    private Action _onExpandAction;
+
+    public MapFiltersSubGroupsListAdapter(IMvxAndroidBindingContext bindingContext, Action onExpandAction)
         : base(bindingContext)
     {
+        _onExpandAction = onExpandAction;
     }
 
     protected override Func<View, IMvxAndroidBindingContext, MapFilterSubGroupViewHolder> BindableViewHolderCreator =>
-        (v, c) => new MapFilterSubGroupViewHolder(v, c);
+        (v, c) => new MapFilterSubGroupViewHolder(v, c, _onExpandAction);
 
     public class MapFilterSubGroupViewHolder : BaseViewHolder
     {
         private readonly MvxRecyclerView _recyclerView;
         private MvxRecyclerAdapter _filtersItemAdapter;
+        private Action _onExpandAction;
 
-        public MapFilterSubGroupViewHolder(View itemView, IMvxAndroidBindingContext context)
+        public MapFilterSubGroupViewHolder(View itemView, IMvxAndroidBindingContext context, Action onExpandAction)
             : base(itemView, context)
         {
+            _onExpandAction = onExpandAction;
+
             var title = itemView.FindViewById<TextView>(Resource.Id.map_filters_sub_group_item_title);
             _recyclerView = itemView.FindViewById<MvxRecyclerView>(Resource.Id.map_filters_sub_group_item_recycle);
             var expandImage = itemView.FindViewById<ImageView>(Resource.Id.map_filters_sub_group_item_expand_image);
@@ -96,6 +102,7 @@ public class MapFiltersSubGroupsListAdapter : BaseRecyclerViewAdapter<MapFilterS
         if (itemDataContext is MapFilterSubGroupItemViewModel viewModel)
         {
             viewModel.IsOpened = !viewModel.IsOpened;
+            _onExpandAction();
         }
     }
 }
