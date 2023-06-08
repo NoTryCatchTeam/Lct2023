@@ -98,9 +98,9 @@ public class TaskDetailsActivity : BaseActivity<TaskDetailsViewModel>
                 ctaButton.StrokeWidth = x.IsPreSelected ? DimensUtils.DpToPx(this, 1) : 0;
                 ctaButton.Text = x.IsPreSelected ?
                     "Выбрать" :
-                    ViewModel.ExercisesCollection.IndexOf(ViewModel.CurrentExercise) == ViewModel.ExercisesCollection.Count() - 1 ?
-                        "Закончить задание" :
-                        "Следующий вопрос";
+                    ViewModel.ExercisesCollection.Any(e => e.IsCorrect == null) ?
+                        "Следующий вопрос" :
+                        "Закончить задание";
 
                 ctaButton.SetTextColor(GetColorStateList(x.IsPreSelected ? Resource.Color.textLink : Resource.Color.textLight));
                 ctaButton.BackgroundTintList = GetColorStateList(x.IsPreSelected ? Resource.Color.background : Resource.Color.lightPurple);
