@@ -56,7 +56,10 @@ public class CoursesViewModel : BaseViewModel
                             new CourseTagItem("Видеокурс", CourseTagItemType.Other),
                             new CourseTagItem("Онлайн", CourseTagItemType.Other),
                             new CourseTagItem("Lite", CourseTagItemType.Lite),
-                        }),
+                        })
+                    {
+                        IsUnlocked = false,
+                    },
                     new CourseItem(
                         "Гитара для ПРО",
                         new[]
@@ -82,7 +85,10 @@ public class CoursesViewModel : BaseViewModel
                             new CourseTagItem("Видеокурс", CourseTagItemType.Other),
                             new CourseTagItem("Онлайн", CourseTagItemType.Other),
                             new CourseTagItem("Lite", CourseTagItemType.Lite),
-                        }),
+                        })
+                    {
+                        IsUnlocked = false,
+                    },
                     new CourseItem(
                         "Первый урок",
                         new[]
@@ -172,7 +178,16 @@ public class CoursesViewModel : BaseViewModel
             });
     }
 
-    private Task CourseTapAsync(CourseItem item) =>
-        NavigationService.Navigate<CourseDetailsViewModel, CourseDetailsViewModel.NavParameter>(
+    private async Task CourseTapAsync(CourseItem item)
+    {
+        if (!item.IsUnlocked &&
+            await NavigationService.Navigate<CourseUnlockViewModel, CourseUnlockViewModel.NavParameter, CourseUnlockViewModel.NavBackParameter>(
+                new CourseUnlockViewModel.NavParameter(item)) is null)
+        {
+            return;
+        }
+
+        await NavigationService.Navigate<CourseDetailsViewModel, CourseDetailsViewModel.NavParameter>(
             new CourseDetailsViewModel.NavParameter(item));
+    }
 }

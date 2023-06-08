@@ -285,4 +285,22 @@
                                                        android:text="Купить курс"
                                                        app:layout_constraintBottom_toBottomOf="parent"/>
 
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/course_details_purchase_animation_container"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="match_parent"
+                                                       android:background="#99000000"
+                                                       android:visibility="gone">
+
+        <com.airbnb.lottie.LottieAnimationView android:id="@+id/course_details_purchase_animation"
+                                               android:layout_width="match_parent"
+                                               android:layout_height="wrap_content"
+                                               android:layout_marginHorizontal="100dp"
+                                               app:layout_constraintBottom_toBottomOf="parent"
+                                               app:layout_constraintTop_toTopOf="parent"
+                                               app:lottie_rawRes="@raw/lottie_succesfull_payment"
+                                               app:lottie_loop="false"
+                                               app:lottie_autoPlay="false"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

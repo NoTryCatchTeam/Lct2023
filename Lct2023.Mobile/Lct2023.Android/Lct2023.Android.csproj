@@ -111,7 +111,7 @@
         <Compile Include="Fragments\Auth\AuthSignInFragment.cs" />
         <Compile Include="Fragments\Auth\AuthSignUpFragment.cs" />
         <Compile Include="Fragments\BaseFragment.cs" />
-        <Compile Include="Fragments\Courses\CourseOpenFragment.cs" />
+        <Compile Include="Fragments\Courses\CourseUnlockFragment.cs" />
         <Compile Include="Fragments\Courses\LessonAnswerPartFragment.cs" />
         <Compile Include="Fragments\Courses\LessonLessonPartFragment.cs" />
         <Compile Include="Fragments\Courses\LessonTaskPartFragment.cs" />
@@ -184,6 +184,8 @@
         <AndroidResource Include="Resources\menu\*.xml" />
         <AndroidResource Include="Resources\mipmap-anydpi-v26\ic_launcher.xml" />
         <AndroidResource Include="Resources\mipmap-anydpi-v26\ic_launcher_round.xml" />
+        <AndroidResource Include="Resources\raw\achievement_bell.wav" />
+        <AndroidResource Include="Resources\raw\lottie_succesfull_payment.json" />
         <AndroidResource Include="Resources\values\*.xml" />
         <AndroidResource Include="Resources\mipmap-hdpi\*.png" />
         <AndroidResource Include="Resources\mipmap-mdpi\*.png" />
@@ -276,6 +278,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="11.0.1" />
+        <PackageReference Include="Com.Airbnb.Android.Lottie" Version="4.2.2" />
         <PackageReference Include="FluentValidation" Version="11.5.2" />
         <PackageReference Include="Fody" Version="6.7.0">
           <PrivateAssets>all</PrivateAssets>
