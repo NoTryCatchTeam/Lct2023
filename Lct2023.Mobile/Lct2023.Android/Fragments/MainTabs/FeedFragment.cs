@@ -34,7 +34,7 @@ using MvvmCross.Platforms.Android.Presenters.Attributes;
 namespace Lct2023.Android.Fragments.MainTabs;
 
 [MvxFragmentPresentation]
-public class FeedFragment : BaseFragment<FeedViewModel>, View.IOnClickListener
+public class FeedFragment : BaseMainTabFragment<FeedViewModel>, View.IOnClickListener
 {
     private const float MAX_DIM_ALPHA = 0.5f;
 

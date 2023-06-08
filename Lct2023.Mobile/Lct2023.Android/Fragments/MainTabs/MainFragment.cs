@@ -25,7 +25,7 @@ using MvvmCross.Platforms.Android.Binding.BindingContext;
 namespace Lct2023.Android.Fragments.MainTabs;
 
 [MvxFragmentPresentation]
-public class MainFragment : BaseFragment<MainViewModel>
+public class MainFragment : BaseMainTabFragment<MainViewModel>
 {
     public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {

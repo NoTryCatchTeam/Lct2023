@@ -49,7 +49,7 @@ using MvvmCross.Binding.BindingContext;
 namespace Lct2023.Android.Fragments.MainTabs;
 
 [MvxFragmentPresentation]
-public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View.IOnClickListener, GoogleMap.IOnMapClickListener, ClusterManager.IOnClusterItemClickListener, IOnClusterClickListener
+public class MapFragment : BaseMainTabFragment<MapViewModel>, IOnMapReadyCallback, View.IOnClickListener, GoogleMap.IOnMapClickListener, ClusterManager.IOnClusterItemClickListener, IOnClusterClickListener
 {
     private const float MAX_DIM_ALPHA = 0.5f;
     private const int LAT_LNG_BOUNDS_PADDING = 100;

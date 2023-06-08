@@ -25,7 +25,7 @@ using MvvmCross.Platforms.Android.Presenters.Attributes;
 namespace Lct2023.Android.Fragments.MainTabs;
 
 [MvxFragmentPresentation]
-public class CoursesFragment : BaseFragment<CoursesViewModel>
+public class CoursesFragment : BaseMainTabFragment<CoursesViewModel>
 {
     private ConstraintLayout _parent;
     private NestedScrollView _scroll;

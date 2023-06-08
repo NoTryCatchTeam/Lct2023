@@ -24,7 +24,7 @@ using MvvmCross.Platforms.Android.Presenters.Attributes;
 namespace Lct2023.Android.Fragments.MainTabs;
 
 [MvxFragmentPresentation]
-public class TasksFragment : BaseFragment<TasksViewModel>
+public class TasksFragment : BaseMainTabFragment<TasksViewModel>
 {
     protected override int GetLayoutId() => Resource.Layout.TasksFragment;
 

@@ -28,7 +28,7 @@ using Location = Xamarin.Essentials.Location;
 
 namespace Lct2023.ViewModels.Map;
 
-public class MapViewModel : BaseViewModel
+public class MapViewModel : BaseMainTabViewModel
 {
     private const int PAGE_SIZE = 100;
     
