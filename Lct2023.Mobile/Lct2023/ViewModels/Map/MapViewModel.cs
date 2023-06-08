@@ -235,7 +235,7 @@ public class MapViewModel : BaseViewModel
     public Location MyPosition { get; private set; }
     
     public bool IsMyLocationEnabled { get; private set; }
-    
+
     public LocationType LocationType { get; set; }
     
     public IEnumerable<ContactItemViewModel> Contacts
@@ -356,6 +356,26 @@ public class MapViewModel : BaseViewModel
         }));
 
         Task.WhenAny(schoolLocationTask, eventsTask, filtersTask);
+    }
+
+    public void UpdatePlaces(LocationType locationType, IEnumerable<string> streams = null, IEnumerable<string> districts = null)
+    {
+        FilterGroups.ForEach(fG =>
+        {
+            switch (fG?.FilterGroupType)
+            {
+                case MapFilterGroupType.District:
+                    fG?.SubGroups?.ForEach(fGs =>
+                        fGs?.Items?.ForEach(fGsi => fGsi.IsSelected = districts?.Contains(fGsi.Title) == true));
+                    break;
+                case MapFilterGroupType.Stream:
+                    fG?.SubGroups?.ForEach(fGs =>
+                        fGs?.Items?.ForEach(fGsi => fGsi.IsSelected = streams?.Contains(fGsi.Title) == true));
+                    break;
+            }
+        });
+        ApplyFilters();
+        LocationType = locationType;
     }
 
     private void UpdatePlaces()
