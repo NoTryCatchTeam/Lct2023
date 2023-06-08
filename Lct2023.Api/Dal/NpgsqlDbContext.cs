@@ -18,6 +18,8 @@ public class NpgsqlDbContext : IdentityDbContext<ExtendedIdentityUser, IdentityR
 
     public DbSet<UserRefreshToken> UserRefreshTokens { get; set; }
 
+    public DbSet<UserInfo> UserInfos { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder options) =>
         options
             .UseNpgsql(_connectionString)
@@ -30,9 +32,15 @@ public class NpgsqlDbContext : IdentityDbContext<ExtendedIdentityUser, IdentityR
         modelBuilder.Entity<ExtendedIdentityUser>()
             .Property(x => x.CreatedAt)
             .HasDefaultValueSql("NOW()");
-        
+
         modelBuilder.Entity<ExtendedIdentityUser>()
             .HasMany(x => x.RefreshTokens)
             .WithOne(x => x.User);
+
+        modelBuilder.Entity<ExtendedIdentityUser>()
+            .HasOne(x => x.UserInfo)
+            .WithOne(x => x.User)
+            .HasForeignKey<UserInfo>(x => x.ExtendedIdentityUserId)
+            .IsRequired();
     }
 }
