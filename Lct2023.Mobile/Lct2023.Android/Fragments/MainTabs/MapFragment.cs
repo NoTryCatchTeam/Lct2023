@@ -635,7 +635,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
             _filtersBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
             var addressRect = new Rect();
             GetOffsetDescendant(ViewModel.LocationType == LocationType.School ? _addressLayout : _titleLayout);
-            _locationDetailsBottomSheetBehavior.SetPeekHeight(addressRect.Top + addressRect.Height() + DimensUtils.DpToPx(Context, 16), false);
+            _locationDetailsBottomSheetBehavior.SetPeekHeight(addressRect.Top + addressRect.Height() + DimensUtils.DpToPx(Context, 8), false);
             _locationDetailsBottomSheetBehavior.Hideable = false;
             _locationDetailsBottomSheetBehavior.State = BottomSheetBehavior.StateCollapsed;
 

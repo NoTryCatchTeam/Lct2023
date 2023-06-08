@@ -507,7 +507,7 @@ namespace Lct2023.Android.Activities.Map
             {
                 var addressRect = new Rect();
                 GetOffsetDescendant(ViewModel.LocationType == LocationType.School ? _addressLayout : _titleLayout);
-                _locationDetailsBottomSheetBehavior.SetPeekHeight(addressRect.Top + addressRect.Height() + DimensUtils.DpToPx(this, 16), false);
+                _locationDetailsBottomSheetBehavior.SetPeekHeight(addressRect.Top + addressRect.Height() + DimensUtils.DpToPx(this, 8), false);
                 _locationDetailsBottomSheetBehavior.Hideable = false;
                 _locationDetailsBottomSheetBehavior.State = BottomSheetBehavior.StateCollapsed;
 
