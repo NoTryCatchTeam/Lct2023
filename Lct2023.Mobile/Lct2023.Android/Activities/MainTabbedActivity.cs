@@ -1,12 +1,16 @@
 using System.Collections.Generic;
+using System.Linq;
 using Android.App;
 using Android.Content.PM;
 using Android.Graphics;
 using Android.OS;
+using Android.Text;
+using Android.Text.Style;
 using Android.Views;
 using Android.Widget;
 using AndroidX.ConstraintLayout.Motion.Widget;
 using AndroidX.ConstraintLayout.Widget;
+using AndroidX.Core.Content.Resources;
 using AndroidX.RecyclerView.Widget;
 using AndroidX.ViewPager2.Widget;
 using Google.Android.Material.BottomNavigation;
@@ -29,6 +33,8 @@ public class MainTabbedActivity : BaseActivity<MainTabbedViewModel>
     private readonly Dictionary<int, int> _tabMenuActionsToFragmentPositionsMap;
 
     private ConstraintLayout _parent;
+    private ViewPager2 _viewPager;
+    private BottomNavigationView _bottomNavigationView;
 
     public MainTabbedActivity()
     {
@@ -42,15 +48,21 @@ public class MainTabbedActivity : BaseActivity<MainTabbedViewModel>
         };
     }
 
+    public void NavigateToPosition(int index)
+    {
+        _viewPager.SetCurrentItem(index, false);
+        _bottomNavigationView.SelectedItemId = _tabMenuActionsToFragmentPositionsMap.First(x => x.Value == index).Key;
+    }
+
     protected override void OnCreate(Bundle bundle)
     {
         base.OnCreate(bundle);
         SetContentView(Resource.Layout.MainTabbedActivity);
 
         _parent = FindViewById<ConstraintLayout>(Resource.Id.main_view_layout);
-        var viewPager = FindViewById<ViewPager2>(Resource.Id.main_view_pager);
+        _viewPager = FindViewById<ViewPager2>(Resource.Id.main_view_pager);
+        _bottomNavigationView = FindViewById<BottomNavigationView>(Resource.Id.main_view_bottom_navigation);
 
-        var bottomNavigationView = FindViewById<BottomNavigationView>(Resource.Id.main_view_bottom_navigation);
         var onboardingViews = new OnboardingViews(
             FindViewById<MaskView>(Resource.Id.onboarding_mask),
             FindViewById<MotionLayout>(Resource.Id.onboarding_motion_layout),
@@ -61,14 +73,14 @@ public class MainTabbedActivity : BaseActivity<MainTabbedViewModel>
             FindViewById<MaterialButton>(Resource.Id.onboarding_info_skip),
             FindViewById<TextView>(Resource.Id.onboarding_info_counter));
 
-        viewPager.UserInputEnabled = false;
-        viewPager.Adapter = new MainViewPagerAdapter(this, 5);
-        viewPager.OffscreenPageLimit = viewPager.Adapter.ItemCount;
+        _viewPager.UserInputEnabled = false;
+        _viewPager.Adapter = new MainViewPagerAdapter(this, 5);
+        _viewPager.OffscreenPageLimit = _viewPager.Adapter.ItemCount;
 
-        bottomNavigationView.SetOnItemSelectedListener(new DefaultNavBarItemSelectedListener(
+        _bottomNavigationView.SetOnItemSelectedListener(new DefaultNavBarItemSelectedListener(
             item =>
             {
-                viewPager.SetCurrentItem(_tabMenuActionsToFragmentPositionsMap[item.ItemId], false);
+                _viewPager.SetCurrentItem(_tabMenuActionsToFragmentPositionsMap[item.ItemId], false);
 
                 return true;
             }));
@@ -86,6 +98,8 @@ public class MainTabbedActivity : BaseActivity<MainTabbedViewModel>
         onboardingViews.MotionLayout.Visibility = ViewStates.Visible;
 
         onboardingViews.Mask.Clickable = true;
+
+        onboardingViews.Counter.TextFormatted = GetCounterString(1);
 
         var motionConstraintSets = new (int Id, ConstraintSet ConstraintSet)[]
         {
@@ -142,7 +156,7 @@ public class MainTabbedActivity : BaseActivity<MainTabbedViewModel>
                         7 => "Карта со школами МШИ и мероприятиями города Москва: театры, концерты, выставки.",
                     };
 
-                    onboardingViews.Counter.Text = $"{stepCounter + 1}/8";
+                    onboardingViews.Counter.TextFormatted = GetCounterString(stepCounter);
 
                     stepCounter += 1;
 
@@ -166,7 +180,7 @@ public class MainTabbedActivity : BaseActivity<MainTabbedViewModel>
 
         _parent.Post(() =>
         {
-            var viewPagerRecyclerViewLayoutManager = ((RecyclerView)viewPager.GetChildAt(0)).GetLayoutManager().FindViewByPosition(0);
+            var viewPagerRecyclerViewLayoutManager = ((RecyclerView)_viewPager.GetChildAt(0)).GetLayoutManager().FindViewByPosition(0);
 
             maskViews[0] = GetViewInfo(FindViewById(Resource.Id.action_main));
             maskViews[1] = GetViewInfo(FindViewById(Resource.Id.action_courses));
@@ -214,6 +228,22 @@ public class MainTabbedActivity : BaseActivity<MainTabbedViewModel>
                 return (view, viewRect);
             }
         });
+    }
+
+    private SpannableStringBuilder GetCounterString(int stepCounter)
+    {
+        var stepNumber = (stepCounter + 1).ToString();
+        var counterText = new SpannableStringBuilder(stepNumber);
+
+        counterText.SetSpan(
+            new ForegroundColorSpan(Resources.GetColor(Resource.Color.accent, null)),
+            0,
+            stepNumber.Length,
+            SpanTypes.ExclusiveExclusive);
+
+        counterText.Append("/8");
+
+        return counterText;
     }
 
     private class OnboardingViews

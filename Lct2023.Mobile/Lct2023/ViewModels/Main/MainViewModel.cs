@@ -87,6 +87,7 @@ public class MainViewModel : BaseViewModel
                     {
                         Title = x.Item.Name,
                         Description = x.Item.Description,
+                        EventDate = x.Item.EventDate,
                     };
 
                     if (!string.IsNullOrEmpty(x.Item.Cover?.Data?.Item?.Url))

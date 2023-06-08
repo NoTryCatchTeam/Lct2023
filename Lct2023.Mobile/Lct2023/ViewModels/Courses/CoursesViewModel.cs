@@ -168,13 +168,11 @@ public class CoursesViewModel : BaseViewModel
                         };
                     }));
 
-                CoursesGroupsCollection.Insert(0, newGroup);
+                CoursesGroupsCollection.Add(newGroup);
             });
     }
 
-    private Task CourseTapAsync(CourseItem item)
-    {
-        return NavigationService.Navigate<CourseDetailsViewModel, CourseDetailsViewModel.NavParameter>(
+    private Task CourseTapAsync(CourseItem item) =>
+        NavigationService.Navigate<CourseDetailsViewModel, CourseDetailsViewModel.NavParameter>(
             new CourseDetailsViewModel.NavParameter(item));
-    }
 }
