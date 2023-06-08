@@ -171,6 +171,8 @@
         <Compile Include="Fragments\MainTabs\FeedFragment.cs" />
         <Compile Include="Activities\Feed\ArtDirectionFeedActivity.cs" />
         <Compile Include="Views\SegmentedControl.cs" />
+        <Compile Include="Activities\Profile\ProfileActivity.cs" />
+        <Compile Include="Fragments\BaseMainTabFragment.cs" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Properties\AndroidManifest.xml" />
@@ -265,6 +267,14 @@
           <SubType></SubType>
           <Generator></Generator>
         </AndroidResource>
+        <AndroidResource Include="Resources\layout\ProfileActivity.xml">
+          <SubType></SubType>
+          <Generator></Generator>
+        </AndroidResource>
+        <AndroidResource Include="Resources\drawable\ic_setting.xml">
+          <SubType></SubType>
+          <Generator></Generator>
+        </AndroidResource>
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Assets" />
@@ -273,6 +283,7 @@
         <Folder Include="Activities\Map\" />
         <Folder Include="Definitions\Models\" />
         <Folder Include="Definitions\Models\Map\" />
+        <Folder Include="Activities\Profile\" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="11.0.1" />

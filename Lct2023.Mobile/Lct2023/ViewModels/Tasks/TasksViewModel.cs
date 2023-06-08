@@ -9,7 +9,7 @@ using MvvmCross.ViewModels;
 
 namespace Lct2023.ViewModels.Tasks;
 
-public class TasksViewModel : BaseViewModel
+public class TasksViewModel : BaseMainTabViewModel
 {
     private readonly ITasksRestService _tasksRestService;
 

@@ -25,7 +25,7 @@ using Xamarin.Essentials;
 
 namespace Lct2023.ViewModels.Feed;
 
-public class FeedViewModel : BaseViewModel
+public class FeedViewModel : BaseMainTabViewModel
 {
     private const int PAGE_SIZE = 15;
 

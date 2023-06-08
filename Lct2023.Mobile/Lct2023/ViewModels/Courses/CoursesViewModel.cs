@@ -15,7 +15,7 @@ using MvvmCross.ViewModels;
 
 namespace Lct2023.ViewModels.Courses;
 
-public class CoursesViewModel : BaseViewModel
+public class CoursesViewModel : BaseMainTabViewModel
 {
     private readonly ICoursesRestService _coursesRestService;
     private readonly IConfiguration _configuration;

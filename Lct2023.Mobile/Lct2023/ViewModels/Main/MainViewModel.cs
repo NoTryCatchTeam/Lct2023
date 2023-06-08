@@ -13,7 +13,7 @@ using MvvmCross.Navigation;
 
 namespace Lct2023.ViewModels.Main;
 
-public class MainViewModel : BaseViewModel
+public class MainViewModel : BaseMainTabViewModel
 {
     private readonly IConfiguration _configuration;
     private readonly IMapRestService _mapRestService;
