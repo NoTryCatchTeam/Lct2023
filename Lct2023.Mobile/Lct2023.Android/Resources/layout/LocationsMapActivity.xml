@@ -10,18 +10,15 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
                                                     android:layout_height="match_parent">
-        <include layout="@layout/toolbar_inner"
-             app:layout_constraintTop_toTopOf="parent"/>
-
+        
         <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
-                                                        android:layout_height="0dp"
-                                                        app:layout_constraintTop_toBottomOf="@id/toolbar_inner"
-                                                        app:layout_constraintBottom_toBottomOf="parent"
+                                                        android:layout_height="match_parent"
                                                         android:background="@color/bgIsland">
 
         <com.google.android.gms.maps.MapView android:id="@+id/locations_map_view"
-                                                android:layout_width="match_parent"
-                                                android:layout_height="match_parent"/>
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             android:layout_marginTop="48dp"/>
 
         <com.google.android.material.button.MaterialButton android:id="@+id/gps_button"
                                                             app:cornerRadius="8dp"
@@ -60,6 +57,10 @@
         </com.google.android.material.button.MaterialButtonToggleGroup>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include layout="@layout/toolbar_inner"
+            app:layout_constraintTop_toTopOf="parent"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

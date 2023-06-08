@@ -53,6 +53,7 @@ namespace Lct2023.Android.Activities.Map
         private BottomSheetBehavior _locationDetailsBottomSheetBehavior;
         private MaterialCardView _locationDetailsBottomSheet;
         private View _addressLayout;
+        private View _titleLayout;
         private CoordinatorLayout _mapContainer;
 
         protected override void OnCreate(Bundle bundle)
@@ -75,6 +76,7 @@ namespace Lct2023.Android.Activities.Map
             var moreContactsButton = FindViewById<MaterialButton>(Resource.Id.more_contacts_button);
 
             _addressLayout = FindViewById(Resource.Id.location_address_layout);
+            _titleLayout = FindViewById(Resource.Id.location_title_layout);
             var addressTextView = FindViewById<TextView>(Resource.Id.address_text_view);
             var mailTextView = FindViewById<TextView>(Resource.Id.mail_text_view);
             var siteTextView = FindViewById<TextView>(Resource.Id.site_text_view);
@@ -504,11 +506,16 @@ namespace Lct2023.Android.Activities.Map
             _mapContainer.Post(() =>
             {
                 var addressRect = new Rect();
-                _addressLayout.GetDrawingRect(addressRect);
-                _locationDetailsBottomSheet.OffsetDescendantRectToMyCoords(_addressLayout, addressRect);
+                GetOffsetDescendant(ViewModel.LocationType == LocationType.School ? _addressLayout : _titleLayout);
                 _locationDetailsBottomSheetBehavior.SetPeekHeight(addressRect.Top + addressRect.Height() + DimensUtils.DpToPx(this, 32), false);
                 _locationDetailsBottomSheetBehavior.Hideable = false;
                 _locationDetailsBottomSheetBehavior.State = BottomSheetBehavior.StateCollapsed;
+
+                void GetOffsetDescendant(View view)
+                {
+                    view.GetDrawingRect(addressRect);
+                    _locationDetailsBottomSheet.OffsetDescendantRectToMyCoords(view, addressRect);
+                }
             });
         }
 
