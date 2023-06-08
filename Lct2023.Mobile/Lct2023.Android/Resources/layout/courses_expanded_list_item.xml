@@ -8,12 +8,35 @@
 
     <TextView android:id="@+id/courses_expanded_list_item_title"
               style="@style/AppTheme.Body"
-              android:layout_width="match_parent"
+              android:layout_width="0dp"
               android:layout_height="wrap_content"
               android:layout_marginHorizontal="16dp"
               android:text="Скрипка для начинающих"
               android:textSize="18sp"
+              app:layout_constraintEnd_toStartOf="@id/courses_expanded_list_item_unlock_value"
+              app:layout_constraintStart_toStartOf="parent"
               app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView android:id="@+id/courses_expanded_list_item_unlock_value"
+              style="@style/AppTheme.BodyMedium"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginEnd="4dp"
+              android:text="1"
+              android:textSize="18sp"
+              app:layout_constraintBottom_toBottomOf="@id/courses_expanded_list_item_title"
+              app:layout_constraintEnd_toStartOf="@id/courses_expanded_list_item_unlock_icon"
+              app:layout_constraintTop_toTopOf="@id/courses_expanded_list_item_title"/>
+
+    <ImageView android:id="@+id/courses_expanded_list_item_unlock_icon"
+               android:layout_width="20dp"
+               android:layout_height="20dp"
+               android:layout_marginEnd="16dp"
+               android:src="@drawable/ic_crown"
+               app:layout_constraintBottom_toBottomOf="@id/courses_expanded_list_item_unlock_value"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintTop_toTopOf="@id/courses_expanded_list_item_unlock_value"
+               app:tint="@color/accent"/>
 
     <mvvmcross.droidx.recyclerview.MvxRecyclerView android:id="@+id/courses_expanded_list_item_list"
                                                    android:layout_width="match_parent"
