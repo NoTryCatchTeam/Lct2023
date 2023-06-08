@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Reactive.Disposables;
 using Android.App;
 using Android.Content.PM;
@@ -7,6 +8,7 @@ using Android.Views;
 using Android.Widget;
 using AndroidX.RecyclerView.Widget;
 using AndroidX.ViewPager2.Widget;
+using DynamicData;
 using DynamicData.Binding;
 using Google.Android.Material.Button;
 using Lct2023.Android.Adapters;
@@ -74,7 +76,7 @@ public class TaskDetailsActivity : BaseActivity<TaskDetailsViewModel>
 
         set.Apply();
 
-        ViewModel.WhenValueChanged(x => x.CurrentExercise, false)
+        ViewModel.WhenValueChanged(x => x.CurrentExercise)
             .Subscribe(x =>
             {
                 if (SupportFragmentManager.FindFragmentByTag($"f{viewPager.CurrentItem}") is IPlayersFragment playerFragment)
@@ -94,7 +96,12 @@ public class TaskDetailsActivity : BaseActivity<TaskDetailsViewModel>
                 ctaButton.Visibility = x.IsPreSelected || x.IsCorrect != null ? ViewStates.Visible : ViewStates.Gone;
 
                 ctaButton.StrokeWidth = x.IsPreSelected ? DimensUtils.DpToPx(this, 1) : 0;
-                ctaButton.Text = x.IsPreSelected ? "Выбрать" : "Следующий вопрос";
+                ctaButton.Text = x.IsPreSelected ?
+                    "Выбрать" :
+                    ViewModel.ExercisesCollection.IndexOf(ViewModel.CurrentExercise) == ViewModel.ExercisesCollection.Count() - 1 ?
+                        "Закончить задание" :
+                        "Следующий вопрос";
+
                 ctaButton.SetTextColor(GetColorStateList(x.IsPreSelected ? Resource.Color.textLink : Resource.Color.textLight));
                 ctaButton.BackgroundTintList = GetColorStateList(x.IsPreSelected ? Resource.Color.background : Resource.Color.lightPurple);
             })
