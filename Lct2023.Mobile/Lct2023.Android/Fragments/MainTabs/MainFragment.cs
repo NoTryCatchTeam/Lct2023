@@ -4,6 +4,7 @@ using AndroidX.ConstraintLayout.Widget;
 using AndroidX.RecyclerView.Widget;
 using AndroidX.ViewPager2.Adapter;
 using AndroidX.ViewPager2.Widget;
+using DataModel.Definitions.Enums;
 using Google.Android.Material.Button;
 using Google.Android.Material.Card;
 using Lct2023.Android.Activities;
@@ -81,7 +82,7 @@ public class MainFragment : BaseMainTabFragment<MainViewModel>
                         return;
                     }
 
-                    // TODO Show all events
+                    mapFragment.ViewModel.UpdatePlaces(LocationType.Event);
 
                     break;
             }
