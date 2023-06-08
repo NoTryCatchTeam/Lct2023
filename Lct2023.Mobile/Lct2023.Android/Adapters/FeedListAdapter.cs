@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using Android.Animation;
 using Android.Content.Res;
 using Android.Graphics;
@@ -39,12 +40,14 @@ namespace Lct2023.Android.Adapters;
 public class FeedListAdapter<TContextViewModel> : BaseTemplatedRecyclerViewAdapter<FeedItemViewModel, FeedListAdapter<TContextViewModel>.BaseFeedItemViewHolder>, INotifyPropertyChanged
     where TContextViewModel: MvxViewModel
 {
+    private readonly Action<BaseFeedItemViewHolder> _focusOnItem;
     private (Func<View> ViewCreator, Action<View, IMvxAndroidBindingContext, MvxFluentBindingDescriptionSet<FeedHeaderItemViewHolder, TContextViewModel>> ViewBinder)[] _headers;
     private TContextViewModel _contextViewModel;
 
-    public FeedListAdapter(IMvxAndroidBindingContext bindingContext, TContextViewModel contextViewModel, params (Func<View> ViewCreator, Action<View, IMvxAndroidBindingContext, MvxFluentBindingDescriptionSet<FeedHeaderItemViewHolder, TContextViewModel>> ViewBinder)[] headers)
+    public FeedListAdapter(IMvxAndroidBindingContext bindingContext, TContextViewModel contextViewModel, Action<BaseFeedItemViewHolder> focusOnItem, params (Func<View> ViewCreator, Action<View, IMvxAndroidBindingContext, MvxFluentBindingDescriptionSet<FeedHeaderItemViewHolder, TContextViewModel>> ViewBinder)[] headers)
         : base(bindingContext)
     {
+        _focusOnItem = focusOnItem;
         _headers = headers;
         _contextViewModel = contextViewModel;
 
@@ -96,7 +99,7 @@ public class FeedListAdapter<TContextViewModel> : BaseTemplatedRecyclerViewAdapt
     protected override Func<View, int, IMvxAndroidBindingContext, BaseFeedItemViewHolder> BindableTemplatedViewHolderCreator
     => (v, i, c) => i switch
     {
-        Resource.Layout.FeedItemView => new FeedItemViewHolder(v, c),
+        Resource.Layout.FeedItemView => new FeedItemViewHolder(v, c, _focusOnItem),
         Resource.Layout.FeedLoadItemView => new FeedLoadingItemViewHolder(v, c),
         _ => new FeedHeaderItemViewHolder(v, c, _headers.ElementAtOrDefault((i + 1) * (-1)).ViewBinder),
     };
@@ -120,17 +123,20 @@ public class FeedListAdapter<TContextViewModel> : BaseTemplatedRecyclerViewAdapt
 
     private class FeedItemViewHolder : BaseFeedItemViewHolder
     {
+        private readonly MaterialButton _moreDescriptionButton;
         private readonly ImageView _image;
+        private readonly Action<BaseFeedItemViewHolder> _focusOnItem;
 
-        public FeedItemViewHolder(View itemView, IMvxAndroidBindingContext context)
+        public FeedItemViewHolder(View itemView, IMvxAndroidBindingContext context, Action<BaseFeedItemViewHolder> focusOnItem)
             : base(itemView, context)
         {
+            _focusOnItem = focusOnItem;
             var headerImageBackground = itemView.FindViewById<MaterialCardView>(Resource.Id.feed_item_header_image_background);
             var title = itemView.FindViewById<TextView>(Resource.Id.feed_item_title);
             var publishDate = itemView.FindViewById<TextView>(Resource.Id.feed_item_publish_date);
             var actionButton = itemView.FindViewById<MaterialButton>(Resource.Id.feed_item_action_button);
             var description = itemView.FindViewById<TextView>(Resource.Id.feed_item_description);
-            var moreDescriptionButton = itemView.FindViewById<MaterialButton>(Resource.Id.feed_item_more_description_button);
+            _moreDescriptionButton = itemView.FindViewById<MaterialButton>(Resource.Id.feed_item_more_description_button);
             _image = itemView.FindViewById<ImageView>(Resource.Id.feed_item_image);
             var likeButton = itemView.FindViewById<MaterialButton>(Resource.Id.feed_item_like_button);
             var topArtCategoryButton = itemView.FindViewById<MaterialButton>(Resource.Id.feed_item_top_art_category_button);
@@ -212,20 +218,26 @@ public class FeedListAdapter<TContextViewModel> : BaseTemplatedRecyclerViewAdapt
                     .To(vm => vm.ItemClickCommand)
                     .WithConversion<MvxCommandParameterValueConverter>(ViewModel);
 
-                set
-                    .Bind(moreDescriptionButton)
+                /*set
+                    .Bind(_moreDescriptionButton)
                     .For(v => v.BindClick())
                     .To(vm => vm.ExpandCommand)
                     .WithConversion<MvxCommandParameterValueConverter>(ViewModel);
 
                 set
-                    .Bind(moreDescriptionButton)
+                    .Bind(_moreDescriptionButton)
+                    .For(v => v.BindLongClick())
+                    .To(vm => vm.ExpandCommand)
+                    .WithConversion<MvxCommandParameterValueConverter>(ViewModel);*/
+
+                set
+                    .Bind(_moreDescriptionButton)
                     .For(nameof(ButtonIconResourceBinding))
                     .To(vm => vm.Expanded)
                     .WithConversion(new AnyExpressionConverter<bool, int>(expanded => expanded ? Resource.Drawable.ic_chevron_bottom : Resource.Drawable.exo_ic_chevron_right));
 
                 set
-                    .Bind(moreDescriptionButton)
+                    .Bind(_moreDescriptionButton)
                     .For(v => v.Text)
                     .To(vm => vm.Expanded)
                     .WithConversion(new AnyExpressionConverter<bool, string>(expanded => expanded ? "Свернуть" : "Eщё"));
@@ -248,6 +260,30 @@ public class FeedListAdapter<TContextViewModel> : BaseTemplatedRecyclerViewAdapt
             Picasso.Get()
                 .Load(ViewModel.ImageUrl)
             .Into(_image);
+
+            _moreDescriptionButton.Click += MoreDescriptionButtonClick;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _moreDescriptionButton.Click -= MoreDescriptionButtonClick;
+            }
+
+            base.Dispose(disposing);
+        }
+
+        private void MoreDescriptionButtonClick(object sender, EventArgs e)
+        {
+            ViewModel.Expanded = !ViewModel.Expanded;
+
+            if (ViewModel.Expanded)
+            {
+                return;
+            }
+
+            _focusOnItem(this);
         }
     }
 
