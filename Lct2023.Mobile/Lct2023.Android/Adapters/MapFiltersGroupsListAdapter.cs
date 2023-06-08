@@ -18,22 +18,28 @@ namespace Lct2023.Android.Adapters;
 
 public class MapFiltersGroupsListAdapter : BaseRecyclerViewAdapter<MapFilterGroupItemViewModel, MapFiltersGroupsListAdapter.MapFilterGroupViewHolder>
 {
-    public MapFiltersGroupsListAdapter(IMvxAndroidBindingContext bindingContext)
+    private Action _onExpandAction;
+
+    public MapFiltersGroupsListAdapter(IMvxAndroidBindingContext bindingContext, Action onExpandAction)
         : base(bindingContext)
     {
+        _onExpandAction = onExpandAction;
     }
 
     protected override Func<View, IMvxAndroidBindingContext, MapFilterGroupViewHolder> BindableViewHolderCreator =>
-        (v, c) => new MapFilterGroupViewHolder(v, c);
+        (v, c) => new MapFilterGroupViewHolder(v, c, _onExpandAction);
 
     public class MapFilterGroupViewHolder : BaseViewHolder
     {
         private readonly MvxRecyclerView _recyclerView;
         private MvxRecyclerAdapter _filtersSubGroupAdapter;
+        private Action _onExpandAction;
 
-        public MapFilterGroupViewHolder(View itemView, IMvxAndroidBindingContext context)
+        public MapFilterGroupViewHolder(View itemView, IMvxAndroidBindingContext context, Action onExpandAction)
             : base(itemView, context)
         {
+            _onExpandAction = onExpandAction;
+
             var title = itemView.FindViewById<TextView>(Resource.Id.map_filters_group_item_title);
             _recyclerView = itemView.FindViewById<MvxRecyclerView>(Resource.Id.map_filters_group_item_recycle);
             var expandImage = itemView.FindViewById<ImageView>(Resource.Id.map_filters_group_item_expand_image);
@@ -68,7 +74,7 @@ public class MapFiltersGroupsListAdapter : BaseRecyclerViewAdapter<MapFilterGrou
                 return;
             }
 
-            _filtersSubGroupAdapter = new MapFiltersSubGroupsListAdapter((IMvxAndroidBindingContext)BindingContext)
+            _filtersSubGroupAdapter = new MapFiltersSubGroupsListAdapter((IMvxAndroidBindingContext)BindingContext, _onExpandAction)
             {
                 ItemTemplateSelector = new MvxDefaultTemplateSelector(Resource.Layout.MapFiltersSubGroupItemView),
             };
@@ -99,6 +105,7 @@ public class MapFiltersGroupsListAdapter : BaseRecyclerViewAdapter<MapFilterGrou
         if (itemDataContext is MapFilterGroupItemViewModel viewModel)
         {
             viewModel.IsOpened = !viewModel.IsOpened;
+            _onExpandAction();
         }
     }
 }
