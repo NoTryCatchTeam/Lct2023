@@ -59,172 +59,19 @@ public class TaskDetailsViewModel : BaseViewModel<TaskDetailsViewModel.NavParame
 
         var answerTapCommand = new MvxAsyncCommand<BaseExerciseAnswer>(AnswerTapAsync);
 
-        var exercises = new List<BaseExerciseItem>();
-
-        var resourcesBaseUrl = $"{_configuration.GetValue<string>(ConfigurationConstants.AppSettings.HOST)}{_configuration.GetValue<string>(ConfigurationConstants.AppSettings.CMS_PATH)}".TrimEnd('/');
-        var tasksCounter = 0;
-
-        // Text quizzes
-        if (parameter.Task.Item.Quizzes?.Data?.Any() == true)
+        foreach (var taskExercise in parameter.Task.Exercises)
         {
-            exercises.AddRange(
-                parameter.Task.Item.Quizzes.Data
-                    .Select((quiz, i) => new TextExerciseItem
-                    {
-                        Number = i + 1,
-                        Question = quiz.Item.Question,
-                        DescriptionOfCorrectness = quiz.Item.Explanation,
-                        Answers = new[] { quiz.Item.AnswerA, quiz.Item.AnswerB, quiz.Item.AnswerC, quiz.Item.AnswerD }
-                            .Select((answer, j) => new TextExerciseAnswer
-                            {
-                                Number = j + 1,
-                                IsCorrect = quiz.Item.CorrectAnswerValue == answer,
-                                Value = answer,
-                            })
-                            .ToList(),
-                        AnswerTapCommand = answerTapCommand,
-                    }));
-
-            tasksCounter += exercises.Count;
+            taskExercise.AnswerTapCommand = answerTapCommand;
         }
 
-        // Video to audio quizzes
-        if (parameter.Task.Item.Quizzes?.Data?.Any() == true)
-        {
-            exercises.AddRange(
-                parameter.Task.Item.VideoQuizzes.Data
-                    .Select((quiz, i) =>
-                    {
-                        var correctAnswerTag = quiz.Item.CorrectAnswerTag;
-
-                        var correctAnswer = correctAnswerTag switch
-                        {
-                            "a" => quiz.Item.AnswerA,
-                            "b" => quiz.Item.AnswerB,
-                            _ => quiz.Item.AnswerC,
-                        };
-
-                        return new VideoToAudioExerciseItem
-                        {
-                            Number = tasksCounter + i + 1,
-                            Question = quiz.Item.Question,
-                            VideoUrl = $"{resourcesBaseUrl}{quiz.Item.Video.Data.Item.Url}",
-                            Answers = new[] { quiz.Item.AnswerA, quiz.Item.AnswerB, quiz.Item.AnswerC }
-                                .Select((answer, j) => new VideoToAudioExerciseAnswer
-                                {
-                                    Number = j + 1,
-                                    IsCorrect = correctAnswer == answer,
-                                    AudioUrl = $"{resourcesBaseUrl}{answer.Data.Item.Url}",
-                                })
-                                .ToList(),
-                            AnswerTapCommand = answerTapCommand,
-                        };
-                    }));
-                    
-                                tasksCounter += exercises.Count;
-
-        }
-
-        ExercisesCollection = exercises;
-    }
-
-    private static void MockExerciseList(List<BaseExerciseItem> exercises, MvxAsyncCommand<BaseExerciseAnswer> answerTapCommand)
-    {
-        for (var i = 0; i < 10; i++)
-        {
-            BaseExerciseItem exercise;
-
-            // Audio to picture exercise
-            if (i % 4 == 0)
-            {
-                var answers = new List<AudioToPictureExerciseAnswer>();
-
-                for (var j = 0; j < 4; j++)
-                {
-                    answers.Add(new AudioToPictureExerciseAnswer
-                    {
-                        Number = j + 1,
-                        IsCorrect = j == 2,
-                        PictureUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRe7les3XfVDfSQnIrZ6r5N_ayWlVD_iJ5teQ&usqp=CAU",
-                        PictureDescription = $"Может Бах #{j}",
-                    });
-                }
-
-                exercise = new AudioToPictureExerciseItem
-                {
-                    Number = i + 1,
-                    Question = "Кто исполняет?",
-                    DescriptionOfCorrectness = "Ха-ха-ха",
-                    Answers = answers,
-                    AudioUrl = "https://cdn.pixabay.com/download/audio/2023/05/18/audio_473dc360c2.mp3",
-                };
-            }
-            // Video to audio exercise
-            else if (i % 3 == 0)
-            {
-                var answers = new List<VideoToAudioExerciseAnswer>();
-
-                for (var j = 0; j < 4; j++)
-                {
-                    answers.Add(new VideoToAudioExerciseAnswer
-                    {
-                        Number = j + 1,
-                        IsCorrect = j == 2,
-                        AudioUrl = "https://cdn.pixabay.com/download/audio/2023/05/18/audio_473dc360c2.mp3",
-                    });
-                }
-
-                exercise = new VideoToAudioExerciseItem
-                {
-                    Number = i + 1,
-                    Question = "На видео будет Бах, а ты пока тыкай наугад",
-                    DescriptionOfCorrectness = "Ха-ха-ха",
-                    Answers = answers,
-                    VideoUrl = "https://www.pexels.com/download/video/3209828/",
-                };
-            }
-            // Text exercise
-            else
-            {
-                var answers = new List<TextExerciseAnswer>();
-
-                for (var j = 0; j < 4; j++)
-                {
-                    answers.Add(new TextExerciseAnswer
-                    {
-                        Number = j + 1,
-                        IsCorrect = j == 2,
-                        Value = j == 0 ?
-                            "Мадонна" :
-                            j == 1 ?
-                                "Бетховен" :
-                                j == 2 ?
-                                    "Самоубийство" :
-                                    "Арни",
-                    });
-                }
-
-                exercise = new TextExerciseItem
-                {
-                    Number = i + 1,
-                    Question = "Кто убил голого Баха?",
-                    DescriptionOfCorrectness = "Ха-ха-ха",
-                    Answers = answers,
-                };
-            }
-
-            exercise.AnswerTapCommand = answerTapCommand;
-
-            exercises.Add(exercise);
-        }
+        ExercisesCollection = parameter.Task.Exercises;
     }
 
     public override void ViewCreated()
     {
         base.ViewCreated();
 
-        // TODO Set after loading completed
-        CurrentExercise = ExercisesCollection.First();
+        CurrentExercise = ExercisesCollection.First(x => x.IsCorrect == null);
     }
 
     private Task AnswerTapAsync(BaseExerciseAnswer item)
@@ -279,13 +126,17 @@ public class TaskDetailsViewModel : BaseViewModel<TaskDetailsViewModel.NavParame
         // Next exercise or finish task
         if (_currentExercise.IsCorrect != null)
         {
-            if (ExercisesCollection.FirstOrDefault(x => x.Number == _currentExercise.Number + 1) is { } nextExercise)
+            if (ExercisesCollection.FirstOrDefault(x => x.Number >= _currentExercise.Number + 1 && x.IsCorrect == null) is { } nextExercise)
             {
                 CurrentExercise = nextExercise;
             }
             else
             {
+                NavigationParameter.Task.CompletedExercises = ExercisesCollection.Count(x => x.IsCorrect == true);
+
                 await NavigationService.Close(this);
+
+                ClearTaskProgress();
             }
 
             return;
@@ -308,13 +159,47 @@ public class TaskDetailsViewModel : BaseViewModel<TaskDetailsViewModel.NavParame
         }
     }
 
+    private void ClearTaskProgress()
+    {
+        foreach (var exerciseItem in NavigationParameter.Task.Exercises.Where(x => x.IsCorrect == false))
+        {
+            exerciseItem.IsCorrect = null;
+
+            switch (exerciseItem)
+            {
+                case AudioToPictureExerciseItem audioToPictureExerciseItem:
+                    foreach (var exerciseAnswer in audioToPictureExerciseItem.Answers)
+                    {
+                        exerciseAnswer.IsSelected = false;
+                    }
+
+                    break;
+                case TextExerciseItem textExerciseItem:
+                    foreach (var exerciseAnswer in textExerciseItem.Answers)
+                    {
+                        exerciseAnswer.IsSelected = false;
+                    }
+
+                    break;
+                case VideoToAudioExerciseItem videoToAudioExerciseItem:
+                    foreach (var exerciseAnswer in videoToAudioExerciseItem.Answers)
+                    {
+                        exerciseAnswer.IsSelected = false;
+                        exerciseAnswer.IsPreSelected = false;
+                    }
+
+                    break;
+            }
+        }
+    }
+
     public class NavParameter
     {
-        public NavParameter(CmsItemResponse<TaskItemResponse> task)
+        public NavParameter(TaskItem task)
         {
             Task = task;
         }
 
-        public CmsItemResponse<TaskItemResponse> Task { get; }
+        public TaskItem Task { get; }
     }
 }
