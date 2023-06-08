@@ -59,6 +59,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
     private BottomSheetBehavior _locationDetailsBottomSheetBehavior;
     private MaterialCardView _locationDetailsBottomSheet;
     private View _addressLayout;
+    private View _titleLayout;
     private MaterialCardView _filtersBottomSheet;
     private BottomSheetBehavior _filtersBottomSheetBehavior;
     private CoordinatorLayout _mapContainer;
@@ -87,6 +88,7 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         var moreContactsButton = view.FindViewById<MaterialButton>(Resource.Id.more_contacts_button);
         
         _addressLayout = view.FindViewById(Resource.Id.location_address_layout);
+        _titleLayout = view.FindViewById(Resource.Id.location_title_layout);
         var addressTextView = view.FindViewById<TextView>(Resource.Id.address_text_view);
         var mailTextView = view.FindViewById<TextView>(Resource.Id.mail_text_view);
         var siteTextView = view.FindViewById<TextView>(Resource.Id.site_text_view);
@@ -632,11 +634,16 @@ public class MapFragment : BaseFragment<MapViewModel>, IOnMapReadyCallback, View
         {
             _filtersBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
             var addressRect = new Rect();
-            _addressLayout.GetDrawingRect(addressRect);
-            _locationDetailsBottomSheet.OffsetDescendantRectToMyCoords(_addressLayout, addressRect);
-            _locationDetailsBottomSheetBehavior.SetPeekHeight(addressRect.Top + addressRect.Height() + DimensUtils.DpToPx(Context, 32), false);
+            GetOffsetDescendant(ViewModel.LocationType == LocationType.School ? _addressLayout : _titleLayout);
+            _locationDetailsBottomSheetBehavior.SetPeekHeight(addressRect.Top + addressRect.Height() + DimensUtils.DpToPx(Context, 8), false);
             _locationDetailsBottomSheetBehavior.Hideable = false;
             _locationDetailsBottomSheetBehavior.State = BottomSheetBehavior.StateCollapsed;
+
+            void GetOffsetDescendant(View view)
+            {
+                view.GetDrawingRect(addressRect);
+                _locationDetailsBottomSheet.OffsetDescendantRectToMyCoords(view, addressRect);
+            }
         });
     }
 
