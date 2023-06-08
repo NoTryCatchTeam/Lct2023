@@ -6,6 +6,7 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using DataModel.Definitions.Enums;
 using DataModel.Responses.Art;
 using DataModel.Responses.BaseCms;
 using DataModel.Responses.Feed;
@@ -13,15 +14,19 @@ using DynamicData;
 using DynamicData.Binding;
 using Lct2023.Business.RestServices.Art;
 using Lct2023.Business.RestServices.Feed;
+using Lct2023.Business.RestServices.Map;
 using Lct2023.Commons.Extensions;
 using Lct2023.Definitions.Enums;
 using Lct2023.Definitions.VmLinks;
 using Lct2023.ViewModels.Common;
+using Lct2023.ViewModels.Map;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using ReactiveUI;
 using Xamarin.Essentials;
+using Lct2023.Business.Definitions;
+using System.Numerics;
 
 namespace Lct2023.ViewModels.Feed
 {
@@ -32,9 +37,12 @@ namespace Lct2023.ViewModels.Feed
         private readonly FeedItemViewModel _header = new();
         private readonly IArtRestService _artRestService;
         private readonly IMapper _mapper;
+        private readonly IMapRestService _mapRestService;
         private readonly IFeedRestService _feedRestService;
         private readonly IMvxCommand _itemClickCommand;
         private readonly IMvxCommand _itemExpandCommand;
+
+        private Task<IEnumerable<PlaceItemViewModel>> loadPlacesTask;
 
         private CancellationTokenSource _feedCancellationTokenSource;
 
@@ -49,17 +57,21 @@ namespace Lct2023.ViewModels.Feed
             IMvxNavigationService navigationService,
             IArtRestService artRestService,
             IFeedRestService feedRestService,
-            IMapper mapper)
+            IMapper mapper,
+            IMapRestService mapRestService)
             : base(logFactory, navigationService)
         {
+            _mapRestService = mapRestService;
             _feedRestService = feedRestService;
             _artRestService = artRestService;
             _mapper = mapper;
 
-            OpenMapCommand = new MvxAsyncCommand(vm =>
-            {
-                return Task.CompletedTask;
-            });
+            OpenMapCommand = new MvxAsyncCommand(vm => NavigationService.Navigate<LocationsMapViewModel, LocationsMapVmLink>(
+                new LocationsMapVmLink
+                {
+                    LocationType = DataModel.Definitions.Enums.LocationType.School,
+                    PlacesFactory = () => loadPlacesTask ?? Task.FromResult(default(IEnumerable<PlaceItemViewModel>)),
+                }));
 
             _itemClickCommand = new MvxAsyncCommand<FeedItemViewModel>(vm =>
             {
@@ -149,6 +161,8 @@ namespace Lct2023.ViewModels.Feed
 
         public override Task Initialize()
         {
+            loadPlacesTask = Task.Run(async () => (await _mapRestService.LoadUntilEndAsync((rS, start) => rS.GetSchoolsLocationPaginationAsync(start, PAGE_SIZE, CancellationToken, new[] { SelectedArtDirection })))?.Then(sLs => _mapper.Map<IEnumerable<PlaceItemViewModel>>(sLs)));
+
             return Task.WhenAny(RunSafeTaskAsync(UpdateItemsAsync,
                 _ =>
                 {

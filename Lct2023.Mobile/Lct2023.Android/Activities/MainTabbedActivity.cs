@@ -49,6 +49,7 @@ public class MainTabbedActivity : BaseActivity<MainTabbedViewModel>
 
         _parent = FindViewById<ConstraintLayout>(Resource.Id.main_view_layout);
         var viewPager = FindViewById<ViewPager2>(Resource.Id.main_view_pager);
+
         var bottomNavigationView = FindViewById<BottomNavigationView>(Resource.Id.main_view_bottom_navigation);
         var onboardingViews = new OnboardingViews(
             FindViewById<MaskView>(Resource.Id.onboarding_mask),
