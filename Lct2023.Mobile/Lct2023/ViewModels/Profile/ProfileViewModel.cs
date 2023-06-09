@@ -1,50 +1,93 @@
-﻿using System;
-using AutoMapper;
-using Lct2023.Business.RestServices.Art;
-using Lct2023.Business.RestServices.Feed;
-using Lct2023.Business.RestServices.Map;
-using Lct2023.Commons.Extensions;
-using Lct2023.Definitions.Enums;
-using Lct2023.Definitions.VmLinks;
-using Lct2023.ViewModels.Feed;
-using Lct2023.ViewModels.Map;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Extensions.Logging;
-using MvvmCross.Commands;
 using MvvmCross.Navigation;
-using ReactiveUI;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Lct2023.ViewModels.Profile
+namespace Lct2023.ViewModels.Profile;
+
+public class ProfileViewModel : BaseViewModel
 {
-	public class ProfileViewModel : BaseViewModel
+    public ProfileViewModel(
+        ILoggerFactory logFactory,
+        IMvxNavigationService navigationService)
+        : base(logFactory, navigationService)
     {
-        public IMvxAsyncCommand RatingTableCommand { get; }
-
-        public IMvxAsyncCommand SettingsCommand { get; }
-
-        public ProfileViewModel(
-            ILoggerFactory logFactory,
-            IMvxNavigationService navigationService)
-            : base(logFactory, navigationService)
-        {
-            RatingTableCommand = new MvxAsyncCommand(async () =>
-            {
-
-            });
-
-            SettingsCommand = new MvxAsyncCommand(async () =>
-            {
-
-            });
-        }
-
-        public override Task Initialize()
-        {
-            return Task.WhenAny(base.Initialize());
-        }
+        RewardsCollection = GetRewards();
+        AchievementsCollection = GetAchievements();
+        FriendsCollection = GetFriends();
     }
-}
 
+    public IEnumerable<ProfileRewardItem> RewardsCollection { get; }
+
+    public IEnumerable<AchievementItem> AchievementsCollection { get; }
+
+    public IEnumerable<FriendItem> FriendsCollection { get; }
+
+    private IEnumerable<ProfileRewardItem> GetRewards() =>
+        new[]
+        {
+            new ProfileRewardItem
+            {
+                Points = 5,
+                IsCollected = true,
+            },
+            new ProfileRewardItem
+            {
+                Points = 10,
+                IsAvailable = true,
+            },
+            new ProfileRewardItem
+            {
+                Points = 10,
+            },
+            new ProfileRewardItem
+            {
+                Points = 15,
+            },
+            new ProfileRewardItem
+            {
+                Points = 15,
+            },
+            new ProfileRewardItem
+            {
+                Points = 20,
+            },
+            new ProfileRewardItem
+            {
+                Points = 20,
+            },
+        };
+
+    private IEnumerable<AchievementItem> GetAchievements() =>
+        new[] { 0, 1, 2, 3, 4 }.Select(x => new AchievementItem { Number = x }).ToList();
+
+    private IEnumerable<FriendItem> GetFriends() =>
+        new[]
+        {
+            new FriendItem
+            {
+                Name = "Сергей Колчин",
+                Rating = 1065,
+            },
+            new FriendItem
+            {
+                Name = "Дмитрий Орденов",
+                Rating = 600,
+            },
+            new FriendItem
+            {
+                Name = "Андрей Макаров",
+                Rating = 338,
+            },
+            new FriendItem
+            {
+                Name = "Сергей Владимиров",
+                Rating = 201,
+            },
+            new FriendItem
+            {
+                Name = "Елизавета Новикова",
+                Rating = 100,
+            },
+        };
+}

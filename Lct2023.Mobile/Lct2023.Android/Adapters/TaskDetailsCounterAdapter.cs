@@ -36,6 +36,8 @@ public class TaskDetailsCounterAdapter : BaseRecyclerViewAdapter<BaseExerciseIte
                  parent.PaddingLeft -
                  parent.PaddingRight -
                  DimensUtils.DpToPx(parent.Context, 6) * 9) / 10);
+
+            view.LayoutParameters = itemLayoutParams;
         }
 
         return holder;

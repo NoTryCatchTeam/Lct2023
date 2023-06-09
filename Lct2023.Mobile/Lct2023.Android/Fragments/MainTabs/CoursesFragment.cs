@@ -66,7 +66,7 @@ public class CoursesFragment : BaseMainTabFragment<CoursesViewModel>
         var statsExplanation = view.FindViewById<TextView>(Resource.Id.courses_stats_open_explanation);
         _coursesList = view.FindViewById<MvxRecyclerView>(Resource.Id.courses_list);
 
-        _ = new ScrollWithSearchLayoutMediator(_parent, _scroll, searchLayout);
+        _ = new ScrollWithOverlayViewMediator(_parent, _scroll, searchLayout);
 
         var bannersAdapter = new CoursesBannersAdapter((IMvxAndroidBindingContext)BindingContext)
         {

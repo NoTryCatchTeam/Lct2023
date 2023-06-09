@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   android:layout_width="44dp"
+                                                   android:layout_height="71dp"
+                                                   android:id="@+id/profile_daily_reward_item_layout"
+                                                   app:cardBackgroundColor="@color/bgIslandInner"
+                                                   app:cardCornerRadius="8dp"
+                                                   app:cardElevation="0dp"
+                                                   app:strokeColor="@color/accent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                       android:layout_height="match_parent"
+                                                       android:padding="8dp">
+
+        <com.google.android.material.card.MaterialCardView android:id="@+id/profile_daily_reward_item_icon_container"
+                                                           android:layout_width="match_parent"
+                                                           android:layout_height="0dp"
+                                                           app:cardBackgroundColor="@color/bgIsland"
+                                                           app:cardCornerRadius="4dp"
+                                                           app:cardElevation="0dp"
+                                                           app:contentPadding="2dp"
+                                                           app:layout_constraintDimensionRatio="1:1"
+                                                           app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView android:id="@+id/profile_daily_reward_item_icon"
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:src="@drawable/ic_crown"
+                       app:tint="@color/accent"/>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView android:id="@+id/profile_daily_reward_item_value"
+                  style="@style/AppTheme.BodyMedium.Small"
+                  android:layout_width="match_parent"
+                  android:layout_height="0dp"
+                  android:layout_marginTop="4dp"
+                  android:gravity="center"
+                  android:text="+10"
+                  android:textAlignment="gravity"
+                  app:layout_constraintBottom_toBottomOf="parent"
+                  app:layout_constraintTop_toBottomOf="@id/profile_daily_reward_item_icon_container"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
