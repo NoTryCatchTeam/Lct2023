@@ -1,6 +1,7 @@
 using Android.Widget;
 using Google.Android.Material.Button;
 using Google.Android.Material.Card;
+using Google.Android.Material.ProgressIndicator;
 using Lct2023.Android.Bindings;
 using Lct2023.Android.Presenters;
 using Lct2023.Android.Services;
@@ -30,6 +31,10 @@ public class Setup : MvxAndroidSetup<App>
     protected override void FillTargetFactories(IMvxTargetBindingFactoryRegistry registry)
     {
         base.FillTargetFactories(registry);
+
+        registry.RegisterCustomBindingFactory<LinearProgressIndicator>(
+            nameof(LinearIndicatorProgressBinding),
+            v => new LinearIndicatorProgressBinding(v));
 
         registry.RegisterCustomBindingFactory<MaterialButton>(
             nameof(ButtonBackgroundByIdBinding),
@@ -70,7 +75,7 @@ public class Setup : MvxAndroidSetup<App>
 
     protected override IMvxAndroidViewPresenter CreateViewPresenter() =>
         new ExtendedAndroidViewPresenter(AndroidViewAssemblies);
-    
+
     protected override IMvxIocOptions CreateIocOptions() =>
         new MvxIocOptions
         {

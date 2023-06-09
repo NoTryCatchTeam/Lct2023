@@ -26,7 +26,7 @@ public class LoggingHandler : HttpClientHandler
         var requestString = new StringBuilder($"Request {requestId}")
             .AppendLine()
             .AppendLine($"Time: {DateTimeOffset.Now:HH:mm:ss}")
-            .AppendLine($"{request.Method} :: {_baseUrl}{request.RequestUri}");
+            .AppendLine($"{request.Method} :: {request.RequestUri}");
 
         foreach (var header in request.Headers)
         {
@@ -45,7 +45,7 @@ public class LoggingHandler : HttpClientHandler
         var responseString = new StringBuilder($"Response {requestId}")
             .AppendLine()
             .AppendLine($"Time: {DateTimeOffset.Now:HH:mm:ss}")
-            .AppendLine($"{request.Method} :: {_baseUrl}{request.RequestUri}")
+            .AppendLine($"{request.Method} :: {request.RequestUri}")
             .AppendLine();
 
         if (response.Content != null)

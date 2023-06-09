@@ -132,6 +132,8 @@ public class TasksViewModel : BaseMainTabViewModel
                             return new TaskItem(i + 1, exercises);
                         })
                         .ToList());
+
+                await RaisePropertyChanged(nameof(TasksCollection));
             });
     }
 
@@ -152,15 +154,17 @@ public class TasksViewModel : BaseMainTabViewModel
         State &= ~TasksViewState.TaskOfTheDayLoading;
     }
 
-    private Task TaskTapAsync(TaskItem item)
+    private async Task TaskTapAsync(TaskItem item)
     {
         if (item.IsCompleted)
         {
-            return Task.CompletedTask;
+            return;
         }
 
-        return NavigationService.Navigate<TaskDetailsViewModel, TaskDetailsViewModel.NavParameter>(
+        await NavigationService.Navigate<TaskDetailsViewModel, TaskDetailsViewModel.NavParameter, TaskDetailsViewModel.NavBackParameter>(
             new TaskDetailsViewModel.NavParameter(item));
+
+        await RaisePropertyChanged(nameof(TasksCollection));
     }
 }
 

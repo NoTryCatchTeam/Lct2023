@@ -17,8 +17,6 @@ public class UserContext : MvxNotifyPropertyChanged, IUserContext
         _secureStorageService = secureStorageService;
     }
 
-    public bool IsAuthenticated => User != null;
-
     public User User
     {
         get => _user;
@@ -33,6 +31,8 @@ public class UserContext : MvxNotifyPropertyChanged, IUserContext
         }
     }
 
+    public bool IsAuthenticated => User != null;
+
     public async Task StoreAsync(User user)
     {
         if (!string.IsNullOrEmpty(await _secureStorageService.GetValueAsync(USER_DATA_KEY)))
@@ -43,6 +43,8 @@ public class UserContext : MvxNotifyPropertyChanged, IUserContext
         await _secureStorageService.SetValueAsync(USER_DATA_KEY, user);
 
         User = user;
+
+        await RaisePropertyChanged(nameof(User));
     }
 
     public void Reset()

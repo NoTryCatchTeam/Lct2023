@@ -62,6 +62,7 @@ public class CoursesFragment : BaseMainTabFragment<CoursesViewModel>
         _scroll = view.FindViewById<NestedScrollView>(Resource.Id.courses_scroll);
         var bannersList = view.FindViewById<ViewPager2>(Resource.Id.courses_banners_list);
         var bannersListIndicator = view.FindViewById<TabLayout>(Resource.Id.courses_banners_list_indicator);
+        var ratingCounter = view.FindViewById<TextView>(Resource.Id.courses_stats_badge_counter);
         var statsExplanation = view.FindViewById<TextView>(Resource.Id.courses_stats_open_explanation);
         _coursesList = view.FindViewById<MvxRecyclerView>(Resource.Id.courses_list);
 
@@ -107,6 +108,10 @@ public class CoursesFragment : BaseMainTabFragment<CoursesViewModel>
         set.Bind(bannersAdapter)
             .For(x => x.ItemsSource)
             .To(vm => vm.BannersCollection);
+
+        set.Bind(ratingCounter)
+            .For(x => x.Text)
+            .To(vm => vm.UserContext.User.Rating);
 
         set.Bind(coursesAdapter)
             .For(x => x.ItemsSource)
