@@ -16,4 +16,10 @@ public class UsersRestService : BaseRestService, IUsersRestService
 
     public Task<UserItemResponse> GetSelfAsync(CancellationToken token) =>
         ExecuteAsync<UserItemResponse>("users/self", HttpMethod.Get, token);
+
+    public Task<int> GetRatingAsync(CancellationToken token) =>
+        ExecuteAsync<int>("users/rating", HttpMethod.Get, token);
+
+    public Task<int> UpdateRatingAsync(int increment, CancellationToken token) =>
+        ExecuteAsync<int, int>("users/rating", increment, HttpMethod.Post, token);
 }
