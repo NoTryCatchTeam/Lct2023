@@ -117,6 +117,8 @@ public class UserService : IUserService
             user.AccessToken = accessToken;
             user.RefreshToken = refreshToken;
 
+            user.Rating = await _usersRestService.GetRatingAsync(token);
+
             await _userContext.StoreAsync(user);
         }
         catch

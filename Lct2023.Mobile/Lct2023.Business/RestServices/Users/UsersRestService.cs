@@ -21,5 +21,5 @@ public class UsersRestService : BaseRestService, IUsersRestService
         ExecuteAsync<int>("users/rating", HttpMethod.Get, token);
 
     public Task<int> UpdateRatingAsync(int increment, CancellationToken token) =>
-        ExecuteAsync<int, int>("users/rating", increment, HttpMethod.Post, token);
+        ExecuteAsync<int>($"users/rating?increment={increment}", HttpMethod.Post, token);
 }

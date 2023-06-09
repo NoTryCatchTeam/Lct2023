@@ -43,6 +43,8 @@ public class UserContext : MvxNotifyPropertyChanged, IUserContext
         await _secureStorageService.SetValueAsync(USER_DATA_KEY, user);
 
         User = user;
+
+        await RaisePropertyChanged(nameof(User));
     }
 
     public void Reset()
