@@ -10,16 +10,16 @@ using MvvmCross.Platforms.Android.Views.Fragments;
 namespace Lct2023.Android.Fragments.Courses;
 
 [MvxDialogFragmentPresentation(Cancelable = true)]
-public class CourseOpenFragment : MvxDialogFragment<CourseOpenViewModel>
+public class CourseUnlockFragment : MvxDialogFragment<CourseUnlockViewModel>
 {
     public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         base.OnCreateView(inflater, container, savedInstanceState);
 
-        var view = this.BindingInflate(Resource.Layout.CourseOpenFragment, container, false);
+        var view = this.BindingInflate(Resource.Layout.CourseUnlockFragment, container, false);
 
-        var open = view.FindViewById<MaterialButton>(Resource.Id.course_open_open);
-        var close = view.FindViewById<MaterialButton>(Resource.Id.course_open_back);
+        var open = view.FindViewById<MaterialButton>(Resource.Id.course_unlock_open);
+        var close = view.FindViewById<MaterialButton>(Resource.Id.course_unlock_back);
 
         var set = CreateBindingSet();
 

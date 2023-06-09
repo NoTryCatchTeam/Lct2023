@@ -5,9 +5,9 @@ using MvvmCross.Navigation;
 
 namespace Lct2023.ViewModels.Courses;
 
-public class CourseOpenViewModel : BaseViewModel<CourseOpenViewModel.NavParameter>
+public class CourseUnlockViewModel : BaseViewModel<CourseUnlockViewModel.NavParameter, CourseUnlockViewModel.NavBackParameter>
 {
-    public CourseOpenViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService)
+    public CourseUnlockViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService)
         : base(logFactory, navigationService)
     {
         OpenCommand = new MvxAsyncCommand(OpenAsync);
@@ -17,10 +17,13 @@ public class CourseOpenViewModel : BaseViewModel<CourseOpenViewModel.NavParamete
 
     private Task OpenAsync()
     {
-        NavigationParameter.CourseItem.IsPurchased = true;
+        NavigationParameter.CourseItem.IsUnlocked = NavigationParameter.CourseItem.IsPurchased = true;
 
-        return NavigationService.Close(this);
+        return NavigationService.Close(this, new NavBackParameter());
     }
+
+    protected override Task NavigateBackAction() =>
+        NavigationService.Close(this);
 
     public class NavParameter
     {
@@ -30,5 +33,9 @@ public class CourseOpenViewModel : BaseViewModel<CourseOpenViewModel.NavParamete
         }
 
         public CourseItem CourseItem { get; }
+    }
+
+    public class NavBackParameter
+    {
     }
 }
