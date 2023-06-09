@@ -1,7 +1,7 @@
 # Установка серверной части
 Для развертывания серверной части необходим сервер на базе Unix с установленным Docker или кластер [Kubernetes](https://kubernetes.io/ru/).  
 Далее в примерах будет использоваться сервер Ubuntu 22.04 с установленным [Docker Engine](https://docs.docker.com/engine/install/ubuntu/).  
-Каждый образ указанный на этой страницу можно собрать самостоятельно из [репозитория](https://github.com/NoTryCatchTeam/Lct2023)    
+Каждый образ указанный на этой странице можно собрать самостоятельно из [репозитория](https://github.com/NoTryCatchTeam/Lct2023)    
 ` 
 git clone https://github.com/NoTryCatchTeam/Lct2023.git
 ` 
@@ -84,10 +84,10 @@ docker run --name cms -d --restart always -p 80:1337 \
 - DATABASE_USERNAME - логин пользователя БД  
 - FORCE_MIGRATION - удаляет таблицы БД для которых не созданы каталоги `false`  
 - JWT_SECRET - ключ для генерации токенов jwt  
-- SMTP_HOST - адрес сервера SMTP для почтовой рассылки   
-- SMTP_PASSWORD - пароль пользователя для почтовой рассылки  
-- SMTP_PORT - порт сервера SMTP для почтовой рассылки  
-- SMTP_USERNAME - логин пользователя для почтовой рассылки  
+- SMTP_HOST - адрес сервера SMTP для почтовой рассылки (опционально)   
+- SMTP_PASSWORD - пароль пользователя для почтовой рассылки (опционально)  
+- SMTP_PORT - порт сервера SMTP для почтовой рассылки (опционально)  
+- SMTP_USERNAME - логин пользователя для почтовой рассылки (опционально)  
 
 После этого CMS будет доступна по порту 80 по ссылке /admin
 
@@ -113,4 +113,19 @@ docker run --name pdf -d --restart always -p 8081:80 \
 
 ---
 
+## Развертывание документации
 
+Скачайте образ с документацией из репозитория Docker Hub
+```
+docker pull swamp1820/lct2023-docs:latest
+```
+
+Запустите образ на сервере  
+
+```
+docker run --name docs -d --restart always -p 8082:80 \
+                swamp1820/lct2023-docs 
+```
+
+Переменные и секреты  
+- -p 8082:80 - внешний порт сервиса
