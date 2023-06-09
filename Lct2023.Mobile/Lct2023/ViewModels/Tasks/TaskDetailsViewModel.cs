@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using DataModel.Responses.BaseCms;
 using DataModel.Responses.Quizzes;
 using DataModel.Responses.Tasks;
 using Lct2023.Definitions.Constants;
+using Lct2023.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
@@ -12,18 +14,21 @@ using MvvmCross.Navigation;
 
 namespace Lct2023.ViewModels.Tasks;
 
-public class TaskDetailsViewModel : BaseViewModel<TaskDetailsViewModel.NavParameter>
+public class TaskDetailsViewModel : BaseViewModel<TaskDetailsViewModel.NavParameter, TaskDetailsViewModel.NavBackParameter>
 {
+    private readonly IUserService _userService;
     private readonly IConfiguration _configuration;
 
     private BaseExerciseItem _currentExercise;
 
     public TaskDetailsViewModel(
+        IUserService userService,
         IConfiguration configuration,
         ILoggerFactory logFactory,
         IMvxNavigationService navigationService)
         : base(logFactory, navigationService)
     {
+        _userService = userService;
         _configuration = configuration;
         CallToActionCommand = new MvxAsyncCommand(CallToActionAsync);
     }
@@ -73,6 +78,9 @@ public class TaskDetailsViewModel : BaseViewModel<TaskDetailsViewModel.NavParame
 
         CurrentExercise = ExercisesCollection.First(x => x.IsCorrect == null);
     }
+
+    protected override Task NavigateBackAction() =>
+        NavigationService.Close(this);
 
     private Task AnswerTapAsync(BaseExerciseAnswer item)
     {
@@ -133,6 +141,8 @@ public class TaskDetailsViewModel : BaseViewModel<TaskDetailsViewModel.NavParame
             else
             {
                 NavigationParameter.Task.CompletedExercises = ExercisesCollection.Count(x => x.IsCorrect == true);
+
+                RunSafeTaskAsync(() => _userService.UpdateRatingAsync(NavigationParameter.Task.CompletedExercises, CancellationToken.None));
 
                 await NavigationService.Close(this);
 
@@ -201,5 +211,9 @@ public class TaskDetailsViewModel : BaseViewModel<TaskDetailsViewModel.NavParame
         }
 
         public TaskItem Task { get; }
+    }
+
+    public class NavBackParameter
+    {
     }
 }

@@ -1,5 +1,6 @@
 using Android.OS;
 using Android.Views;
+using Android.Widget;
 using AndroidX.ConstraintLayout.Widget;
 using AndroidX.RecyclerView.Widget;
 using AndroidX.ViewPager2.Adapter;
@@ -33,6 +34,7 @@ public class MainFragment : BaseMainTabFragment<MainViewModel>
 
         var activity = (MainTabbedActivity)Activity;
         var stories = view.FindViewById<MvxRecyclerView>(Resource.Id.main_stories);
+        var ratingCounter = view.FindViewById<TextView>(Resource.Id.main_points_text);
 
         (ConstraintLayout Layout, MaterialButton Button) profTest = (
             view.FindViewById<ConstraintLayout>(Resource.Id.main_proftest_layout),
@@ -116,6 +118,10 @@ public class MainFragment : BaseMainTabFragment<MainViewModel>
         set.Bind(storiesAdapter)
             .For(v => v.ItemsSource)
             .To(vm => vm.StoryCards);
+
+        set.Bind(ratingCounter)
+            .For(v => v.Text)
+            .To(vm => vm.UserContext.User.Rating);
 
         set.Bind(profTest.Layout)
             .For(x => x.BindVisible())

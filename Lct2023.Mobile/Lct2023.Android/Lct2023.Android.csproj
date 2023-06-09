@@ -95,6 +95,7 @@
         <Compile Include="Bindings\CardViewStrokeColorBinding.cs" />
         <Compile Include="Bindings\CardViewBackgroundColorByHexBinding.cs" />
         <Compile Include="Bindings\ImageViewByUrlBinding.cs" />
+        <Compile Include="Bindings\LinearIndicatorProgressBinding.cs" />
         <Compile Include="Bindings\TextViewTextColorBinding.cs" />
         <Compile Include="Callbacks\AuthViewPagerPageCallback.cs" />
         <Compile Include="Callbacks\DefaultBackPressedCallback.cs" />
@@ -276,6 +277,14 @@
         <AndroidResource Include="Resources\drawable\ic_setting.xml">
           <SubType></SubType>
           <Generator></Generator>
+        </AndroidResource>
+        <AndroidResource Update="Resources\layout\main_bottom_navigation_icon_color.xml">
+          <SubType>Designer</SubType>
+          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+        </AndroidResource>
+        <AndroidResource Update="Resources\layout\text_input_box_stroke_color.xml">
+          <SubType>Designer</SubType>
+          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
         </AndroidResource>
     </ItemGroup>
     <ItemGroup>
