@@ -2,6 +2,8 @@ using System.Reactive.Disposables;
 using Android.Net;
 using Android.OS;
 using Android.Views;
+using Android.Widget;
+using AndroidX.Core.View;
 using Google.Android.Material.AppBar;
 using Lct2023.Android.Helpers;
 using Lct2023.Android.Listeners;
@@ -49,16 +51,16 @@ public abstract class BaseFragment<TViewModel> : MvxFragment<TViewModel>
 
             toolbar.Title = ViewModel.UserContext.User?.FirstName;
 
-            toolbar.Toolbar.SetOnMenuItemClickListener(new DefaultMenuItemClickListener(
-                v =>
-                {
-                    if (v.ItemId == Resource.Id.rating)
-                    {
-                        ViewModel.RateAppCommand.ExecuteAsync();
-                    }
+            var ratingMenuItem = toolbar.Toolbar.Menu.FindItem(Resource.Id.rating);
+            ratingMenuItem.SetVisible(ViewModel.UserContext.IsAuthenticated);
 
-                    return true;
-                }));
+            var set = CreateBindingSet();
+
+            set.Bind(ratingMenuItem.ActionView.FindViewById<TextView>(Resource.Id.toolbar_rating_number))
+                .For(x => x.Text)
+                .To(vm => vm.UserContext.User.Rating);
+
+            set.Apply();
 
             Toolbar = toolbar;
         }

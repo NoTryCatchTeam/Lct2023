@@ -6,7 +6,6 @@ using AutoMapper;
 using DataModel.Requests.Auth;
 using Lct2023.Business.RestServices.Auth;
 using Lct2023.Business.RestServices.Users;
-using Lct2023.Definitions.Constants;
 using Lct2023.Definitions.Dtos;
 using Lct2023.Definitions.Internals;
 using Microsoft.Extensions.Configuration;
@@ -20,20 +19,17 @@ public class UserService : IUserService
     private readonly IUsersRestService _usersRestService;
     private readonly IUserContext _userContext;
     private readonly IMapper _mapper;
-    private readonly IConfiguration _configuration;
 
     public UserService(
         IAuthRestService authRestService,
         IUsersRestService usersRestService,
         IUserContext userContext,
-        IMapper mapper,
-        IConfiguration configuration)
+        IMapper mapper)
     {
         _authRestService = authRestService;
         _usersRestService = usersRestService;
         _userContext = userContext;
         _mapper = mapper;
-        _configuration = configuration;
     }
 
     public async Task SignInViaSocialAsync(CancellationToken token)
@@ -84,6 +80,24 @@ public class UserService : IUserService
         return Task.CompletedTask;
     }
 
+    public async Task UpdateRatingAsync(CancellationToken token)
+    {
+        var user = _userContext.User;
+
+        user.Rating = await _usersRestService.GetRatingAsync(token);
+
+        await _userContext.StoreAsync(user);
+    }
+
+    public async Task UpdateRatingAsync(int increment, CancellationToken token)
+    {
+        var user = _userContext.User;
+
+        user.Rating = await _usersRestService.UpdateRatingAsync(increment, token);
+
+        await _userContext.StoreAsync(user);
+    }
+
     private async Task RequestAndStoreUserInfoAsync(string accessToken, string refreshToken, CancellationToken token)
     {
         var user = new User
@@ -102,6 +116,8 @@ public class UserService : IUserService
             user = _mapper.Map<User>(userResponse);
             user.AccessToken = accessToken;
             user.RefreshToken = refreshToken;
+
+            user.Rating = await _usersRestService.GetRatingAsync(token);
 
             await _userContext.StoreAsync(user);
         }

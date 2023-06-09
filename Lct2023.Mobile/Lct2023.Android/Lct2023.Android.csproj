@@ -95,6 +95,8 @@
         <Compile Include="Bindings\CardViewStrokeColorBinding.cs" />
         <Compile Include="Bindings\CardViewBackgroundColorByHexBinding.cs" />
         <Compile Include="Bindings\ImageViewByUrlBinding.cs" />
+        <Compile Include="Bindings\LinearIndicatorProgressBinding.cs" />
+        <Compile Include="Bindings\LinearIndicatorProgressBinding.cs" />
         <Compile Include="Bindings\TextViewTextColorBinding.cs" />
         <Compile Include="Callbacks\AuthViewPagerPageCallback.cs" />
         <Compile Include="Callbacks\DefaultBackPressedCallback.cs" />

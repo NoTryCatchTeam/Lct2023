@@ -29,8 +29,8 @@ namespace Lct2023.Android.Activities.Profile
             var username = FindViewById<TextView>(Resource.Id.profile_username);
             var login = FindViewById<TextView>(Resource.Id.profile_login);
             var settingsButton = FindViewById<MaterialButton>(Resource.Id.profile_settings_button);
+            var ratingCounter = FindViewById<TextView>(Resource.Id.profile_points_text);
             var ratingButton = FindViewById<MaterialButton>(Resource.Id.profile_rating_table_button);
-
 
             if (ViewModel.UserContext.User?.PhotoUrl is { } photoUrl)
             {
@@ -61,6 +61,10 @@ namespace Lct2023.Android.Activities.Profile
                 .For(x => x.Text)
                 .To(vm => vm.UserContext.User.Email);
 
+            set.Bind(ratingCounter)
+                .For(v => v.Text)
+                .To(vm => vm.UserContext.User.Rating);
+
             set.Bind(ratingButton)
                 .For(x => x.BindClick())
                 .To(vm => vm.RatingTableCommand);
@@ -73,4 +77,3 @@ namespace Lct2023.Android.Activities.Profile
         }
     }
 }
-
