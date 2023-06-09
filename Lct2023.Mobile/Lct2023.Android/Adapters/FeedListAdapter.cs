@@ -38,13 +38,15 @@ using static Com.Google.Android.Exoplayer2.UI.SubtitleView;
 namespace Lct2023.Android.Adapters;
 
 public class FeedListAdapter<TContextViewModel> : BaseTemplatedRecyclerViewAdapter<FeedItemViewModel, FeedListAdapter<TContextViewModel>.BaseFeedItemViewHolder>, INotifyPropertyChanged
-    where TContextViewModel: MvxViewModel
+    where TContextViewModel : MvxViewModel
 {
     private readonly Action<BaseFeedItemViewHolder> _focusOnItem;
     private (Func<View> ViewCreator, Action<View, IMvxAndroidBindingContext, MvxFluentBindingDescriptionSet<FeedHeaderItemViewHolder, TContextViewModel>> ViewBinder)[] _headers;
     private TContextViewModel _contextViewModel;
 
-    public FeedListAdapter(IMvxAndroidBindingContext bindingContext, TContextViewModel contextViewModel, Action<BaseFeedItemViewHolder> focusOnItem, params (Func<View> ViewCreator, Action<View, IMvxAndroidBindingContext, MvxFluentBindingDescriptionSet<FeedHeaderItemViewHolder, TContextViewModel>> ViewBinder)[] headers)
+    public FeedListAdapter(
+        IMvxAndroidBindingContext bindingContext, TContextViewModel contextViewModel, Action<BaseFeedItemViewHolder> focusOnItem,
+        params (Func<View> ViewCreator, Action<View, IMvxAndroidBindingContext, MvxFluentBindingDescriptionSet<FeedHeaderItemViewHolder, TContextViewModel>> ViewBinder)[] headers)
         : base(bindingContext)
     {
         _focusOnItem = focusOnItem;
@@ -60,9 +62,11 @@ public class FeedListAdapter<TContextViewModel> : BaseTemplatedRecyclerViewAdapt
                 {
                     case true:
                         NotifyItemInserted(Items.Count);
+
                         break;
                     default:
                         NotifyItemRemoved(Items.Count);
+
                         break;
                 }
             });
@@ -79,17 +83,18 @@ public class FeedListAdapter<TContextViewModel> : BaseTemplatedRecyclerViewAdapt
     public bool IsLoadingMore { get; set; }
 
     protected override View InflateViewForHolder(ViewGroup parent, int viewType, IMvxAndroidBindingContext bindingContext)
-    => viewType switch
-    {
-        Resource.Layout.FeedItemView or Resource.Layout.FeedLoadItemView => base.InflateViewForHolder(parent, viewType, bindingContext),
+        => viewType switch
+        {
+            Resource.Layout.FeedItemView or Resource.Layout.FeedLoadItemView => base.InflateViewForHolder(parent, viewType, bindingContext),
 
-        // header
-        _ => _headers.ElementAtOrDefault((viewType + 1) * (-1)).ViewCreator(),
-    };
+            // header
+            _ => _headers.ElementAtOrDefault((viewType + 1) * (-1)).ViewCreator(),
+        };
 
     public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
     {
         base.OnBindViewHolder(holder, position);
+
         if (position < _headers.Length && holder is IMvxRecyclerViewHolder mvxRecyclerViewHolder)
         {
             mvxRecyclerViewHolder.DataContext = _contextViewModel;
@@ -97,13 +102,13 @@ public class FeedListAdapter<TContextViewModel> : BaseTemplatedRecyclerViewAdapt
     }
 
     protected override Func<View, int, IMvxAndroidBindingContext, BaseFeedItemViewHolder> BindableTemplatedViewHolderCreator
-    => (v, i, c) => i switch
-    {
-        Resource.Layout.FeedItemView => new FeedItemViewHolder(v, c, _focusOnItem),
-        Resource.Layout.FeedLoadItemView => new FeedLoadingItemViewHolder(v, c),
-        _ => new FeedHeaderItemViewHolder(v, c, _headers.ElementAtOrDefault((i + 1) * (-1)).ViewBinder),
-    };
-    
+        => (v, i, c) => i switch
+        {
+            Resource.Layout.FeedItemView => new FeedItemViewHolder(v, c, _focusOnItem),
+            Resource.Layout.FeedLoadItemView => new FeedLoadingItemViewHolder(v, c),
+            _ => new FeedHeaderItemViewHolder(v, c, _headers.ElementAtOrDefault((i + 1) * (-1)).ViewBinder),
+        };
+
     public override int GetItemViewType(int position) =>
         position switch
         {
@@ -141,11 +146,11 @@ public class FeedListAdapter<TContextViewModel> : BaseTemplatedRecyclerViewAdapt
             var likeButton = itemView.FindViewById<MaterialButton>(Resource.Id.feed_item_like_button);
             var topArtCategoryButton = itemView.FindViewById<MaterialButton>(Resource.Id.feed_item_top_art_category_button);
             var container = itemView.FindViewById<MaterialCardView>(Resource.Id.feed_item_container);
-            
+
             this.DelayBind(() =>
             {
                 var set = this.CreateBindingSet<FeedItemViewHolder, FeedItemViewModel>();
-                
+
                 set.Bind(headerImageBackground)
                     .For(nameof(CardViewBackgroundColorByHexBinding))
                     .To(vm => vm.ArtCategories)
@@ -158,20 +163,20 @@ public class FeedListAdapter<TContextViewModel> : BaseTemplatedRecyclerViewAdapt
                 set.Bind(title)
                     .For(v => v.Text)
                     .To(vm => vm.Title);
-                
+
                 set.Bind(publishDate)
                     .For(v => v.Text)
                     .To(vm => vm.PublishedAt);
-                
+
                 set.Bind(description)
                     .For(v => v.Text)
                     .To(vm => vm.Description);
-                
+
                 set.Bind(_image)
                     .For(v => v.BindVisible())
                     .To(vm => vm.ImageUrl)
                     .WithConversion(new AnyExpressionConverter<string, bool>(url => !string.IsNullOrEmpty(url)));
-                
+
                 set.Bind(topArtCategoryButton)
                     .For(v => v.BindVisible())
                     .To(vm => vm.ArtCategories)
@@ -193,7 +198,7 @@ public class FeedListAdapter<TContextViewModel> : BaseTemplatedRecyclerViewAdapt
                         "Театр" or "Цирк" => Resource.Color.theatreArtDirectionBgColor,
                         _ => Resource.Color.defaultArtDirectionBgColor,
                     }));
-                
+
                 set.Bind(topArtCategoryButton)
                     .For(nameof(TextViewTextColorBinding))
                     .To(vm => vm.ArtCategories)
@@ -234,7 +239,7 @@ public class FeedListAdapter<TContextViewModel> : BaseTemplatedRecyclerViewAdapt
                     .Bind(_moreDescriptionButton)
                     .For(nameof(ButtonIconResourceBinding))
                     .To(vm => vm.Expanded)
-                    .WithConversion(new AnyExpressionConverter<bool, int>(expanded => expanded ? Resource.Drawable.ic_chevron_bottom : Resource.Drawable.exo_ic_chevron_right));
+                    .WithConversion(new AnyExpressionConverter<bool, int>(expanded => expanded ? Resource.Drawable.ic_chevron_up : Resource.Drawable.ic_chevron_bottom));
 
                 set
                     .Bind(_moreDescriptionButton)
@@ -242,12 +247,10 @@ public class FeedListAdapter<TContextViewModel> : BaseTemplatedRecyclerViewAdapt
                     .To(vm => vm.Expanded)
                     .WithConversion(new AnyExpressionConverter<bool, string>(expanded => expanded ? "Свернуть" : "Eщё"));
 
-
                 set.Bind(description)
                     .For(nameof(TextViewMaxLinesBinding))
                     .To(vm => vm.Expanded)
                     .WithConversion(new AnyExpressionConverter<bool, int>(expanded => expanded ? int.MaxValue : 6));
-
 
                 set.Apply();
             });
@@ -256,10 +259,10 @@ public class FeedListAdapter<TContextViewModel> : BaseTemplatedRecyclerViewAdapt
         public override void Bind()
         {
             base.Bind();
-            
+
             Picasso.Get()
                 .Load(ViewModel.ImageUrl)
-            .Into(_image);
+                .Into(_image);
 
             _moreDescriptionButton.Click += MoreDescriptionButtonClick;
         }
@@ -300,7 +303,8 @@ public class FeedListAdapter<TContextViewModel> : BaseTemplatedRecyclerViewAdapt
         private Action<View, IMvxAndroidBindingContext, MvxFluentBindingDescriptionSet<FeedHeaderItemViewHolder, TContextViewModel>> _viewBinder;
         private bool _inited;
 
-        public FeedHeaderItemViewHolder(View itemView, IMvxAndroidBindingContext context, Action<View, IMvxAndroidBindingContext, MvxFluentBindingDescriptionSet<FeedHeaderItemViewHolder, TContextViewModel>> viewBinder)
+        public FeedHeaderItemViewHolder(
+            View itemView, IMvxAndroidBindingContext context, Action<View, IMvxAndroidBindingContext, MvxFluentBindingDescriptionSet<FeedHeaderItemViewHolder, TContextViewModel>> viewBinder)
             : base(itemView, context)
         {
             _viewBinder = viewBinder;
