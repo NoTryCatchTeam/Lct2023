@@ -29,7 +29,7 @@ public class FeedViewModel : BaseMainTabViewModel
 {
     private const int PAGE_SIZE = 15;
 
-    private readonly FeedItemViewModel _header = new();
+    private readonly FeedItemViewModel _header = new ();
     private readonly IArtRestService _artRestService;
     private readonly IMapper _mapper;
     private readonly IFeedRestService _feedRestService;
@@ -38,11 +38,10 @@ public class FeedViewModel : BaseMainTabViewModel
 
     private CancellationTokenSource _feedCancellationTokenSource;
 
-
     private IEnumerable<CmsItemResponse<RubricResponse>> _rubrics;
 
     public IMvxCommand LoadMoreCommand { get; }
-    
+
     public IMvxCommand UpdateItemsCommand { get; }
 
     public IMvxCommand ArtDirectionClickCommand { get; }
@@ -58,14 +57,14 @@ public class FeedViewModel : BaseMainTabViewModel
         _feedRestService = feedRestService;
         _artRestService = artRestService;
         _mapper = mapper;
-        
+
         _itemClickCommand = new MvxAsyncCommand<FeedItemViewModel>(vm =>
         {
             if (string.IsNullOrEmpty(vm.Link))
             {
                 return Task.CompletedTask;
             }
-                
+
             return RunSafeTaskAsync(() => Browser.OpenAsync(vm.Link, BrowserLaunchMode.SystemPreferred));
         });
 
@@ -76,7 +75,7 @@ public class FeedViewModel : BaseMainTabViewModel
             ArtDirection = vm.Title,
             Rubrics = _rubrics,
         }));
-        
+
         UpdateItemsCommand = new MvxAsyncCommand(() => RunSafeTaskAsync(
             UpdateItemsAsync,
             _ =>
@@ -84,42 +83,44 @@ public class FeedViewModel : BaseMainTabViewModel
                 SetState();
                 IsLoadMoreEnabled = false;
                 IsLoadingMore = false;
+
                 return Task.CompletedTask;
             }));
-        
+
         LoadMoreCommand = new MvxAsyncCommand(() => RunSafeTaskAsync(() =>
-        {
-            IsLoadingMore = true;
-            return LoadArticlesAsync();
-        },
-        _ =>
-        {
-            IsLoadMoreEnabled = false;
-            IsLoadingMore = false;
-            return Task.CompletedTask;
-        }),() => IsLoadMoreEnabled && !IsLoadingMore && State is not (State.MinorLoading or State.Loading));
-        
+            {
+                IsLoadingMore = true;
+
+                return LoadArticlesAsync();
+            },
+            _ =>
+            {
+                IsLoadMoreEnabled = false;
+                IsLoadingMore = false;
+
+                return Task.CompletedTask;
+            }), () => IsLoadMoreEnabled && !IsLoadingMore && State is not (State.MinorLoading or State.Loading));
+
         this.WhenAnyValue(vm => vm.SearchText, vm => vm.SelectedFilters)
             .Skip(1)
             .Throttle(TimeSpan.FromMilliseconds(350), RxApp.MainThreadScheduler)
             .InvokeCommand(UpdateItemsCommand);
-        
+
         Items
             .ObserveCollectionChanges()
             .Subscribe(_ => LoadingOffset = Items.Count - 4);
     }
 
     public State State { get; set; }
-    
+
     public string SearchText { get; set; }
-    
+
     public ObservableCollection<FeedItemViewModel> Items { get; } = new ();
-    
+
     public ObservableCollection<FeedArtDirectionItemViewModel> ArtDirections { get; } = new ();
-    
+
     public ObservableCollection<FeedFilterGroupItemViewModel> FilterGroups { get; } = new ();
-    
-    
+
     public bool IsLoadMoreEnabled { get; private set; }
 
     public bool IsLoadingMore { get; private set; }
@@ -137,11 +138,11 @@ public class FeedViewModel : BaseMainTabViewModel
             .Where(x => x.Items?.Any() == true)
             .ToObservableCollection();
     }
-    
+
     public void ResetFilters()
     {
         FilterGroups.ForEach(group =>
-            group?.Items?.ForEach(item => 
+            group?.Items?.ForEach(item =>
                 item.IsSelected = false));
 
         SelectedFilters = null;
@@ -154,7 +155,6 @@ public class FeedViewModel : BaseMainTabViewModel
         var filtersTask = Task.Run(() => RunSafeTaskAsync(async () =>
         {
             IEnumerable<CmsItemResponse<ArtCategoryResponse>> artCategories = null;
-
 
             await Task.WhenAll(
                 Task.Run(async () => _rubrics = (await _feedRestService.GetRubricsAsync(CancellationToken))?.ToArray()),
@@ -190,13 +190,14 @@ public class FeedViewModel : BaseMainTabViewModel
         }));
 
         Task.WhenAny(RunSafeTaskAsync(UpdateItemsAsync,
-            _ =>
-            {
-                SetState();
-                IsLoadMoreEnabled = false;
-                IsLoadingMore = false;
-                return Task.CompletedTask;
-            }),
+                _ =>
+                {
+                    SetState();
+                    IsLoadMoreEnabled = false;
+                    IsLoadingMore = false;
+
+                    return Task.CompletedTask;
+                }),
             filtersTask);
     }
 
@@ -212,7 +213,7 @@ public class FeedViewModel : BaseMainTabViewModel
     private async Task UpdateItemsAsync()
     {
         State = State.MinorLoading;
-        
+
         Items.Clear();
 
         Items.Add(_header);
@@ -221,22 +222,22 @@ public class FeedViewModel : BaseMainTabViewModel
 
         SetState();
     }
-    
+
     private async Task LoadArticlesAsync()
     {
         _feedCancellationTokenSource?.Cancel();
         _feedCancellationTokenSource?.Dispose();
         _feedCancellationTokenSource = new CancellationTokenSource();
-        
+
         var newArticles = (await _feedRestService.GetArticlesPaginationAsync(
             Items.Count - 1,
             PAGE_SIZE,
             SearchText,
             SelectedFilters?.Select(f => f.FilterGroupType switch
-                {
-                    FeedFilterGroupType.Rubrics => ("[rubric][name]", f.Items),
-                    FeedFilterGroupType.ArtCategory => ("[art_categories][displayName]", f.Items),
-                }).ToArray(),
+            {
+                FeedFilterGroupType.Rubrics => ("[rubric][name]", f.Items),
+                FeedFilterGroupType.ArtCategory => ("[art_categories][displayName]", f.Items),
+            }).ToArray(),
             _feedCancellationTokenSource.Token))?.Data?.ToArray();
 
         if (newArticles?.Length > 0)

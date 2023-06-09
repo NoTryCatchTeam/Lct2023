@@ -43,7 +43,8 @@ namespace Lct2023.Android.Activities.Map
 {
     [MvxActivityPresentation]
     [Activity(ScreenOrientation = ScreenOrientation.Portrait)]
-    public class LocationsMapActivity : BaseActivity<LocationsMapViewModel>, IOnMapReadyCallback, View.IOnClickListener, GoogleMap.IOnMapClickListener, ClusterManager.IOnClusterItemClickListener, IOnClusterClickListener
+    public class LocationsMapActivity : BaseActivity<LocationsMapViewModel>, IOnMapReadyCallback, View.IOnClickListener, GoogleMap.IOnMapClickListener, ClusterManager.IOnClusterItemClickListener,
+        IOnClusterClickListener
     {
         private const float MAX_DIM_ALPHA = 0.5f;
         private const int LAT_LNG_BOUNDS_PADDING = 100;
@@ -108,6 +109,7 @@ namespace Lct2023.Android.Activities.Map
             {
                 ItemTemplateSelector = new MvxDefaultTemplateSelector(Resource.Layout.AfishItem),
             };
+
             afishaLayout.SetLayoutManager(new MvxGuardedLinearLayoutManager(this) { Orientation = LinearLayoutManager.Horizontal });
             afishaLayout.AddItemDecoration(horizontal8dpItemSpacingDecoration);
             afishaLayout.SetAdapter(afishaAdapter);
@@ -116,6 +118,7 @@ namespace Lct2023.Android.Activities.Map
             {
                 ItemTemplateSelector = new MvxDefaultTemplateSelector(Resource.Layout.SocialLinktem),
             };
+
             socialLinksLayout.ItemTemplateId = Resource.Layout.SocialLinktem;
             socialLinksLayout.SetLayoutManager(new MvxGuardedLinearLayoutManager(this) { Orientation = LinearLayoutManager.Horizontal });
             socialLinksLayout.AddItemDecoration(horizontal16dpItemSpacingDecoration);
@@ -124,6 +127,7 @@ namespace Lct2023.Android.Activities.Map
             dimView.SetOnTouchListener(new DefaultOnTouchListener((v, e) =>
             {
                 var isExpanded = _locationDetailsBottomSheetBehavior.State == BottomSheetBehavior.StateExpanded;
+
                 if (isExpanded || _locationDetailsBottomSheetBehavior.State == BottomSheetBehavior.StateCollapsed)
                 {
                     DeselectLocation();
@@ -226,13 +230,15 @@ namespace Lct2023.Android.Activities.Map
                 .Bind(FindViewById(Resource.Id.site_layout))
                 .For(v => v.BindVisible())
                 .To(vm => vm.SelectedLocation.Site)
-                .WithConversion(visibilityConverter);
+                .WithConversion(new AnyExpressionConverter<string, bool>(
+                    text => ViewModel.SelectedLocation?.LocationType == LocationType.Event && !string.IsNullOrEmpty(text)));
 
             set
                 .Bind(FindViewById(Resource.Id.site_bottom_line))
                 .For(v => v.BindVisible())
                 .To(vm => vm.SelectedLocation.Site)
-                .WithConversion(visibilityConverter);
+                .WithConversion(new AnyExpressionConverter<string, bool>(
+                    text => ViewModel.SelectedLocation?.LocationType == LocationType.Event && !string.IsNullOrEmpty(text)));
 
             var itemsVisibilityConverter = new AnyExpressionConverter<IEnumerable<object>, bool>(items => items?.Any() == true);
 
@@ -274,6 +280,7 @@ namespace Lct2023.Android.Activities.Map
                 .Bind(contactsItemsLayout)
                 .For(v => v.ItemsSource)
                 .To(vm => vm.Contacts);
+
             set
                 .Bind(artDirectionsLayout)
                 .For(v => v.BindVisible())
@@ -434,12 +441,10 @@ namespace Lct2023.Android.Activities.Map
 
             _clusterManager.ClearItems();
 
-
             foreach (var place in ViewModel.Places)
             {
                 _clusterManager.AddItem(new MapClusterItem(place));
             }
-
 
             _clusterManager.Cluster();
         }
@@ -450,6 +455,7 @@ namespace Lct2023.Android.Activities.Map
             {
                 case Resource.Id.close_bs_button:
                     DeselectLocation();
+
                     break;
                 case Resource.Id.zoom_in_button:
                     try
@@ -460,6 +466,7 @@ namespace Lct2023.Android.Activities.Map
                     {
                         Console.WriteLine(ex);
                     }
+
                     break;
                 case Resource.Id.zoom_out_button:
                     try
@@ -470,6 +477,7 @@ namespace Lct2023.Android.Activities.Map
                     {
                         Console.WriteLine(ex);
                     }
+
                     break;
             }
         }
@@ -527,14 +535,15 @@ namespace Lct2023.Android.Activities.Map
         public bool OnClusterClick(ICluster cluster)
         {
             var builder = new LatLngBounds.Builder();
+
             foreach (IClusterItem item in cluster.Items)
             {
                 builder.Include(item.Position);
             }
+
             _googleMap.AnimateCamera(CameraUpdateFactory.NewLatLngBounds(builder.Build(), LAT_LNG_BOUNDS_PADDING));
 
             return true;
         }
     }
 }
-

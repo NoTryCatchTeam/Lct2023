@@ -49,7 +49,8 @@ using MvvmCross.Binding.BindingContext;
 namespace Lct2023.Android.Fragments.MainTabs;
 
 [MvxFragmentPresentation]
-public class MapFragment : BaseMainTabFragment<MapViewModel>, IOnMapReadyCallback, View.IOnClickListener, GoogleMap.IOnMapClickListener, ClusterManager.IOnClusterItemClickListener, IOnClusterClickListener
+public class MapFragment : BaseMainTabFragment<MapViewModel>, IOnMapReadyCallback, View.IOnClickListener, GoogleMap.IOnMapClickListener, ClusterManager.IOnClusterItemClickListener,
+    IOnClusterClickListener
 {
     private const float MAX_DIM_ALPHA = 0.5f;
     private const int LAT_LNG_BOUNDS_PADDING = 100;
@@ -67,13 +68,13 @@ public class MapFragment : BaseMainTabFragment<MapViewModel>, IOnMapReadyCallbac
     private CoordinatorLayout _mapContainer;
 
     protected override int GetLayoutId() => Resource.Layout.MapFragment;
-    
+
     public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         var view = base.OnCreateView(inflater, container, savedInstanceState);
-        
+
         Toolbar.Title = "Карта";
-        
+
         _mapView = view.FindViewById<MapView>(Resource.Id.map_view);
         _mapContainer = view.FindViewById<CoordinatorLayout>(Resource.Id.map_container);
         var locationsSearchEditText = view.FindViewById<TextInputEditText>(Resource.Id.locations_search_value);
@@ -84,17 +85,17 @@ public class MapFragment : BaseMainTabFragment<MapViewModel>, IOnMapReadyCallbac
         var zoomOutButton = view.FindViewById<MaterialButton>(Resource.Id.zoom_out_button);
         _locationDetailsBottomSheet = view.FindViewById<MaterialCardView>(Resource.Id.location_info_bottom_sheet);
         _locationDetailsBottomSheetBehavior = BottomSheetBehavior.From(_locationDetailsBottomSheet);
-        
+
         var closeBsButton = view.FindViewById<MaterialButton>(Resource.Id.close_bs_button);
         var contactsItemsLayout = view.FindViewById<MvxLinearLayout>(Resource.Id.contacts_items_layout);
         var moreContactsButton = view.FindViewById<MaterialButton>(Resource.Id.more_contacts_button);
-        
+
         _addressLayout = view.FindViewById(Resource.Id.location_address_layout);
         _titleLayout = view.FindViewById(Resource.Id.location_title_layout);
         var addressTextView = view.FindViewById<TextView>(Resource.Id.address_text_view);
         var mailTextView = view.FindViewById<TextView>(Resource.Id.mail_text_view);
         var siteTextView = view.FindViewById<TextView>(Resource.Id.site_text_view);
-        
+
         var socialLinksLayout = view.FindViewById<MvxRecyclerView>(Resource.Id.open_social_nets_items_layout);
         var artDirectionsLayout = view.FindViewById<MvxRecyclerView>(Resource.Id.art_directions_layout);
         var afishaLayout = view.FindViewById<MvxRecyclerView>(Resource.Id.afisha_layout);
@@ -115,32 +116,34 @@ public class MapFragment : BaseMainTabFragment<MapViewModel>, IOnMapReadyCallbac
         var horizontal16dpItemSpacingDecoration = new ItemSeparateDecoration(DimensUtils.DpToPx(Activity, 16), LinearLayoutManager.Horizontal);
         var horizontal8dpItemSpacingDecoration = new ItemSeparateDecoration(DimensUtils.DpToPx(Activity, 8), LinearLayoutManager.Horizontal);
         var vertical16dpItemSpacingDecoration = new ItemSeparateDecoration(DimensUtils.DpToPx(Activity, 16), LinearLayoutManager.Vertical);
-        
+
         artDirectionsLayout.SetLayoutManager(new MvxGuardedLinearLayoutManager(Activity) { Orientation = LinearLayoutManager.Horizontal });
         artDirectionsLayout.ItemTemplateId = Resource.Layout.ArtDirectionItem;
         artDirectionsLayout.SetAdapter(artDirectionsAdapter);
         artDirectionsLayout.AddItemDecoration(horizontal8dpItemSpacingDecoration);
-        
+
         contactsItemsLayout.ItemTemplateId = Resource.Layout.ContactItem;
-        
+
         var afishaAdapter = new EventsAdapter((IMvxAndroidBindingContext)BindingContext)
         {
             ItemTemplateSelector = new MvxDefaultTemplateSelector(Resource.Layout.AfishItem),
         };
+
         afishaLayout.ItemTemplateId = Resource.Layout.AfishItem;
         afishaLayout.SetLayoutManager(new MvxGuardedLinearLayoutManager(Activity) { Orientation = LinearLayoutManager.Horizontal });
         afishaLayout.AddItemDecoration(horizontal8dpItemSpacingDecoration);
         afishaLayout.SetAdapter(afishaAdapter);
-        
+
         var socialLinksAdapter = new SocialLinksAdapter((IMvxAndroidBindingContext)BindingContext)
         {
             ItemTemplateSelector = new MvxDefaultTemplateSelector(Resource.Layout.SocialLinktem),
         };
+
         socialLinksLayout.ItemTemplateId = Resource.Layout.SocialLinktem;
         socialLinksLayout.SetLayoutManager(new MvxGuardedLinearLayoutManager(Activity) { Orientation = LinearLayoutManager.Horizontal });
         socialLinksLayout.AddItemDecoration(horizontal16dpItemSpacingDecoration);
         socialLinksLayout.SetAdapter(socialLinksAdapter);
-        
+
         var searchAdapter = new MapSearchResultsAdapter((IMvxAndroidBindingContext)BindingContext)
         {
             ItemTemplateSelector = new MultipleTemplateSelector<MapSearchResultItemViewModel>(
@@ -153,7 +156,7 @@ public class MapFragment : BaseMainTabFragment<MapViewModel>, IOnMapReadyCallbac
         };
 
         searchResultsList.SetAdapter(searchAdapter);
-        
+
         var mapFiltersAdapter = new MapFiltersGroupsListAdapter((IMvxAndroidBindingContext)BindingContext, () => _filtersBottomSheetBehavior.State = BottomSheetBehavior.StateExpanded)
         {
             ItemTemplateSelector = new MvxDefaultTemplateSelector(Resource.Layout.MapFiltersGroupItemView),
@@ -166,6 +169,7 @@ public class MapFragment : BaseMainTabFragment<MapViewModel>, IOnMapReadyCallbac
         dimView.SetOnTouchListener(new DefaultOnTouchListener((v, e) =>
         {
             var isExpanded = _filtersBottomSheetBehavior.State == BottomSheetBehavior.StateExpanded || _locationDetailsBottomSheetBehavior.State == BottomSheetBehavior.StateExpanded;
+
             if (isExpanded || _locationDetailsBottomSheetBehavior.State == BottomSheetBehavior.StateCollapsed)
             {
                 DeselectLocation();
@@ -180,7 +184,6 @@ public class MapFragment : BaseMainTabFragment<MapViewModel>, IOnMapReadyCallbac
         _filtersBottomSheetBehavior.AddBottomSheetCallback(bottomSheetCallback);
 
         _locationDetailsBottomSheetBehavior.AddBottomSheetCallback(bottomSheetCallback);
-
 
         searchAdapter.ItemClick = new MvxCommand<MapSearchResultItemViewModel>(
             item =>
@@ -203,24 +206,24 @@ public class MapFragment : BaseMainTabFragment<MapViewModel>, IOnMapReadyCallbac
                     Console.WriteLine(ex);
                 }
             });
-        
+
         _locationDetailsBottomSheetBehavior.Hideable = true;
         _locationDetailsBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
 
-        foreach (var button in new [] { filtersButton, closeBsButton, zoomInButton, zoomOutButton, filtersCloseBsButton, applyFiltersButton, clearFiltersButton })
+        foreach (var button in new[] { filtersButton, closeBsButton, zoomInButton, zoomOutButton, filtersCloseBsButton, applyFiltersButton, clearFiltersButton })
         {
             button.SetOnClickListener(this);
         }
-        
+
         _mapView?.OnCreate(savedInstanceState);
         _mapView?.GetMapAsync(this);
-        
+
         ViewModel.Places
             .ObserveCollectionChanges()
             .Throttle(TimeSpan.FromMilliseconds(150), RxApp.MainThreadScheduler)
             .Subscribe(_ => UpdateMarkers())
             .DisposeWith(CompositeDisposable);
-        
+
         var set = CreateBindingSet();
 
         set
@@ -248,24 +251,24 @@ public class MapFragment : BaseMainTabFragment<MapViewModel>, IOnMapReadyCallbac
             .For(v => v.BindLongClick())
             .To(vm => vm.CopyCommand)
             .WithConversion<MvxCommandParameterValueConverter>(MapViewModel.LocationActionItem.Email);
-        
+
         set
             .Bind(mailTextView)
             .For(v => v.Text)
             .To(vm => vm.SelectedLocation.Email);
-        
+
         set
             .Bind(mailTextView)
             .For(v => v.BindClick())
             .To(vm => vm.OpenEmailCommand)
             .WithConversion<MvxCommandParameterValueConverter>(MapViewModel.LocationActionItem.Email);
-        
+
         set
             .Bind(addressTextView)
             .For(v => v.BindLongClick())
             .To(vm => vm.CopyCommand)
             .WithConversion<MvxCommandParameterValueConverter>(MapViewModel.LocationActionItem.Address);
-        
+
         set
             .Bind(addressTextView)
             .For(v => v.BindClick())
@@ -276,78 +279,80 @@ public class MapFragment : BaseMainTabFragment<MapViewModel>, IOnMapReadyCallbac
             .For(v => v.BindLongClick())
             .To(vm => vm.CopyCommand)
             .WithConversion<MvxCommandParameterValueConverter>(MapViewModel.LocationActionItem.Site);
-        
+
         set
             .Bind(siteTextView)
             .For(v => v.Text)
             .To(vm => vm.SelectedLocation.Site);
-        
+
         set
             .Bind(siteTextView)
             .For(v => v.BindClick())
             .To(vm => vm.OpenSiteCommand)
             .WithConversion<MvxCommandParameterValueConverter>(MapViewModel.LocationActionItem.Site);
-        
+
         set
             .Bind(view.FindViewById<MaterialButton>(Resource.Id.gps_button))
             .For(v => v.BindClick())
             .To(vm => vm.GpsCommand);
 
         var visibilityConverter = new AnyExpressionConverter<string, bool>(text => !string.IsNullOrEmpty(text));
-        
+
         set
             .Bind(view.FindViewById(Resource.Id.site_layout))
             .For(v => v.BindVisible())
             .To(vm => vm.SelectedLocation.Site)
-            .WithConversion(visibilityConverter);
-        
+            .WithConversion(new AnyExpressionConverter<string, bool>(
+                text => ViewModel.SelectedLocation?.LocationType == LocationType.Event && !string.IsNullOrEmpty(text)));
+
         set
             .Bind(view.FindViewById(Resource.Id.site_bottom_line))
             .For(v => v.BindVisible())
             .To(vm => vm.SelectedLocation.Site)
-            .WithConversion(visibilityConverter);
-        
+            .WithConversion(new AnyExpressionConverter<string, bool>(
+                text => ViewModel.SelectedLocation?.LocationType == LocationType.Event && !string.IsNullOrEmpty(text)));
+
         var itemsVisibilityConverter = new AnyExpressionConverter<IEnumerable<object>, bool>(items => items?.Any() == true);
-        
+
         set
             .Bind(view.FindViewById(Resource.Id.contacts_layout))
             .For(v => v.BindVisible())
             .To(vm => vm.SelectedLocation.Contacts)
             .WithConversion(itemsVisibilityConverter);
-        
+
         set
             .Bind(view.FindViewById(Resource.Id.contacts_bottom_line))
             .For(v => v.BindVisible())
             .To(vm => vm.SelectedLocation.Contacts)
             .WithConversion(itemsVisibilityConverter);
-        
+
         set
             .Bind(view.FindViewById(Resource.Id.mail_layout))
             .For(v => v.BindVisible())
             .To(vm => vm.SelectedLocation.Email)
             .WithConversion(visibilityConverter);
-        
+
         set
             .Bind(view.FindViewById(Resource.Id.mail_bottom_line))
             .For(v => v.BindVisible())
             .To(vm => vm.SelectedLocation.Email)
             .WithConversion(visibilityConverter);
-        
+
         set
             .Bind(socialLinksLayout)
             .For(v => v.ItemsSource)
             .To(vm => vm.SocialLinks);
-        
+
         set
             .Bind(artDirectionsLayout)
             .For(v => v.ItemsSource)
             .To(vm => vm.SelectedLocation.Streams);
-        
+
         set
             .Bind(contactsItemsLayout)
             .For(v => v.ItemsSource)
             .To(vm => vm.Contacts);
-        
+
         set
             .Bind(searchResultsList)
             .For(v => v.ItemsSource)
@@ -358,7 +363,7 @@ public class MapFragment : BaseMainTabFragment<MapViewModel>, IOnMapReadyCallbac
             .For(v => v.BindVisible())
             .To(vm => vm.SearchText)
             .WithConversion(visibilityConverter);
-        
+
         set
             .Bind(artDirectionsLayout)
             .For(v => v.BindVisible())
@@ -369,24 +374,24 @@ public class MapFragment : BaseMainTabFragment<MapViewModel>, IOnMapReadyCallbac
             .Bind(view.FindViewById<MaterialButton>(Resource.Id.open_address_button))
             .For(v => v.BindClick())
             .To(vm => vm.OpenMapCommand);
-        
+
         set
             .Bind(view.FindViewById(Resource.Id.events_header_text_view))
             .For(v => v.BindVisible())
             .To(vm => vm.Events)
             .WithConversion(itemsVisibilityConverter);
-        
+
         set
             .Bind(afishaLayout)
             .For(v => v.BindVisible())
             .To(vm => vm.Events)
             .WithConversion(itemsVisibilityConverter);
-        
+
         set
             .Bind(afishaLayout)
             .For(v => v.ItemsSource)
             .To(vm => vm.Events);
-        
+
         set
             .Bind(moreContactsButton)
             .For(v => v.BindVisible())
@@ -397,19 +402,20 @@ public class MapFragment : BaseMainTabFragment<MapViewModel>, IOnMapReadyCallbac
             .Bind(filtersButton)
             .For(nameof(ButtonIconResourceBinding))
             .To(vm => vm.SelectedFilters)
-            .WithConversion(new AnyExpressionConverter<ObservableCollection<(MapFilterGroupType FilterGroupType, string[] Items)>, int>(filters => filters?.Any() == true ? Resource.Drawable.ic_filters_selected : Resource.Drawable.ic_filters));
+            .WithConversion(new AnyExpressionConverter<ObservableCollection<(MapFilterGroupType FilterGroupType, string[] Items)>, int>(filters =>
+                filters?.Any() == true ? Resource.Drawable.ic_filters_selected : Resource.Drawable.ic_filters));
 
         set
             .Bind(locationTypesGroup)
             .For(v => v.SelectedSegment)
             .To(vm => vm.LocationType)
             .WithConversion(new AnyExpressionConverter<LocationType, int>(locationType => (int)locationType, selectedSegment => (LocationType)selectedSegment));
-        
+
         set
             .Bind(moreContactsButton)
             .For(v => v.BindClick())
             .To(vm => vm.ExpandContactsCommand);
-        
+
         set
             .Bind(moreContactsButton)
             .For(v => v.Text)
@@ -430,7 +436,7 @@ public class MapFragment : BaseMainTabFragment<MapViewModel>, IOnMapReadyCallbac
             .Bind(actionButton)
             .For(v => v.BindClick())
             .To(vm => vm.ActionCommand);
-        
+
         set
             .Bind(mapFiltersRecycle)
             .For(v => v.ItemsSource)
@@ -455,7 +461,7 @@ public class MapFragment : BaseMainTabFragment<MapViewModel>, IOnMapReadyCallbac
 
         return view;
     }
-    
+
     public override void OnStart()
     {
         base.OnStart();
@@ -509,7 +515,7 @@ public class MapFragment : BaseMainTabFragment<MapViewModel>, IOnMapReadyCallbac
             .To(vm => vm.IsMyLocationEnabled);
 
         set.Apply();
-        
+
         _googleMap.SetOnCameraIdleListener(_clusterManager);
         _googleMap.SetOnMarkerClickListener(_clusterManager);
         _googleMap.SetOnMapClickListener(this);
@@ -522,7 +528,7 @@ public class MapFragment : BaseMainTabFragment<MapViewModel>, IOnMapReadyCallbac
         _googleMap.UiSettings.CompassEnabled = false;
         _googleMap.UiSettings.ZoomControlsEnabled = false;
         _googleMap.UiSettings.MyLocationButtonEnabled = false;
-        
+
         UpdateMarkers();
     }
 
@@ -530,7 +536,7 @@ public class MapFragment : BaseMainTabFragment<MapViewModel>, IOnMapReadyCallbac
     {
         KeyboardUtils.HideKeyboard(Activity);
         DeselectLocation();
-        
+
         if (_googleMap == null)
         {
             return;
@@ -538,12 +544,10 @@ public class MapFragment : BaseMainTabFragment<MapViewModel>, IOnMapReadyCallbac
 
         _clusterManager.ClearItems();
 
-
         foreach (var place in ViewModel.Places)
         {
             _clusterManager.AddItem(new MapClusterItem(place));
         }
-
 
         _clusterManager.Cluster();
     }
@@ -555,19 +559,24 @@ public class MapFragment : BaseMainTabFragment<MapViewModel>, IOnMapReadyCallbac
             case Resource.Id.map_apply_filters_button:
                 _filtersBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
                 ViewModel.ApplyFilters();
+
                 break;
             case Resource.Id.map_clear_filters_button:
                 _filtersBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
                 ViewModel.ResetFilters();
+
                 break;
             case Resource.Id.location_filters_button:
                 _filtersBottomSheetBehavior.State = BottomSheetBehavior.StateExpanded;
+
                 break;
             case Resource.Id.map_filters_close_bs_button:
                 _filtersBottomSheetBehavior.State = BottomSheetBehavior.StateHidden;
+
                 break;
             case Resource.Id.close_bs_button:
                 DeselectLocation();
+
                 break;
             case Resource.Id.zoom_in_button:
                 try
@@ -578,6 +587,7 @@ public class MapFragment : BaseMainTabFragment<MapViewModel>, IOnMapReadyCallbac
                 {
                     Console.WriteLine(ex);
                 }
+
                 break;
             case Resource.Id.zoom_out_button:
                 try
@@ -588,6 +598,7 @@ public class MapFragment : BaseMainTabFragment<MapViewModel>, IOnMapReadyCallbac
                 {
                     Console.WriteLine(ex);
                 }
+
                 break;
         }
     }
@@ -600,7 +611,7 @@ public class MapFragment : BaseMainTabFragment<MapViewModel>, IOnMapReadyCallbac
         {
             return;
         }
-        
+
         ViewModel.SelectedLocation = null;
         _locationDetailsBottomSheetBehavior.PeekHeight = 0;
         _locationDetailsBottomSheetBehavior.Hideable = true;
@@ -641,17 +652,19 @@ public class MapFragment : BaseMainTabFragment<MapViewModel>, IOnMapReadyCallbac
         {
             SelectLocation(clusterItem.Snippet);
         }
-        
+
         return true;
     }
 
     public bool OnClusterClick(ICluster cluster)
     {
         var builder = new LatLngBounds.Builder();
+
         foreach (IClusterItem item in cluster.Items)
         {
             builder.Include(item.Position);
         }
+
         _googleMap.AnimateCamera(CameraUpdateFactory.NewLatLngBounds(builder.Build(), LAT_LNG_BOUNDS_PADDING));
 
         return true;

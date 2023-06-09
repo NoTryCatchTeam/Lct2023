@@ -96,6 +96,7 @@
         <Compile Include="Bindings\CardViewBackgroundColorByHexBinding.cs" />
         <Compile Include="Bindings\ImageViewByUrlBinding.cs" />
         <Compile Include="Bindings\LinearIndicatorProgressBinding.cs" />
+        <Compile Include="Bindings\LinearIndicatorProgressBinding.cs" />
         <Compile Include="Bindings\TextViewTextColorBinding.cs" />
         <Compile Include="Callbacks\AuthViewPagerPageCallback.cs" />
         <Compile Include="Callbacks\DefaultBackPressedCallback.cs" />
@@ -195,97 +196,7 @@
         <AndroidResource Include="Resources\mipmap-xhdpi\*.png" />
         <AndroidResource Include="Resources\mipmap-xxhdpi\*.png" />
         <AndroidResource Include="Resources\mipmap-xxxhdpi\*.png" />
-        <AndroidResource Update="Resources\layout\CourseLessonAnswerPartFragment.xml">
-          <SubType>Designer</SubType>
-          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-        </AndroidResource>
-        <AndroidResource Update="Resources\layout\FeedItemView.xml">
-          <SubType>Designer</SubType>
-          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\xml\auth_activity_scene.xml" />
-        <AndroidResource Include="Resources\xml\file_paths.xml" />
-        <AndroidResource Update="Resources\layout\AuthSignUpFragment.xml">
-          <SubType>Designer</SubType>
-          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-        </AndroidResource>
-        <AndroidResource Update="Resources\layout\ProfTestStep1Fragment.xml">
-          <SubType>Designer</SubType>
-          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-        </AndroidResource>
-        <AndroidResource Update="Resources\layout\ProfTestStep2Fragment.xml">
-          <SubType>Designer</SubType>
-          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-        </AndroidResource>
-        <AndroidResource Update="Resources\layout\ProfTestStep3Fragment.xml">
-          <SubType>Designer</SubType>
-          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-        </AndroidResource>
-        <AndroidResource Update="Resources\layout\FeedFragment.xml">
-          <SubType>Designer</SubType>
-          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-        </AndroidResource>
-        <AndroidResource Update="Resources\layout\ProfTestFinishFragment.xml">
-          <SubType>Designer</SubType>
-          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-        </AndroidResource>
-        <AndroidResource Update="Resources\layout\AppRateFinishFragment.xml">
-          <SubType>Designer</SubType>
-          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\layout\FeedArtDirectionItemView.xml">
-          <SubType></SubType>
-          <Generator></Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\drawable\image_draw_art_dir.png">
-          <SubType></SubType>
-          <Generator></Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\drawable\image_horeo_art_dir.png">
-          <SubType></SubType>
-          <Generator></Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\drawable\image_music_art_dir.png">
-          <SubType></SubType>
-          <Generator></Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\drawable\image_theatre_art_dir.png">
-          <SubType></SubType>
-          <Generator></Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\layout\FeedArtDirectionsHeaderItemView.xml">
-          <SubType></SubType>
-          <Generator></Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\layout\FeedArtDirectionSchoolsItemView.xml">
-          <SubType></SubType>
-          <Generator></Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\layout\FeedArtDirectionDescriptionItemView.xml">
-          <SubType></SubType>
-          <Generator></Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\xml\main_tabbed_activity_scene.xml" />
-        <AndroidResource Include="Resources\layout\LocationsMapActivity.xml">
-          <SubType></SubType>
-          <Generator></Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\layout\ProfileActivity.xml">
-          <SubType></SubType>
-          <Generator></Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\drawable\ic_setting.xml">
-          <SubType></SubType>
-          <Generator></Generator>
-        </AndroidResource>
-        <AndroidResource Update="Resources\layout\main_bottom_navigation_icon_color.xml">
-          <SubType>Designer</SubType>
-          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-        </AndroidResource>
-        <AndroidResource Update="Resources\layout\text_input_box_stroke_color.xml">
-          <SubType>Designer</SubType>
-          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-        </AndroidResource>
+        <AndroidResource Include="Resources\xml\*.xml" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Assets" />
