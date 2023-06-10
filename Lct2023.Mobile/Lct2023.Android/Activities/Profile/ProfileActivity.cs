@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Android.Views;
 using Android.Widget;
 using AndroidX.ConstraintLayout.Widget;
 using AndroidX.Core.Widget;
@@ -13,6 +14,7 @@ using Lct2023.Android.Helpers;
 using Lct2023.Converters;
 using Lct2023.Definitions.Internals;
 using Lct2023.ViewModels.Profile;
+using MvvmCross.Binding.ValueConverters;
 using MvvmCross.DroidX.RecyclerView;
 using MvvmCross.DroidX.RecyclerView.ItemTemplates;
 using MvvmCross.Platforms.Android.Binding;
@@ -47,6 +49,8 @@ public class ProfileActivity : BaseActivity<ProfileViewModel>
         var achievements = FindViewById<MvxRecyclerView>(Resource.Id.profile_achievements_collection);
         var friends = FindViewById<MvxRecyclerView>(Resource.Id.profile_friends_collection);
         var allCourses = FindViewById<MaterialButton>(Resource.Id.profile_all_courses_button);
+        var course1 = FindViewById<MaterialCardView>(Resource.Id.profile_course_1_layout);
+        var course2 = FindViewById<MaterialCardView>(Resource.Id.profile_course_2_layout);
 
         _ = new ScrollWithOverlayViewMediator(parent, scroll, toolbarSubview);
 
@@ -118,6 +122,10 @@ public class ProfileActivity : BaseActivity<ProfileViewModel>
             .For(v => v.BindClick())
             .To(vm => vm.RateAppCommand);
 
+        set.Bind(FindViewById<MaterialButton>(Resource.Id.profile_rate_button))
+            .For(v => v.BindClick())
+            .To(vm => vm.RateAppCommand);
+
         set.Bind(achievementsAdapter)
             .For(x => x.ItemsSource)
             .To(vm => vm.AchievementsCollection);
@@ -125,6 +133,20 @@ public class ProfileActivity : BaseActivity<ProfileViewModel>
         set.Bind(friendsAdapter)
             .For(x => x.ItemsSource)
             .To(vm => vm.FriendsCollection);
+
+        set.Bind(allCourses)
+            .For(x => x.BindClick())
+            .To(vm => vm.CourseCommand);
+
+        set.Bind(course1)
+            .For(x => x.BindClick())
+            .To(vm => vm.CourseCommand)
+            .WithConversion<MvxCommandParameterValueConverter>(0);
+
+        set.Bind(course2)
+            .For(x => x.BindClick())
+            .To(vm => vm.CourseCommand)
+            .WithConversion<MvxCommandParameterValueConverter>(1);
 
         set.Apply();
     }

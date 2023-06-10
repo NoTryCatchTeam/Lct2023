@@ -1,4 +1,5 @@
 ﻿using System;
+using Lct2023.Definitions.VmResult;
 using Lct2023.ViewModels.Profile;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
@@ -13,7 +14,16 @@ namespace Lct2023.ViewModels
         protected BaseMainTabViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService)
             : base(logFactory, navigationService)
         {
-            GoToProfileCommand = new MvxAsyncCommand(() => NavigationService.Navigate<ProfileViewModel>());
+
+            GoToProfileCommand = new MvxAsyncCommand<Action<ProfileResult>>(async onProfileResultAction =>
+            {
+                if (await NavigationService.Navigate<ProfileViewModel, ProfileResult>() is not { } result)
+                {
+                    return;
+                }
+
+                onProfileResultAction?.Invoke(result);
+            });
         }
     }
 }

@@ -131,6 +131,7 @@ public class FeedListAdapter<TContextViewModel> : BaseTemplatedRecyclerViewAdapt
         private readonly MaterialButton _moreDescriptionButton;
         private readonly ImageView _image;
         private readonly Action<BaseFeedItemViewHolder> _focusOnItem;
+        private bool inited;
 
         public FeedItemViewHolder(View itemView, IMvxAndroidBindingContext context, Action<BaseFeedItemViewHolder> focusOnItem)
             : base(itemView, context)
@@ -260,9 +261,18 @@ public class FeedListAdapter<TContextViewModel> : BaseTemplatedRecyclerViewAdapt
         {
             base.Bind();
 
-            Picasso.Get()
+            if (!string.IsNullOrEmpty(ViewModel.ImageUrl))
+            {
+                Picasso.Get()
                 .Load(ViewModel.ImageUrl)
                 .Into(_image);
+            }
+
+            if (inited)
+            {
+                return;
+            }
+            inited = true;
 
             _moreDescriptionButton.Click += MoreDescriptionButtonClick;
         }
