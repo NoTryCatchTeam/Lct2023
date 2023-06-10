@@ -1,12 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Lct2023.Definitions.VmResult;
 using Microsoft.Extensions.Logging;
+using MvvmCross.Commands;
 using MvvmCross.Navigation;
 
 namespace Lct2023.ViewModels.Profile;
 
-public class ProfileViewModel : BaseViewModel
+public class ProfileViewModel : BaseViewModelResult<ProfileResult>
 {
+    public IMvxCommand CourseCommand { get; }
+
     public ProfileViewModel(
         ILoggerFactory logFactory,
         IMvxNavigationService navigationService)
@@ -15,6 +19,11 @@ public class ProfileViewModel : BaseViewModel
         RewardsCollection = GetRewards();
         AchievementsCollection = GetAchievements();
         FriendsCollection = GetFriends();
+        CourseCommand = new MvxAsyncCommand<int?>(index => NavigationService.Close(this, new ProfileResult
+        {
+            ResultType = Definitions.Enums.ProfileResultType.Courses,
+            CourseIndex = index,
+        }));
     }
 
     public IEnumerable<ProfileRewardItem> RewardsCollection { get; }
