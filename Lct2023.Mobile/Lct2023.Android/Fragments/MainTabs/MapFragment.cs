@@ -102,6 +102,7 @@ public class MapFragment : BaseMainTabFragment<MapViewModel>, IOnMapReadyCallbac
         var actionButton = view.FindViewById<MaterialButton>(Resource.Id.action_button);
         _filtersBottomSheet = view.FindViewById<MaterialCardView>(Resource.Id.filters_bottom_sheet);
         _filtersBottomSheetBehavior = BottomSheetBehavior.From(_filtersBottomSheet);
+        _filtersBottomSheetBehavior.FitToContents = true;
         var dimView = view.FindViewById(Resource.Id.map_dim);
         var mapFiltersRecycle = view.FindViewById<MvxRecyclerView>(Resource.Id.map_filters_recycle);
         var filtersCloseBsButton = view.FindViewById<MaterialButton>(Resource.Id.map_filters_close_bs_button);
@@ -157,7 +158,7 @@ public class MapFragment : BaseMainTabFragment<MapViewModel>, IOnMapReadyCallbac
 
         searchResultsList.SetAdapter(searchAdapter);
 
-        var mapFiltersAdapter = new MapFiltersGroupsListAdapter((IMvxAndroidBindingContext)BindingContext, () => _filtersBottomSheetBehavior.State = BottomSheetBehavior.StateExpanded)
+        var mapFiltersAdapter = new MapFiltersGroupsListAdapter((IMvxAndroidBindingContext)BindingContext, () => _mapContainer.Post(() => _filtersBottomSheetBehavior.State = BottomSheetBehavior.StateExpanded))
         {
             ItemTemplateSelector = new MvxDefaultTemplateSelector(Resource.Layout.MapFiltersGroupItemView),
         };

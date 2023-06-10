@@ -118,6 +118,10 @@ public class ProfileActivity : BaseActivity<ProfileViewModel>
             .For(v => v.BindClick())
             .To(vm => vm.RateAppCommand);
 
+        set.Bind(FindViewById<MaterialButton>(Resource.Id.profile_rate_button))
+            .For(v => v.BindClick())
+            .To(vm => vm.RateAppCommand);
+
         set.Bind(achievementsAdapter)
             .For(x => x.ItemsSource)
             .To(vm => vm.AchievementsCollection);
