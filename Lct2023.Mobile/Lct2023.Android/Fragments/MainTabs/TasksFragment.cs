@@ -53,7 +53,7 @@ public class TasksFragment : BaseMainTabFragment<TasksViewModel>
         var tasksFilter = view.FindViewById<MaterialButton>(Resource.Id.tasks_tasks_filter);
         var tasksList = view.FindViewById<MvxRecyclerView>(Resource.Id.tasks_tasks_list);
 
-        _ = new ScrollWithSearchLayoutMediator(parent, scroll, searchLayout);
+        _ = new ScrollWithOverlayViewMediator(parent, scroll, searchLayout);
 
         stats.Exercises.Progress.Progress = stats.Tasks.Progress.Progress = stats.Points.Progress.Progress = 0;
 

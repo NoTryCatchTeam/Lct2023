@@ -64,6 +64,9 @@
         <Compile Include="Adapters\FeedFiltersGroupsListAdapter.cs" />
         <Compile Include="Adapters\FeedListAdapter.cs" />
         <Compile Include="Adapters\MainEventsAdapter.cs" />
+        <Compile Include="Adapters\ProfileAchievementsAdapter.cs" />
+        <Compile Include="Adapters\ProfileFriendsAdapter.cs" />
+        <Compile Include="Adapters\ProfileRewardsAdapter.cs" />
         <Compile Include="Adapters\StreamsAdapter.cs" />
         <Compile Include="Adapters\AudioToPictureExerciseAnswersAdapter.cs" />
         <Compile Include="Adapters\AuthViewPagerAdapter.cs" />
@@ -139,7 +142,7 @@
         <Compile Include="Helpers\ImagedToolbar.cs" />
         <Compile Include="Helpers\InnerToolbar.cs" />
         <Compile Include="Helpers\PinUtils.cs" />
-        <Compile Include="Helpers\ScrollWithSearchLayoutMediator.cs" />
+        <Compile Include="Helpers\ScrollWithOverlayViewMediator.cs" />
         <Compile Include="Helpers\KeyboardUtils.cs" />
         <Compile Include="LinkerPleaseInclude.cs" />
         <Compile Include="Listeners\DefaultClickListener.cs" />
