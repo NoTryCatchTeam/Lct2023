@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataModel.Responses.BaseCms;
+using DataModel.Responses.Tasks;
 using Lct2023.Business.RestServices.Tasks;
 using Lct2023.Definitions.Constants;
 using Microsoft.Extensions.Configuration;
@@ -15,9 +17,10 @@ namespace Lct2023.ViewModels.Tasks;
 public class TasksViewModel : BaseMainTabViewModel
 {
     private readonly ITasksRestService _tasksRestService;
-    private readonly IConfiguration _configuration;
+    private readonly string _resourcesBaseUrl;
 
     private TasksViewState _state;
+    private IEnumerable<CmsItemResponse<TaskOfTheDayItemResponse>> _taskOfTheDay;
 
     public TasksViewModel(
         ITasksRestService tasksRestService,
@@ -27,13 +30,17 @@ public class TasksViewModel : BaseMainTabViewModel
         : base(logFactory, navigationService)
     {
         _tasksRestService = tasksRestService;
-        _configuration = configuration;
+        var configuration1 = configuration;
 
         TaskOfTheDayCommand = new MvxAsyncCommand(TaskOfTheDayAsync);
         TasksFilterCommand = new MvxAsyncCommand(() => Task.CompletedTask);
         TaskTapCommand = new MvxAsyncCommand<TaskItem>(TaskTapAsync);
 
         TasksCollection = new MvxObservableCollection<TaskItem>();
+
+        _resourcesBaseUrl =
+            $"{configuration1.GetValue<string>(ConfigurationConstants.AppSettings.HOST)}{configuration1.GetValue<string>(ConfigurationConstants.AppSettings.CMS_PATH)}"
+                .TrimEnd('/');
     }
 
     public IMvxAsyncCommand TaskOfTheDayCommand { get; }
@@ -54,10 +61,6 @@ public class TasksViewModel : BaseMainTabViewModel
     {
         base.ViewCreated();
 
-        var resourcesBaseUrl =
-            $"{_configuration.GetValue<string>(ConfigurationConstants.AppSettings.HOST)}{_configuration.GetValue<string>(ConfigurationConstants.AppSettings.CMS_PATH)}"
-                .TrimEnd('/');
-
         RunSafeTaskAsync(
             async () =>
             {
@@ -67,69 +70,7 @@ public class TasksViewModel : BaseMainTabViewModel
                     tasksResponse
                         .Select((task, i) =>
                         {
-                            var exercises = new List<BaseExerciseItem>();
-
-                            var tasksCounter = 0;
-
-                            // Text quizzes
-                            if (task.Item.Quizzes?.Data?.Any() == true)
-                            {
-                                exercises.AddRange(
-                                    task.Item.Quizzes.Data
-                                        .Select((quiz, i) => new TextExerciseItem
-                                        {
-                                            Number = i + 1,
-                                            Question = quiz.Item.Question,
-                                            DescriptionOfCorrectness = quiz.Item.Explanation,
-                                            Answers = new[] { quiz.Item.AnswerA, quiz.Item.AnswerB, quiz.Item.AnswerC, quiz.Item.AnswerD }
-                                                .Select((answer, j) => new TextExerciseAnswer
-                                                {
-                                                    Number = j + 1,
-                                                    IsCorrect = quiz.Item.CorrectAnswerValue == answer,
-                                                    Value = answer,
-                                                })
-                                                .ToList(),
-                                        }));
-
-                                tasksCounter += exercises.Count;
-                            }
-
-                            // Video to audio quizzes
-                            if (task.Item.Quizzes?.Data?.Any() == true)
-                            {
-                                exercises.AddRange(
-                                    task.Item.VideoQuizzes.Data
-                                        .Select((quiz, i) =>
-                                        {
-                                            var correctAnswerTag = quiz.Item.CorrectAnswerTag;
-
-                                            var correctAnswer = correctAnswerTag switch
-                                            {
-                                                "a" => quiz.Item.AnswerA,
-                                                "b" => quiz.Item.AnswerB,
-                                                _ => quiz.Item.AnswerC,
-                                            };
-
-                                            return new VideoToAudioExerciseItem
-                                            {
-                                                Number = tasksCounter + i + 1,
-                                                Question = quiz.Item.Question,
-                                                VideoUrl = $"{resourcesBaseUrl}{quiz.Item.Video.Data.Item.Url}",
-                                                Answers = new[] { quiz.Item.AnswerA, quiz.Item.AnswerB, quiz.Item.AnswerC }
-                                                    .Select((answer, j) => new VideoToAudioExerciseAnswer
-                                                    {
-                                                        Number = j + 1,
-                                                        IsCorrect = correctAnswer == answer,
-                                                        AudioUrl = $"{resourcesBaseUrl}{answer.Data.Item.Url}",
-                                                    })
-                                                    .ToList(),
-                                            };
-                                        }));
-
-                                tasksCounter += exercises.Count;
-                            }
-
-                            return new TaskItem(i + 1, exercises);
+                            return MapTaskResponse(task, i);
                         })
                         .ToList());
 
@@ -144,11 +85,9 @@ public class TasksViewModel : BaseMainTabViewModel
         await RunSafeTaskAsync(
             async () =>
             {
-                // TODO Add task of the day loading
-                // var tasksResponse = await _tasksRestService.GetTasksAsync(CancellationToken);
-                //
-                // await NavigationService.Navigate<TaskDetailsViewModel, TaskDetailsViewModel.NavParameter>(
-                //     new TaskDetailsViewModel.NavParameter(TasksCollection.First()));
+                _taskOfTheDay ??= await _tasksRestService.GetTaskOfTheDayAsync(CancellationToken);
+
+                await TaskTapAsync(MapTaskResponse(_taskOfTheDay.First().Item.Task.Data, 0));
             });
 
         State &= ~TasksViewState.TaskOfTheDayLoading;
@@ -165,6 +104,73 @@ public class TasksViewModel : BaseMainTabViewModel
             new TaskDetailsViewModel.NavParameter(item));
 
         await RaisePropertyChanged(nameof(TasksCollection));
+    }
+
+    private TaskItem MapTaskResponse(CmsItemResponse<TaskItemResponse> task, int i)
+    {
+        var exercises = new List<BaseExerciseItem>();
+
+        var tasksCounter = 0;
+
+        // Text quizzes
+        if (task.Item.Quizzes?.Data?.Any() == true)
+        {
+            exercises.AddRange(
+                task.Item.Quizzes.Data
+                    .Select((quiz, i) => new TextExerciseItem
+                    {
+                        Number = i + 1,
+                        Question = quiz.Item.Question,
+                        DescriptionOfCorrectness = quiz.Item.Explanation,
+                        Answers = new[] { quiz.Item.AnswerA, quiz.Item.AnswerB, quiz.Item.AnswerC, quiz.Item.AnswerD }
+                            .Select((answer, j) => new TextExerciseAnswer
+                            {
+                                Number = j + 1,
+                                IsCorrect = quiz.Item.CorrectAnswerValue == answer,
+                                Value = answer,
+                            })
+                            .ToList(),
+                    }));
+
+            tasksCounter += exercises.Count;
+        }
+
+        // Video to audio quizzes
+        if (task.Item.Quizzes?.Data?.Any() == true)
+        {
+            exercises.AddRange(
+                task.Item.VideoQuizzes.Data
+                    .Select((quiz, i) =>
+                    {
+                        var correctAnswerTag = quiz.Item.CorrectAnswerTag;
+
+                        var correctAnswer = correctAnswerTag switch
+                        {
+                            "a" => quiz.Item.AnswerA,
+                            "b" => quiz.Item.AnswerB,
+                            _ => quiz.Item.AnswerC,
+                        };
+
+                        return new VideoToAudioExerciseItem
+                        {
+                            Number = tasksCounter + i + 1,
+                            Question = quiz.Item.Question,
+                            VideoUrl = $"{_resourcesBaseUrl}{quiz.Item.Video.Data.Item.Url}",
+                            Answers = new[] { quiz.Item.AnswerA, quiz.Item.AnswerB, quiz.Item.AnswerC }
+                                .Select((answer, j) => new VideoToAudioExerciseAnswer
+                                {
+                                    Number = j + 1,
+                                    IsCorrect = correctAnswer == answer,
+                                    AudioUrl = $"{_resourcesBaseUrl}{answer.Data.Item.Url}",
+                                })
+                                .ToList(),
+                        };
+                    }));
+
+            tasksCounter += exercises.Count;
+        }
+
+        return new TaskItem(i + 1, exercises);
     }
 }
 
