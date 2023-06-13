@@ -18,11 +18,11 @@ jobs:
 #       with:
 #         dotnet-version: '7.0.x'
 
-
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1.3.1
-      with:
-        vs-version: '[16.7,)'
+# win only
+#     - name: Setup MSBuild
+#       uses: microsoft/setup-msbuild@v1.3.1
+#       with:
+#         vs-version: '[16.7,)'
 
     - name: Install dependencies
       run: nuget restore Lct2023.Mobile/Lct2023.Mobile.sln
