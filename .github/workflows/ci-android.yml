@@ -13,26 +13,26 @@ jobs:
       run: |
         $VM_ASSETS/select-xamarin-sdk-v2.sh --mono=6.12 --android=13.0
 
-    - name: Setup .NET Core SDK
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '7.0.x'
+#     - name: Setup .NET Core SDK
+#       uses: actions/setup-dotnet@v3
+#       with:
+#         dotnet-version: '7.0.x'
 
     - name: Install dependencies
       run: nuget restore Lct2023.Mobile/Lct2023.Mobile.sln
 
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1.3.1
+#     - name: Setup MSBuild
+#       uses: microsoft/setup-msbuild@v1.3.1
 
     - name: Build
       run: msbuild Lct2023.Mobile/Lct2023.Android/Lct2023.Android.csproj /t:PackageForAndroid /p:Configuration=Release 
 
-    - name: Artifacts
-      run: |
-        mkdir -p apks
-        cp Lct2023.Mobile/Lct2023.Android/bin/Release/*.apk apks
-    - name: Upload Artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: apks
-        path: apks
+#     - name: Artifacts
+#       run: |
+#         mkdir -p apks
+#         cp Lct2023.Mobile/Lct2023.Android/bin/Release/*.apk apks
+#     - name: Upload Artifacts
+#       uses: actions/upload-artifact@v1
+#       with:
+#         name: apks
+#         path: apks
