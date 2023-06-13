@@ -32,8 +32,12 @@
 
   <ItemGroup>
     <None Remove="Definitions\VmLinks\" />
+    <None Remove="ViewModels\Profile\" />
+    <None Remove="Definitions\VmResult\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Definitions\VmLinks\" />
+    <Folder Include="ViewModels\Profile\" />
+    <Folder Include="Definitions\VmResult\" />
   </ItemGroup>
 </Project>

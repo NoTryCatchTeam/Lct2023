@@ -49,6 +49,7 @@ public class ApiMapperProfile : Profile
             .ForMember(id => id.UpdatedAt, expr => expr.Ignore())
             .ForMember(id => id.RefreshTokens, expr => expr.Ignore())
             .ForMember(id => id.PhotoUrl, expr => expr.MapFrom(dto => dto.Photo))
+            .ForMember(id => id.UserInfo, expr => expr.Ignore())
             ;
 
         CreateMap<CreateUserViaSocialDto, ExtendedIdentityUser>()
@@ -71,6 +72,7 @@ public class ApiMapperProfile : Profile
             .ForMember(id => id.CreatedAt, expr => expr.Ignore())
             .ForMember(id => id.UpdatedAt, expr => expr.Ignore())
             .ForMember(id => id.RefreshTokens, expr => expr.Ignore())
+            .ForMember(id => id.UserInfo, expr => expr.Ignore())
             ;
     }
 }

@@ -5,6 +5,7 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:background="@color/backgroundDark"
             android:layout_width="match_parent"
+            android:id="@+id/feed_container"
             android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
@@ -25,8 +26,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardElevation="0dp"
-                app:contentPaddingBottom="16dp"
-                app:shapeAppearanceOverlay="@style/BottomRoundedShape"
+                app:cardCornerRadius="0dp"
+                style="@style/AppTheme.MaterialCardView.White"
                 app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
@@ -77,15 +78,23 @@
         <mvvmcross.droidx.recyclerview.MvxRecyclerView
             android:id="@+id/feed_recycle"
             android:orientation="vertical"
-            android:paddingTop="8dp"
-            android:paddingBottom="24dp"
+            android:paddingVertical="24dp"
             android:clipToPadding="false"
             android:scrollbars="none"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintHeight_max="wrap"
             app:layout_constrainedHeight="true"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/feed_header_island"/>
+
+        <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                app:cardElevation="0dp"
+                app:shapeAppearanceOverlay="@style/BottomRoundedShape"
+                app:layout_constraintTop_toBottomOf="@id/feed_header_island"/>
 
         <TextView
             android:id="@+id/feed_no_data"

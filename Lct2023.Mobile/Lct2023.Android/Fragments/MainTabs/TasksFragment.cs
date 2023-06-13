@@ -1,3 +1,4 @@
+using System.Linq;
 using Android.Animation;
 using Android.Graphics;
 using Android.OS;
@@ -10,6 +11,7 @@ using Google.Android.Material.Button;
 using Google.Android.Material.ProgressIndicator;
 using Google.Android.Material.TextField;
 using Lct2023.Android.Adapters;
+using Lct2023.Android.Bindings;
 using Lct2023.Android.Decorations;
 using Lct2023.Android.Helpers;
 using Lct2023.Android.Listeners;
@@ -20,11 +22,12 @@ using MvvmCross.DroidX.RecyclerView;
 using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 using MvvmCross.Platforms.Android.Presenters.Attributes;
+using MvvmCross.ViewModels;
 
 namespace Lct2023.Android.Fragments.MainTabs;
 
 [MvxFragmentPresentation]
-public class TasksFragment : BaseFragment<TasksViewModel>
+public class TasksFragment : BaseMainTabFragment<TasksViewModel>
 {
     protected override int GetLayoutId() => Resource.Layout.TasksFragment;
 
@@ -50,7 +53,9 @@ public class TasksFragment : BaseFragment<TasksViewModel>
         var tasksFilter = view.FindViewById<MaterialButton>(Resource.Id.tasks_tasks_filter);
         var tasksList = view.FindViewById<MvxRecyclerView>(Resource.Id.tasks_tasks_list);
 
-        _ = new ScrollWithSearchLayoutMediator(parent, scroll, searchLayout);
+        _ = new ScrollWithOverlayViewMediator(parent, scroll, searchLayout);
+
+        stats.Exercises.Progress.Progress = stats.Tasks.Progress.Progress = stats.Points.Progress.Progress = 0;
 
         var tasksAdapter = new TasksAdapter((IMvxAndroidBindingContext)BindingContext)
         {
@@ -64,6 +69,42 @@ public class TasksFragment : BaseFragment<TasksViewModel>
         tasksList.AddItemDecoration(new GridItemDecoration(3, DimensUtils.DpToPx(Activity, 16)));
 
         var set = CreateBindingSet();
+
+        set.Bind(stats.Exercises.Counter)
+            .For(x => x.Text)
+            .To(vm => vm.TasksCollection)
+            .WithConversion(new AnyExpressionConverter<MvxObservableCollection<TaskItem>, string>(
+                tasks => $"{tasks.Sum(t => t.CompletedExercises)} / {tasks.Sum(t => t.TotalExercises)}"));
+
+        set.Bind(stats.Exercises.Progress)
+            .For(nameof(LinearIndicatorProgressBinding))
+            .To(vm => vm.TasksCollection)
+            .WithConversion(new AnyExpressionConverter<MvxObservableCollection<TaskItem>, int>(
+                tasks => (int)(100 * ((float)tasks.Sum(t => t.CompletedExercises) / tasks.Sum(t => t.TotalExercises)))));
+
+        set.Bind(stats.Tasks.Counter)
+            .For(x => x.Text)
+            .To(vm => vm.TasksCollection)
+            .WithConversion(new AnyExpressionConverter<MvxObservableCollection<TaskItem>, string>(
+                tasks => $"{tasks.Count(t => t.TotalExercises == t.CompletedExercises)} / {tasks.Count}"));
+
+        set.Bind(stats.Tasks.Progress)
+            .For(nameof(LinearIndicatorProgressBinding))
+            .To(vm => vm.TasksCollection)
+            .WithConversion(new AnyExpressionConverter<MvxObservableCollection<TaskItem>, int>(
+                tasks => (int)(100 * ((float)tasks.Count(t => t.TotalExercises == t.CompletedExercises) / tasks.Count))));
+
+        set.Bind(stats.Points.Counter)
+            .For(x => x.Text)
+            .To(vm => vm.TasksCollection)
+            .WithConversion(new AnyExpressionConverter<MvxObservableCollection<TaskItem>, string>(
+                tasks => $"{tasks.Sum(t => t.CompletedExercises)} / {tasks.Sum(t => t.TotalExercises)}"));
+
+        set.Bind(stats.Points.Progress)
+            .For(nameof(LinearIndicatorProgressBinding))
+            .To(vm => vm.TasksCollection)
+            .WithConversion(new AnyExpressionConverter<MvxObservableCollection<TaskItem>, int>(
+                tasks => (int)(100 * ((float)tasks.Sum(t => t.CompletedExercises) / tasks.Sum(t => t.TotalExercises)))));
 
         set.Bind(taskOfTheDay)
             .For(x => x.BindClick())

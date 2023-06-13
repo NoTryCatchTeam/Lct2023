@@ -64,6 +64,9 @@
         <Compile Include="Adapters\FeedFiltersGroupsListAdapter.cs" />
         <Compile Include="Adapters\FeedListAdapter.cs" />
         <Compile Include="Adapters\MainEventsAdapter.cs" />
+        <Compile Include="Adapters\ProfileAchievementsAdapter.cs" />
+        <Compile Include="Adapters\ProfileFriendsAdapter.cs" />
+        <Compile Include="Adapters\ProfileRewardsAdapter.cs" />
         <Compile Include="Adapters\StreamsAdapter.cs" />
         <Compile Include="Adapters\AudioToPictureExerciseAnswersAdapter.cs" />
         <Compile Include="Adapters\AuthViewPagerAdapter.cs" />
@@ -95,6 +98,8 @@
         <Compile Include="Bindings\CardViewStrokeColorBinding.cs" />
         <Compile Include="Bindings\CardViewBackgroundColorByHexBinding.cs" />
         <Compile Include="Bindings\ImageViewByUrlBinding.cs" />
+        <Compile Include="Bindings\LinearIndicatorProgressBinding.cs" />
+        <Compile Include="Bindings\LinearIndicatorProgressBinding.cs" />
         <Compile Include="Bindings\TextViewTextColorBinding.cs" />
         <Compile Include="Callbacks\AuthViewPagerPageCallback.cs" />
         <Compile Include="Callbacks\DefaultBackPressedCallback.cs" />
@@ -111,7 +116,7 @@
         <Compile Include="Fragments\Auth\AuthSignInFragment.cs" />
         <Compile Include="Fragments\Auth\AuthSignUpFragment.cs" />
         <Compile Include="Fragments\BaseFragment.cs" />
-        <Compile Include="Fragments\Courses\CourseOpenFragment.cs" />
+        <Compile Include="Fragments\Courses\CourseUnlockFragment.cs" />
         <Compile Include="Fragments\Courses\LessonAnswerPartFragment.cs" />
         <Compile Include="Fragments\Courses\LessonLessonPartFragment.cs" />
         <Compile Include="Fragments\Courses\LessonTaskPartFragment.cs" />
@@ -137,7 +142,7 @@
         <Compile Include="Helpers\ImagedToolbar.cs" />
         <Compile Include="Helpers\InnerToolbar.cs" />
         <Compile Include="Helpers\PinUtils.cs" />
-        <Compile Include="Helpers\ScrollWithSearchLayoutMediator.cs" />
+        <Compile Include="Helpers\ScrollWithOverlayViewMediator.cs" />
         <Compile Include="Helpers\KeyboardUtils.cs" />
         <Compile Include="LinkerPleaseInclude.cs" />
         <Compile Include="Listeners\DefaultClickListener.cs" />
@@ -165,10 +170,14 @@
         <Compile Include="Bindings\TextViewMaxLinesBinding.cs" />
         <Compile Include="Adapters\FeedArtDirectionsAdapter.cs" />
         <Compile Include="Bindings\ImageViewByResIdBinding.cs" />
-        <Compile Include="Fragments\Feed\ArtDirectionFeedFragment.cs" />
-        <Compile Include="Fragments\Feed\FeedFragment.cs" />
-        <Compile Include="Fragments\MainTabs\MainFeedFragment.cs" />
-        <Compile Include="Presenters\MvxFragmentAdapterChildItemPresentationAttribute.cs" />
+        <Compile Include="Activities\Map\LocationsMapActivity.cs" />
+        <Compile Include="Definitions\Models\Map\MapClusterItem.cs" />
+        <Compile Include="Definitions\Models\Map\MapClusterRenderer.cs" />
+        <Compile Include="Fragments\MainTabs\FeedFragment.cs" />
+        <Compile Include="Activities\Feed\ArtDirectionFeedActivity.cs" />
+        <Compile Include="Views\SegmentedControl.cs" />
+        <Compile Include="Activities\Profile\ProfileActivity.cs" />
+        <Compile Include="Fragments\BaseMainTabFragment.cs" />
     </ItemGroup>
     <ItemGroup>
         <None Include="Properties\AndroidManifest.xml" />
@@ -182,92 +191,28 @@
         <AndroidResource Include="Resources\menu\*.xml" />
         <AndroidResource Include="Resources\mipmap-anydpi-v26\ic_launcher.xml" />
         <AndroidResource Include="Resources\mipmap-anydpi-v26\ic_launcher_round.xml" />
+        <AndroidResource Include="Resources\raw\achievement_bell.wav" />
+        <AndroidResource Include="Resources\raw\lottie_succesfull_payment.json" />
         <AndroidResource Include="Resources\values\*.xml" />
         <AndroidResource Include="Resources\mipmap-hdpi\*.png" />
         <AndroidResource Include="Resources\mipmap-mdpi\*.png" />
         <AndroidResource Include="Resources\mipmap-xhdpi\*.png" />
         <AndroidResource Include="Resources\mipmap-xxhdpi\*.png" />
         <AndroidResource Include="Resources\mipmap-xxxhdpi\*.png" />
-        <AndroidResource Update="Resources\layout\CourseLessonAnswerPartFragment.xml">
-          <SubType>Designer</SubType>
-          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\xml\auth_activity_scene.xml" />
-        <AndroidResource Include="Resources\xml\file_paths.xml" />
-        <AndroidResource Update="Resources\layout\AuthSignUpFragment.xml">
-          <SubType>Designer</SubType>
-          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-        </AndroidResource>
-        <AndroidResource Update="Resources\layout\ProfTestStep1Fragment.xml">
-          <SubType>Designer</SubType>
-          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-        </AndroidResource>
-        <AndroidResource Update="Resources\layout\ProfTestStep2Fragment.xml">
-          <SubType>Designer</SubType>
-          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-        </AndroidResource>
-        <AndroidResource Update="Resources\layout\ProfTestStep3Fragment.xml">
-          <SubType>Designer</SubType>
-          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-        </AndroidResource>
-        <AndroidResource Update="Resources\layout\ProfTestFinishFragment.xml">
-          <SubType>Designer</SubType>
-          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-        </AndroidResource>
-        <AndroidResource Update="Resources\layout\AppRateFinishFragment.xml">
-          <SubType>Designer</SubType>
-          <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\layout\FeedArtDirectionItemView.xml">
-          <SubType></SubType>
-          <Generator></Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\drawable\image_draw_art_dir.png">
-          <SubType></SubType>
-          <Generator></Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\drawable\image_horeo_art_dir.png">
-          <SubType></SubType>
-          <Generator></Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\drawable\image_music_art_dir.png">
-          <SubType></SubType>
-          <Generator></Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\drawable\image_theatre_art_dir.png">
-          <SubType></SubType>
-          <Generator></Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\layout\FeedArtDirectionsHeaderItemView.xml">
-          <SubType></SubType>
-          <Generator></Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\layout\ArtDirectionFeedFragment.xml">
-          <SubType></SubType>
-          <Generator></Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\layout\FeedArtDirectionSchoolsItemView.xml">
-          <SubType></SubType>
-          <Generator></Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\layout\FeedArtDirectionDescriptionItemView.xml">
-          <SubType></SubType>
-          <Generator></Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\layout\MainFeedFragment.xml">
-          <SubType></SubType>
-          <Generator></Generator>
-        </AndroidResource>
-        <AndroidResource Include="Resources\xml\main_tabbed_activity_scene.xml" />
+        <AndroidResource Include="Resources\xml\*.xml" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Assets" />
         <Folder Include="Resources\drawable\" />
         <Folder Include="Resources\menu" />
-        <Folder Include="Fragments\Feed\" />
+        <Folder Include="Activities\Map\" />
+        <Folder Include="Definitions\Models\" />
+        <Folder Include="Definitions\Models\Map\" />
+        <Folder Include="Activities\Profile\" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="11.0.1" />
+        <PackageReference Include="Com.Airbnb.Android.Lottie" Version="4.2.2" />
         <PackageReference Include="FluentValidation" Version="11.5.2" />
         <PackageReference Include="Fody" Version="6.7.0">
           <PrivateAssets>all</PrivateAssets>
@@ -279,7 +224,6 @@
         <PackageReference Include="MimeTypeMapOfficial" Version="1.0.17" />
         <PackageReference Include="MvvmCross" Version="8.0.2" />
         <PackageReference Include="MvvmCross.DroidX.RecyclerView" Version="8.0.2" />
-        <PackageReference Include="PDFTron.Android" Version="10.1.0" />
         <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
         <PackageReference Include="Serilog" Version="2.12.0" />
         <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
@@ -291,6 +235,9 @@
         <PackageReference Include="Xamarin.Google.Android.Material" Version="1.8.0.1" />
         <PackageReference Include="Xamarin.Essentials" Version="1.7.5" />
         <PackageReference Include="Xamarin.GooglePlayServices.Maps" Version="118.1.0.1" />
+        <PackageReference Include="Xamarin.Google.Maps.Utils">
+          <Version>1.3.4</Version>
+        </PackageReference>
     </ItemGroup>
     <ItemGroup>
         <AndroidAsset Include="..\Lct2023\appSettings.json">

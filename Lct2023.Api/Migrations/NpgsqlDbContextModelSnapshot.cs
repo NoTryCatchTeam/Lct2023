@@ -268,6 +268,28 @@ namespace Lct2023.Api.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("UserInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ExtendedIdentityUserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExtendedIdentityUserId")
+                        .IsUnique();
+
+                    b.ToTable("UserInfos");
+                });
+
             modelBuilder.Entity("Lct2023.Api.Definitions.Entities.UserRefreshToken", b =>
                 {
                     b.HasOne("Lct2023.Api.Definitions.Identity.ExtendedIdentityUser", "User")
@@ -330,9 +352,22 @@ namespace Lct2023.Api.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("UserInfo", b =>
+                {
+                    b.HasOne("Lct2023.Api.Definitions.Identity.ExtendedIdentityUser", "User")
+                        .WithOne("UserInfo")
+                        .HasForeignKey("UserInfo", "ExtendedIdentityUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Lct2023.Api.Definitions.Identity.ExtendedIdentityUser", b =>
                 {
                     b.Navigation("RefreshTokens");
+
+                    b.Navigation("UserInfo");
                 });
 #pragma warning restore 612, 618
         }

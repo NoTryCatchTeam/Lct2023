@@ -28,7 +28,7 @@ using Location = Xamarin.Essentials.Location;
 
 namespace Lct2023.ViewModels.Map;
 
-public class MapViewModel : BaseViewModel
+public class MapViewModel : BaseMainTabViewModel
 {
     private const int PAGE_SIZE = 100;
     
@@ -235,7 +235,7 @@ public class MapViewModel : BaseViewModel
     public Location MyPosition { get; private set; }
     
     public bool IsMyLocationEnabled { get; private set; }
-    
+
     public LocationType LocationType { get; set; }
     
     public IEnumerable<ContactItemViewModel> Contacts
@@ -271,8 +271,8 @@ public class MapViewModel : BaseViewModel
 
         var schoolLocationTask = Task.Run(() => RunSafeTaskAsync(async () =>
         {
-            _schoolLocations = (await _mapRestService.GetSchoolsLocationAsync(CancellationToken))?.ToArray();
-
+            _schoolLocations = (await _mapRestService.LoadUntilEndAsync((rS, start) => rS.GetSchoolsLocationPaginationAsync(start, PAGE_SIZE, CancellationToken)))?.ToArray();
+            
             if (_schoolLocations?.Any() != true
                 || LocationType == LocationType.Event)
             {
@@ -284,7 +284,7 @@ public class MapViewModel : BaseViewModel
         
         var eventsTask = Task.Run(() => RunSafeTaskAsync(async () =>
         {
-            _events = (await _mapRestService.GetEventsAsync(CancellationToken))?.ToArray();
+            _events = (await _mapRestService.LoadUntilEndAsync((rS, start) => rS.GetEventsPaginationAsync(start, PAGE_SIZE, CancellationToken)))?.ToArray();
 
             if (_events?.Any() != true
                 || LocationType == LocationType.School)
@@ -358,6 +358,26 @@ public class MapViewModel : BaseViewModel
         Task.WhenAny(schoolLocationTask, eventsTask, filtersTask);
     }
 
+    public void UpdatePlaces(LocationType locationType, IEnumerable<string> streams = null, IEnumerable<string> districts = null)
+    {
+        FilterGroups.ForEach(fG =>
+        {
+            switch (fG?.FilterGroupType)
+            {
+                case MapFilterGroupType.District:
+                    fG?.SubGroups?.ForEach(fGs =>
+                        fGs?.Items?.ForEach(fGsi => fGsi.IsSelected = districts?.Contains(fGsi.Title) == true));
+                    break;
+                case MapFilterGroupType.Stream:
+                    fG?.SubGroups?.ForEach(fGs =>
+                        fGs?.Items?.ForEach(fGsi => fGsi.IsSelected = streams?.Contains(fGsi.Title) == true));
+                    break;
+            }
+        });
+        ApplyFilters();
+        LocationType = locationType;
+    }
+
     private void UpdatePlaces()
     {
         InvokeOnMainThread(() =>
@@ -380,8 +400,8 @@ public class MapViewModel : BaseViewModel
                     _schoolLocations?.Where(sL =>
                         SelectedFilters.All(selectedFilter => selectedFilter.FilterGroupType switch
                         {
-                            MapFilterGroupType.District => selectedFilter.Items.Contains(sL.Item.District.Data.Item.District),
-                            MapFilterGroupType.Stream => selectedFilter.Items.Intersect(sL.Item.Streams.Data.Select(stream => stream.Item.Name)).Any(),
+                            MapFilterGroupType.District => selectedFilter.Items.Contains(sL.Item?.District?.Data?.Item?.District),
+                            MapFilterGroupType.Stream => selectedFilter.Items.Intersect(sL.Item?.Streams?.Data.Select(stream => stream?.Item?.Name)).Any(),
                         })).Then(sLs => Places.AddRange(_mapper.Map<IEnumerable<PlaceItemViewModel>>(sLs)));
                     break;
                 case LocationType.School:

@@ -19,8 +19,3 @@ public class CoursesRestService : BaseRestService, ICoursesRestService
     public Task<IEnumerable<CmsItemResponse<CourseItemResponse>>> GetCoursesAsync(CancellationToken token) =>
         CmsExecuteAsync<IEnumerable<CmsItemResponse<CourseItemResponse>>>("courses?[populate]=*&populate[lessons][populate]=*", HttpMethod.Get, token);
 }
-
-public interface ICoursesRestService
-{
-    Task<IEnumerable<CmsItemResponse<CourseItemResponse>>> GetCoursesAsync(CancellationToken token);
-}

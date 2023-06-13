@@ -4,10 +4,12 @@ using Android.Widget;
 using AndroidX.RecyclerView.Widget;
 using Lct2023.Android.Decorations;
 using Lct2023.Android.Helpers;
+using Lct2023.Converters;
 using Lct2023.ViewModels.Courses;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.DroidX.RecyclerView;
 using MvvmCross.DroidX.RecyclerView.ItemTemplates;
+using MvvmCross.Platforms.Android.Binding;
 using MvvmCross.Platforms.Android.Binding.BindingContext;
 
 namespace Lct2023.Android.Adapters;
@@ -32,6 +34,8 @@ public class CoursesListAdapter : BaseRecyclerViewAdapter<CourseItem, CoursesLis
             : base(itemView, context)
         {
             var title = itemView.FindViewById<TextView>(Resource.Id.courses_expanded_list_item_title);
+            var unlockValue = itemView.FindViewById<TextView>(Resource.Id.courses_expanded_list_item_unlock_value);
+            var unlockIcon = itemView.FindViewById<ImageView>(Resource.Id.courses_expanded_list_item_unlock_icon);
             _coursesList = itemView.FindViewById<MvxRecyclerView>(Resource.Id.courses_expanded_list_item_list);
 
             this.DelayBind(() =>
@@ -41,6 +45,16 @@ public class CoursesListAdapter : BaseRecyclerViewAdapter<CourseItem, CoursesLis
                 set.Bind(title)
                     .For(x => x.Text)
                     .To(vm => vm.Title);
+
+                set.Bind(unlockValue)
+                    .For(x => x.BindVisible())
+                    .To(vm => vm.IsUnlocked)
+                    .WithConversion(new AnyExpressionConverter<bool, bool>(x => !x));
+
+                set.Bind(unlockIcon)
+                    .For(x => x.BindVisible())
+                    .To(vm => vm.IsUnlocked)
+                    .WithConversion(new AnyExpressionConverter<bool, bool>(x => !x));
 
                 set.Apply();
             });

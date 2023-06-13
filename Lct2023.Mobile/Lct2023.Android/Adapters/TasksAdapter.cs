@@ -32,8 +32,8 @@ public class TasksAdapter : BaseRecyclerViewAdapter<TaskItem, TasksAdapter.TaskV
 
                 set.Bind(progress)
                     .For(x => x.Text)
-                    .To(vm => vm)
-                    .WithConversion(new AnyExpressionConverter<TaskItem, string>(x => $"{x.CompletedExercises}/{x.TotalExercises}"));
+                    .To(vm => vm.CompletedExercises)
+                    .WithConversion(new AnyExpressionConverter<int, string>(x => $"{x}/{ViewModel.TotalExercises}"));
 
                 set.Bind(number)
                     .For(x => x.Text)

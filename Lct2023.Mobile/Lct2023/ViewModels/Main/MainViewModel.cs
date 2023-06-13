@@ -13,7 +13,7 @@ using MvvmCross.Navigation;
 
 namespace Lct2023.ViewModels.Main;
 
-public class MainViewModel : BaseViewModel
+public class MainViewModel : BaseMainTabViewModel
 {
     private readonly IConfiguration _configuration;
     private readonly IMapRestService _mapRestService;
@@ -87,6 +87,7 @@ public class MainViewModel : BaseViewModel
                     {
                         Title = x.Item.Name,
                         Description = x.Item.Description,
+                        EventDate = x.Item.EventDate,
                     };
 
                     if (!string.IsNullOrEmpty(x.Item.Cover?.Data?.Item?.Url))

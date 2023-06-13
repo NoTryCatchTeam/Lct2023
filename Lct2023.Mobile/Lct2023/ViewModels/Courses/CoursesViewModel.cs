@@ -15,7 +15,7 @@ using MvvmCross.ViewModels;
 
 namespace Lct2023.ViewModels.Courses;
 
-public class CoursesViewModel : BaseViewModel
+public class CoursesViewModel : BaseMainTabViewModel
 {
     private readonly ICoursesRestService _coursesRestService;
     private readonly IConfiguration _configuration;
@@ -56,7 +56,10 @@ public class CoursesViewModel : BaseViewModel
                             new CourseTagItem("Видеокурс", CourseTagItemType.Other),
                             new CourseTagItem("Онлайн", CourseTagItemType.Other),
                             new CourseTagItem("Lite", CourseTagItemType.Lite),
-                        }),
+                        })
+                    {
+                        IsUnlocked = false,
+                    },
                     new CourseItem(
                         "Гитара для ПРО",
                         new[]
@@ -82,7 +85,10 @@ public class CoursesViewModel : BaseViewModel
                             new CourseTagItem("Видеокурс", CourseTagItemType.Other),
                             new CourseTagItem("Онлайн", CourseTagItemType.Other),
                             new CourseTagItem("Lite", CourseTagItemType.Lite),
-                        }),
+                        })
+                    {
+                        IsUnlocked = false,
+                    },
                     new CourseItem(
                         "Первый урок",
                         new[]
@@ -168,13 +174,20 @@ public class CoursesViewModel : BaseViewModel
                         };
                     }));
 
-                CoursesGroupsCollection.Insert(0, newGroup);
+                CoursesGroupsCollection.Add(newGroup);
             });
     }
 
-    private Task CourseTapAsync(CourseItem item)
+    private async Task CourseTapAsync(CourseItem item)
     {
-        return NavigationService.Navigate<CourseDetailsViewModel, CourseDetailsViewModel.NavParameter>(
+        if (!item.IsUnlocked &&
+            await NavigationService.Navigate<CourseUnlockViewModel, CourseUnlockViewModel.NavParameter, CourseUnlockViewModel.NavBackParameter>(
+                new CourseUnlockViewModel.NavParameter(item)) is null)
+        {
+            return;
+        }
+
+        await NavigationService.Navigate<CourseDetailsViewModel, CourseDetailsViewModel.NavParameter>(
             new CourseDetailsViewModel.NavParameter(item));
     }
 }

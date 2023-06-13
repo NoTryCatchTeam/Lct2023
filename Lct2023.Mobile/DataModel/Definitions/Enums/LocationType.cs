@@ -2,7 +2,7 @@ namespace DataModel.Definitions.Enums;
 
 public enum LocationType
 {
-    School,
+    School = 0,
     
-    Event
+    Event = 1
 }

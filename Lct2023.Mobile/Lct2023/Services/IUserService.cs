@@ -13,4 +13,8 @@ public interface IUserService
     Task SignUpAsync(CreateUserDto dto, CancellationToken token);
 
     Task SignOutAsync(CancellationToken token);
+
+    Task UpdateRatingAsync(CancellationToken token);
+
+    Task UpdateRatingAsync(int increment, CancellationToken token);
 }
