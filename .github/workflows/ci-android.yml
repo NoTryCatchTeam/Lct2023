@@ -24,8 +24,8 @@ jobs:
 #       with:
 #         vs-version: '[16.7,)'
 
-    - name: Install dependencies
-      run: nuget restore Lct2023.Mobile/Lct2023.Mobile.sln
+#     - name: Install dependencies
+#       run: nuget restore Lct2023.Mobile/Lct2023.Mobile.sln
 
     - name: Build
       run: msbuild Lct2023.Mobile/Lct2023.Android/Lct2023.Android.csproj /t:Restore;Build /p:Configuration=Release 
